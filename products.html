@@ -1,3 +1,4 @@
+      
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,11 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Our Products | TheKrochet</title>
 
-<!-- Google Fonts -->
+<!-- GOOGLE FONTS -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<!-- AOS Animation CSS -->
-<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 <style>
 :root {
@@ -19,7 +17,11 @@
   --accent: #a98467;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 html, body {
   height: 100%;
@@ -45,7 +47,6 @@ nav {
 
 nav h2 {
   font-family: 'Playfair Display', serif;
-  font-size: 22px;
 }
 
 nav a {
@@ -61,9 +62,11 @@ nav a:hover {
 }
 
 /* ================= MAIN ================= */
-main { flex: 1; }
+main {
+  flex: 1;
+}
 
-/* Title */
+/* TITLE */
 h1 {
   text-align: center;
   padding: 30px 10px 10px;
@@ -73,7 +76,7 @@ h1 {
 /* ================= SEARCH ================= */
 .search-box {
   max-width: 420px;
-  margin: 15px auto 25px;
+  margin: 15px auto 30px;
   padding: 0 15px;
 }
 
@@ -85,15 +88,7 @@ h1 {
   font-size: 15px;
 }
 
-/* ================= LOADER ================= */
-#loader {
-  text-align: center;
-  padding: 40px;
-  font-size: 15px;
-  color: #777;
-}
-
-/* ================= PRODUCT GRID ================= */
+/* ================= PRODUCTS GRID ================= */
 #products {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -103,7 +98,7 @@ h1 {
   margin: auto;
 }
 
-/* ================= CARD ================= */
+/* ================= PRODUCT CARD ================= */
 .card {
   background: white;
   border-radius: 22px;
@@ -119,6 +114,7 @@ h1 {
   object-fit: cover;
   border-radius: 16px;
   margin-bottom: 12px;
+  cursor: pointer;
 }
 
 .card h3 {
@@ -138,6 +134,7 @@ h1 {
   margin-bottom: 12px;
 }
 
+/* BUTTON */
 .card button {
   margin-top: auto;
   padding: 12px;
@@ -147,6 +144,39 @@ h1 {
   color: white;
   font-size: 14px;
   font-weight: 600;
+  cursor: pointer;
+}
+
+.card button:hover {
+  opacity: 0.9;
+}
+
+/* ================= IMAGE MODAL ================= */
+.img-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+}
+
+.img-modal img {
+  max-width: 95%;
+  max-height: 90%;
+  border-radius: 12px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 32px;
+  color: white;
   cursor: pointer;
 }
 
@@ -196,15 +226,10 @@ footer {
 <main>
   <h1>Our Products</h1>
 
-  <!-- SEARCH -->
   <div class="search-box">
     <input type="text" id="searchInput" placeholder="Search products...">
   </div>
 
-  <!-- LOADER -->
-  <div id="loader">Loading products…</div>
-
-  <!-- PRODUCTS -->
   <div id="products"></div>
 </main>
 
@@ -213,16 +238,17 @@ footer {
   © 2025 TheKrochet
 </footer>
 
+<!-- IMAGE MODAL -->
+<div id="imageModal" class="img-modal" onclick="closeImage()">
+  <span class="close-btn">×</span>
+  <img id="modalImg">
+</div>
+
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-<!-- AOS JS -->
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-
 <script>
-AOS.init({ duration: 700, once: true });
-
 const firebaseConfig = {
   apiKey: "AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
   authDomain: "thekrochet-b3ca2.firebaseapp.com",
@@ -234,31 +260,37 @@ const db = firebase.firestore();
 
 const productDiv = document.getElementById("products");
 const searchInput = document.getElementById("searchInput");
-const loader = document.getElementById("loader");
 
 let allProducts = [];
 
-/* COPY MESSAGE */
+/* IMAGE PREVIEW */
+function openImage(src) {
+  document.getElementById("modalImg").src = src;
+  document.getElementById("imageModal").style.display = "flex";
+}
+
+function closeImage() {
+  document.getElementById("imageModal").style.display = "none";
+}
+
+/* COPY INSTAGRAM MESSAGE */
 function copyMessage(name) {
-  navigator.clipboard.writeText(`Hi 👋 I want to buy this product: ${name}`);
+  const text = `Hi 👋 I want to buy this product: ${name}`;
+  navigator.clipboard.writeText(text);
 }
 
 /* LOAD PRODUCTS */
 db.collection("products")
   .orderBy("createdAt", "desc")
   .onSnapshot(snapshot => {
-
-    loader.style.display = "none";
     allProducts = [];
-
     snapshot.forEach(doc => {
       allProducts.push(doc.data());
     });
-
     renderProducts(allProducts);
   });
 
-/* RENDER */
+/* RENDER PRODUCTS */
 function renderProducts(list) {
   productDiv.innerHTML = "";
 
@@ -269,8 +301,8 @@ function renderProducts(list) {
 
   list.forEach(p => {
     productDiv.innerHTML += `
-      <div class="card" data-aos="fade-up">
-        <img src="${p.image}" alt="${p.name}" loading="lazy">
+      <div class="card">
+        <img src="${p.image}" onclick="openImage('${p.image}')">
         <h3>${p.name}</h3>
         <div class="price">₹${p.price}</div>
         <p>${p.description || ""}</p>
@@ -281,8 +313,6 @@ function renderProducts(list) {
       </div>
     `;
   });
-
-  AOS.refresh();
 }
 
 /* SEARCH */
