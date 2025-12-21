@@ -8,8 +8,8 @@
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<!-- AOS CSS -->
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<!-- AOS Animation CSS -->
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 <style>
 :root {
@@ -19,11 +19,7 @@
   --accent: #a98467;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body {
   height: 100%;
@@ -49,6 +45,7 @@ nav {
 
 nav h2 {
   font-family: 'Playfair Display', serif;
+  font-size: 22px;
 }
 
 nav a {
@@ -64,9 +61,7 @@ nav a:hover {
 }
 
 /* ================= MAIN ================= */
-main {
-  flex: 1;
-}
+main { flex: 1; }
 
 /* Title */
 h1 {
@@ -78,7 +73,7 @@ h1 {
 /* ================= SEARCH ================= */
 .search-box {
   max-width: 420px;
-  margin: 15px auto 30px;
+  margin: 15px auto 25px;
   padding: 0 15px;
 }
 
@@ -88,6 +83,14 @@ h1 {
   border-radius: 16px;
   border: 1px solid #ddd;
   font-size: 15px;
+}
+
+/* ================= LOADER ================= */
+#loader {
+  text-align: center;
+  padding: 40px;
+  font-size: 15px;
+  color: #777;
 }
 
 /* ================= PRODUCT GRID ================= */
@@ -147,10 +150,6 @@ h1 {
   cursor: pointer;
 }
 
-.card button:hover {
-  opacity: 0.9;
-}
-
 /* ================= FOOTER ================= */
 footer {
   background: #1f1f1f;
@@ -182,7 +181,7 @@ footer {
 <body>
 
 <!-- NAV -->
-<nav data-aos="fade-down">
+<nav>
   <h2>TheKrochet</h2>
   <div>
     <a href="index.html">Home</a>
@@ -195,17 +194,22 @@ footer {
 
 <!-- MAIN -->
 <main>
-  <h1 data-aos="fade-up">Our Products</h1>
+  <h1>Our Products</h1>
 
-  <div class="search-box" data-aos="fade-up" data-aos-delay="100">
+  <!-- SEARCH -->
+  <div class="search-box">
     <input type="text" id="searchInput" placeholder="Search products...">
   </div>
 
+  <!-- LOADER -->
+  <div id="loader">Loading products…</div>
+
+  <!-- PRODUCTS -->
   <div id="products"></div>
 </main>
 
 <!-- FOOTER -->
-<footer data-aos="fade-up">
+<footer>
   © 2025 TheKrochet
 </footer>
 
@@ -214,16 +218,11 @@ footer {
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <!-- AOS JS -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
 <script>
-AOS.init({
-  duration: 900,
-  once: true
-});
-</script>
+AOS.init({ duration: 700, once: true });
 
-<script>
 const firebaseConfig = {
   apiKey: "AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
   authDomain: "thekrochet-b3ca2.firebaseapp.com",
@@ -235,27 +234,31 @@ const db = firebase.firestore();
 
 const productDiv = document.getElementById("products");
 const searchInput = document.getElementById("searchInput");
+const loader = document.getElementById("loader");
 
 let allProducts = [];
 
 /* COPY MESSAGE */
 function copyMessage(name) {
-  const text = `Hi 👋 I want to buy this product: ${name}`;
-  navigator.clipboard.writeText(text);
+  navigator.clipboard.writeText(`Hi 👋 I want to buy this product: ${name}`);
 }
 
 /* LOAD PRODUCTS */
 db.collection("products")
   .orderBy("createdAt", "desc")
   .onSnapshot(snapshot => {
+
+    loader.style.display = "none";
     allProducts = [];
+
     snapshot.forEach(doc => {
       allProducts.push(doc.data());
     });
+
     renderProducts(allProducts);
   });
 
-/* RENDER PRODUCTS */
+/* RENDER */
 function renderProducts(list) {
   productDiv.innerHTML = "";
 
@@ -264,10 +267,10 @@ function renderProducts(list) {
     return;
   }
 
-  list.forEach((p, i) => {
+  list.forEach(p => {
     productDiv.innerHTML += `
-      <div class="card" data-aos="fade-up" data-aos-delay="${i * 80}">
-        <img src="${p.image}" alt="${p.name}">
+      <div class="card" data-aos="fade-up">
+        <img src="${p.image}" alt="${p.name}" loading="lazy">
         <h3>${p.name}</h3>
         <div class="price">₹${p.price}</div>
         <p>${p.description || ""}</p>
