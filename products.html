@@ -8,6 +8,9 @@
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+<!-- AOS CSS -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
 <style>
 :root {
   --primary: #d4a373;
@@ -132,7 +135,6 @@ h1 {
   margin-bottom: 12px;
 }
 
-/* Button */
 .card button {
   margin-top: auto;
   padding: 12px;
@@ -180,7 +182,7 @@ footer {
 <body>
 
 <!-- NAV -->
-<nav>
+<nav data-aos="fade-down">
   <h2>TheKrochet</h2>
   <div>
     <a href="index.html">Home</a>
@@ -193,10 +195,9 @@ footer {
 
 <!-- MAIN -->
 <main>
-  <h1>Our Products</h1>
+  <h1 data-aos="fade-up">Our Products</h1>
 
-  <!-- SEARCH -->
-  <div class="search-box">
+  <div class="search-box" data-aos="fade-up" data-aos-delay="100">
     <input type="text" id="searchInput" placeholder="Search products...">
   </div>
 
@@ -204,13 +205,23 @@ footer {
 </main>
 
 <!-- FOOTER -->
-<footer>
+<footer data-aos="fade-up">
   © 2025 TheKrochet
 </footer>
 
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<!-- AOS JS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<script>
+AOS.init({
+  duration: 900,
+  once: true
+});
+</script>
 
 <script>
 const firebaseConfig = {
@@ -244,27 +255,31 @@ db.collection("products")
     renderProducts(allProducts);
   });
 
-/* RENDER */
+/* RENDER PRODUCTS */
 function renderProducts(list) {
   productDiv.innerHTML = "";
+
   if (list.length === 0) {
     productDiv.innerHTML = "<p style='text-align:center'>No products found</p>";
     return;
   }
 
-  list.forEach(p => {
+  list.forEach((p, i) => {
     productDiv.innerHTML += `
-      <div class="card">
+      <div class="card" data-aos="fade-up" data-aos-delay="${i * 80}">
         <img src="${p.image}" alt="${p.name}">
         <h3>${p.name}</h3>
         <div class="price">₹${p.price}</div>
         <p>${p.description || ""}</p>
-        <a href="https://ig.me/m/thekrochet_" target="_blank" onclick="copyMessage('${p.name}')">
+        <a href="https://ig.me/m/thekrochet_" target="_blank"
+           onclick="copyMessage('${p.name}')">
           <button>💬 Order on Instagram</button>
         </a>
       </div>
     `;
   });
+
+  AOS.refresh();
 }
 
 /* SEARCH */
