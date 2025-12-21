@@ -5,7 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Our Products | TheKrochet</title>
 
+<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- AOS -->
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 <style>
@@ -15,7 +18,11 @@
   --light:#faf7f2;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
 body{
   font-family:'Poppins',sans-serif;
@@ -26,7 +33,7 @@ body{
   flex-direction:column;
 }
 
-/* NAVBAR */
+/* ================= NAVBAR (FIXED – NEVER BREAKS) ================= */
 nav{
   background:#fff;
   padding:15px 30px;
@@ -34,32 +41,46 @@ nav{
   justify-content:space-between;
   align-items:center;
   box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  flex-wrap:nowrap;
 }
+
 nav h2{
   font-family:'Playfair Display',serif;
   font-size:22px;
+  white-space:nowrap;
 }
+
+nav div{
+  display:flex;
+  flex-wrap:nowrap;
+  white-space:nowrap;
+}
+
 nav a{
   margin-left:20px;
   text-decoration:none;
   color:var(--dark);
   font-weight:500;
 }
-nav a.active,
-nav a:hover{color:var(--primary);}
 
-/* 🔥 HEADER FIXED (HEIGHT KAM + TEXT ONLY) */
+nav a:hover,
+nav a.active{
+  color:var(--primary);
+}
+
+/* ================= HEADER ================= */
 header{
   text-align:center;
-  padding:55px 20px;   /* height reduced */
+  padding:50px 20px;
   background:linear-gradient(135deg,#fefae0,#faedcd);
 }
+
 header h1{
   font-family:'Playfair Display',serif;
-  font-size:2.4rem;
+  font-size:2.6rem;
 }
 
-/* PRODUCTS SECTION */
+/* ================= PRODUCTS SECTION ================= */
 .products-section{
   max-width:1200px;
   margin:0 auto;
@@ -71,11 +92,13 @@ header h1{
   max-width:420px;
   margin:0 auto 25px;
 }
+
 .search-box input{
   width:100%;
   padding:14px 18px;
   border-radius:16px;
   border:1px solid #ddd;
+  outline:none;
 }
 
 /* GRID */
@@ -89,20 +112,41 @@ header h1{
 .card{
   background:#fff;
   padding:16px;
-  border-radius:22px;
+  border-radius:20px;
   box-shadow:0 10px 25px rgba(0,0,0,.08);
   display:flex;
   flex-direction:column;
+  transition:.3s;
 }
+
+.card:hover{
+  transform:translateY(-6px);
+}
+
 .card img{
   width:100%;
   height:220px;
   object-fit:cover;
   border-radius:16px;
+  cursor:zoom-in;
 }
-.card h3{margin:12px 0 4px;font-size:17px;}
-.price{color:#a98467;font-weight:600;}
-.card p{font-size:14px;color:#555;margin-bottom:14px;}
+
+.card h3{
+  margin:12px 0 4px;
+  font-size:17px;
+}
+
+.price{
+  color:#a98467;
+  font-weight:600;
+}
+
+.card p{
+  font-size:14px;
+  color:#555;
+  margin-bottom:14px;
+}
+
 .card button{
   margin-top:auto;
   padding:12px;
@@ -111,9 +155,10 @@ header h1{
   background:linear-gradient(135deg,#d4a373,#b8895b);
   color:#fff;
   font-weight:600;
+  cursor:pointer;
 }
 
-/* CART */
+/* FLOATING CART */
 .cart-float{
   position:fixed;
   right:20px;
@@ -125,6 +170,7 @@ header h1{
   border-radius:50px;
   font-weight:600;
   cursor:pointer;
+  z-index:999;
 }
 
 /* CART MODAL */
@@ -137,11 +183,15 @@ header h1{
   justify-content:center;
   opacity:0;
   pointer-events:none;
+  transition:.3s;
+  z-index:1000;
 }
+
 #cartModal.active{
   opacity:1;
   pointer-events:auto;
 }
+
 .cart-box{
   background:#fff;
   width:90%;
@@ -149,17 +199,26 @@ header h1{
   padding:20px;
   border-radius:20px;
 }
+
 .cart-item{
   display:flex;
   justify-content:space-between;
   margin-bottom:10px;
 }
+
 .cart-item button{
   border:none;
   background:none;
   color:red;
+  font-size:16px;
+  cursor:pointer;
 }
-.total{font-weight:600;margin-top:10px;}
+
+.total{
+  font-weight:600;
+  margin-top:10px;
+}
+
 .send-btn{
   width:100%;
   margin-top:12px;
@@ -168,6 +227,7 @@ header h1{
   border-radius:14px;
   background:#d4a373;
   color:#fff;
+  font-weight:600;
 }
 
 /* IMAGE POPUP */
@@ -180,19 +240,27 @@ header h1{
   justify-content:center;
   opacity:0;
   pointer-events:none;
+  z-index:1001;
 }
-#imageModal.active{opacity:1;pointer-events:auto;}
+
+#imageModal.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
 #imageModal img{
   max-width:90%;
   max-height:90%;
   border-radius:18px;
 }
+
 .close{
   position:absolute;
   top:20px;
   right:25px;
   font-size:30px;
   color:#fff;
+  cursor:pointer;
 }
 
 /* FOOTER */
@@ -206,9 +274,8 @@ footer{
 
 /* MOBILE */
 @media(max-width:768px){
-  header h1{font-size:2rem;}
-  nav{flex-direction:column;gap:10px;}
-  nav a{margin-left:12px;}
+  header h1{font-size:2.2rem;}
+  nav a{margin-left:12px;font-size:14px;}
 }
 </style>
 </head>
@@ -226,7 +293,6 @@ footer{
   </div>
 </nav>
 
-<!-- ✅ ONLY OUR COLLECTION -->
 <header>
   <h1 data-aos="zoom-in">Our Collections</h1>
 </header>
@@ -255,10 +321,10 @@ footer{
   <img id="popupImg">
 </div>
 
-<footer>© 2025 TheKrochet | Instagram: @thekrochet_</footer>
+<footer>© 2025 TheKrochet</footer>
 
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script>AOS.init({duration:800,once:true});</script>
+<script>AOS.init({duration:900,once:true});</script>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -293,7 +359,7 @@ function renderProducts(list){
   productDiv.innerHTML="";
   list.forEach(p=>{
     productDiv.innerHTML+=`
-      <div class="card" data-aos="fade-up">
+      <div class="card">
         <img src="${p.image}" onclick="openImage('${p.image}')">
         <h3>${p.name}</h3>
         <div class="price">₹${p.price}</div>
@@ -320,8 +386,8 @@ function openCart(){
     total+=p.price;
     cartItems.innerHTML+=`
       <div class="cart-item">
-        <span>${p.name}</span>
-        <span>₹${p.price} <button onclick="removeItem(${i})">✕</button></span>
+        <span>${p.name} – ₹${p.price}</span>
+        <button onclick="removeItem(${i})">✕</button>
       </div>`;
   });
   totalPrice.innerText=total;
@@ -344,7 +410,6 @@ function openImage(src){
 function closeImage(){imageModal.classList.remove("active");}
 
 function sendToInstagram(){
-  if(cart.length===0){alert("Cart empty");return;}
   let msg="Hi 👋 I want to buy:\n\n";
   let total=0;
   cart.forEach((p,i)=>{
