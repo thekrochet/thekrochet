@@ -1,4 +1,3 @@
-   
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,32 +26,28 @@ body{
   color:var(--dark);
 }
 
-/* ================= NAVBAR (SAME AS INDEX) ================= */
+/* ================= NAVBAR ================= */
 nav{
   background:#fff;
   padding:18px 20px;
   text-align:center;
   box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
-
 nav h2{
   font-family:'Playfair Display', serif;
   font-size:24px;
   margin-bottom:8px;
 }
-
 .nav-links{
   display:flex;
   justify-content:center;
   gap:22px;
 }
-
 .nav-links a{
   text-decoration:none;
   color:var(--dark);
   font-weight:500;
 }
-
 .nav-links a:hover,
 .nav-links a.active{
   color:var(--primary);
@@ -71,7 +66,6 @@ h1{
   margin:10px auto 20px;
   padding:0 15px;
 }
-
 .search-box input{
   width:100%;
   padding:14px 18px;
@@ -98,7 +92,6 @@ h1{
   display:flex;
   flex-direction:column;
 }
-
 .card img{
   width:100%;
   height:200px;
@@ -106,11 +99,9 @@ h1{
   border-radius:16px;
   cursor:zoom-in;
 }
-
 .card h3{margin:10px 0 5px;font-size:16px;}
 .price{font-weight:600;color:#a98467;}
 .card p{font-size:14px;color:#555;}
-
 .card button{
   margin-top:auto;
   padding:12px;
@@ -167,8 +158,17 @@ h1{
 .cart-item{
   display:flex;
   justify-content:space-between;
+  align-items:center;
   margin-bottom:10px;
   font-size:14px;
+}
+
+.cart-item button{
+  background:none;
+  border:none;
+  color:red;
+  font-size:16px;
+  cursor:pointer;
 }
 
 .total{font-weight:600;margin-top:10px;}
@@ -228,8 +228,7 @@ footer{
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
-<nav data-aos="fade-down">
+<nav>
   <h2>TheKrochet</h2>
   <div class="nav-links">
     <a href="index.html">Home</a>
@@ -267,11 +266,8 @@ footer{
 
 <footer>© 2025 TheKrochet</footer>
 
-<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
-<!-- AOS -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 <script>
@@ -315,33 +311,41 @@ searchInput.addEventListener("input",()=>{
   renderProducts(allProducts.filter(p=>p.name.toLowerCase().includes(searchInput.value.toLowerCase())));
 });
 
-function openImage(src){
-  popupImg.src=src;
-  imageModal.classList.add("active");
-}
-function closeImage(){imageModal.classList.remove("active");}
-
 function addToCart(name,price){
   cart.push({name,price});
   localStorage.setItem("cart",JSON.stringify(cart));
   cartCount.innerText=cart.length;
 }
 
+function removeItem(index){
+  cart.splice(index,1);
+  localStorage.setItem("cart",JSON.stringify(cart));
+  openCart();
+  cartCount.innerText=cart.length;
+}
+
 function openCart(){
   cartItems.innerHTML="";
   let total=0;
-  cart.forEach(p=>{
+  cart.forEach((p,i)=>{
     total+=p.price;
     cartItems.innerHTML+=`
       <div class="cart-item">
-        <span>${p.name}</span>
-        <span>₹${p.price}</span>
+        <span>${p.name} – ₹${p.price}</span>
+        <button onclick="removeItem(${i})">✕</button>
       </div>`;
   });
   totalPrice.innerText=total;
   cartModal.classList.add("active");
 }
+
 function closeCart(){cartModal.classList.remove("active");}
+
+function openImage(src){
+  popupImg.src=src;
+  imageModal.classList.add("active");
+}
+function closeImage(){imageModal.classList.remove("active");}
 
 function sendToInstagram(){
   if(cart.length===0){alert("Cart empty");return;}
