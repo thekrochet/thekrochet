@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Our Products | TheKrochet</title>
 
-<!-- Google Fonts (SAME AS ABOUT) -->
+<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
@@ -34,7 +34,7 @@ body {
   flex-direction: column;
 }
 
-/* ================= NAVBAR (SAME AS ABOUT) ================= */
+/* ================= NAVBAR ================= */
 nav {
   background: #fff;
   padding: 15px 30px;
@@ -66,12 +66,31 @@ main {
   flex: 1;
 }
 
-/* Page title */
 h1 {
   text-align: center;
   padding: 30px 10px 10px;
-  color: #3b2f23;
   font-family: 'Playfair Display', serif;
+}
+
+/* ================= SEARCH ================= */
+.search-box {
+  max-width: 420px;
+  margin: 10px auto 30px;
+  padding: 0 15px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(212,163,115,0.25);
 }
 
 /* ================= PRODUCT GRID ================= */
@@ -105,10 +124,162 @@ h1 {
 .card h3 {
   margin: 6px 0;
   font-size: 16px;
-  color: #3b2f23;
 }
 
 .price {
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.card p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.card button {
+  margin-top: auto;
+  padding: 12px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #d4a373, #b8895b);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.card button:hover {
+  opacity: 0.9;
+}
+
+/* ================= FOOTER ================= */
+footer {
+  background: #1f1f1f;
+  color: #ddd;
+  text-align: center;
+  padding: 25px;
+  font-size: 14px;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  nav a {
+    margin-left: 12px;
+    font-size: 14px;
+  }
+
+  .card img {
+    height: 180px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <h2>TheKrochet</h2>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="products.html" class="active">Products</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Our Products</h1>
+
+  <!-- SEARCH -->
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search products..." onkeyup="filterProducts()">
+  </div>
+
+  <div id="products"></div>
+</main>
+
+<footer>
+  © 2025 TheKrochet
+</footer>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
+  authDomain: "thekrochet-b3ca2.firebaseapp.com",
+  projectId: "thekrochet-b3ca2"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const productDiv = document.getElementById("products");
+const searchInput = document.getElementById("searchInput");
+
+let allProducts = [];
+
+/* COPY MESSAGE */
+function copyMessage(name) {
+  navigator.clipboard.writeText(`Hi 👋 I want to buy this product: ${name}`);
+}
+
+/* LOAD PRODUCTS */
+db.collection("products")
+  .orderBy("createdAt", "desc")
+  .onSnapshot(snapshot => {
+    allProducts = [];
+    snapshot.forEach(doc => allProducts.push(doc.data()));
+    renderProducts(allProducts);
+  });
+
+/* RENDER */
+function renderProducts(products) {
+  productDiv.innerHTML = "";
+
+  if (products.length === 0) {
+    productDiv.innerHTML = "<p style='text-align:center;'>No products found</p>";
+    return;
+  }
+
+  products.forEach(p => {
+    productDiv.innerHTML += `
+      <div class="card">
+        <img src="${p.image}">
+        <h3>${p.name}</h3>
+        <div class="price">₹${p.price}</div>
+        <p>${p.description || ""}</p>
+        <a href="https://ig.me/m/thekrochet_" target="_blank"
+           onclick="copyMessage('${p.name}')">
+          <button>💬 Order on Instagram</button>
+        </a>
+      </div>
+    `;
+  });
+}
+
+/* SEARCH */
+function filterProducts() {
+  const value = searchInput.value.toLowerCase();
+  const filtered = allProducts.filter(p =>
+    p.name.toLowerCase().includes(value)
+  );
+  renderProducts(filtered);
+}
+</script>
+
+</body>
+</html>.price {
   font-weight: 600;
   color: var(--accent);
   margin-bottom: 6px;
