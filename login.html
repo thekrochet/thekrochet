@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login | TheKrochet</title>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+/* Page background */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #f8f5f0, #efe7dc);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Login container */
+.login-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+}
+
+/* Card */
+.login-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 25px 22px 30px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+}
+
+/* Brand title */
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 5px;
+  color: #2f241a;
+  font-size: 26px;
+}
+
+.login-card p {
+  text-align: center;
+  color: #8a7a66;
+  margin-bottom: 25px;
+  font-size: 14px;
+}
+
+/* Inputs */
+input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 12px;
+  border-radius: 14px;
+  border: 1px solid #e0d6c8;
+  font-size: 15px;
+  background: #fffdf9;
+  transition: 0.25s;
+}
+
+input::placeholder {
+  color: #a59a8a;
+}
+
+input:focus {
+  outline: none;
+  border-color: #d4a373;
+  box-shadow: 0 0 0 3px rgba(212,163,115,0.25);
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #d4a373, #b8895b);
+  color: #fff;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* Footer text */
+.footer-text {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 12px;
+  color: #9a8c78;
+}
+</style>
+  <link rel="stylesheet" href="responsive.css">
+</head>
+
+<body>
+
+<div class="login-container">
+  <div class="login-card">
+    <h2>TheKrochet</h2>
+    <p>Admin Login</p>
+
+    <input id="email" type="email" placeholder="Admin Email">
+    <input id="password" type="password" placeholder="Password">
+
+    <button onclick="login()">Login</button>
+
+    <div class="footer-text">
+      Secure Admin Access
+    </div>
+  </div>
+</div>
+
+<script>
+/* 🔥 FIREBASE CONFIG */
+const firebaseConfig = {
+  apiKey: "AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
+  authDomain: "thekrochet-b3ca2.firebaseapp.com",
+  projectId: "thekrochet-b3ca2",
+  storageBucket: "thekrochet-b3ca2.firebasestorage.app",
+  messagingSenderId: "439894404930",
+  appId: "1:439894404930:web:f9cbdfd4751506af2da2db"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+/* 🔐 LOGIN */
+function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  if (!email || !password) {
+    alert("Please enter email and password");
+    return;
+  }
+
+  auth.signInWithEmailAndPassword(email, password)
+    .then(() => {
+      window.location.href = "admin.html";
+    })
+    .catch(err => alert(err.message));
+}
+</script>
+
+</body>
+</html>

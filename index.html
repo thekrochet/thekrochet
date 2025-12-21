@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TheKrochet | Home</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --primary: #d4a373;
+  --dark: #2f2f2f;
+  --light: #faf7f2;
+  --accent: #a98467;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--light);
+  color: var(--dark);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================= NAVBAR ================= */
+nav {
+  background: #fff;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+nav h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+}
+
+nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: var(--dark);
+  font-weight: 500;
+}
+
+nav a:hover,
+nav a.active {
+  color: var(--primary);
+}
+
+/* ================= HERO ================= */
+header {
+  text-align: center;
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #fefae0, #faedcd);
+}
+
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.2rem;
+  margin-bottom: 12px;
+}
+
+header p {
+  max-width: 600px;
+  margin: auto;
+  font-size: 16px;
+  color: #555;
+}
+
+/* ================= MAIN ================= */
+main {
+  flex: 1;
+}
+
+/* ================= SECTION ================= */
+section {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: auto;
+  text-align: center;
+}
+
+section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+}
+
+section p {
+  max-width: 700px;
+  margin: auto;
+  font-size: 15px;
+  color: #555;
+  line-height: 1.7;
+}
+
+/* ================= GRID ================= */
+.grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+}
+
+/* ================= CARD ================= */
+.card {
+  background: white;
+  padding: 26px;
+  border-radius: 22px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.card p {
+  font-size: 14px;
+  color: #555;
+}
+
+/* ================= FOOTER ================= */
+footer {
+  background: #1f1f1f;
+  color: #ddd;
+  text-align: center;
+  padding: 25px;
+  font-size: 14px;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2.4rem;
+  }
+
+  nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  nav a {
+    margin-left: 12px;
+    font-size: 14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav>
+  <h2>TheKrochet</h2>
+  <div>
+    <a href="index.html" class="active">Home</a>
+    <a href="products.html">Products</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header>
+  <h1>Handmade Crochet Creations</h1>
+  <p>Crafted with love, warmth, and timeless elegance — just for you.</p>
+</header>
+
+<!-- ================= CONTENT ================= -->
+<main>
+
+<section>
+  <h2>Welcome to TheKrochet</h2>
+  <p>
+    We create premium handmade crochet pieces including wearables,
+    home décor, and custom-made designs — each crafted with care
+    and attention to detail.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>🧶 Handmade Wearables</h3>
+      <p>Soft, stylish, and comfortable crochet fashion made to last.</p>
+    </div>
+
+    <div class="card">
+      <h3>🏡 Home Décor</h3>
+      <p>Beautiful crochet pieces to add warmth and charm to your space.</p>
+    </div>
+
+    <div class="card">
+      <h3>✨ Custom Orders</h3>
+      <p>Personalized crochet designs made exactly how you imagine.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  © 2025 TheKrochet | Instagram: @thekrochet_
+</footer>
+
+</body>
+</html>

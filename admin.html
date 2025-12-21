@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | TheKrochet</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<style>
+:root {
+  --primary: #d4a373;
+  --dark: #2f2f2f;
+  --light: #faf7f2;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: var(--light);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================= NAV ================= */
+nav {
+  background: #fff;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+nav h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 22px;
+}
+
+nav a, nav button {
+  margin-left: 18px;
+  text-decoration: none;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--dark);
+}
+
+nav a:hover,
+nav button:hover {
+  color: var(--primary);
+}
+
+/* ================= MAIN ================= */
+main {
+  flex: 1;
+  padding: 30px 15px 50px;
+  max-width: 520px;
+  margin: auto;
+}
+
+/* ================= HEADER CARD ================= */
+.admin-header {
+  background: linear-gradient(135deg, #d4a373, #b8895b);
+  color: white;
+  padding: 26px;
+  border-radius: 22px;
+  text-align: center;
+  margin-bottom: 25px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+.admin-header h3 {
+  font-weight: 400;
+  margin-top: 6px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* ================= CARD ================= */
+.admin-card {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 22px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.admin-card h4 {
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: 18px;
+}
+
+/* ================= INPUTS ================= */
+input, textarea {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 12px;
+  border-radius: 14px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(212,163,115,0.25);
+}
+
+/* ================= BUTTON ================= */
+.primary-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #d4a373, #b8895b);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ================= PRODUCT LIST ================= */
+.product-card {
+  background: #faf7f2;
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-info strong {
+  font-size: 15px;
+}
+
+.product-info span {
+  font-size: 14px;
+  color: #6b4f2c;
+}
+
+.product-actions button {
+  margin-left: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.edit {
+  background: #6b4f2c;
+  color: white;
+}
+
+.delete {
+  background: #e63939;
+  color: white;
+}
+
+/* ================= FOOTER ================= */
+footer {
+  background: #1f1f1f;
+  color: #ddd;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAV ================= -->
+<nav>
+  <h2>TheKrochet</h2>
+  <div>
+    <a href="index.html">Home</a>
+    <button onclick="logout()">Logout</button>
+  </div>
+</nav>
+
+<!-- ================= MAIN ================= -->
+<main>
+
+  <div class="admin-header">
+    <h2>Admin Dashboard</h2>
+    <h3>Manage products easily</h3>
+  </div>
+
+  <!-- ADD / UPDATE -->
+  <div class="admin-card">
+    <h4 id="formTitle">Add Product</h4>
+    <input id="pname" placeholder="Product Name">
+    <input id="pprice" type="number" placeholder="Price (₹)">
+    <input id="pimage" placeholder="Image URL">
+    <textarea id="pdesc" placeholder="Short description"></textarea>
+    <button class="primary-btn" id="submitBtn">➕ Add Product</button>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="admin-card">
+    <h4>All Products</h4>
+    <div id="productList"></div>
+  </div>
+
+</main>
+
+<footer>
+  © 2025 TheKrochet
+</footer>
+
+<script>
+/* ================= FIREBASE CONFIG ================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
+  authDomain: "thekrochet-b3ca2.firebaseapp.com",
+  projectId: "thekrochet-b3ca2"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+let editId = null;
+
+/* ================= AUTH ================= */
+auth.onAuthStateChanged(user => {
+  if (!user) location.href = "login.html";
+});
+
+/* ================= LOGOUT ================= */
+function logout() {
+  auth.signOut().then(() => location.href = "login.html");
+}
+
+/* ================= ADD / UPDATE PRODUCT ================= */
+submitBtn.onclick = async () => {
+  if (!pname.value || !pprice.value) {
+    alert("Enter product name & price");
+    return;
+  }
+
+  const data = {
+    name: pname.value.trim(),
+    price: Number(pprice.value),
+    image: pimage.value.trim(),
+    description: pdesc.value.trim(),
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  try {
+    if (editId) {
+      await db.collection("products").doc(editId).update(data);
+      editId = null;
+      submitBtn.innerText = "➕ Add Product";
+      formTitle.innerText = "Add Product";
+      alert("✅ Product Updated");
+    } else {
+      await db.collection("products").add(data);
+      alert("✅ Product Added");
+    }
+
+    pname.value = "";
+    pprice.value = "";
+    pimage.value = "";
+    pdesc.value = "";
+
+  } catch (err) {
+    alert("❌ Error: " + err.message);
+  }
+};
+
+/* ================= LOAD PRODUCTS ================= */
+db.collection("products")
+  .orderBy("createdAt","desc")
+  .onSnapshot(snapshot => {
+    productList.innerHTML = "";
+    snapshot.forEach(doc => {
+      const p = doc.data();
+      productList.innerHTML += `
+        <div class="product-card">
+          <div class="product-info">
+            <strong>${p.name}</strong><br>
+            <span>₹${p.price}</span>
+          </div>
+          <div class="product-actions">
+            <button class="edit"
+              onclick="editProduct('${doc.id}','${p.name}','${p.price}','${p.image}','${p.description || ""}')">
+              Edit
+            </button>
+            <button class="delete"
+              onclick="db.collection('products').doc('${doc.id}').delete()">
+              Delete
+            </button>
+          </div>
+        </div>
+      `;
+    });
+  });
+
+/* ================= EDIT ================= */
+function editProduct(id,name,price,image,desc) {
+  editId = id;
+  pname.value = name;
+  pprice.value = price;
+  pimage.value = image;
+  pdesc.value = desc;
+  submitBtn.innerText = "🔄 Update Product";
+  formTitle.innerText = "Update Product";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+</script>
+
+</body>
+</html>

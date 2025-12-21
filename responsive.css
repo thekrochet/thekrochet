@@ -1,0 +1,86 @@
+/* =========================
+   GLOBAL RESPONSIVE SETUP
+========================= */
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+}
+
+/* Images always responsive */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Common container */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 16px;
+}
+
+/* =========================
+   RESPONSIVE GRID
+========================= */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/* =========================
+   BREAKPOINTS
+========================= */
+
+/* Tablet */
+@media (min-width: 768px) {
+  body {
+    font-size: 17px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Laptop */
+@media (min-width: 1024px) {
+  body {
+    font-size: 18px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Desktop */
+@media (min-width: 1280px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* =========================
+   RESPONSIVE NAVBAR
+========================= */
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (min-width: 768px) {
+  nav {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
