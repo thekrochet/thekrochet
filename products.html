@@ -8,9 +8,6 @@
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<!-- AOS Animation -->
-<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-
 <style>
 :root {
   --primary: #d4a373;
@@ -25,10 +22,16 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+}
+
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   background: var(--light);
   color: var(--dark);
+  display: flex;
+  flex-direction: column;
 }
 
 /* ================= NAVBAR ================= */
@@ -57,19 +60,38 @@ nav a:hover {
   color: var(--primary);
 }
 
-/* ================= PAGE TITLE ================= */
-h1 {
-  text-align: center;
-  padding: 35px 10px 20px;
-  font-family: 'Playfair Display', serif;
-  font-size: 2.4rem;
+/* ================= MAIN ================= */
+main {
+  flex: 1;
 }
 
-/* ================= PRODUCTS GRID ================= */
+/* Title */
+h1 {
+  text-align: center;
+  padding: 30px 10px 10px;
+  font-family: 'Playfair Display', serif;
+}
+
+/* ================= SEARCH ================= */
+.search-box {
+  max-width: 420px;
+  margin: 15px auto 30px;
+  padding: 0 15px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 16px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+}
+
+/* ================= PRODUCT GRID ================= */
 #products {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 26px;
+  gap: 24px;
   padding: 20px;
   max-width: 1200px;
   margin: auto;
@@ -77,7 +99,7 @@ h1 {
 
 /* ================= CARD ================= */
 .card {
-  background: #fff;
+  background: white;
   border-radius: 22px;
   padding: 16px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.08);
@@ -95,7 +117,7 @@ h1 {
 
 .card h3 {
   font-size: 16px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .price {
@@ -107,10 +129,10 @@ h1 {
 .card p {
   font-size: 14px;
   color: #555;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
-/* ================= BUTTON ================= */
+/* Button */
 .card button {
   margin-top: auto;
   padding: 12px;
@@ -118,6 +140,7 @@ h1 {
   border-radius: 14px;
   background: linear-gradient(135deg, #d4a373, #b8895b);
   color: white;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -131,8 +154,8 @@ footer {
   background: #1f1f1f;
   color: #ddd;
   text-align: center;
-  padding: 25px;
-  margin-top: 40px;
+  padding: 22px;
+  font-size: 14px;
 }
 
 /* ================= MOBILE ================= */
@@ -156,7 +179,7 @@ footer {
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
+<!-- NAV -->
 <nav>
   <h2>TheKrochet</h2>
   <div>
@@ -168,15 +191,24 @@ footer {
   </div>
 </nav>
 
-<h1>Our Products</h1>
+<!-- MAIN -->
+<main>
+  <h1>Our Products</h1>
 
-<div id="products"></div>
+  <!-- SEARCH -->
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search products...">
+  </div>
 
+  <div id="products"></div>
+</main>
+
+<!-- FOOTER -->
 <footer>
   © 2025 TheKrochet
 </footer>
 
-<!-- ================= FIREBASE ================= -->
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
@@ -189,43 +221,59 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const productDiv = document.getElementById("products");
 
+const productDiv = document.getElementById("products");
+const searchInput = document.getElementById("searchInput");
+
+let allProducts = [];
+
+/* COPY MESSAGE */
 function copyMessage(name) {
   const text = `Hi 👋 I want to buy this product: ${name}`;
   navigator.clipboard.writeText(text);
 }
 
+/* LOAD PRODUCTS */
 db.collection("products")
   .orderBy("createdAt", "desc")
   .onSnapshot(snapshot => {
-    productDiv.innerHTML = "";
+    allProducts = [];
     snapshot.forEach(doc => {
-      const p = doc.data();
-      productDiv.innerHTML += `
-        <div class="card" data-aos="fade-up">
-          <img src="${p.image}" alt="${p.name}">
-          <h3>${p.name}</h3>
-          <div class="price">₹${p.price}</div>
-          <p>${p.description || ""}</p>
-          <a href="https://ig.me/m/thekrochet_" target="_blank"
-             onclick="copyMessage('${p.name}')">
-            <button>💬 Order on Instagram</button>
-          </a>
-        </div>
-      `;
+      allProducts.push(doc.data());
     });
-    AOS.refresh();
+    renderProducts(allProducts);
   });
-</script>
 
-<!-- ================= AOS JS ================= -->
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script>
-AOS.init({
-  duration: 900,
-  once: true,
-  easing: "ease-in-out"
+/* RENDER */
+function renderProducts(list) {
+  productDiv.innerHTML = "";
+  if (list.length === 0) {
+    productDiv.innerHTML = "<p style='text-align:center'>No products found</p>";
+    return;
+  }
+
+  list.forEach(p => {
+    productDiv.innerHTML += `
+      <div class="card">
+        <img src="${p.image}" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <div class="price">₹${p.price}</div>
+        <p>${p.description || ""}</p>
+        <a href="https://ig.me/m/thekrochet_" target="_blank" onclick="copyMessage('${p.name}')">
+          <button>💬 Order on Instagram</button>
+        </a>
+      </div>
+    `;
+  });
+}
+
+/* SEARCH */
+searchInput.addEventListener("input", () => {
+  const value = searchInput.value.toLowerCase();
+  const filtered = allProducts.filter(p =>
+    p.name.toLowerCase().includes(value)
+  );
+  renderProducts(filtered);
 });
 </script>
 
