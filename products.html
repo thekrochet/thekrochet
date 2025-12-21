@@ -1,247 +1,168 @@
-      
-<!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Our Products | TheKrochet</title>
 
-<!-- GOOGLE FONTS -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-:root {
-  --primary: #d4a373;
-  --dark: #2f2f2f;
-  --light: #faf7f2;
-  --accent: #a98467;
+:root{
+  --primary:#d4a373;
+  --dark:#2f2f2f;
+  --light:#faf7f2;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--light);
+  color:var(--dark);
 }
 
-html, body {
-  height: 100%;
+/* NAV */
+nav{
+  background:#fff;
+  padding:15px 25px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
-body {
-  font-family: 'Poppins', sans-serif;
-  background: var(--light);
-  color: var(--dark);
-  display: flex;
-  flex-direction: column;
+nav h2{font-family:'Playfair Display',serif;}
+
+nav a{
+  margin-left:18px;
+  text-decoration:none;
+  color:var(--dark);
+  font-weight:500;
 }
 
-/* ================= NAVBAR ================= */
-nav {
-  background: #fff;
-  padding: 15px 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-}
-
-nav h2 {
-  font-family: 'Playfair Display', serif;
-}
-
-nav a {
-  margin-left: 20px;
-  text-decoration: none;
-  color: var(--dark);
-  font-weight: 500;
-}
-
-nav a.active,
-nav a:hover {
-  color: var(--primary);
-}
-
-/* ================= MAIN ================= */
-main {
-  flex: 1;
+/* CART */
+.cart-btn{
+  background:var(--primary);
+  color:#fff;
+  padding:8px 14px;
+  border-radius:12px;
+  font-size:14px;
+  cursor:pointer;
 }
 
 /* TITLE */
-h1 {
-  text-align: center;
-  padding: 30px 10px 10px;
-  font-family: 'Playfair Display', serif;
+h1{
+  text-align:center;
+  margin:25px 0 10px;
+  font-family:'Playfair Display',serif;
 }
 
-/* ================= SEARCH ================= */
-.search-box {
-  max-width: 420px;
-  margin: 15px auto 30px;
-  padding: 0 15px;
+/* GRID */
+#products{
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:25px;
 }
 
-.search-box input {
-  width: 100%;
-  padding: 14px 18px;
-  border-radius: 16px;
-  border: 1px solid #ddd;
-  font-size: 15px;
+/* CARD */
+.card{
+  background:#fff;
+  padding:16px;
+  border-radius:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  display:flex;
+  flex-direction:column;
 }
 
-/* ================= PRODUCTS GRID ================= */
-#products {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
-  padding: 20px;
-  max-width: 1200px;
-  margin: auto;
+.card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  border-radius:16px;
 }
 
-/* ================= PRODUCT CARD ================= */
-.card {
-  background: white;
-  border-radius: 22px;
-  padding: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  display: flex;
-  flex-direction: column;
+.card h3{margin:10px 0 5px;font-size:16px;}
+.price{font-weight:600;color:#a98467;margin-bottom:6px;}
+.card p{font-size:14px;color:#555;}
+
+.card button{
+  margin-top:auto;
+  padding:12px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(135deg,#d4a373,#b8895b);
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
 }
 
-.card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 16px;
-  margin-bottom: 12px;
-  cursor: pointer;
+/* CART MODAL */
+#cartModal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
 }
 
-.card h3 {
-  font-size: 16px;
-  margin-bottom: 6px;
+.cart-box{
+  background:#fff;
+  max-width:420px;
+  margin:80px auto;
+  padding:20px;
+  border-radius:20px;
 }
 
-.price {
-  font-weight: 600;
-  color: var(--accent);
-  margin-bottom: 6px;
+.cart-item{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:10px;
+  font-size:14px;
 }
 
-.card p {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 12px;
+.total{
+  font-weight:600;
+  margin-top:10px;
 }
 
-/* BUTTON */
-.card button {
-  margin-top: auto;
-  padding: 12px;
-  border: none;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #d4a373, #b8895b);
-  color: white;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.card button:hover {
-  opacity: 0.9;
-}
-
-/* ================= IMAGE MODAL ================= */
-.img-modal {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.85);
-  justify-content: center;
-  align-items: center;
-}
-
-.img-modal img {
-  max-width: 95%;
-  max-height: 90%;
-  border-radius: 12px;
-}
-
-.close-btn {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  font-size: 32px;
-  color: white;
-  cursor: pointer;
-}
-
-/* ================= FOOTER ================= */
-footer {
-  background: #1f1f1f;
-  color: #ddd;
-  text-align: center;
-  padding: 22px;
-  font-size: 14px;
-}
-
-/* ================= MOBILE ================= */
-@media (max-width: 768px) {
-  nav {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  nav a {
-    margin-left: 12px;
-    font-size: 14px;
-  }
-
-  .card img {
-    height: 180px;
-  }
+.send-btn{
+  margin-top:15px;
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:14px;
+  background:#d4a373;
+  color:#fff;
+  font-weight:600;
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
 <nav>
   <h2>TheKrochet</h2>
   <div>
-    <a href="index.html">Home</a>
-    <a href="products.html" class="active">Products</a>
-    <a href="reviews.html">Reviews</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
+    <span class="cart-btn" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</span>
   </div>
 </nav>
 
-<!-- MAIN -->
-<main>
-  <h1>Our Products</h1>
+<h1>Our Products</h1>
+<div id="products"></div>
 
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Search products...">
+<!-- CART -->
+<div id="cartModal">
+  <div class="cart-box">
+    <h3>Your Cart</h3>
+    <div id="cartItems"></div>
+    <div class="total">Total: ₹<span id="totalPrice">0</span></div>
+    <button class="send-btn" onclick="sendToInstagram()">Send Order on Instagram</button>
+    <button class="send-btn" style="background:#ccc;color:#000" onclick="closeCart()">Close</button>
   </div>
-
-  <div id="products"></div>
-</main>
-
-<!-- FOOTER -->
-<footer>
-  © 2025 TheKrochet
-</footer>
-
-<!-- IMAGE MODAL -->
-<div id="imageModal" class="img-modal" onclick="closeImage()">
-  <span class="close-btn">×</span>
-  <img id="modalImg">
 </div>
 
 <!-- FIREBASE -->
@@ -249,80 +170,74 @@ footer {
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
-  authDomain: "thekrochet-b3ca2.firebaseapp.com",
-  projectId: "thekrochet-b3ca2"
+const firebaseConfig={
+  apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
+  authDomain:"thekrochet-b3ca2.firebaseapp.com",
+  projectId:"thekrochet-b3ca2"
 };
-
 firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const db=firebase.firestore();
 
-const productDiv = document.getElementById("products");
-const searchInput = document.getElementById("searchInput");
-
-let allProducts = [];
-
-/* IMAGE PREVIEW */
-function openImage(src) {
-  document.getElementById("modalImg").src = src;
-  document.getElementById("imageModal").style.display = "flex";
-}
-
-function closeImage() {
-  document.getElementById("imageModal").style.display = "none";
-}
-
-/* COPY INSTAGRAM MESSAGE */
-function copyMessage(name) {
-  const text = `Hi 👋 I want to buy this product: ${name}`;
-  navigator.clipboard.writeText(text);
-}
+const productDiv=document.getElementById("products");
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
 /* LOAD PRODUCTS */
-db.collection("products")
-  .orderBy("createdAt", "desc")
-  .onSnapshot(snapshot => {
-    allProducts = [];
-    snapshot.forEach(doc => {
-      allProducts.push(doc.data());
-    });
-    renderProducts(allProducts);
-  });
-
-/* RENDER PRODUCTS */
-function renderProducts(list) {
-  productDiv.innerHTML = "";
-
-  if (list.length === 0) {
-    productDiv.innerHTML = "<p style='text-align:center'>No products found</p>";
-    return;
-  }
-
-  list.forEach(p => {
-    productDiv.innerHTML += `
+db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
+  productDiv.innerHTML="";
+  snap.forEach(doc=>{
+    const p=doc.data();
+    productDiv.innerHTML+=`
       <div class="card">
-        <img src="${p.image}" onclick="openImage('${p.image}')">
+        <img src="${p.image}">
         <h3>${p.name}</h3>
         <div class="price">₹${p.price}</div>
-        <p>${p.description || ""}</p>
-        <a href="https://ig.me/m/thekrochet_" target="_blank"
-           onclick="copyMessage('${p.name}')">
-          <button>💬 Order on Instagram</button>
-        </a>
-      </div>
-    `;
+        <p>${p.description||""}</p>
+        <button onclick='addToCart("${p.name}",${p.price})'>➕ Add to Cart</button>
+      </div>`;
   });
+});
+
+/* CART LOGIC */
+function addToCart(name,price){
+  cart.push({name,price});
+  localStorage.setItem("cart",JSON.stringify(cart));
+  updateCartCount();
 }
 
-/* SEARCH */
-searchInput.addEventListener("input", () => {
-  const value = searchInput.value.toLowerCase();
-  const filtered = allProducts.filter(p =>
-    p.name.toLowerCase().includes(value)
-  );
-  renderProducts(filtered);
-});
+function updateCartCount(){
+  document.getElementById("cartCount").innerText=cart.length;
+}
+updateCartCount();
+
+function openCart(){
+  const items=document.getElementById("cartItems");
+  const total=document.getElementById("totalPrice");
+  items.innerHTML="";
+  let sum=0;
+  cart.forEach(p=>{
+    sum+=p.price;
+    items.innerHTML+=`<div class="cart-item"><span>${p.name}</span><span>₹${p.price}</span></div>`;
+  });
+  total.innerText=sum;
+  document.getElementById("cartModal").style.display="block";
+}
+
+function closeCart(){
+  document.getElementById("cartModal").style.display="none";
+}
+
+function sendToInstagram(){
+  if(cart.length===0){alert("Cart is empty");return;}
+  let msg="Hi 👋 I want to buy:\n\n";
+  let total=0;
+  cart.forEach((p,i)=>{
+    msg+=`${i+1}. ${p.name} – ₹${p.price}\n`;
+    total+=p.price;
+  });
+  msg+=`\nTotal: ₹${total}`;
+  navigator.clipboard.writeText(msg);
+  window.open("https://ig.me/m/thekrochet_","_blank");
+}
 </script>
 
 </body>
