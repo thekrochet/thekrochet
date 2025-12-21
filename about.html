@@ -8,6 +8,9 @@
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+<!-- AOS CSS -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
 <style>
 :root {
   --primary: #d4a373;
@@ -22,16 +25,13 @@
   box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
-}
-
 body {
   font-family: 'Poppins', sans-serif;
   background: var(--light);
   color: var(--dark);
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 /* ================= NAVBAR ================= */
@@ -61,10 +61,10 @@ nav a.active {
   color: var(--primary);
 }
 
-/* ================= HERO HEADER ================= */
+/* ================= HERO ================= */
 header {
   text-align: center;
-  padding: 90px 20px;
+  padding: 100px 20px;
   background: linear-gradient(135deg, #fefae0, #faedcd);
 }
 
@@ -75,7 +75,7 @@ header h1 {
 }
 
 header p {
-  max-width: 600px;
+  max-width: 650px;
   margin: auto;
   font-size: 16px;
   color: #555;
@@ -96,8 +96,17 @@ section {
 section h2 {
   text-align: center;
   font-family: 'Playfair Display', serif;
-  font-size: 2.2rem;
-  margin-bottom: 40px;
+  font-size: 2.3rem;
+  margin-bottom: 25px;
+}
+
+.section-text {
+  max-width: 800px;
+  margin: 0 auto 50px;
+  text-align: center;
+  font-size: 15px;
+  color: #555;
+  line-height: 1.8;
 }
 
 /* ================= GRID ================= */
@@ -110,7 +119,7 @@ section h2 {
 /* ================= CARD ================= */
 .card {
   background: white;
-  padding: 26px;
+  padding: 28px;
   border-radius: 22px;
   text-align: center;
   box-shadow: 0 10px 25px rgba(0,0,0,0.08);
@@ -119,12 +128,13 @@ section h2 {
 .card h3 {
   margin-bottom: 12px;
   color: #3b2f23;
+  font-size: 18px;
 }
 
 .card p {
   font-size: 14px;
   color: #555;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 /* ================= FOOTER ================= */
@@ -132,14 +142,14 @@ footer {
   background: #1f1f1f;
   color: #ddd;
   text-align: center;
-  padding: 25px;
+  padding: 22px;
   font-size: 14px;
 }
 
 /* ================= MOBILE ================= */
 @media (max-width: 768px) {
   header h1 {
-    font-size: 2.3rem;
+    font-size: 2.4rem;
   }
 
   nav {
@@ -158,7 +168,7 @@ footer {
 <body>
 
 <!-- ================= NAVBAR ================= -->
-<nav>
+<nav data-aos="fade-down">
   <h2>TheKrochet</h2>
   <div>
     <a href="index.html">Home</a>
@@ -170,53 +180,96 @@ footer {
 </nav>
 
 <!-- ================= HERO ================= -->
-<header>
+<header data-aos="fade-up">
   <h1>About TheKrochet</h1>
   <p>
-    Handmade crochet pieces crafted with love, warmth,
-    and timeless elegance.
+    Handmade crochet creations crafted with patience,
+    passion, and timeless elegance.
   </p>
 </header>
 
 <!-- ================= CONTENT ================= -->
 <main>
+
 <section>
 
-  <h2>Our Story</h2>
+  <h2 data-aos="fade-up">Our Story</h2>
+  <p class="section-text" data-aos="fade-up" data-aos-delay="100">
+    TheKrochet was born from a deep love for handmade art and slow fashion.
+    Every piece is thoughtfully crocheted by hand, celebrating creativity,
+    comfort, and individuality. We believe handmade products carry warmth,
+    emotion, and a story that machines can never replicate.
+  </p>
 
   <div class="grid">
-    <div class="card">
-      <h3>Handmade with Love</h3>
+
+    <div class="card" data-aos="fade-up">
+      <h3>🧶 Handmade with Love</h3>
       <p>
-        Every product at TheKrochet is carefully handcrafted,
-        ensuring warmth, comfort, and unique design.
+        Each creation is carefully crocheted stitch by stitch,
+        ensuring uniqueness, durability, and a personal touch.
       </p>
     </div>
 
-    <div class="card">
-      <h3>Quality Materials</h3>
+    <div class="card" data-aos="fade-up" data-aos-delay="100">
+      <h3>🌿 Quality Materials</h3>
       <p>
-        We use premium yarns and materials to ensure
-        long-lasting quality and softness.
+        We use premium yarns that are soft, skin-friendly,
+        and long-lasting to ensure comfort and beauty.
       </p>
     </div>
 
-    <div class="card">
-      <h3>Timeless Designs</h3>
+    <div class="card" data-aos="fade-up" data-aos-delay="200">
+      <h3>✨ Timeless Designs</h3>
       <p>
-        Our designs blend tradition with modern aesthetics,
-        perfect for everyday style and gifting.
+        Our designs blend traditional crochet techniques with
+        modern aesthetics, perfect for everyday wear and gifting.
       </p>
     </div>
+
+    <div class="card" data-aos="fade-up">
+      <h3>🎁 Custom Creations</h3>
+      <p>
+        We happily accept custom orders so you can own a piece
+        that perfectly matches your style and imagination.
+      </p>
+    </div>
+
+    <div class="card" data-aos="fade-up" data-aos-delay="100">
+      <h3>🤍 Slow Fashion</h3>
+      <p>
+        We support mindful shopping by creating fewer,
+        better-quality handmade products with care.
+      </p>
+    </div>
+
+    <div class="card" data-aos="fade-up" data-aos-delay="200">
+      <h3>🌸 Made in India</h3>
+      <p>
+        Proudly handcrafted in India, supporting local
+        artistry and traditional skills.
+      </p>
+    </div>
+
   </div>
 
 </section>
+
 </main>
 
 <!-- ================= FOOTER ================= -->
-<footer>
+<footer data-aos="fade-up">
   © 2025 TheKrochet
 </footer>
+
+<!-- ================= AOS JS ================= -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+AOS.init({
+  duration: 900,
+  once: true
+});
+</script>
 
 </body>
 </html>
