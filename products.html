@@ -1,4 +1,5 @@
-   <!DOCTYPE html>
+   
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +7,7 @@
 <title>Our Products | TheKrochet</title>
 
 <!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <!-- AOS -->
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -26,35 +27,45 @@ body{
   color:var(--dark);
 }
 
-/* NAV */
+/* ================= NAVBAR (SAME AS INDEX) ================= */
 nav{
   background:#fff;
-  padding:15px 25px;
+  padding:18px 20px;
+  text-align:center;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+nav h2{
+  font-family:'Playfair Display', serif;
+  font-size:24px;
+  margin-bottom:8px;
+}
+
+.nav-links{
   display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  justify-content:center;
+  gap:22px;
 }
 
-nav h2{font-family:'Playfair Display',serif;}
-
-.cart-btn{
-  background:var(--primary);
-  color:#fff;
-  padding:8px 14px;
-  border-radius:12px;
-  font-size:14px;
-  cursor:pointer;
+.nav-links a{
+  text-decoration:none;
+  color:var(--dark);
+  font-weight:500;
 }
 
-/* TITLE */
+.nav-links a:hover,
+.nav-links a.active{
+  color:var(--primary);
+}
+
+/* ================= PAGE TITLE ================= */
 h1{
   text-align:center;
   margin:25px 0 10px;
   font-family:'Playfair Display',serif;
 }
 
-/* SEARCH */
+/* ================= SEARCH ================= */
 .search-box{
   max-width:420px;
   margin:10px auto 20px;
@@ -68,7 +79,7 @@ h1{
   border:1px solid #ddd;
 }
 
-/* GRID */
+/* ================= PRODUCTS GRID ================= */
 #products{
   max-width:1200px;
   margin:auto;
@@ -78,7 +89,7 @@ h1{
   gap:25px;
 }
 
-/* CARD */
+/* ================= PRODUCT CARD ================= */
 .card{
   background:#fff;
   padding:16px;
@@ -111,7 +122,23 @@ h1{
   cursor:pointer;
 }
 
-/* CART MODAL */
+/* ================= FLOATING CART ================= */
+.cart-float{
+  position:fixed;
+  right:20px;
+  top:50%;
+  transform:translateY(-50%);
+  background:var(--primary);
+  color:#fff;
+  padding:14px 18px;
+  border-radius:50px;
+  cursor:pointer;
+  font-weight:600;
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
+  z-index:999;
+}
+
+/* ================= CART MODAL ================= */
 #cartModal{
   position:fixed;
   inset:0;
@@ -122,6 +149,7 @@ h1{
   opacity:0;
   pointer-events:none;
   transition:.3s;
+  z-index:1000;
 }
 #cartModal.active{
   opacity:1;
@@ -134,34 +162,20 @@ h1{
   max-width:420px;
   padding:20px;
   border-radius:20px;
-  transform:scale(.85);
-  transition:.3s;
 }
-#cartModal.active .cart-box{transform:scale(1);}
 
 .cart-item{
   display:flex;
   justify-content:space-between;
-  align-items:center;
   margin-bottom:10px;
   font-size:14px;
-}
-
-.remove-btn{
-  background:#e63946;
-  color:#fff;
-  border:none;
-  padding:4px 8px;
-  border-radius:8px;
-  cursor:pointer;
-  font-size:12px;
 }
 
 .total{font-weight:600;margin-top:10px;}
 
 .send-btn{
-  margin-top:15px;
   width:100%;
+  margin-top:12px;
   padding:12px;
   border:none;
   border-radius:14px;
@@ -170,18 +184,18 @@ h1{
   font-weight:600;
 }
 
-/* IMAGE POPUP */
+/* ================= IMAGE POPUP ================= */
 #imageModal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.8);
+  background:rgba(0,0,0,.85);
   display:flex;
   align-items:center;
   justify-content:center;
   opacity:0;
   pointer-events:none;
   transition:.3s;
-  z-index:999;
+  z-index:9999;
 }
 #imageModal.active{
   opacity:1;
@@ -190,7 +204,7 @@ h1{
 #imageModal img{
   max-width:90%;
   max-height:90%;
-  border-radius:16px;
+  border-radius:18px;
 }
 .close{
   position:absolute;
@@ -200,14 +214,30 @@ h1{
   color:#fff;
   cursor:pointer;
 }
+
+/* ================= FOOTER ================= */
+footer{
+  background:#1f1f1f;
+  color:#ddd;
+  text-align:center;
+  padding:22px;
+  margin-top:40px;
+}
 </style>
 </head>
 
 <body>
 
-<nav>
+<!-- ================= NAVBAR ================= -->
+<nav data-aos="fade-down">
   <h2>TheKrochet</h2>
-  <span class="cart-btn" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</span>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="products.html" class="active">Products</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
 </nav>
 
 <h1>Our Products</h1>
@@ -218,7 +248,8 @@ h1{
 
 <div id="products"></div>
 
-<!-- CART -->
+<div class="cart-float" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</div>
+
 <div id="cartModal">
   <div class="cart-box">
     <h3>Your Cart</h3>
@@ -229,11 +260,12 @@ h1{
   </div>
 </div>
 
-<!-- IMAGE POPUP -->
 <div id="imageModal" onclick="closeImage()">
   <span class="close">×</span>
   <img id="popupImg">
 </div>
+
+<footer>© 2025 TheKrochet</footer>
 
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -254,11 +286,11 @@ firebase.initializeApp({
 const db=firebase.firestore();
 const productDiv=document.getElementById("products");
 const searchInput=document.getElementById("searchInput");
+const cartCount=document.getElementById("cartCount");
 
 let cart=JSON.parse(localStorage.getItem("cart"))||[];
 let allProducts=[];
 
-/* LOAD PRODUCTS */
 db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
   allProducts=[];
   snap.forEach(doc=>allProducts.push(doc.data()));
@@ -279,22 +311,15 @@ function renderProducts(list){
   });
 }
 
-/* IMAGE */
-function openImage(src){
-  popupImg.src=src;
-  imageModal.classList.add("active");
-}
-function closeImage(){
-  imageModal.classList.remove("active");
-}
-
-/* SEARCH */
 searchInput.addEventListener("input",()=>{
   renderProducts(allProducts.filter(p=>p.name.toLowerCase().includes(searchInput.value.toLowerCase())));
 });
 
-/* CART */
-cartCount.innerText=cart.length;
+function openImage(src){
+  popupImg.src=src;
+  imageModal.classList.add("active");
+}
+function closeImage(){imageModal.classList.remove("active");}
 
 function addToCart(name,price){
   cart.push({name,price});
@@ -302,38 +327,24 @@ function addToCart(name,price){
   cartCount.innerText=cart.length;
 }
 
-function renderCart(){
+function openCart(){
   cartItems.innerHTML="";
   let total=0;
-  cart.forEach((p,i)=>{
+  cart.forEach(p=>{
     total+=p.price;
     cartItems.innerHTML+=`
       <div class="cart-item">
-        <span>${p.name} – ₹${p.price}</span>
-        <button class="remove-btn" onclick="removeItem(${i})">❌</button>
+        <span>${p.name}</span>
+        <span>₹${p.price}</span>
       </div>`;
   });
   totalPrice.innerText=total;
-}
-
-function removeItem(index){
-  cart.splice(index,1);
-  localStorage.setItem("cart",JSON.stringify(cart));
-  cartCount.innerText=cart.length;
-  renderCart();
-}
-
-function openCart(){
-  renderCart();
   cartModal.classList.add("active");
 }
-
-function closeCart(){
-  cartModal.classList.remove("active");
-}
+function closeCart(){cartModal.classList.remove("active");}
 
 function sendToInstagram(){
-  if(cart.length===0){alert("Cart is empty");return;}
+  if(cart.length===0){alert("Cart empty");return;}
   let msg="Hi 👋 I want to buy:\n\n";
   let total=0;
   cart.forEach((p,i)=>{
@@ -344,6 +355,8 @@ function sendToInstagram(){
   navigator.clipboard.writeText(msg);
   window.open("https://ig.me/m/thekrochet_","_blank");
 }
+
+cartCount.innerText=cart.length;
 </script>
 
 </body>
