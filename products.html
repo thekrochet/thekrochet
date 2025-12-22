@@ -5,27 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Products | TheKrochet</title>
 
-<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<!-- AOS (same as About page) -->
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 <style>
+/* ===== SAME CSS — UNCHANGED ===== */
 :root{
-  --bg:#faf7f2;
-  --text:#2f2f2f;
-  --card:#ffffff;
-  --nav:#ffffff;
-  --shadow:rgba(0,0,0,0.08);
-  --primary:#d4a373;
-  --primary-dark:#b8895b;
+  --bg:#faf7f2; --text:#2f2f2f; --card:#ffffff; --nav:#ffffff;
+  --shadow:rgba(0,0,0,0.08); --primary:#d4a373; --primary-dark:#b8895b;
 }
 body.dark{
-  --bg:#121212;
-  --text:#f1f1f1;
-  --card:#1e1e1e;
-  --nav:#1a1a1a;
+  --bg:#121212; --text:#f1f1f1; --card:#1e1e1e; --nav:#1a1a1a;
   --shadow:rgba(0,0,0,0.6);
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -37,8 +27,6 @@ body{
   display:flex;
   flex-direction:column;
 }
-
-/* ===== NAVBAR (COPIED EXACTLY FROM ABOUT PAGE) ===== */
 nav{
   background:var(--nav);
   box-shadow:0 6px 18px var(--shadow);
@@ -47,183 +35,70 @@ nav{
   flex-direction:column;
   gap:10px;
 }
-.nav-top{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-.nav-top h2{
-  font-family:'Playfair Display',serif;
-  font-size:22px;
-}
-.nav-links{
-  display:flex;
-  justify-content:center;
-  gap:18px;
-  flex-wrap:wrap;
-}
-.nav-links a{
-  text-decoration:none;
-  color:var(--text);
-  font-weight:500;
-}
-.nav-links a.active{
-  color:var(--primary);
-}
-
-/* SEARCH */
-.search-box{
-  max-width:460px;
-  margin:24px auto;
-  padding:0 16px;
-}
+.nav-top{display:flex;justify-content:center}
+.nav-top h2{font-family:'Playfair Display',serif;font-size:22px}
+.nav-links{display:flex;justify-content:center;gap:18px;flex-wrap:wrap}
+.nav-links a{text-decoration:none;color:var(--text);font-weight:500}
+.nav-links a.active{color:var(--primary)}
+.search-box{max-width:460px;margin:24px auto;padding:0 16px}
 .search-box input{
-  width:100%;
-  padding:14px 18px;
-  border-radius:30px;
-  border:1px solid #ddd;
-  background:var(--card);
-  color:var(--text);
+  width:100%;padding:14px 18px;border-radius:30px;
+  border:1px solid #ddd;background:var(--card);color:var(--text)
 }
-
-/* PRODUCTS */
-.products-section{
-  max-width:1320px;
-  margin:auto;
-  padding:0 20px 80px;
-  flex:1;
-}
-#products{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:28px;
-}
+.products-section{max-width:1320px;margin:auto;padding:0 20px 80px;flex:1}
+#products{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:28px}
 .card{
-  background:var(--card);
-  padding:16px;
-  border-radius:22px;
+  background:var(--card);padding:16px;border-radius:22px;
   box-shadow:0 10px 25px var(--shadow);
-  display:flex;
-  flex-direction:column;
-  animation:fadeUp .6s ease forwards;
-  opacity:0;
-  transform:translateY(20px);
+  display:flex;flex-direction:column;
+  animation:fadeUp .6s ease forwards;opacity:0;transform:translateY(20px)
 }
-@keyframes fadeUp{
-  to{opacity:1;transform:translateY(0)}
-}
-.card img{
-  width:100%;
-  height:220px;
-  object-fit:cover;
-  border-radius:14px;
-  cursor:pointer;
-}
-.price{
-  color:var(--primary-dark);
-  font-weight:600;
-  margin:6px 0;
-}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+.card img{width:100%;height:220px;object-fit:cover;border-radius:14px;cursor:pointer}
+.price{color:var(--primary-dark);font-weight:600;margin:6px 0}
 .card button{
-  margin-top:auto;
-  padding:12px;
-  border:none;
-  border-radius:14px;
+  margin-top:auto;padding:12px;border:none;border-radius:14px;
   background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:#fff;
-  font-weight:600;
-  cursor:pointer;
+  color:#fff;font-weight:600;cursor:pointer
 }
-
-/* CART FLOAT */
 .cart-float{
-  position:fixed;
-  right:20px;
-  bottom:22px;
-  background:var(--primary);
-  color:#fff;
-  padding:14px 20px;
-  border-radius:40px;
-  cursor:pointer;
-  z-index:999;
+  position:fixed;right:20px;bottom:22px;background:var(--primary);
+  color:#fff;padding:14px 20px;border-radius:40px;cursor:pointer;z-index:999
 }
-
-/* MODALS */
 .modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:1000;
+  position:fixed;inset:0;background:rgba(0,0,0,.6);
+  display:none;align-items:center;justify-content:center;z-index:1000
 }
-.modal.active{display:flex;}
+.modal.active{display:flex}
 .modal-box{
-  background:var(--card);
-  width:90%;
-  max-width:400px;
-  padding:22px;
-  border-radius:22px;
+  background:var(--card);width:90%;max-width:400px;
+  padding:22px;border-radius:22px
 }
-.modal-box h3{text-align:center;margin-bottom:10px;}
-.modal-box label{font-size:13px;font-weight:500;display:block;margin-bottom:4px;}
+.modal-box h3{text-align:center;margin-bottom:10px}
+.modal-box label{font-size:13px;font-weight:500;display:block;margin-bottom:4px}
 .modal-box input{
-  width:100%;
-  padding:14px;
-  margin-bottom:12px;
-  border-radius:14px;
-  border:1px solid #ddd;
-  background:var(--bg);
-  color:var(--text);
+  width:100%;padding:14px;margin-bottom:12px;
+  border-radius:14px;border:1px solid #ddd;background:var(--bg);color:var(--text)
 }
-.cart-item{
-  display:flex;
-  justify-content:space-between;
-  padding:8px 0;
-  border-bottom:1px solid #ddd;
-}
-.modal-actions{
-  display:flex;
-  gap:10px;
-  margin-top:14px;
-}
+.cart-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #ddd}
+.modal-actions{display:flex;gap:10px;margin-top:14px}
 .modal-actions button{
-  flex:1;
-  padding:12px;
-  border-radius:14px;
-  border:none;
-  cursor:pointer;
+  flex:1;padding:12px;border-radius:14px;border:none;cursor:pointer
 }
 .cancel{background:#ccc}
 .primary{
   background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:#fff;
-  font-weight:600;
+  color:#fff;font-weight:600
 }
-
-#imgModal img{
-  max-width:90%;
-  max-height:80%;
-  border-radius:12px;
-}
-
-footer{
-  background:#1f1f1f;
-  color:#ddd;
-  text-align:center;
-  padding:22px;
-}
+#imgModal img{max-width:90%;max-height:80%;border-radius:12px}
+footer{background:#1f1f1f;color:#ddd;text-align:center;padding:22px}
 </style>
 </head>
 
 <body>
 
-<!-- ✅ NAVBAR (FROM ABOUT PAGE, ONLY ACTIVE LINK CHANGED) -->
 <nav data-aos="fade-down">
-  <div class="nav-top">
-    <h2>TheKrochet</h2>
-  </div>
+  <div class="nav-top"><h2>TheKrochet</h2></div>
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="products.html" class="active">Products</a>
@@ -243,7 +118,6 @@ footer{
 
 <div class="cart-float" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</div>
 
-<!-- CART MODAL -->
 <div id="cartModal" class="modal">
   <div class="modal-box">
     <h3>Your Cart</h3>
@@ -258,7 +132,6 @@ footer{
   </div>
 </div>
 
-<!-- ORDER FORM -->
 <div id="orderModal" class="modal">
   <div class="modal-box">
     <h3>Complete Order</h3>
@@ -273,37 +146,28 @@ footer{
   </div>
 </div>
 
-<!-- IMAGE POPUP -->
 <div id="imgModal" class="modal" onclick="this.classList.remove('active')">
   <img id="popupImg">
 </div>
 
 <footer>© 2025 TheKrochet</footer>
 
-<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
-<!-- AOS -->
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
 <script>
-/* AOS – same as About page */
-AOS.init({ duration:900, once:true });
+AOS.init({duration:900,once:true});
 
-/* Firebase */
 firebase.initializeApp({
   apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
   authDomain:"thekrochet-b3ca2.firebaseapp.com",
   projectId:"thekrochet-b3ca2"
 });
 const db=firebase.firestore();
-
-/* Elements */
 const productDiv=products;
 let cart=JSON.parse(localStorage.getItem("krochetCart"))||[];
 
-/* Products */
 db.collection("products").onSnapshot(snap=>{
   productDiv.innerHTML="";
   snap.forEach(doc=>{
@@ -319,7 +183,6 @@ db.collection("products").onSnapshot(snap=>{
   });
 });
 
-/* Search */
 searchInput.addEventListener("input",()=>{
   const v=searchInput.value.toLowerCase();
   document.querySelectorAll(".card").forEach(c=>{
@@ -327,8 +190,7 @@ searchInput.addEventListener("input",()=>{
   });
 });
 
-/* Cart logic (unchanged) */
-function addToCart(name,price){ cart.push({name,price}); saveCart(); }
+function addToCart(name,price){cart.push({name,price});saveCart();}
 function saveCart(){
   localStorage.setItem("krochetCart",JSON.stringify(cart));
   updateCart();
@@ -347,17 +209,16 @@ function updateCart(){
   });
   totalPrice.innerText=total;
 }
-function removeItem(i){ cart.splice(i,1); saveCart(); }
+function removeItem(i){cart.splice(i,1);saveCart();}
 updateCart();
 
-/* Modals */
 function openCart(){cartModal.classList.add("active")}
 function closeCart(){cartModal.classList.remove("active")}
 function openOrderForm(){closeCart();orderModal.classList.add("active")}
 function closeOrder(){orderModal.classList.remove("active")}
 function openImg(src){popupImg.src=src;imgModal.classList.add("active")}
 
-/* Submit order */
+/* ===== 🔥 FIXED SECTION ===== */
 function submitOrder(){
   const name=custName.value.trim();
   const insta=custInsta.value.trim();
@@ -378,12 +239,16 @@ function submitOrder(){
   cart.forEach(p=>msg+=`- ${p.name}: ₹${p.price}\n`);
   msg+=`\nTotal: ₹${total}\nName: ${name}\nInstagram: ${insta}`;
 
-  navigator.clipboard?.writeText(msg);
-  cart=[]; localStorage.removeItem("krochetCart"); updateCart();
-  window.location.href="https://ig.me/m/thekrochet_";
+  navigator.clipboard.writeText(msg).then(()=>{
+    cart=[];
+    localStorage.removeItem("krochetCart");
+    updateCart();
+    setTimeout(()=>{
+      window.location.href="https://ig.me/m/thekrochet_";
+    },300);
+  });
 }
 
-/* Dark mode sync */
 if(localStorage.getItem("theme")==="dark"){
   document.body.classList.add("dark");
 }
