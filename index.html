@@ -1,322 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="layout.css">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Products | TheKrochet</title>
+<link rel="stylesheet" href="layout.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TheKrochet | Home</title>
 
-  <!-- FONTS -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <!-- AOS -->
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<!-- AOS -->
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-  <style>
-    :root{
-      --bg:#faf7f2;
-      --text:#2f2f2f;
-      --card:#ffffff;
-      --nav:#ffffff;
-      --shadow:rgba(0,0,0,0.08);
-      --primary:#d4a373;
-    }
-    body.dark{
-      --bg:#121212;
-      --text:#f1f1f1;
-      --card:#1e1e1e;
-      --nav:#1a1a1a;
-      --shadow:rgba(0,0,0,0.6);
-    }
+<style>
+:root{
+  --bg:#faf7f2;
+  --text:#2f2f2f;
+  --card:#ffffff;
+  --nav:#ffffff;
+  --shadow:rgba(0,0,0,0.08);
+  --primary:#d4a373;
+}
+body.dark{
+  --bg:#121212;
+  --text:#f1f1f1;
+  --card:#1e1e1e;
+  --nav:#1a1a1a;
+  --shadow:rgba(0,0,0,0.6);
+}
 
-    *{margin:0;padding:0;box-sizing:border-box;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
 
-    body{
-      font-family:'Poppins',sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-    }
+/* NAVBAR */
+nav{
+  background:var(--nav);
+  box-shadow:0 6px 18px var(--shadow);
+  padding:14px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.nav-top{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:12px;
+}
+.nav-top h2{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+}
+.toggle{
+  border:1px solid var(--primary);
+  background:none;
+  border-radius:50%;
+  width:34px;
+  height:34px;
+  cursor:pointer;
+  font-size:16px;
+  color:var(--text);
+}
+.nav-links{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  flex-wrap:wrap;
+}
+.nav-links a{
+  text-decoration:none;
+  color:var(--text);
+  font-weight:500;
+}
+.nav-links a.active,
+.nav-links a:hover{color:var(--primary);}
 
-    /* NAVBAR */
-    nav{
-      background:var(--nav);
-      box-shadow:0 6px 18px var(--shadow);
-      padding:14px 20px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
+/* HERO */
+header{
+  text-align:center;
+  padding:100px 20px;
+  background:linear-gradient(135deg,#fefae0,#faedcd);
+}
+body.dark header{
+  background:linear-gradient(135deg,#1f1f1f,#2a2a2a);
+}
+header h1{
+  font-family:'Playfair Display',serif;
+  font-size:3rem;
+  margin-bottom:12px;
+}
+header p{
+  max-width:600px;
+  margin:auto;
+  font-size:16px;
+  color:#777;
+}
 
-    .nav-top{text-align:center;}
-    .nav-top h2{
-      font-family:'Playfair Display',serif;
-      font-size:22px;
-    }
+/* SECTION */
+section{
+  padding:60px 20px;
+  max-width:1200px;
+  margin:auto;
+  text-align:center;
+}
+.grid{
+  margin-top:40px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:30px;
+}
+.card{
+  background:var(--card);
+  padding:26px;
+  border-radius:22px;
+  box-shadow:0 10px 25px var(--shadow);
+}
 
-    .nav-links{
-      display:flex;
-      justify-content:center;
-      gap:18px;
-      flex-wrap:wrap;
-    }
-
-    .nav-links a{
-      text-decoration:none;
-      color:var(--text);
-      font-weight:500;
-    }
-
-    .nav-links a.active,
-    .nav-links a:hover{
-      color:var(--primary);
-    }
-
-    /* PRODUCTS */
-    .products-section{
-      max-width:1200px;
-      margin:40px auto 0;
-      padding:30px 16px;
-      flex:1;
-    }
-
-    #products{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:24px;
-    }
-
-    .card{
-      background:var(--card);
-      padding:16px;
-      border-radius:20px;
-      box-shadow:0 10px 25px var(--shadow);
-      display:flex;
-      flex-direction:column;
-    }
-
-    .card img{
-      width:100%;
-      height:220px;
-      object-fit:cover;
-      border-radius:14px;
-    }
-
-    .card h3{margin:12px 0 4px;}
-    .price{color:#a98467;font-weight:600;margin-bottom:8px;}
-    .card p{font-size:14px;color:#888;margin-bottom:10px;}
-
-    .card button{
-      margin-top:auto;
-      padding:12px;
-      border:none;
-      border-radius:14px;
-      background:linear-gradient(135deg,#d4a373,#b8895b);
-      color:#fff;
-      font-weight:600;
-      cursor:pointer;
-    }
-
-    /* CART */
-    .cart-float{
-      position:fixed;
-      right:16px;
-      bottom:20px;
-      background:var(--primary);
-      color:#fff;
-      padding:14px 18px;
-      border-radius:40px;
-      font-weight:600;
-      cursor:pointer;
-      z-index:999;
-    }
-
-    #cartModal{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.5);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      opacity:0;
-      pointer-events:none;
-    }
-
-    #cartModal.active{
-      opacity:1;
-      pointer-events:auto;
-    }
-
-    .cart-box{
-      background:var(--card);
-      width:92%;
-      max-width:420px;
-      padding:20px;
-      border-radius:20px;
-    }
-
-    .cart-item{
-      display:flex;
-      justify-content:space-between;
-      margin-bottom:8px;
-    }
-
-    .cart-item button{
-      border:none;
-      background:none;
-      color:red;
-      cursor:pointer;
-    }
-
-    .total{font-weight:600;margin-top:10px;}
-
-    .send-btn{
-      width:100%;
-      margin-top:12px;
-      padding:12px;
-      border:none;
-      border-radius:14px;
-      background:#d4a373;
-      color:#fff;
-      font-weight:600;
-    }
-
-    footer{
-      background:#1f1f1f;
-      color:#ddd;
-      text-align:center;
-      padding:22px;
-      margin-top:auto;
-    }
-  </style>
+/* FOOTER */
+footer{
+  background:#1f1f1f;
+  color:#ddd;
+  text-align:center;
+  padding:22px;
+  margin-top:auto;
+}
+</style>
 </head>
 
 <body>
 
+<!-- NAVBAR -->
 <nav data-aos="fade-down">
   <div class="nav-top">
     <h2>TheKrochet</h2>
+    <button class="toggle" onclick="toggleTheme()">🌙</button>
   </div>
   <div class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="products.html" class="active">Products</a>
+    <a href="index.html" class="active">Home</a>
+    <a href="products.html">Products</a>
     <a href="reviews.html">Reviews</a>
     <a href="about.html">About</a>
     <a href="contact.html">Contact</a>
   </div>
 </nav>
 
-<div class="products-section">
-  <div id="products"></div>
-</div>
+<!-- HERO -->
+<header>
+  <h1 data-aos="zoom-in">Handmade Crochet Creations</h1>
+  <p data-aos="fade-up" data-aos-delay="150">
+    Crafted with love, warmth, and timeless elegance.
+  </p>
+</header>
 
-<div class="cart-float" onclick="openCart()">
-  🛒 Cart (<span id="cartCount">0</span>)
-</div>
+<!-- CONTENT -->
+<section>
+  <h2 data-aos="fade-up">Welcome to TheKrochet</h2>
+  <p data-aos="fade-up" data-aos-delay="120">
+    Premium handmade crochet products, carefully crafted with passion.
+  </p>
 
-<div id="cartModal">
-  <div class="cart-box">
-    <h3>Your Cart</h3>
-    <div id="cartItems"></div>
-    <div class="total">Total: ₹<span id="totalPrice">0</span></div>
-    <button class="send-btn" onclick="sendToInstagram()">Send on Instagram</button>
-    <button class="send-btn" style="background:#ccc;color:#000" onclick="closeCart()">Cancel</button>
+  <div class="grid">
+    <div class="card" data-aos="fade-up">
+      <h3>🧶 Handmade Wearables</h3>
+      <p>Soft & stylish crochet fashion</p>
+    </div>
+    <div class="card" data-aos="fade-up" data-aos-delay="120">
+      <h3>🏡 Home Décor</h3>
+      <p>Warm & elegant handmade pieces</p>
+    </div>
+    <div class="card" data-aos="fade-up" data-aos-delay="240">
+      <h3>✨ Custom Orders</h3>
+      <p>Designed just for you</p>
+    </div>
   </div>
-</div>
+</section>
 
 <footer>© 2025 TheKrochet</footer>
 
+<!-- AOS -->
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script>AOS.init({duration:800,once:true});</script>
+<script>AOS.init({duration:900,once:true});</script>
 
+<!-- DARK MODE -->
 <script>
+function toggleTheme(){
+  document.body.classList.toggle("dark");
+  localStorage.setItem(
+    "theme",
+    document.body.classList.contains("dark") ? "dark" : "light"
+  );
+}
 if(localStorage.getItem("theme")==="dark"){
   document.body.classList.add("dark");
-}
-</script>
-
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
-<script>
-firebase.initializeApp({
-  apiKey: "AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
-  authDomain: "thekrochet-b3ca2.firebaseapp.com",
-  projectId: "thekrochet-b3ca2"
-});
-
-const db = firebase.firestore();
-const productDiv = document.getElementById("products");
-const cartCount = document.getElementById("cartCount");
-const cartItems = document.getElementById("cartItems");
-const totalPrice = document.getElementById("totalPrice");
-const cartModal = document.getElementById("cartModal");
-
-let cart=[];
-
-db.collection("products")
-.orderBy("createdAt","desc")
-.onSnapshot(snap=>{
-  productDiv.innerHTML="";
-  snap.forEach((doc,i)=>{
-    const p=doc.data();
-    productDiv.innerHTML+=`
-      <div class="card" data-aos="fade-up">
-        <img src="${p.image}">
-        <h3>${p.name}</h3>
-        <div class="price">₹${p.price}</div>
-        <p>${p.description||""}</p>
-        <button onclick="addToCart('${p.name}',${p.price})">Add to Cart</button>
-      </div>`;
-  });
-});
-
-function addToCart(name,price){
-  cart.push({name,price});
-  cartCount.innerText=cart.length;
-}
-
-function openCart(){
-  cartItems.innerHTML="";
-  let total=0;
-  cart.forEach((p,i)=>{
-    total+=p.price;
-    cartItems.innerHTML+=`
-      <div class="cart-item">
-        <span>${p.name} – ₹${p.price}</span>
-        <button onclick="removeItem(${i})">✕</button>
-      </div>`;
-  });
-  totalPrice.innerText=total;
-  cartModal.classList.add("active");
-}
-
-function removeItem(i){
-  cart.splice(i,1);
-  cartCount.innerText=cart.length;
-  openCart();
-}
-
-function closeCart(){
-  cartModal.classList.remove("active");
-}
-
-function sendToInstagram(){
-  if(cart.length===0){
-    alert("Cart empty");
-    return;
-  }
-  let msg="Hi 👋 I want to buy:\n\n";
-  let total=0;
-  cart.forEach((p,i)=>{
-    msg+=`${i+1}. ${p.name} – ₹${p.price}\n`;
-    total+=p.price;
-  });
-  msg+=`\nTotal: ₹${total}`;
-  navigator.clipboard.writeText(msg);
-  window.open("https://ig.me/m/thekrochet_","_blank");
 }
 </script>
 
