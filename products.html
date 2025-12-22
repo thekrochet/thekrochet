@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Products | TheKrochet</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Products | TheKrochet</title>
 
-<!-- GOOGLE FONTS -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <!-- AOS -->
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
@@ -24,48 +24,53 @@ body{
   font-family:'Poppins',sans-serif;
   background:var(--light);
   color:var(--dark);
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
 }
 
 /* ================= NAVBAR ================= */
-nav {
-  background: #fff;
-  padding: 15px 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+nav{
+  background:#fff;
+  padding:15px 30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
-nav h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
+nav h2{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
 }
 
-nav .links {
-  display: flex;
+nav .links{
+  display:flex;
+  flex-wrap:wrap;
 }
 
-nav a {
-  margin-left: 20px;
-  text-decoration: none;
-  color: var(--dark);
-  font-weight: 500;
-  font-size: 14px;
+nav a{
+  margin-left:20px;
+  text-decoration:none;
+  color:var(--dark);
+  font-weight:500;
 }
 
-nav a:hover,
-nav a.active {
-  color: var(--primary);
-}
+nav a.active,
+nav a:hover{color:var(--primary);}
 
-/* MOBILE NAV */
-@media (max-width:768px){
+@media(max-width:768px){
   nav{flex-direction:column;gap:10px;}
-  nav .links{flex-wrap:wrap;justify-content:center;}
   nav a{margin:6px 10px;}
+}
+
+/* ================= HEADER ================= */
+header{
+  text-align:center;
+  padding:80px 20px;
+  background:linear-gradient(135deg,#fefae0,#faedcd);
+}
+
+header h1{
+  font-family:'Playfair Display',serif;
+  font-size:2.8rem;
 }
 
 /* ================= PRODUCTS ================= */
@@ -73,7 +78,6 @@ nav a.active {
   max-width:1200px;
   margin:auto;
   padding:30px 16px;
-  width:100%;
 }
 
 #products{
@@ -96,18 +100,12 @@ nav a.active {
   height:220px;
   object-fit:cover;
   border-radius:14px;
-  cursor: zoom-in;
+  cursor:zoom-in;
 }
 
-.card h3{
-  margin:12px 0 4px;
-}
-
-.price{
-  font-weight:600;
-  color:#a98467;
-  margin-bottom:10px;
-}
+.card h3{margin:12px 0 4px;}
+.price{color:#a98467;font-weight:600;margin-bottom:8px;}
+.card p{font-size:14px;color:#555;margin-bottom:10px;}
 
 .card button{
   margin-top:auto;
@@ -144,14 +142,9 @@ nav a.active {
   justify-content:center;
   opacity:0;
   pointer-events:none;
-  transition:.3s;
-  z-index:1000;
 }
 
-#cartModal.active{
-  opacity:1;
-  pointer-events:auto;
-}
+#cartModal.active{opacity:1;pointer-events:auto;}
 
 .cart-box{
   background:#fff;
@@ -197,13 +190,10 @@ nav a.active {
   justify-content:center;
   opacity:0;
   pointer-events:none;
-  z-index:2000;
+  z-index:1001;
 }
 
-#imageModal.active{
-  opacity:1;
-  pointer-events:auto;
-}
+#imageModal.active{opacity:1;pointer-events:auto;}
 
 #imageModal img{
   max-width:90%;
@@ -215,18 +205,17 @@ nav a.active {
   position:absolute;
   top:20px;
   right:25px;
-  font-size:32px;
+  font-size:30px;
   color:#fff;
   cursor:pointer;
 }
 
-/* FOOTER */
+/* ================= FOOTER ================= */
 footer{
   background:#1f1f1f;
   color:#ddd;
   text-align:center;
   padding:22px;
-  margin-top:auto;
 }
 </style>
 </head>
@@ -244,6 +233,10 @@ footer{
   </div>
 </nav>
 
+<header>
+  <h1>Our Collections</h1>
+</header>
+
 <div class="products-section">
   <div id="products"></div>
 </div>
@@ -260,7 +253,6 @@ footer{
   </div>
 </div>
 
-<!-- IMAGE POPUP -->
 <div id="imageModal" onclick="closeImage()">
   <span class="close">×</span>
   <img id="popupImg">
@@ -268,50 +260,54 @@ footer{
 
 <footer>© 2025 TheKrochet</footer>
 
+<!-- AOS -->
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script>AOS.init({duration:700,once:true});</script>
+<script>AOS.init({duration:800,once:true});</script>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
-const products = [
-  {
-    name:"Crochet Bag",
-    price:799,
-    image:"https://cdn.jsdelivr.net/gh/mohitswami855-byte/thekrochet@main/SnapInsta.to_568896429_17860219635525488_3863704289559740385_n.jpg"
-  }
-];
-
-const productDiv=document.getElementById("products");
-const cartCount=document.getElementById("cartCount");
-const cartItems=document.getElementById("cartItems");
-const totalPrice=document.getElementById("totalPrice");
-const cartModal=document.getElementById("cartModal");
-const popupImg=document.getElementById("popupImg");
-const imageModal=document.getElementById("imageModal");
-
-let cart=[];
-
-products.forEach((p)=>{
-  productDiv.innerHTML+=`
-    <div class="card" data-aos="fade-up">
-      <img src="${p.image}" onclick="openImage('${p.image}')">
-      <h3>${p.name}</h3>
-      <div class="price">₹${p.price}</div>
-      <button onclick="addToCart('${p.name}',${p.price})">➕ Add to Cart</button>
-    </div>`;
+firebase.initializeApp({
+  apiKey: "AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
+  authDomain: "thekrochet-b3ca2.firebaseapp.com",
+  projectId: "thekrochet-b3ca2"
 });
 
-function openImage(src){
-  popupImg.src = src;
-  imageModal.classList.add("active");
-}
+const db = firebase.firestore();
 
-function closeImage(){
-  imageModal.classList.remove("active");
-}
+const productDiv = document.getElementById("products");
+const cartCount = document.getElementById("cartCount");
+const cartItems = document.getElementById("cartItems");
+const totalPrice = document.getElementById("totalPrice");
+const cartModal = document.getElementById("cartModal");
+const popupImg = document.getElementById("popupImg");
+const imageModal = document.getElementById("imageModal");
+
+let cart = [];
+
+/* 🔥 FIRESTORE FETCH (createdAt BASED) */
+db.collection("products")
+  .orderBy("createdAt","desc")
+  .onSnapshot(snapshot=>{
+    productDiv.innerHTML="";
+    snapshot.forEach((doc,i)=>{
+      const p = doc.data();
+      productDiv.innerHTML += `
+        <div class="card" data-aos="fade-up" data-aos-delay="${i*80}">
+          <img src="${p.image}" onclick="openImage('${p.image}')">
+          <h3>${p.name}</h3>
+          <div class="price">₹${p.price}</div>
+          <p>${p.description || ""}</p>
+          <button onclick="addToCart('${p.name}',${p.price})">➕ Add to Cart</button>
+        </div>`;
+    });
+  });
 
 function addToCart(name,price){
   cart.push({name,price});
-  cartCount.innerText=cart.length;
+  cartCount.innerText = cart.length;
 }
 
 function openCart(){
@@ -335,17 +331,19 @@ function removeItem(i){
   openCart();
 }
 
-function closeCart(){
-  cartModal.classList.remove("active");
+function closeCart(){cartModal.classList.remove("active");}
+
+function openImage(src){
+  popupImg.src=src;
+  imageModal.classList.add("active");
 }
+function closeImage(){imageModal.classList.remove("active");}
 
 function sendToInstagram(){
+  if(cart.length===0){alert("Cart empty");return;}
   let msg="Hi 👋 I want to buy:\n\n";
   let total=0;
-  cart.forEach((p,i)=>{
-    msg+=`${i+1}. ${p.name} – ₹${p.price}\n`;
-    total+=p.price;
-  });
+  cart.forEach((p,i)=>{msg+=`${i+1}. ${p.name} – ₹${p.price}\n`;total+=p.price;});
   msg+=`\nTotal: ₹${total}`;
   navigator.clipboard.writeText(msg);
   window.open("https://ig.me/m/thekrochet_","_blank");
