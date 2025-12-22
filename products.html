@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="layout.css">
+<link rel="stylesheet" href="layout.css">
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Products | TheKrochet</title>
@@ -14,28 +13,42 @@
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 <style>
+/* ================= STEP 1 : DARK MODE VARIABLES ================= */
 :root{
+  --bg:#faf7f2;
+  --text:#2f2f2f;
+  --card:#ffffff;
+  --nav:#ffffff;
+  --shadow:rgba(0,0,0,0.08);
   --primary:#d4a373;
-  --dark:#2f2f2f;
-  --light:#faf7f2;
 }
 
+body.dark{
+  --bg:#121212;
+  --text:#f1f1f1;
+  --card:#1e1e1e;
+  --nav:#1a1a1a;
+  --shadow:rgba(0,0,0,0.6);
+}
+
+/* ================= BASE ================= */
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
   font-family:'Poppins',sans-serif;
-  background:var(--light);
-  color:var(--dark);
+  background:var(--bg);
+  color:var(--text);
+  transition:0.3s;
 }
 
 /* ================= NAVBAR ================= */
 nav{
-  background:#fff;
+  background:var(--nav);
   padding:15px 30px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  box-shadow:0 6px 18px var(--shadow);
 }
 
 nav h2{
@@ -51,7 +64,7 @@ nav .links{
 nav a{
   margin-left:20px;
   text-decoration:none;
-  color:var(--dark);
+  color:var(--text);
   font-weight:500;
 }
 
@@ -77,10 +90,10 @@ nav a:hover{color:var(--primary);}
 }
 
 .card{
-  background:#fff;
+  background:var(--card);
   padding:16px;
   border-radius:20px;
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  box-shadow:0 10px 25px var(--shadow);
   display:flex;
   flex-direction:column;
 }
@@ -95,7 +108,7 @@ nav a:hover{color:var(--primary);}
 
 .card h3{margin:12px 0 4px;}
 .price{color:#a98467;font-weight:600;margin-bottom:8px;}
-.card p{font-size:14px;color:#555;margin-bottom:10px;}
+.card p{font-size:14px;color:#888;margin-bottom:10px;}
 
 .card button{
   margin-top:auto;
@@ -137,7 +150,7 @@ nav a:hover{color:var(--primary);}
 #cartModal.active{opacity:1;pointer-events:auto;}
 
 .cart-box{
-  background:#fff;
+  background:var(--card);
   width:92%;
   max-width:420px;
   padding:20px;
@@ -255,6 +268,21 @@ footer{
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
+/* ================= STEP 3 : APPLY DARK MODE FROM INDEX ================= */
+const savedTheme = localStorage.getItem("theme");
+if(savedTheme === "dark"){
+  document.body.classList.add("dark");
+}
+
+window.addEventListener("storage",()=>{
+  if(localStorage.getItem("theme")==="dark"){
+    document.body.classList.add("dark");
+  }else{
+    document.body.classList.remove("dark");
+  }
+});
+
+/* FIREBASE INIT */
 firebase.initializeApp({
   apiKey: "AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
   authDomain: "thekrochet-b3ca2.firebaseapp.com",
@@ -262,7 +290,6 @@ firebase.initializeApp({
 });
 
 const db = firebase.firestore();
-
 const productDiv = document.getElementById("products");
 const cartCount = document.getElementById("cartCount");
 const cartItems = document.getElementById("cartItems");
@@ -273,23 +300,23 @@ const imageModal = document.getElementById("imageModal");
 
 let cart = [];
 
-/* 🔥 FIRESTORE FETCH (createdAt BASED) */
+/* PRODUCTS FETCH */
 db.collection("products")
-  .orderBy("createdAt","desc")
-  .onSnapshot(snapshot=>{
-    productDiv.innerHTML="";
-    snapshot.forEach((doc,i)=>{
-      const p = doc.data();
-      productDiv.innerHTML += `
-        <div class="card" data-aos="fade-up" data-aos-delay="${i*80}">
-          <img src="${p.image}" onclick="openImage('${p.image}')">
-          <h3>${p.name}</h3>
-          <div class="price">₹${p.price}</div>
-          <p>${p.description || ""}</p>
-          <button onclick="addToCart('${p.name}',${p.price})">➕ Add to Cart</button>
-        </div>`;
-    });
+.orderBy("createdAt","desc")
+.onSnapshot(snapshot=>{
+  productDiv.innerHTML="";
+  snapshot.forEach((doc,i)=>{
+    const p = doc.data();
+    productDiv.innerHTML += `
+      <div class="card" data-aos="fade-up" data-aos-delay="${i*80}">
+        <img src="${p.image}" onclick="openImage('${p.image}')">
+        <h3>${p.name}</h3>
+        <div class="price">₹${p.price}</div>
+        <p>${p.description || ""}</p>
+        <button onclick="addToCart('${p.name}',${p.price})">➕ Add to Cart</button>
+      </div>`;
   });
+});
 
 function addToCart(name,price){
   cart.push({name,price});
@@ -318,11 +345,7 @@ function removeItem(i){
 }
 
 function closeCart(){cartModal.classList.remove("active");}
-
-function openImage(src){
-  popupImg.src=src;
-  imageModal.classList.add("active");
-}
+function openImage(src){popupImg.src=src;imageModal.classList.add("active");}
 function closeImage(){imageModal.classList.remove("active");}
 
 function sendToInstagram(){
