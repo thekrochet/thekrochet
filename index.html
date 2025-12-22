@@ -33,40 +33,37 @@ body.dark{
 
 /* ================= BASE ================= */
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{height:100%;}
-
 body{
   font-family:'Poppins',sans-serif;
   background:var(--bg);
   color:var(--text);
-  display:flex;
-  flex-direction:column;
   transition:.3s;
 }
 
 /* ================= NAVBAR ================= */
 nav{
   background:var(--nav);
-  padding:15px 30px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
   box-shadow:0 6px 18px var(--shadow);
-}
-
-/* LEFT SIDE */
-.brand{
+  padding:14px 20px;
   display:flex;
-  align-items:center;
+  flex-direction:column;   /* IMPORTANT */
   gap:10px;
 }
 
-.brand h2{
+/* TOP ROW */
+.nav-top{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+}
+
+.nav-top h2{
   font-family:'Playfair Display',serif;
   font-size:22px;
 }
 
-/* TOGGLE */
+/* DARK BUTTON */
 .toggle{
   width:34px;
   height:34px;
@@ -76,26 +73,26 @@ nav{
   color:var(--text);
   cursor:pointer;
   font-size:16px;
+}
+
+/* BOTTOM LINKS */
+.nav-links{
   display:flex;
-  align-items:center;
   justify-content:center;
+  flex-wrap:wrap;
+  gap:18px;
 }
 
-/* LINKS */
-.links{
-  display:flex;
-  align-items:center;
-}
-
-.links a{
-  margin-left:20px;
+.nav-links a{
   text-decoration:none;
   color:var(--text);
   font-weight:500;
 }
 
-.links a:hover,
-.links a.active{color:var(--primary);}
+.nav-links a.active,
+.nav-links a:hover{
+  color:var(--primary);
+}
 
 /* ================= HERO ================= */
 header{
@@ -121,9 +118,7 @@ header p{
   color:#777;
 }
 
-/* ================= MAIN ================= */
-main{flex:1;}
-
+/* ================= CONTENT ================= */
 section{
   padding:60px 20px;
   max-width:1200px;
@@ -143,11 +138,6 @@ section{
   padding:26px;
   border-radius:22px;
   box-shadow:0 10px 25px var(--shadow);
-  transition:.3s;
-}
-
-.card:hover{
-  transform:translateY(-8px);
 }
 
 /* ================= FOOTER ================= */
@@ -157,13 +147,6 @@ footer{
   text-align:center;
   padding:25px;
 }
-
-/* ================= MOBILE ================= */
-@media(max-width:768px){
-  nav{flex-direction:column;gap:10px;}
-  header h1{font-size:2.4rem;}
-  .links{flex-wrap:wrap;justify-content:center;}
-}
 </style>
 </head>
 
@@ -171,29 +154,32 @@ footer{
 
 <!-- ================= NAVBAR ================= -->
 <nav data-aos="fade-down">
-  <div class="brand">
+
+  <!-- LINE 1 -->
+  <div class="nav-top">
     <h2>TheKrochet</h2>
     <button class="toggle" onclick="toggleTheme()">🌙</button>
   </div>
 
-  <div class="links">
+  <!-- LINE 2 -->
+  <div class="nav-links">
     <a href="index.html" class="active">Home</a>
     <a href="products.html">Products</a>
     <a href="reviews.html">Reviews</a>
     <a href="about.html">About</a>
     <a href="contact.html">Contact</a>
   </div>
+
 </nav>
 
 <!-- ================= HERO ================= -->
 <header>
-  <h1 data-aos="zoom-in">Handmade Crochet Creations</h1>
+  <h2 data-aos="zoom-in">Handmade Crochet Creations</h2>
   <p data-aos="fade-up" data-aos-delay="200">
     Crafted with love, warmth, and timeless elegance — just for you.
   </p>
 </header>
 
-<main>
 <section>
   <h2 data-aos="fade-up">Welcome to TheKrochet</h2>
   <p data-aos="fade-up" data-aos-delay="150">
@@ -215,7 +201,6 @@ footer{
     </div>
   </div>
 </section>
-</main>
 
 <footer data-aos="fade-up">
   © 2025 TheKrochet | Instagram: @thekrochet_
@@ -225,16 +210,14 @@ footer{
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>AOS.init({duration:900,once:true});</script>
 
-<!-- DARK MODE GLOBAL -->
+<!-- DARK MODE -->
 <script>
 function toggleTheme(){
   document.body.classList.toggle("dark");
-  localStorage.setItem(
-    "theme",
+  localStorage.setItem("theme",
     document.body.classList.contains("dark") ? "dark" : "light"
   );
 }
-
 if(localStorage.getItem("theme")==="dark"){
   document.body.classList.add("dark");
 }
