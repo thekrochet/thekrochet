@@ -1,0 +1,84 @@
+/* ================= ROOT ================= */
+:root{
+  --primary:#d4a373;
+  --dark:#2f2f2f;
+  --light:#faf7f2;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,body{
+  height:100%;
+}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--light);
+  color:var(--dark);
+  display:flex;
+  flex-direction:column;
+}
+
+/* ================= NAVBAR ================= */
+nav{
+  background:#fff;
+  padding:15px 30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+nav h2{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+}
+
+nav .links{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+nav a{
+  margin-left:20px;
+  text-decoration:none;
+  color:var(--dark);
+  font-weight:500;
+}
+
+nav a.active,
+nav a:hover{
+  color:var(--primary);
+}
+
+/* ================= MOBILE NAV FIX ================= */
+@media(max-width:768px){
+  nav{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  nav a{
+    margin:6px 10px;
+  }
+}
+
+/* ================= PAGE CONTENT ================= */
+main{
+  flex:1;
+  width:100%;
+}
+
+/* ================= FOOTER ================= */
+footer{
+  background:#1f1f1f;
+  color:#ddd;
+  text-align:center;
+  padding:22px;
+  margin-top:auto;
+}
