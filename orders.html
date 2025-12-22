@@ -22,22 +22,29 @@ body{
   flex-direction:column;
 }
 
-/* ===== NAVBAR (SAME AS ADMIN) ===== */
+/* ===== NAVBAR WITH ANIMATION ===== */
 nav{
   background:#fff;
-  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
   padding:16px 20px 14px;
   text-align:center;
-  animation:fadeDown .6s ease forwards;
+  animation:navDrop .45s ease forwards;
 }
-@keyframes fadeDown{
+@keyframes navDrop{
   from{opacity:0;transform:translateY(-12px)}
   to{opacity:1;transform:translateY(0)}
 }
+
 .nav-top h2{
   font-family:'Playfair Display',serif;
   font-size:22px;
+  animation:titleFade .4s ease forwards;
 }
+@keyframes titleFade{
+  from{opacity:0;transform:translateY(-6px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
 .nav-links{
   display:grid;
   grid-auto-flow:column;
@@ -47,61 +54,99 @@ nav{
 }
 .nav-links a,
 .nav-links button{
-  text-decoration:none;
   background:none;
   border:none;
   font-weight:500;
   color:var(--dark);
   cursor:pointer;
+  text-decoration:none;
+  opacity:0;
+  animation:linkFade .4s ease forwards;
 }
+.nav-links a:nth-child(1){animation-delay:.05s}
+.nav-links a:nth-child(2){animation-delay:.1s}
+.nav-links button{animation-delay:.15s}
+
+@keyframes linkFade{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
 .nav-links a.active{
   color:var(--primary);
   border-bottom:2px solid var(--primary);
-  padding-bottom:2px;
 }
 
 /* ===== MAIN ===== */
 main{
-  max-width:600px;
+  max-width:650px;
   margin:auto;
-  padding:30px 15px 60px;
+  padding:24px 15px 60px;
   flex:1;
 }
+
+/* LOADING */
+#loading{
+  text-align:center;
+  margin-top:40px;
+  color:#888;
+}
+
+/* ORDER CARD */
 .order-card{
   background:#fff;
-  padding:20px;
-  border-radius:20px;
-  margin-bottom:20px;
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  padding:18px;
+  border-radius:18px;
+  margin-bottom:18px;
+  box-shadow:0 6px 16px rgba(0,0,0,.06);
+  animation:cardFade .25s ease forwards;
 }
-.order-card h4{
-  margin-bottom:6px;
+@keyframes cardFade{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:translateY(0)}
 }
-.order-card ul{
-  padding-left:18px;
+.order-card.removing{
+  opacity:0;
+  transform:scale(.96);
+  transition:.25s;
 }
-.order-card li{
-  margin-bottom:4px;
+
+.order-card h4{margin-bottom:6px}
+.order-card ul{padding-left:18px}
+.order-card li{margin-bottom:4px}
+
+.status{font-weight:600;margin-top:6px}
+.status.new{color:orange}
+.status.accepted{color:green}
+
+.actions{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
 }
-.status{
-  margin-top:8px;
-  font-weight:600;
-  color:green;
+.actions button{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  font-weight:500;
+  cursor:pointer;
 }
+.accept{background:#2a9d8f;color:#fff}
+.delete{background:#e63939;color:#fff}
+
 .date{
   font-size:13px;
   color:#777;
+  margin-top:6px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ✅ 2-LINE ADMIN NAVBAR -->
 <nav>
-  <div class="nav-top">
-    <h2>TheKrochet</h2>
-  </div>
+  <div class="nav-top"><h2>TheKrochet</h2></div>
   <div class="nav-links">
     <a href="admin.html">Products</a>
     <a href="orders.html" class="active">Orders</a>
@@ -110,7 +155,8 @@ main{
 </nav>
 
 <main>
-  <h3 style="margin-bottom:20px;">Orders</h3>
+  <h3>Orders</h3>
+  <div id="loading">Loading orders…</div>
   <div id="ordersList"></div>
 </main>
 
@@ -128,21 +174,21 @@ firebase.initializeApp({
 const auth=firebase.auth();
 const db=firebase.firestore();
 
-/* AUTH CHECK */
-auth.onAuthStateChanged(user=>{
-  if(!user) location.href="login.html";
+auth.onAuthStateChanged(u=>{
+  if(!u) location.href="login.html";
 });
-
 function logout(){
   auth.signOut().then(()=>location.href="login.html");
 }
 
 const ordersList=document.getElementById("ordersList");
+const loading=document.getElementById("loading");
 
-/* LOAD ORDERS */
 db.collection("orders")
   .orderBy("createdAt","desc")
+  .limit(20)
   .onSnapshot(snap=>{
+    loading.style.display="none";
     ordersList.innerHTML="";
     snap.forEach(doc=>{
       const o=doc.data();
@@ -152,18 +198,33 @@ db.collection("orders")
       });
 
       ordersList.innerHTML+=`
-        <div class="order-card">
+        <div class="order-card" id="order-${doc.id}">
           <h4>${o.customer.name} (IG: ${o.customer.instagram})</h4>
           <ul>${items}</ul>
-          <p><strong>Total:</strong> ₹${o.total}</p>
-          <div class="date">
-            ${o.createdAt?.toDate().toLocaleString() || ""}
+          <p><b>Total:</b> ₹${o.total}</p>
+          <div class="date">${o.createdAt?.toDate().toLocaleString()||""}</div>
+          <div class="status ${o.status}">Status: ${o.status}</div>
+
+          <div class="actions">
+            ${
+              o.status!=="accepted"
+              ? `<button class="accept" onclick="acceptOrder('${doc.id}')">Accept</button>`
+              : `<button class="accept" disabled>Accepted</button>`
+            }
+            <button class="delete" onclick="deleteOrder('${doc.id}')">Delete</button>
           </div>
-          <div class="status">Status: ${o.status}</div>
-        </div>
-      `;
+        </div>`;
     });
   });
+
+function acceptOrder(id){
+  db.collection("orders").doc(id).update({status:"accepted"});
+}
+function deleteOrder(id){
+  const card=document.getElementById("order-"+id);
+  card.classList.add("removing");
+  setTimeout(()=>db.collection("orders").doc(id).delete(),200);
+}
 </script>
 
 </body>
