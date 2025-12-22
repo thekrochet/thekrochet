@@ -27,7 +27,7 @@ body{
   flex-direction:column;
 }
 
-/* NAVBAR (2 LINES) */
+/* NAVBAR */
 nav{
   background:var(--nav);
   box-shadow:0 6px 18px var(--shadow);
@@ -127,28 +127,32 @@ nav{
   padding:10px 0;
   border-bottom:1px solid #eee;
 }
-body.dark .cart-item{border-bottom:1px solid rgba(255,255,255,.1);}
-#imgModal img{max-width:90%;max-height:80%;border-radius:10px;}
 
-.cart-box button{
-  padding:12px;
-  border-radius:12px;
+/* ✅ BUTTON FIX */
+.cart-actions{
+  display:flex;
+  gap:12px;
+  margin-top:15px;
+}
+.cart-actions button{
+  flex:1;
+  padding:14px 0;
+  border-radius:14px;
   font-weight:600;
   cursor:pointer;
 }
 .cart-cancel{
   background:transparent;
-  border:1px solid #aaa;
+  border:1px solid #999;
   color:inherit;
-  flex:1;
 }
 .cart-send{
-  background:var(--primary);
-  color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
   border:none;
-  flex:1;
+  color:#fff;
 }
 
+#imgModal img{max-width:90%;max-height:80%;border-radius:10px;}
 footer{background:#1f1f1f;color:#ddd;text-align:center;padding:22px;margin-top:auto;}
 </style>
 </head>
@@ -179,13 +183,13 @@ footer{background:#1f1f1f;color:#ddd;text-align:center;padding:22px;margin-top:a
 <div id="cartModal">
   <div class="cart-box">
     <h3>Your Cart</h3>
-    <div id="cartItems" style="max-height:250px;overflow-y:auto;"></div>
+    <div id="cartItems"></div>
     <div style="font-weight:bold;text-align:right;margin-top:10px;">
       Total: ₹<span id="totalPrice">0</span>
     </div>
-    <div style="display:flex;gap:10px;margin-top:15px;">
-      <button onclick="closeCart()" class="cart-cancel">Cancel</button>
-      <button onclick="sendToInstagram()" class="cart-send">Send on Instagram</button>
+    <div class="cart-actions">
+      <button class="cart-cancel" onclick="closeCart()">Cancel</button>
+      <button class="cart-send" onclick="sendToInstagram()">Send on Instagram</button>
     </div>
   </div>
 </div>
@@ -224,11 +228,13 @@ let allProducts=[];
 updateCartUI();
 
 db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
-  productDiv.innerHTML="";allProducts=[];
-  snap.forEach((doc,i)=>{
-    const p=doc.data();allProducts.push(p);
+  productDiv.innerHTML="";
+  allProducts=[];
+  snap.forEach(doc=>{
+    const p=doc.data();
+    allProducts.push(p);
     productDiv.innerHTML+=`
-      <div class="card" style="animation-delay:${i*0.08}s">
+      <div class="card">
         <div class="img-wrap"><img src="${p.image}" onclick="openImg('${p.image}')"></div>
         <h3>${p.name}</h3>
         <div class="price">₹${p.price}</div>
@@ -238,38 +244,19 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
   });
 });
 
-searchInput.addEventListener("input",e=>{
-  const val=e.target.value.toLowerCase();
-  productDiv.innerHTML="";
-  allProducts.filter(p=>p.name.toLowerCase().includes(val))
-    .forEach(p=>{
-      productDiv.innerHTML+=`
-      <div class="card">
-        <div class="img-wrap"><img src="${p.image}" onclick="openImg('${p.image}')"></div>
-        <h3>${p.name}</h3>
-        <div class="price">₹${p.price}</div>
-        <p>${p.description||""}</p>
-        <button onclick="addToCart('${p.name}',${p.price})">Add to Cart</button>
-      </div>`;
-    });
-});
-
 function addToCart(name,price){cart.push({name,price});saveCart();updateCartUI();}
-function removeItem(i){cart.splice(i,1);saveCart();updateCartUI();}
 function saveCart(){localStorage.setItem("krochetCart",JSON.stringify(cart));}
 
 function updateCartUI(){
   cartCount.innerText=cart.length;
-  cartItems.innerHTML="";let total=0;
-  if(cart.length===0) cartItems.innerHTML="<p style='text-align:center'>Empty</p>";
-  else cart.forEach((p,i)=>{
+  cartItems.innerHTML="";
+  let total=0;
+  cart.forEach(p=>{
     total+=p.price;
     cartItems.innerHTML+=`
       <div class="cart-item">
         <span>${p.name}</span>
-        <span>₹${p.price}
-          <button onclick="removeItem(${i})" style="background:none;border:none;color:#e63939;font-size:16px;cursor:pointer;">✖</button>
-        </span>
+        <span>₹${p.price}</span>
       </div>`;
   });
   totalPrice.innerText=total;
@@ -279,13 +266,28 @@ function openCart(){cartModal.classList.add("active");}
 function closeCart(){cartModal.classList.remove("active");}
 function openImg(src){popupImg.src=src;imgModal.classList.add("active");}
 
-async function sendToInstagram(){
+function sendToInstagram(){
   if(cart.length===0) return;
-  let msg="Hello, I want to order:\n";let total=0;
-  cart.forEach(p=>{msg+=`- ${p.name}: ₹${p.price}\n`;total+=p.price;});
+
+  let total=0;
+  cart.forEach(p=>total+=p.price);
+
+  let msg="Hello, I want to order:\n";
+  cart.forEach(p=>msg+=`- ${p.name}: ₹${p.price}\n`);
   msg+=`\nTotal: ₹${total}`;
-  try{await navigator.clipboard.writeText(msg);}catch(e){}
+
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(msg).catch(()=>{});
+  }
+
   window.location.href="https://ig.me/m/thekrochet_";
+
+  db.collection("orders").add({
+    items:cart,
+    total:total,
+    status:"new",
+    createdAt:firebase.firestore.FieldValue.serverTimestamp()
+  }).catch(()=>{});
 }
 
 if(localStorage.getItem("theme")==="dark") document.body.classList.add("dark");
