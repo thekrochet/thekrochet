@@ -21,6 +21,7 @@
   --shadow:rgba(0,0,0,0.08);
   --primary:#d4a373;
 }
+
 body.dark{
   --bg:#121212;
   --text:#f1f1f1;
@@ -29,7 +30,9 @@ body.dark{
   --shadow:rgba(0,0,0,0.6);
 }
 
+/* ================= BASE ================= */
 *{margin:0;padding:0;box-sizing:border-box;}
+
 body{
   font-family:'Poppins',sans-serif;
   background:var(--bg);
@@ -37,9 +40,10 @@ body{
   min-height:100vh;
   display:flex;
   flex-direction:column;
+  transition: background .35s ease, color .35s ease;
 }
 
-/* NAVBAR */
+/* ================= NAVBAR ================= */
 nav{
   background:var(--nav);
   box-shadow:0 6px 18px var(--shadow);
@@ -47,6 +51,7 @@ nav{
   display:flex;
   flex-direction:column;
   gap:10px;
+  transition:.35s;
 }
 .nav-top{text-align:center;}
 .nav-top h2{
@@ -67,7 +72,7 @@ nav{
 .nav-links a.active,
 .nav-links a:hover{color:var(--primary);}
 
-/* SEARCH */
+/* ================= SEARCH ================= */
 .search-box{
   max-width:420px;
   margin:20px auto 0;
@@ -79,20 +84,29 @@ nav{
   border:1px solid #ddd;
   font-size:14px;
   outline:none;
+  transition:.3s;
 }
 
-/* PRODUCTS */
+body.dark .search-box input{
+  background:#1e1e1e;
+  color:#fff;
+  border:1px solid #333;
+}
+
+/* ================= PRODUCTS ================= */
 .products-section{
   max-width:1200px;
   margin:20px auto 0;
   padding:30px 16px;
   flex:1;
 }
+
 #products{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:24px;
 }
+
 .card{
   background:var(--card);
   padding:16px;
@@ -100,17 +114,27 @@ nav{
   box-shadow:0 10px 25px var(--shadow);
   display:flex;
   flex-direction:column;
+  transition:.35s;
 }
+
 .card img{
   width:100%;
   height:220px;
   object-fit:cover;
   border-radius:14px;
   cursor:pointer;
+  transition:.3s;
 }
+.card img:hover{
+  transform:scale(1.02);
+}
+
 .card h3{margin:12px 0 4px;}
 .price{color:#a98467;font-weight:600;margin-bottom:8px;}
 .card p{font-size:14px;color:#888;margin-bottom:10px;}
+
+body.dark .card p{color:#bbb;}
+
 .card button{
   margin-top:auto;
   padding:12px;
@@ -120,9 +144,14 @@ nav{
   color:#fff;
   font-weight:600;
   cursor:pointer;
+  transition:.25s;
+}
+.card button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 18px rgba(0,0,0,.25);
 }
 
-/* CART */
+/* ================= CART ================= */
 .cart-float{
   position:fixed;
   right:16px;
@@ -136,7 +165,7 @@ nav{
   z-index:999;
 }
 
-/* CART MODAL */
+/* ================= CART MODAL ================= */
 #cartModal{
   position:fixed;
   inset:0;
@@ -148,13 +177,16 @@ nav{
   pointer-events:none;
 }
 #cartModal.active{opacity:1;pointer-events:auto;}
+
 .cart-box{
   background:var(--card);
   width:92%;
   max-width:420px;
   padding:20px;
   border-radius:20px;
+  transition:.35s;
 }
+
 .cart-item{
   display:flex;
   justify-content:space-between;
@@ -166,6 +198,7 @@ nav{
   color:red;
   cursor:pointer;
 }
+
 .total{font-weight:600;margin-top:10px;}
 .send-btn{
   width:100%;
@@ -178,7 +211,7 @@ nav{
   font-weight:600;
 }
 
-/* IMAGE POPUP */
+/* ================= IMAGE POPUP ================= */
 #imgModal{
   position:fixed;
   inset:0;
@@ -191,6 +224,7 @@ nav{
   z-index:1000;
 }
 #imgModal.active{opacity:1;pointer-events:auto;}
+
 #imgModal img{
   max-width:90%;
   max-height:90%;
@@ -205,7 +239,7 @@ nav{
   cursor:pointer;
 }
 
-/* FOOTER */
+/* ================= FOOTER ================= */
 footer{
   background:#1f1f1f;
   color:#ddd;
@@ -229,7 +263,6 @@ footer{
   </div>
 </nav>
 
-<!-- SEARCH -->
 <div class="search-box" data-aos="fade-up">
   <input type="text" id="searchInput" placeholder="Search products...">
 </div>
@@ -238,9 +271,7 @@ footer{
   <div id="products"></div>
 </div>
 
-<div class="cart-float" onclick="openCart()">
-  🛒 Cart (<span id="cartCount">0</span>)
-</div>
+<div class="cart-float" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</div>
 
 <div id="cartModal">
   <div class="cart-box">
@@ -252,7 +283,6 @@ footer{
   </div>
 </div>
 
-<!-- IMAGE POPUP -->
 <div id="imgModal" onclick="closeImg()">
   <span>&times;</span>
   <img id="popupImg">
@@ -290,14 +320,12 @@ const searchInput=document.getElementById("searchInput");
 let cart=[];
 let allProducts=[];
 
-/* LOAD PRODUCTS */
 db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
   allProducts=[];
   snap.forEach(doc=>allProducts.push(doc.data()));
   renderProducts(allProducts);
 });
 
-/* RENDER */
 function renderProducts(list){
   productDiv.innerHTML="";
   list.forEach((p,i)=>{
@@ -312,21 +340,19 @@ function renderProducts(list){
   });
 }
 
-/* SEARCH */
 searchInput.addEventListener("input",()=>{
   const q=searchInput.value.toLowerCase();
-  const filtered=allProducts.filter(p=>
+  renderProducts(allProducts.filter(p=>
     p.name.toLowerCase().includes(q) ||
     (p.description||"").toLowerCase().includes(q)
-  );
-  renderProducts(filtered);
+  ));
 });
 
-/* CART */
 function addToCart(name,price){
   cart.push({name,price});
   cartCount.innerText=cart.length;
 }
+
 function openCart(){
   cartItems.innerHTML="";
   let total=0;
@@ -341,6 +367,7 @@ function openCart(){
   totalPrice.innerText=total;
   cartModal.classList.add("active");
 }
+
 function removeItem(i){
   cart.splice(i,1);
   cartCount.innerText=cart.length;
@@ -348,7 +375,6 @@ function removeItem(i){
 }
 function closeCart(){cartModal.classList.remove("active");}
 
-/* INSTAGRAM */
 function sendToInstagram(){
   if(cart.length===0){alert("Cart empty");return;}
   let msg="Hi 👋 I want to buy:\n\n";
@@ -359,7 +385,6 @@ function sendToInstagram(){
   window.open("https://ig.me/m/thekrochet_","_blank");
 }
 
-/* IMAGE POPUP */
 function openImg(src){
   popupImg.src=src;
   imgModal.classList.add("active");
