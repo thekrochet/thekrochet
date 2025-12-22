@@ -6,14 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reviews | TheKrochet</title>
 
-<!-- Google Fonts -->
+<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <!-- AOS -->
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 <style>
-/* ================= STEP 1 : DARK MODE VARIABLES ================= */
 :root{
   --bg:#faf7f2;
   --text:#2f2f2f;
@@ -22,7 +21,6 @@
   --shadow:rgba(0,0,0,0.08);
   --primary:#d4a373;
 }
-
 body.dark{
   --bg:#121212;
   --text:#f1f1f1;
@@ -31,57 +29,73 @@ body.dark{
   --shadow:rgba(0,0,0,0.6);
 }
 
-/* ================= BASE ================= */
+/* BASE */
 *{margin:0;padding:0;box-sizing:border-box;}
-
-html,body{height:100%;}
-
 body{
   font-family:'Poppins',sans-serif;
   background:var(--bg);
   color:var(--text);
+  min-height:100vh;
   display:flex;
   flex-direction:column;
-  transition:0.3s;
 }
 
-/* ================= NAVBAR ================= */
+/* NAVBAR */
 nav{
   background:var(--nav);
-  padding:15px 30px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
   box-shadow:0 6px 18px var(--shadow);
+  padding:14px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
-
-nav h2{
+.nav-top{text-align:center;}
+.nav-top h2{
   font-family:'Playfair Display',serif;
+  font-size:22px;
 }
-
-nav a{
-  margin-left:20px;
+.nav-links{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  flex-wrap:wrap;
+}
+.nav-links a{
   text-decoration:none;
   color:var(--text);
   font-weight:500;
 }
+.nav-links a.active,
+.nav-links a:hover{color:var(--primary);}
 
-nav a.active,
-nav a:hover{color:var(--primary);}
-
-/* ================= MAIN ================= */
-main{flex:1;}
-
-h1{
+/* HEADER */
+header{
   text-align:center;
-  padding:30px 10px 20px;
+  padding:80px 20px 60px;
+  background:linear-gradient(135deg,#fefae0,#faedcd);
+}
+body.dark header{
+  background:linear-gradient(135deg,#1f1f1f,#2a2a2a);
+}
+header h1{
   font-family:'Playfair Display',serif;
+  font-size:2.8rem;
+  margin-bottom:10px;
+}
+header p{
+  max-width:600px;
+  margin:auto;
+  font-size:15px;
+  color:#666;
 }
 
-/* ================= SECTION ================= */
+/* MAIN */
+main{flex:1}
+
+/* SECTION */
 section{
-  padding:20px;
-  max-width:1200px;
+  padding:40px 20px;
+  max-width:1100px;
   margin:auto;
   text-align:center;
 }
@@ -91,7 +105,7 @@ section{
   padding:14px 26px;
   border-radius:16px;
   background:linear-gradient(135deg,#d4a373,#b8895b);
-  color:white;
+  color:#fff;
   font-weight:600;
   border:none;
   cursor:pointer;
@@ -108,7 +122,6 @@ section{
   border-radius:22px;
   box-shadow:0 10px 25px var(--shadow);
 }
-
 .review-form input,
 .review-form textarea,
 .review-form select{
@@ -118,7 +131,6 @@ section{
   border-radius:14px;
   border:1px solid #ddd;
 }
-
 .review-form button{
   width:100%;
   padding:14px;
@@ -143,18 +155,15 @@ section{
   border-radius:22px;
   box-shadow:0 10px 25px var(--shadow);
 }
-
 .stars{
   font-size:20px;
   margin-bottom:10px;
 }
-
 .card p{
   font-size:14px;
   margin-bottom:12px;
   color:#888;
 }
-
 .card span{
   font-size:13px;
   color:#a0a0a0;
@@ -166,13 +175,7 @@ footer{
   color:#ddd;
   text-align:center;
   padding:22px;
-  font-size:14px;
-}
-
-/* MOBILE */
-@media(max-width:768px){
-  nav{flex-direction:column;gap:10px;}
-  nav a{margin-left:12px;font-size:14px;}
+  margin-top:auto;
 }
 </style>
 </head>
@@ -181,8 +184,8 @@ footer{
 
 <!-- NAV -->
 <nav data-aos="fade-down">
-  <h2>TheKrochet</h2>
-  <div>
+  <div class="nav-top"><h2>TheKrochet</h2></div>
+  <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="products.html">Products</a>
     <a href="reviews.html" class="active">Reviews</a>
@@ -191,29 +194,34 @@ footer{
   </div>
 </nav>
 
+<header data-aos="fade-up">
+  <h1>Customer Reviews</h1>
+  <p>Real words from happy customers 💛</p>
+</header>
+
 <main>
-  <h1 data-aos="fade-up">Customer Reviews</h1>
+<section>
 
-  <section>
-    <button class="add-review-btn" onclick="toggleForm()" data-aos="zoom-in">
-      ➕ Add Your Review
-    </button>
+  <button class="add-review-btn" onclick="toggleForm()" data-aos="zoom-in">
+    ➕ Add Your Review
+  </button>
 
-    <div class="review-form" id="reviewForm" data-aos="fade-up">
-      <input id="name" placeholder="Your Name">
-      <select id="rating">
-        <option value="5">⭐⭐⭐⭐⭐ (5)</option>
-        <option value="4">⭐⭐⭐⭐ (4)</option>
-        <option value="3">⭐⭐⭐ (3)</option>
-        <option value="2">⭐⭐ (2)</option>
-        <option value="1">⭐ (1)</option>
-      </select>
-      <textarea id="reviewText" placeholder="Write your review"></textarea>
-      <button onclick="addReview()">Submit Review</button>
-    </div>
+  <div class="review-form" id="reviewForm" data-aos="fade-up">
+    <input id="name" placeholder="Your Name">
+    <select id="rating">
+      <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+      <option value="4">⭐⭐⭐⭐ (4)</option>
+      <option value="3">⭐⭐⭐ (3)</option>
+      <option value="2">⭐⭐ (2)</option>
+      <option value="1">⭐ (1)</option>
+    </select>
+    <textarea id="reviewText" placeholder="Write your review"></textarea>
+    <button onclick="addReview()">Submit Review</button>
+  </div>
 
-    <div class="grid" id="reviewsGrid"></div>
-  </section>
+  <div class="grid" id="reviewsGrid"></div>
+
+</section>
 </main>
 
 <footer>© 2025 TheKrochet</footer>
@@ -223,28 +231,24 @@ footer{
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <!-- AOS -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
 <script>
-/* ================= STEP 3 : APPLY DARK MODE FROM INDEX ================= */
-const savedTheme = localStorage.getItem("theme");
-if(savedTheme === "dark"){
+/* DARK MODE SYNC */
+if(localStorage.getItem("theme")==="dark"){
   document.body.classList.add("dark");
 }
-
-/* sync if theme changes on another page */
 window.addEventListener("storage",()=>{
-  if(localStorage.getItem("theme")==="dark"){
-    document.body.classList.add("dark");
-  }else{
-    document.body.classList.remove("dark");
-  }
+  document.body.classList.toggle(
+    "dark",
+    localStorage.getItem("theme")==="dark"
+  );
 });
 
 /* AOS */
 AOS.init({duration:900,once:true});
 
-/* FIREBASE */
+/* FIREBASE INIT */
 firebase.initializeApp({
   apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
   authDomain:"thekrochet-b3ca2.firebaseapp.com",
