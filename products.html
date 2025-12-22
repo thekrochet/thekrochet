@@ -128,7 +128,7 @@ nav{
   border-bottom:1px solid #eee;
 }
 
-/* ✅ BUTTON FIX */
+/* BUTTONS */
 .cart-actions{
   display:flex;
   gap:12px;
@@ -221,18 +221,14 @@ const totalPrice=document.getElementById("totalPrice");
 const cartModal=document.getElementById("cartModal");
 const imgModal=document.getElementById("imgModal");
 const popupImg=document.getElementById("popupImg");
-const searchInput=document.getElementById("searchInput");
 
 let cart=JSON.parse(localStorage.getItem("krochetCart"))||[];
-let allProducts=[];
 updateCartUI();
 
 db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
   productDiv.innerHTML="";
-  allProducts=[];
   snap.forEach(doc=>{
     const p=doc.data();
-    allProducts.push(p);
     productDiv.innerHTML+=`
       <div class="card">
         <div class="img-wrap"><img src="${p.image}" onclick="openImg('${p.image}')"></div>
@@ -244,27 +240,50 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
   });
 });
 
-function addToCart(name,price){cart.push({name,price});saveCart();updateCartUI();}
-function saveCart(){localStorage.setItem("krochetCart",JSON.stringify(cart));}
+function addToCart(name,price){
+  cart.push({name,price});
+  saveCart();
+  updateCartUI();
+}
+function saveCart(){
+  localStorage.setItem("krochetCart",JSON.stringify(cart));
+}
 
+/* ✅ UPDATED FUNCTION: REMOVE ITEM BUTTON */
 function updateCartUI(){
   cartCount.innerText=cart.length;
   cartItems.innerHTML="";
   let total=0;
-  cart.forEach(p=>{
+
+  cart.forEach((p,index)=>{
     total+=p.price;
     cartItems.innerHTML+=`
       <div class="cart-item">
         <span>${p.name}</span>
-        <span>₹${p.price}</span>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span>₹${p.price}</span>
+          <button onclick="removeFromCart(${index})"
+            style="background:none;border:none;color:red;font-size:16px;cursor:pointer;">✖</button>
+        </div>
       </div>`;
   });
+
   totalPrice.innerText=total;
+}
+
+function removeFromCart(index){
+  cart.splice(index,1);
+  saveCart();
+  updateCartUI();
 }
 
 function openCart(){cartModal.classList.add("active");}
 function closeCart(){cartModal.classList.remove("active");}
 function openImg(src){popupImg.src=src;imgModal.classList.add("active");}
+
+cartModal.addEventListener("click",e=>{
+  if(e.target===cartModal) closeCart();
+});
 
 function sendToInstagram(){
   if(cart.length===0) return;
@@ -276,10 +295,7 @@ function sendToInstagram(){
   cart.forEach(p=>msg+=`- ${p.name}: ₹${p.price}\n`);
   msg+=`\nTotal: ₹${total}`;
 
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(msg).catch(()=>{});
-  }
-
+  if(navigator.clipboard) navigator.clipboard.writeText(msg).catch(()=>{});
   window.location.href="https://ig.me/m/thekrochet_";
 
   db.collection("orders").add({
