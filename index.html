@@ -1,188 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="layout.css">
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Products | TheKrochet</title>
+  <link rel="stylesheet" href="layout.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Products | TheKrochet</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <!-- FONTS -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<style>
-:root{
-  --bg:#faf7f2;
-  --text:#2f2f2f;
-  --card:#ffffff;
-  --nav:#ffffff;
-  --shadow:rgba(0,0,0,0.08);
-  --primary:#d4a373;
-}
-body.dark{
-  --bg:#121212;
-  --text:#f1f1f1;
-  --card:#1e1e1e;
-  --nav:#1a1a1a;
-  --shadow:rgba(0,0,0,0.6);
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{
-  font-family:'Poppins',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-}
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-/* NAVBAR */
-nav{
-  background:var(--nav);
-  box-shadow:0 6px 18px var(--shadow);
-  padding:14px 20px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-.nav-top{text-align:center;}
-.nav-top h2{font-family:'Playfair Display',serif;font-size:22px;}
-.nav-links{
-  display:flex;
-  justify-content:center;
-  gap:18px;
-  flex-wrap:wrap;
-}
-.nav-links a{
-  text-decoration:none;
-  color:var(--text);
-  font-weight:500;
-}
-.nav-links a.active,
-.nav-links a:hover{color:var(--primary);}
+  <style>
+    :root{
+      --bg:#faf7f2;
+      --text:#2f2f2f;
+      --card:#ffffff;
+      --nav:#ffffff;
+      --shadow:rgba(0,0,0,0.08);
+      --primary:#d4a373;
+    }
+    body.dark{
+      --bg:#121212;
+      --text:#f1f1f1;
+      --card:#1e1e1e;
+      --nav:#1a1a1a;
+      --shadow:rgba(0,0,0,0.6);
+    }
 
-/* SEARCH */
-.search-box{
-  max-width:420px;
-  margin:0 auto 30px;
-}
-.search-box input{
-  width:100%;
-  padding:12px 16px;
-  border-radius:14px;
-  border:1px solid #ccc;
-  font-size:14px;
-}
+    *{margin:0;padding:0;box-sizing:border-box;}
 
-/* PRODUCTS */
-.products-section{
-  max-width:1200px;
-  margin:40px auto 0;
-  padding:30px 16px;
-  flex:1;
-}
-#products{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px;
-}
-.card{
-  background:var(--card);
-  padding:16px;
-  border-radius:20px;
-  box-shadow:0 10px 25px var(--shadow);
-  display:flex;
-  flex-direction:column;
-}
-.card img{
-  width:100%;
-  height:220px;
-  object-fit:cover;
-  border-radius:14px;
-}
-.card h3{margin:12px 0 4px;}
-.price{color:#a98467;font-weight:600;margin-bottom:8px;}
-.card p{font-size:14px;color:#888;margin-bottom:10px;}
-.card button{
-  margin-top:auto;
-  padding:12px;
-  border:none;
-  border-radius:14px;
-  background:linear-gradient(135deg,#d4a373,#b8895b);
-  color:#fff;
-  font-weight:600;
-  cursor:pointer;
-}
+    body{
+      font-family:'Poppins',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
 
-/* CART */
-.cart-float{
-  position:fixed;
-  right:16px;
-  bottom:20px;
-  background:var(--primary);
-  color:#fff;
-  padding:14px 18px;
-  border-radius:40px;
-  font-weight:600;
-  cursor:pointer;
-  z-index:999;
-}
+    /* NAVBAR */
+    nav{
+      background:var(--nav);
+      box-shadow:0 6px 18px var(--shadow);
+      padding:14px 20px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
 
-/* MODAL */
-#cartModal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.5);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:0;
-  pointer-events:none;
-}
-#cartModal.active{opacity:1;pointer-events:auto;}
-.cart-box{
-  background:var(--card);
-  width:92%;
-  max-width:420px;
-  padding:20px;
-  border-radius:20px;
-}
-.cart-item{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:8px;
-}
-.cart-item button{
-  border:none;
-  background:none;
-  color:red;
-  cursor:pointer;
-}
-.total{font-weight:600;margin-top:10px;}
-.send-btn{
-  width:100%;
-  margin-top:12px;
-  padding:12px;
-  border:none;
-  border-radius:14px;
-  background:#d4a373;
-  color:#fff;
-  font-weight:600;
-}
+    .nav-top{text-align:center;}
+    .nav-top h2{
+      font-family:'Playfair Display',serif;
+      font-size:22px;
+    }
 
-footer{
-  background:#1f1f1f;
-  color:#ddd;
-  text-align:center;
-  padding:22px;
-  margin-top:auto;
-}
-</style>
+    .nav-links{
+      display:flex;
+      justify-content:center;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .nav-links a{
+      text-decoration:none;
+      color:var(--text);
+      font-weight:500;
+    }
+
+    .nav-links a.active,
+    .nav-links a:hover{
+      color:var(--primary);
+    }
+
+    /* PRODUCTS */
+    .products-section{
+      max-width:1200px;
+      margin:40px auto 0;
+      padding:30px 16px;
+      flex:1;
+    }
+
+    #products{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:24px;
+    }
+
+    .card{
+      background:var(--card);
+      padding:16px;
+      border-radius:20px;
+      box-shadow:0 10px 25px var(--shadow);
+      display:flex;
+      flex-direction:column;
+    }
+
+    .card img{
+      width:100%;
+      height:220px;
+      object-fit:cover;
+      border-radius:14px;
+    }
+
+    .card h3{margin:12px 0 4px;}
+    .price{color:#a98467;font-weight:600;margin-bottom:8px;}
+    .card p{font-size:14px;color:#888;margin-bottom:10px;}
+
+    .card button{
+      margin-top:auto;
+      padding:12px;
+      border:none;
+      border-radius:14px;
+      background:linear-gradient(135deg,#d4a373,#b8895b);
+      color:#fff;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    /* CART */
+    .cart-float{
+      position:fixed;
+      right:16px;
+      bottom:20px;
+      background:var(--primary);
+      color:#fff;
+      padding:14px 18px;
+      border-radius:40px;
+      font-weight:600;
+      cursor:pointer;
+      z-index:999;
+    }
+
+    #cartModal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.5);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity:0;
+      pointer-events:none;
+    }
+
+    #cartModal.active{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .cart-box{
+      background:var(--card);
+      width:92%;
+      max-width:420px;
+      padding:20px;
+      border-radius:20px;
+    }
+
+    .cart-item{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:8px;
+    }
+
+    .cart-item button{
+      border:none;
+      background:none;
+      color:red;
+      cursor:pointer;
+    }
+
+    .total{font-weight:600;margin-top:10px;}
+
+    .send-btn{
+      width:100%;
+      margin-top:12px;
+      padding:12px;
+      border:none;
+      border-radius:14px;
+      background:#d4a373;
+      color:#fff;
+      font-weight:600;
+    }
+
+    footer{
+      background:#1f1f1f;
+      color:#ddd;
+      text-align:center;
+      padding:22px;
+      margin-top:auto;
+    }
+  </style>
 </head>
 
 <body>
 
 <nav data-aos="fade-down">
-  <div class="nav-top"><h2>TheKrochet</h2></div>
+  <div class="nav-top">
+    <h2>TheKrochet</h2>
+  </div>
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="products.html" class="active">Products</a>
@@ -193,17 +209,6 @@ footer{
 </nav>
 
 <div class="products-section">
-
-  <!-- 🔍 SEARCH BAR -->
-  <div class="search-box" data-aos="fade-up">
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="Search products..."
-      onkeyup="searchProducts()"
-    >
-  </div>
-
   <div id="products"></div>
 </div>
 
@@ -250,48 +255,29 @@ const totalPrice = document.getElementById("totalPrice");
 const cartModal = document.getElementById("cartModal");
 
 let cart=[];
-let allProducts=[];
 
-/* LOAD PRODUCTS */
-db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
-  allProducts=[];
+db.collection("products")
+.orderBy("createdAt","desc")
+.onSnapshot(snap=>{
   productDiv.innerHTML="";
   snap.forEach((doc,i)=>{
     const p=doc.data();
-    allProducts.push(p);
-    productDiv.innerHTML+=renderProduct(p,i);
+    productDiv.innerHTML+=`
+      <div class="card" data-aos="fade-up">
+        <img src="${p.image}">
+        <h3>${p.name}</h3>
+        <div class="price">₹${p.price}</div>
+        <p>${p.description||""}</p>
+        <button onclick="addToCart('${p.name}',${p.price})">Add to Cart</button>
+      </div>`;
   });
 });
 
-/* RENDER */
-function renderProduct(p,i){
-  return `
-    <div class="card" data-aos="fade-up" data-aos-delay="${i*80}">
-      <img src="${p.image}">
-      <h3>${p.name}</h3>
-      <div class="price">₹${p.price}</div>
-      <p>${p.description||""}</p>
-      <button onclick="addToCart('${p.name}',${p.price})">Add to Cart</button>
-    </div>
-  `;
-}
-
-/* SEARCH */
-function searchProducts(){
-  const val=document.getElementById("searchInput").value.toLowerCase();
-  productDiv.innerHTML="";
-  allProducts
-    .filter(p=>p.name.toLowerCase().includes(val))
-    .forEach((p,i)=>{
-      productDiv.innerHTML+=renderProduct(p,i);
-    });
-}
-
-/* CART */
 function addToCart(name,price){
   cart.push({name,price});
   cartCount.innerText=cart.length;
 }
+
 function openCart(){
   cartItems.innerHTML="";
   let total=0;
@@ -306,17 +292,28 @@ function openCart(){
   totalPrice.innerText=total;
   cartModal.classList.add("active");
 }
+
 function removeItem(i){
   cart.splice(i,1);
   cartCount.innerText=cart.length;
   openCart();
 }
-function closeCart(){cartModal.classList.remove("active");}
+
+function closeCart(){
+  cartModal.classList.remove("active");
+}
+
 function sendToInstagram(){
-  if(cart.length===0){alert("Cart empty");return;}
+  if(cart.length===0){
+    alert("Cart empty");
+    return;
+  }
   let msg="Hi 👋 I want to buy:\n\n";
   let total=0;
-  cart.forEach((p,i)=>{msg+=`${i+1}. ${p.name} – ₹${p.price}\n`;total+=p.price;});
+  cart.forEach((p,i)=>{
+    msg+=`${i+1}. ${p.name} – ₹${p.price}\n`;
+    total+=p.price;
+  });
   msg+=`\nTotal: ₹${total}`;
   navigator.clipboard.writeText(msg);
   window.open("https://ig.me/m/thekrochet_","_blank");
