@@ -8,7 +8,7 @@
 <!-- GOOGLE FONTS -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<!-- AOS (ONLY FOR PRODUCTS) -->
+<!-- AOS -->
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 <style>
@@ -39,17 +39,13 @@ nav {
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
-/* LOGO */
 nav h2 {
   font-family: 'Playfair Display', serif;
   font-size: 22px;
-  margin: 0;
 }
 
-/* LINKS */
 nav .links {
   display: flex;
-  align-items: center;
 }
 
 nav a {
@@ -65,24 +61,14 @@ nav a.active {
   color: var(--primary);
 }
 
-/* ================= MOBILE FIX ================= */
-@media (max-width: 768px) {
-  nav {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  nav .links {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  nav a {
-    margin: 6px 10px;
-  }
+/* MOBILE NAV */
+@media (max-width:768px){
+  nav{flex-direction:column;gap:10px;}
+  nav .links{flex-wrap:wrap;justify-content:center;}
+  nav a{margin:6px 10px;}
 }
 
-/* ================= PRODUCTS SECTION ================= */
+/* ================= PRODUCTS ================= */
 .products-section{
   max-width:1200px;
   margin:auto;
@@ -90,14 +76,12 @@ nav a.active {
   width:100%;
 }
 
-/* GRID */
 #products{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:24px;
 }
 
-/* CARD */
 .card{
   background:#fff;
   padding:16px;
@@ -112,11 +96,11 @@ nav a.active {
   height:220px;
   object-fit:cover;
   border-radius:14px;
+  cursor: zoom-in;
 }
 
 .card h3{
   margin:12px 0 4px;
-  font-size:17px;
 }
 
 .price{
@@ -136,7 +120,7 @@ nav a.active {
   cursor:pointer;
 }
 
-/* ================= CART FLOAT (DEVICE SAFE) ================= */
+/* ================= CART FLOAT ================= */
 .cart-float{
   position:fixed;
   right:16px;
@@ -148,7 +132,6 @@ nav a.active {
   font-weight:600;
   cursor:pointer;
   z-index:999;
-  box-shadow:0 10px 25px rgba(0,0,0,.25);
 }
 
 /* ================= CART MODAL ================= */
@@ -165,7 +148,10 @@ nav a.active {
   z-index:1000;
 }
 
-#cartModal.active{opacity:1;pointer-events:auto;}
+#cartModal.active{
+  opacity:1;
+  pointer-events:auto;
+}
 
 .cart-box{
   background:#fff;
@@ -185,7 +171,6 @@ nav a.active {
   border:none;
   background:none;
   color:red;
-  font-size:16px;
   cursor:pointer;
 }
 
@@ -202,18 +187,46 @@ nav a.active {
   font-weight:600;
 }
 
-/* ================= FOOTER ================= */
+/* ================= IMAGE POPUP ================= */
+#imageModal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  z-index:2000;
+}
+
+#imageModal.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+#imageModal img{
+  max-width:90%;
+  max-height:90%;
+  border-radius:18px;
+}
+
+.close{
+  position:absolute;
+  top:20px;
+  right:25px;
+  font-size:32px;
+  color:#fff;
+  cursor:pointer;
+}
+
+/* FOOTER */
 footer{
   background:#1f1f1f;
   color:#ddd;
   text-align:center;
   padding:22px;
   margin-top:auto;
-}
-
-/* ================= MOBILE FIX ================= */
-@media(max-width:600px){
-  header h1{font-size:2.2rem;}
 }
 </style>
 </head>
@@ -231,15 +244,12 @@ footer{
   </div>
 </nav>
 
-<!-- PRODUCTS -->
 <div class="products-section">
   <div id="products"></div>
 </div>
 
-<!-- CART FLOAT -->
 <div class="cart-float" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</div>
 
-<!-- CART MODAL -->
 <div id="cartModal">
   <div class="cart-box">
     <h3>Your Cart</h3>
@@ -250,9 +260,14 @@ footer{
   </div>
 </div>
 
+<!-- IMAGE POPUP -->
+<div id="imageModal" onclick="closeImage()">
+  <span class="close">×</span>
+  <img id="popupImg">
+</div>
+
 <footer>© 2025 TheKrochet</footer>
 
-<!-- AOS -->
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>AOS.init({duration:700,once:true});</script>
 
@@ -270,18 +285,29 @@ const cartCount=document.getElementById("cartCount");
 const cartItems=document.getElementById("cartItems");
 const totalPrice=document.getElementById("totalPrice");
 const cartModal=document.getElementById("cartModal");
+const popupImg=document.getElementById("popupImg");
+const imageModal=document.getElementById("imageModal");
 
 let cart=[];
 
-products.forEach((p,i)=>{
+products.forEach((p)=>{
   productDiv.innerHTML+=`
     <div class="card" data-aos="fade-up">
-      <img src="${p.image}" alt="${p.name}">
+      <img src="${p.image}" onclick="openImage('${p.image}')">
       <h3>${p.name}</h3>
       <div class="price">₹${p.price}</div>
       <button onclick="addToCart('${p.name}',${p.price})">➕ Add to Cart</button>
     </div>`;
 });
+
+function openImage(src){
+  popupImg.src = src;
+  imageModal.classList.add("active");
+}
+
+function closeImage(){
+  imageModal.classList.remove("active");
+}
 
 function addToCart(name,price){
   cart.push({name,price});
@@ -309,12 +335,17 @@ function removeItem(i){
   openCart();
 }
 
-function closeCart(){cartModal.classList.remove("active");}
+function closeCart(){
+  cartModal.classList.remove("active");
+}
 
 function sendToInstagram(){
   let msg="Hi 👋 I want to buy:\n\n";
   let total=0;
-  cart.forEach((p,i)=>{msg+=`${i+1}. ${p.name} – ₹${p.price}\n`;total+=p.price;});
+  cart.forEach((p,i)=>{
+    msg+=`${i+1}. ${p.name} – ₹${p.price}\n`;
+    total+=p.price;
+  });
   msg+=`\nTotal: ₹${total}`;
   navigator.clipboard.writeText(msg);
   window.open("https://ig.me/m/thekrochet_","_blank");
