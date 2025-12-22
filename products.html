@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="layout.css">
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Products | TheKrochet</title>
 
-<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<!-- AOS -->
-<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 <style>
 :root{
@@ -21,7 +16,6 @@
   --shadow:rgba(0,0,0,0.08);
   --primary:#d4a373;
 }
-
 body.dark{
   --bg:#121212;
   --text:#f1f1f1;
@@ -30,9 +24,7 @@ body.dark{
   --shadow:rgba(0,0,0,0.6);
 }
 
-/* ================= BASE ================= */
 *{margin:0;padding:0;box-sizing:border-box;}
-
 body{
   font-family:'Poppins',sans-serif;
   background:var(--bg);
@@ -40,18 +32,21 @@ body{
   min-height:100vh;
   display:flex;
   flex-direction:column;
-  transition: background .35s ease, color .35s ease;
 }
 
 /* ================= NAVBAR ================= */
 nav{
   background:var(--nav);
   box-shadow:0 6px 18px var(--shadow);
-  padding:14px 20px;
+  padding:16px 20px;
   display:flex;
   flex-direction:column;
-  gap:10px;
-  transition:.35s;
+  gap:12px;
+  animation:navDrop .8s ease;
+}
+@keyframes navDrop{
+  from{transform:translateY(-20px);opacity:0}
+  to{transform:translateY(0);opacity:1}
 }
 .nav-top{text-align:center;}
 .nav-top h2{
@@ -61,7 +56,7 @@ nav{
 .nav-links{
   display:flex;
   justify-content:center;
-  gap:18px;
+  gap:20px;
   flex-wrap:wrap;
 }
 .nav-links a{
@@ -74,66 +69,85 @@ nav{
 
 /* ================= SEARCH ================= */
 .search-box{
-  max-width:420px;
-  margin:20px auto 0;
+  max-width:460px;
+  margin:24px auto 0;
+  padding:0 16px;
 }
 .search-box input{
   width:100%;
   padding:14px 18px;
   border-radius:30px;
   border:1px solid #ddd;
-  font-size:14px;
-  outline:none;
-  transition:.3s;
-}
-
-body.dark .search-box input{
-  background:#1e1e1e;
-  color:#fff;
-  border:1px solid #333;
 }
 
 /* ================= PRODUCTS ================= */
 .products-section{
-  max-width:1200px;
-  margin:20px auto 0;
-  padding:30px 16px;
+  max-width:1320px;
+  margin:30px auto 0;
+  padding:0 20px 40px;
   flex:1;
 }
-
 #products{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px;
+  grid-template-columns:1fr;
+  gap:28px;
+}
+@media(min-width:768px){
+  #products{grid-template-columns:repeat(2,1fr);}
+}
+@media(min-width:1024px){
+  #products{grid-template-columns:repeat(3,1fr);}
+}
+@media(min-width:1400px){
+  #products{grid-template-columns:repeat(4,1fr);}
 }
 
 .card{
   background:var(--card);
   padding:16px;
-  border-radius:20px;
+  border-radius:22px;
   box-shadow:0 10px 25px var(--shadow);
   display:flex;
   flex-direction:column;
-  transition:.35s;
+  animation:productFade .6s ease forwards;
+}
+@keyframes productFade{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
-.card img{
+.img-wrap{
+  position:relative;
+  overflow:hidden;
+  border-radius:14px;
+}
+.img-wrap img{
   width:100%;
   height:220px;
   object-fit:cover;
-  border-radius:14px;
   cursor:pointer;
+}
+.quick-view{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
   transition:.3s;
 }
-.card img:hover{
-  transform:scale(1.02);
+.img-wrap:hover .quick-view{opacity:1;}
+.quick-view span{
+  background:#fff;
+  padding:10px 18px;
+  border-radius:20px;
+  font-weight:600;
 }
 
 .card h3{margin:12px 0 4px;}
 .price{color:#a98467;font-weight:600;margin-bottom:8px;}
 .card p{font-size:14px;color:#888;margin-bottom:10px;}
-
-body.dark .card p{color:#bbb;}
 
 .card button{
   margin-top:auto;
@@ -144,53 +158,55 @@ body.dark .card p{color:#bbb;}
   color:#fff;
   font-weight:600;
   cursor:pointer;
-  transition:.25s;
-}
-.card button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 18px rgba(0,0,0,.25);
 }
 
-/* ================= CART ================= */
+/* ================= CART FLOAT ================= */
 .cart-float{
   position:fixed;
-  right:16px;
-  bottom:20px;
+  right:20px;
+  bottom:22px;
   background:var(--primary);
   color:#fff;
-  padding:14px 18px;
+  padding:14px 20px;
   border-radius:40px;
   font-weight:600;
   cursor:pointer;
   z-index:999;
 }
 
-/* ================= CART MODAL ================= */
+/* ================= CART MODAL (FIXED) ================= */
 #cartModal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.5);
+  background:rgba(0,0,0,.6);
   display:flex;
   align-items:center;
   justify-content:center;
   opacity:0;
   pointer-events:none;
+  z-index:2000;
 }
-#cartModal.active{opacity:1;pointer-events:auto;}
-
+#cartModal.active{
+  opacity:1;
+  pointer-events:auto;
+}
 .cart-box{
   background:var(--card);
-  width:92%;
+  width:90%;
   max-width:420px;
-  padding:20px;
-  border-radius:20px;
-  transition:.35s;
+  padding:22px;
+  border-radius:22px;
+  animation:cartPop .35s ease;
+}
+@keyframes cartPop{
+  from{transform:scale(.9);opacity:0}
+  to{transform:scale(1);opacity:1}
 }
 
 .cart-item{
   display:flex;
   justify-content:space-between;
-  margin-bottom:8px;
+  margin-bottom:10px;
 }
 .cart-item button{
   border:none;
@@ -198,7 +214,6 @@ body.dark .card p{color:#bbb;}
   color:red;
   cursor:pointer;
 }
-
 .total{font-weight:600;margin-top:10px;}
 .send-btn{
   width:100%;
@@ -211,6 +226,9 @@ body.dark .card p{color:#bbb;}
   font-weight:600;
 }
 
+/* lock scroll */
+body.cart-open{overflow:hidden;}
+
 /* ================= IMAGE POPUP ================= */
 #imgModal{
   position:fixed;
@@ -221,10 +239,9 @@ body.dark .card p{color:#bbb;}
   justify-content:center;
   opacity:0;
   pointer-events:none;
-  z-index:1000;
+  z-index:3000;
 }
 #imgModal.active{opacity:1;pointer-events:auto;}
-
 #imgModal img{
   max-width:90%;
   max-height:90%;
@@ -239,20 +256,18 @@ body.dark .card p{color:#bbb;}
   cursor:pointer;
 }
 
-/* ================= FOOTER ================= */
 footer{
   background:#1f1f1f;
   color:#ddd;
   text-align:center;
   padding:22px;
-  margin-top:auto;
 }
 </style>
 </head>
 
 <body>
 
-<nav data-aos="fade-down">
+<nav>
   <div class="nav-top"><h2>TheKrochet</h2></div>
   <div class="nav-links">
     <a href="index.html">Home</a>
@@ -263,7 +278,7 @@ footer{
   </div>
 </nav>
 
-<div class="search-box" data-aos="fade-up">
+<div class="search-box">
   <input type="text" id="searchInput" placeholder="Search products...">
 </div>
 
@@ -290,15 +305,6 @@ footer{
 
 <footer>© 2025 TheKrochet</footer>
 
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script>AOS.init({duration:800,once:true});</script>
-
-<script>
-if(localStorage.getItem("theme")==="dark"){
-  document.body.classList.add("dark");
-}
-</script>
-
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
@@ -316,6 +322,8 @@ const cartItems=document.getElementById("cartItems");
 const totalPrice=document.getElementById("totalPrice");
 const cartModal=document.getElementById("cartModal");
 const searchInput=document.getElementById("searchInput");
+const popupImg=document.getElementById("popupImg");
+const imgModal=document.getElementById("imgModal");
 
 let cart=[];
 let allProducts=[];
@@ -330,8 +338,13 @@ function renderProducts(list){
   productDiv.innerHTML="";
   list.forEach((p,i)=>{
     productDiv.innerHTML+=`
-      <div class="card" data-aos="fade-up" data-aos-delay="${i*80}">
-        <img src="${p.image}" onclick="openImg('${p.image}')">
+      <div class="card" style="animation-delay:${i*0.08}s">
+        <div class="img-wrap">
+          <img src="${p.image}" loading="lazy" onclick="openImg('${p.image}')">
+          <div class="quick-view" onclick="openImg('${p.image}')">
+            <span>Quick View</span>
+          </div>
+        </div>
         <h3>${p.name}</h3>
         <div class="price">₹${p.price}</div>
         <p>${p.description||""}</p>
@@ -344,7 +357,7 @@ searchInput.addEventListener("input",()=>{
   const q=searchInput.value.toLowerCase();
   renderProducts(allProducts.filter(p=>
     p.name.toLowerCase().includes(q) ||
-    (p.description||"").toLowerCase().includes(q)
+    (p.descriptioninha.description||"").toLowerCase().includes(q)
   ));
 });
 
@@ -354,6 +367,7 @@ function addToCart(name,price){
 }
 
 function openCart(){
+  document.body.classList.add("cart-open");
   cartItems.innerHTML="";
   let total=0;
   cart.forEach((p,i)=>{
@@ -368,12 +382,16 @@ function openCart(){
   cartModal.classList.add("active");
 }
 
+function closeCart(){
+  document.body.classList.remove("cart-open");
+  cartModal.classList.remove("active");
+}
+
 function removeItem(i){
   cart.splice(i,1);
   cartCount.innerText=cart.length;
   openCart();
 }
-function closeCart(){cartModal.classList.remove("active");}
 
 function sendToInstagram(){
   if(cart.length===0){alert("Cart empty");return;}
@@ -392,6 +410,17 @@ function openImg(src){
 function closeImg(){
   imgModal.classList.remove("active");
 }
+
+/* DARK MODE SYNC */
+function applyTheme(){
+  const theme=localStorage.getItem("theme");
+  if(theme==="dark") document.body.classList.add("dark");
+  else document.body.classList.remove("dark");
+}
+applyTheme();
+window.addEventListener("storage",e=>{
+  if(e.key==="theme") applyTheme();
+});
 </script>
 
 </body>
