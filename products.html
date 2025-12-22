@@ -5,288 +5,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Products | TheKrochet</title>
 
+<link rel="stylesheet" href="layout.css">
+<link rel="stylesheet" href="responsive.css">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --bg:#faf7f2;
-  --text:#2f2f2f;
-  --card:#ffffff;
-  --nav:#ffffff;
-  --shadow:rgba(0,0,0,0.08);
-  --primary:#d4a373; /* Theme Color */
-  --primary-dark:#b8895b;
-}
-body.dark{
-  --bg:#121212;
-  --text:#f1f1f1;
-  --card:#1e1e1e;
-  --nav:#1a1a1a;
-  --shadow:rgba(0,0,0,0.6);
-}
+/* Page Specific Styles */
+.img-wrap { position: relative; overflow: hidden; border-radius: 14px; margin-bottom: 12px; }
+.img-wrap img { width: 100%; height: 220px; object-fit: cover; cursor: pointer; }
+.price { color: var(--primary-dark); font-weight: 600; margin-bottom: 8px; }
 
-*{margin:0;padding:0;box-sizing:border-box;}
-body{
-  font-family:'Poppins',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-}
-
-/* NAVBAR */
-nav{
-  background:var(--nav);
-  box-shadow:0 6px 18px var(--shadow);
-  padding:16px 20px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  animation:navDrop .6s ease;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-@keyframes navDrop{
-  from{transform:translateY(-20px);opacity:0}
-  to{transform:translateY(0);opacity:1}
-}
-.nav-top{text-align:center;}
-.nav-top h2{font-family:'Playfair Display',serif;font-size:22px;}
-.nav-links{
-  display:flex;
-  justify-content:center;
-  gap:20px;
-  flex-wrap:wrap;
-}
-.nav-links a{text-decoration:none;color:var(--text);font-weight:500;}
-.nav-links a.active{color:var(--primary);}
-
-/* SEARCH */
-.search-box{
-  max-width:460px;
-  margin:24px auto 0;
-  padding:0 16px;
-}
-.search-box input{
-  width:100%;
-  padding:14px 18px;
-  border-radius:30px;
-  border:1px solid #ddd;
-  outline: none;
-}
-
-/* PRODUCTS */
-.products-section{
-  max-width:1320px;
-  margin:30px auto 0;
-  padding:0 20px 40px;
-  flex:1;
-}
-#products{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:28px;
-}
-@media(min-width:768px){#products{grid-template-columns:repeat(2,1fr);}}
-@media(min-width:1024px){#products{grid-template-columns:repeat(3,1fr);}}
-@media(min-width:1400px){#products{grid-template-columns:repeat(4,1fr);}}
-
-/* CARD */
-.card{
-  background:var(--card);
-  padding:16px;
-  border-radius:22px;
-  box-shadow:0 10px 25px var(--shadow);
-  display:flex;
-  flex-direction:column;
-  opacity:0;
-  transform:translateY(30px);
-  animation:fadeUp .6s ease forwards;
-}
-@keyframes fadeUp{to{opacity:1;transform:translateY(0);}}
-
-/* IMAGE + QUICK VIEW */
-.img-wrap{
-  position:relative;
-  overflow:hidden;
-  border-radius:14px;
-}
-.img-wrap img{
-  width:100%;
-  height:220px;
-  object-fit:cover;
-  cursor:pointer;
-}
-.quick-view{
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:0;
-  transition:.3s;
-}
-.img-wrap:hover .quick-view{opacity:1;}
-.quick-view span{
-  background:#fff;
-  padding:10px 18px;
-  border-radius:20px;
-  font-weight:600;
-  color: #333;
-}
-
-/* CONTENT */
-.card h3{margin:12px 0 4px;}
-.price{color:var(--primary-dark);font-weight:600;margin-bottom:8px;}
-.card p{font-size:14px;color:#888;margin-bottom:10px;}
-.card button{
-  margin-top:auto;
-  padding:12px;
-  border:none;
-  border-radius:14px;
-  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:#fff;
-  font-weight:600;
-  cursor:pointer;
-}
-
-/* CART FLOAT BUTTON */
-.cart-float{
-  position:fixed;
-  right:20px;
-  bottom:22px;
-  background:var(--primary);
-  color:#fff;
-  padding:14px 20px;
-  border-radius:40px;
-  cursor:pointer;
-  z-index: 999;
+/* Cart Floating Button */
+.cart-float {
+  position: fixed; right: 20px; bottom: 22px;
+  background: var(--primary); color: #fff; padding: 14px 20px;
+  border-radius: 40px; cursor: pointer; z-index: 999;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* CART MODAL & STYLING */
-#cartModal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.65);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:0;
-  pointer-events:none;
-  z-index: 10000;
-  transition: opacity 0.3s ease;
+/* Modal Styling */
+#cartModal, #imgModal {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; z-index: 10000; transition: opacity 0.3s;
 }
-#cartModal.active{opacity:1;pointer-events:auto;}
-
-.cart-box{
-  background:var(--card);
-  width:90%;
-  max-width:400px;
-  padding:25px;
-  border-radius:22px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-.cart-box h3 {
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
-    margin-bottom: 5px;
-    color: var(--text);
-}
-
-/* Individual Cart Item Style */
-.cart-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(150, 150, 150, 0.2);
-    font-size: 15px;
-    color: var(--text);
-}
-.cart-item button {
-    background: transparent;
-    color: #ff4d4d;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    margin-left: 10px;
-}
-
-/* Cart Action Buttons */
-.cart-actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 10px;
-}
-
-/* THEME MATCHED BUTTONS */
-.btn-insta {
-    flex: 1;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    text-align: center;
-}
-.btn-cancel {
-    flex: 1;
-    background: transparent;
-    color: var(--text);
-    border: 1px solid #ccc;
-    padding: 12px;
-    border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-}
-body.dark .btn-cancel { border-color: #555; }
-
-/* IMAGE POPUP */
-#imgModal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.90);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:0;
-  pointer-events:none;
-  z-index: 10001;
-}
-#imgModal.active{opacity:1;pointer-events:auto;}
-#imgModal img{max-width:90%;max-height:80%;border-radius:10px;}
-#imgModal span{
-  position:absolute;
-  top:20px;
-  right:25px;
-  font-size:35px;
-  color:#fff;
-  cursor:pointer;
-}
-
-footer{
-  background:#1f1f1f;
-  color:#ddd;
-  text-align:center;
-  padding:22px;
-  margin-top: auto;
-}
+#cartModal.active, #imgModal.active { opacity: 1; pointer-events: auto; }
+.cart-box { background: var(--card); width: 90%; max-width: 400px; padding: 25px; border-radius: 22px; }
+.cart-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+#popupImg { max-width: 90%; max-height: 80%; border-radius: 10px; }
 </style>
 </head>
 
 <body>
 
 <nav>
-  <div class="nav-top"><h2>TheKrochet</h2></div>
+  <div class="nav-top">
+      <h2>TheKrochet</h2>
+      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+  </div>
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="products.html" class="active">Products</a>
@@ -296,12 +52,12 @@ footer{
   </div>
 </nav>
 
-<div class="search-box">
+<div style="max-width:460px; margin:24px auto 0; padding:0 16px;">
   <input type="text" id="searchInput" placeholder="Search products...">
 </div>
 
-<div class="products-section">
-  <div id="products"></div>
+<div style="max-width:1320px; margin:0 auto; padding:20px;">
+  <div id="products" class="grid"></div>
 </div>
 
 <div class="cart-float" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</div>
@@ -309,22 +65,16 @@ footer{
 <div id="cartModal">
   <div class="cart-box">
     <h3>Your Cart</h3>
-    <div id="cartItems" style="max-height: 250px; overflow-y: auto;">
-        <p style="text-align:center; color:#888;">Cart is empty</p>
-    </div>
-    <div style="font-weight:bold; text-align:right; margin-top:5px; color:var(--text);">
-        Total: ₹<span id="totalPrice">0</span>
-    </div>
-    
-    <div class="cart-actions">
-        <button class="btn-cancel" onclick="closeCart()">Cancel</button>
-        <button class="btn-insta" onclick="sendToInstagram()">Send on Instagram</button>
+    <div id="cartItems" style="max-height: 250px; overflow-y: auto;"></div>
+    <div style="font-weight:bold; text-align:right; margin-top:10px;">Total: ₹<span id="totalPrice">0</span></div>
+    <div style="display:flex; gap:10px; margin-top:15px;">
+        <button class="btn-primary" style="background:transparent; color:var(--text); border:1px solid #ccc;" onclick="closeCart()">Cancel</button>
+        <button class="btn-primary" onclick="sendToInstagram()">Send to Instagram</button>
     </div>
   </div>
 </div>
 
-<div id="imgModal" onclick="closeImg()">
-  <span>&times;</span>
+<div id="imgModal" onclick="this.classList.remove('active')">
   <img id="popupImg">
 </div>
 
@@ -332,52 +82,45 @@ footer{
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="main.js"></script>
 
 <script>
-firebase.initializeApp({
-  apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
-  authDomain:"thekrochet-b3ca2.firebaseapp.com",
-  projectId:"thekrochet-b3ca2"
-});
-
-const db=firebase.firestore();
-const productDiv=document.getElementById("products");
-const cartCount=document.getElementById("cartCount");
-const cartItems=document.getElementById("cartItems");
-const totalPrice=document.getElementById("totalPrice");
-const cartModal=document.getElementById("cartModal");
-const imgModal=document.getElementById("imgModal");
-const popupImg=document.getElementById("popupImg");
+const db = firebase.firestore();
+const productDiv = document.getElementById("products");
+const cartCount = document.getElementById("cartCount");
+const cartItems = document.getElementById("cartItems");
+const totalPrice = document.getElementById("totalPrice");
+const cartModal = document.getElementById("cartModal");
+const imgModal = document.getElementById("imgModal");
+const popupImg = document.getElementById("popupImg");
 const searchInput = document.getElementById("searchInput");
 
-let cart=[];
-let allProducts=[]; 
+// 1. Initialize Cart with Persistence (LocalStorage)
+let cart = JSON.parse(localStorage.getItem('krochetCart')) || [];
+let allProducts = [];
+updateCartUI();
 
-/* LOAD PRODUCTS */
-db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
-  productDiv.innerHTML="";
+/* LOAD PRODUCTS FROM FIREBASE */
+db.collection("products").orderBy("createdAt","desc").onSnapshot(snap => {
+  productDiv.innerHTML = "";
   allProducts = [];
-  snap.forEach((doc,i)=>{
-    const p=doc.data();
+  snap.forEach((doc, i) => {
+    const p = doc.data();
     allProducts.push(p);
     renderProduct(p, i);
   });
 });
 
-/* RENDER */
 function renderProduct(p, i) {
-    productDiv.innerHTML+=`
-      <div class="card" style="animation-delay:${i*0.08}s">
+    productDiv.innerHTML += `
+      <div class="card" style="animation: fadeUp 0.6s ease forwards; animation-delay:${i*0.05}s; opacity:0; transform:translateY(20px);">
         <div class="img-wrap">
           <img src="${p.image}" loading="lazy" onclick="openImg('${p.image}')">
-          <div class="quick-view" onclick="openImg('${p.image}')">
-            <span>Quick View</span>
-          </div>
         </div>
         <h3>${p.name}</h3>
         <div class="price">₹${p.price}</div>
-        <p>${p.description||""}</p>
-        <button onclick="addToCart('${p.name}',${p.price})">Add to Cart</button>
+        <p style="font-size:14px; color:#888; margin-bottom:10px;">${p.description||""}</p>
+        <button class="btn-primary" style="width:100%" onclick="addToCart('${p.name}',${p.price})">Add to Cart</button>
       </div>`;
 }
 
@@ -390,89 +133,66 @@ searchInput.addEventListener("input", (e) => {
     else filtered.forEach((p, i) => renderProduct(p, i));
 });
 
-/* CART FUNCTIONS - NO ALERTS */
-function addToCart(name,price){
-  cart.push({name,price});
-  cartCount.innerText=cart.length;
-  // No Alert: Silent add
+/* CART FUNCTIONS */
+function addToCart(name, price) {
+  cart.push({name, price});
+  saveCart();
+  updateCartUI();
 }
 
-function openCart(){
-  cartItems.innerHTML="";
-  let total=0;
+function removeItem(i) {
+  cart.splice(i, 1);
+  saveCart();
+  updateCartUI();
+}
+
+function saveCart() {
+  localStorage.setItem('krochetCart', JSON.stringify(cart));
+}
+
+function updateCartUI() {
+  cartCount.innerText = cart.length;
+  cartItems.innerHTML = "";
+  let total = 0;
   
   if(cart.length === 0) {
-    cartItems.innerHTML = '<p style="text-align:center; color:#888; padding:20px;">Cart is empty.</p>';
+    cartItems.innerHTML = '<p style="text-align:center; color:#888;">Cart is empty.</p>';
   } else {
-    cart.forEach((p,i)=>{
-        total+=p.price;
-        cartItems.innerHTML+=`
+    cart.forEach((p, i) => {
+        total += p.price;
+        cartItems.innerHTML += `
         <div class="cart-item">
             <span>${p.name}</span>
             <div style="display:flex; align-items:center;">
                 <span style="font-weight:600; margin-right:10px;">₹${p.price}</span>
-                <button onclick="removeItem(${i})">✕</button>
+                <button style="color:red; border:none; background:none; cursor:pointer;" onclick="removeItem(${i})">✕</button>
             </div>
         </div>`;
     });
   }
-  
-  totalPrice.innerText=total;
-  cartModal.classList.add("active");
+  totalPrice.innerText = total;
 }
 
-function removeItem(i){
-  cart.splice(i,1);
-  cartCount.innerText=cart.length;
-  openCart();
-}
+function openCart() { cartModal.classList.add("active"); }
+function closeCart() { cartModal.classList.remove("active"); }
 
-function closeCart(){cartModal.classList.remove("active");}
-
-/* SEND TO INSTAGRAM - SILENT COPY & DIRECT OPEN */
+/* INSTAGRAM CHECKOUT */
 async function sendToInstagram() {
     if(cart.length === 0) return;
-    
     let msg = "Hello, I want to order:\n";
     let total = 0;
-    cart.forEach(p => {
-        msg += `- ${p.name}: ₹${p.price}\n`;
-        total += p.price;
-    });
+    cart.forEach(p => { msg += `- ${p.name}: ₹${p.price}\n`; total += p.price; });
     msg += `\nTotal: ₹${total}`;
     
-    // Silent Copy using Clipboard API
-    try {
-        await navigator.clipboard.writeText(msg);
-    } catch (err) {
-        console.error("Copy failed", err);
-    }
-
-    // Direct Redirect to Instagram Inbox
-    // User just has to PASTE there.
+    // Copy to clipboard
+    try { await navigator.clipboard.writeText(msg); } catch (err) {}
+    
+    // Open Instagram
     window.location.href = "https://www.instagram.com/direct/inbox/";
 }
 
-/* IMAGE POPUP */
-function openImg(src){
-  popupImg.src=src;
-  imgModal.classList.add("active");
-}
-function closeImg(){imgModal.classList.remove("active");}
-
-/* THEME */
-function applyTheme(){
-  if(localStorage.getItem("theme")==="dark")
-    document.body.classList.add("dark");
-  else
-    document.body.classList.remove("dark");
-}
-applyTheme();
-window.addEventListener("storage",e=>{
-  if(e.key==="theme") applyTheme();
-});
+function openImg(src) { popupImg.src = src; imgModal.classList.add("active"); }
 </script>
-
 </body>
 </html>
 
