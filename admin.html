@@ -1,235 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Admin Dashboard | TheKrochet</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel | TheKrochet</title>
 
-<!-- EXISTING CSS FILES (PRESERVED) -->
-<link rel="stylesheet" href="layout.css">
-<link rel="stylesheet" href="responsive.css">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<!-- FONTS -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --primary:#d4a373;
+      --dark:#2f2f2f;
+      --light:#faf7f2;
+    }
 
-<!-- ADMIN ONLY POLISH -->
-<style>
-/* admin only – does NOT break layout.css */
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
 
-.admin-container{
-  max-width:900px;
-  margin:40px auto;
-  padding:0 20px;
-}
+    body{
+      font-family:'Poppins',sans-serif;
+      background:var(--light);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
 
-.card{
-  animation:fadeUp .6s ease;
-}
+    nav{
+      background:#fff;
+      padding:15px 30px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      box-shadow:0 6px 18px rgba(0,0,0,.08);
+    }
 
-@keyframes fadeUp{
-  from{opacity:0; transform:translateY(15px)}
-  to{opacity:1; transform:translateY(0)}
-}
+    nav h2{
+      font-family:'Playfair Display',serif;
+      font-size:22px;
+    }
 
-.product-item{
-  transition:.3s;
-}
+    nav button{
+      background:none;
+      border:none;
+      cursor:pointer;
+      font-weight:500;
+      color:var(--dark);
+    }
 
-.product-item:hover{
-  transform:translateY(-3px);
-}
+    main{
+      flex:1;
+      max-width:520px;
+      margin:auto;
+      padding:30px 15px 50px;
+    }
 
-/* dark mode safety */
-body.dark .product-item,
-body.dark .card{
-  background:var(--card);
-}
+    .admin-card{
+      background:#fff;
+      padding:20px;
+      border-radius:20px;
+      margin-bottom:22px;
+      box-shadow:0 10px 25px rgba(0,0,0,.08);
+    }
 
-/* smoother buttons */
-.btn-icon,
-.btn-primary{
-  transition:.25s;
-}
-</style>
+    input,
+    textarea{
+      width:100%;
+      padding:14px;
+      margin-bottom:12px;
+      border-radius:14px;
+      border:1px solid #ddd;
+    }
+
+    .primary-btn{
+      width:100%;
+      padding:14px;
+      border:none;
+      border-radius:14px;
+      background:linear-gradient(135deg,#d4a373,#b8895b);
+      color:#fff;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    .product-card{
+      background:#faf7f2;
+      border-radius:16px;
+      padding:14px;
+      margin-bottom:12px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .edit{
+      background:#6b4f2c;
+      color:#fff;
+      padding:5px 10px;
+      border-radius:5px;
+      border:none;
+      margin-right:5px;
+      cursor:pointer;
+    }
+
+    .delete{
+      background:#e63939;
+      color:#fff;
+      padding:5px 10px;
+      border-radius:5px;
+      border:none;
+      cursor:pointer;
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- NAV (UNCHANGED STRUCTURE) -->
-<nav>
-  <div class="nav-top">
-      <h2>TheKrochet Admin</h2>
-      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-  </div>
-  <div class="nav-links">
-    <a href="index.html" target="_blank">View Live Site ↗</a>
-    <button onclick="logout()" class="logout-btn">Logout</button>
-  </div>
-</nav>
+  <nav>
+    <h2>TheKrochet</h2>
+    <div>
+      <a href="index.html">Home</a>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </nav>
 
-<!-- ADMIN CONTENT -->
-<div class="admin-container">
+  <main>
+    <div class="admin-card">
+      <h4 id="formTitle">Add Product</h4>
 
-  <!-- FORM CARD -->
-  <div class="card">
-    <div class="form-header">
-      <h3 id="formTitle">Manage Inventory</h3>
-      <p class="muted">Add new items or edit existing ones</p>
+      <input id="pname" placeholder="Product Name">
+      <input id="pprice" type="number" placeholder="Price (₹)">
+      <input id="pimage" placeholder="Image URL">
+      <textarea id="pdesc" placeholder="Short description"></textarea>
+
+      <button class="primary-btn" id="submitBtn">➕ Add Product</button>
     </div>
 
-    <div class="form-grid">
-
-      <div>
-        <label>Product Name</label>
-        <input id="pname" type="text" placeholder="White Crochet Bag">
-      </div>
-
-      <div class="form-row-2">
-        <div>
-          <label>Price (₹)</label>
-          <input id="pprice" type="number">
-        </div>
-        <div>
-          <label>Image URL</label>
-          <input id="pimage" type="text">
-        </div>
-      </div>
-
-      <div>
-        <label>Description</label>
-        <textarea id="pdesc" rows="3"></textarea>
-      </div>
-
-      <button class="btn-primary" id="submitBtn">➕ Add Product</button>
-
+    <div class="admin-card">
+      <h4>All Products</h4>
+      <div id="productList"></div>
     </div>
-  </div>
+  </main>
 
-  <!-- LIST CARD -->
-  <div class="card">
-    <h3>Current Products</h3>
-    <div id="productList">
-      <p class="muted center">Loading inventory...</p>
-    </div>
-  </div>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-</div>
+  <script>
+    firebase.initializeApp({
+      apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
+      authDomain:"thekrochet-b3ca2.firebaseapp.com",
+      projectId:"thekrochet-b3ca2"
+    });
 
-<!-- FIREBASE (PRESERVED) -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    let editId = null;
 
-<!-- YOUR MAIN JS (PRESERVED) -->
-<script src="main.js"></script>
+    auth.onAuthStateChanged(user => {
+      if(!user) location.href = "login.html";
+    });
 
-<script>
-/* ADMIN LOGIC ONLY – SAFE */
+    function logout(){
+      auth.signOut().then(() => location.href = "login.html");
+    }
 
-const auth = firebase.auth();
-const db = firebase.firestore();
-let editId = null;
+    const submitBtn = document.getElementById("submitBtn");
+    const pname = document.getElementById("pname");
+    const pprice = document.getElementById("pprice");
+    const pimage = document.getElementById("pimage");
+    const pdesc = document.getElementById("pdesc");
+    const formTitle = document.getElementById("formTitle");
 
-auth.onAuthStateChanged(user=>{
-  if(!user) location.href="login.html";
-});
+    submitBtn.onclick = async () => {
+      if(!pname.value || !pprice.value){
+        alert("Enter product name & price");
+        return;
+      }
 
-function logout(){
-  if(confirm("Logout?")){
-    auth.signOut().then(()=>location="login.html");
-  }
-}
+      const data = {
+        name: pname.value.trim(),
+        price: Number(pprice.value),
+        image: pimage.value.trim(),
+        description: pdesc.value.trim(),
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
 
-const pname = document.getElementById("pname");
-const pprice = document.getElementById("pprice");
-const pimage = document.getElementById("pimage");
-const pdesc = document.getElementById("pdesc");
-const submitBtn = document.getElementById("submitBtn");
-const formTitle = document.getElementById("formTitle");
+      if(editId){
+        await db.collection("products").doc(editId).update(data);
+        editId = null;
+        submitBtn.innerText = "➕ Add Product";
+        formTitle.innerText = "Add Product";
+      } else {
+        await db.collection("products").add(data);
+      }
 
-submitBtn.onclick = async ()=>{
-  if(!pname.value || !pprice.value || !pimage.value){
-    alert("Fill required fields");
-    return;
-  }
+      pname.value = "";
+      pprice.value = "";
+      pimage.value = "";
+      pdesc.value = "";
+    };
 
-  submitBtn.disabled = true;
-  submitBtn.innerText = "Processing...";
+    db.collection("products").orderBy("createdAt","desc").onSnapshot(snap => {
+      const list = document.getElementById("productList");
+      list.innerHTML = "";
 
-  const data={
-    name:pname.value.trim(),
-    price:Number(pprice.value),
-    image:pimage.value.trim(),
-    description:pdesc.value.trim(),
-    createdAt:firebase.firestore.FieldValue.serverTimestamp()
-  };
+      snap.forEach(doc => {
+        const p = doc.data();
 
-  if(editId){
-    await db.collection("products").doc(editId).update(data);
-    editId=null;
-    submitBtn.innerText="➕ Add Product";
-    formTitle.innerText="Manage Inventory";
-  }else{
-    await db.collection("products").add(data);
-  }
-
-  pname.value=pprice.value=pimage.value=pdesc.value="";
-  submitBtn.disabled=false;
-};
-
-db.collection("products").orderBy("createdAt","desc")
-.onSnapshot(snap=>{
-  const list=document.getElementById("productList");
-  list.innerHTML="";
-  snap.forEach(doc=>{
-    const p=doc.data();
-    list.innerHTML+=`
-      <div class="product-item">
-        <div class="p-left">
-          <img src="${p.image}" class="p-thumb">
-          <div class="p-info">
-            <h4>${p.name}</h4>
-            <span>₹${p.price}</span>
+        list.innerHTML += `
+          <div class="product-card">
+            <div>
+              <strong>${p.name}</strong><br>
+              <span>₹${p.price}</span>
+            </div>
+            <div>
+              <button class="edit"
+                onclick="editProduct('${doc.id}','${p.name}','${p.price}','${p.image}','${p.description || ""}')">
+                Edit
+              </button>
+              <button class="delete"
+                onclick="db.collection('products').doc('${doc.id}').delete()">
+                Del
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="actions">
-          <button class="btn-icon btn-edit"
-            onclick="editProduct('${doc.id}','${p.name}','${p.price}','${p.image}','${p.description||""}')">✏️</button>
-          <button class="btn-icon btn-delete"
-            onclick="deleteProduct('${doc.id}')">🗑</button>
-        </div>
-      </div>`;
-  });
-});
+        `;
+      });
+    });
 
-function editProduct(id,n,pr,img,desc){
-  editId=id;
-  pname.value=n;
-  pprice.value=pr;
-  pimage.value=img;
-  pdesc.value=desc;
-  formTitle.innerText="Editing: "+n;
-  submitBtn.innerText="💾 Save Changes";
-  scrollTo({top:0,behavior:"smooth"});
-}
+    function editProduct(id, name, price, image, desc){
+      editId = id;
+      pname.value = name;
+      pprice.value = price;
+      pimage.value = image;
+      pdesc.value = desc;
 
-function deleteProduct(id){
-  if(confirm("Delete product?")){
-    db.collection("products").doc(id).delete();
-  }
-}
+      submitBtn.innerText = "🔄 Update";
+      formTitle.innerText = "Update Product";
 
-/* DARK MODE – SAFE */
-function toggleTheme(){
-  document.body.classList.toggle("dark");
-  localStorage.setItem("theme",
-    document.body.classList.contains("dark")?"dark":"light");
-}
-
-if(localStorage.getItem("theme")==="dark"){
-  document.body.classList.add("dark");
-}
-</script>
+      window.scrollTo({ top:0, behavior:"smooth" });
+    }
+  </script>
 
 </body>
 </html>
