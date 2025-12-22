@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orders | TheKrochet Admin</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --primary:#d4a373;
+  --dark:#2f2f2f;
+  --light:#faf7f2;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--light);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ===== NAVBAR (SAME AS ADMIN) ===== */
+nav{
+  background:#fff;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  padding:16px 20px 14px;
+  text-align:center;
+  animation:fadeDown .6s ease forwards;
+}
+@keyframes fadeDown{
+  from{opacity:0;transform:translateY(-12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.nav-top h2{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+}
+.nav-links{
+  display:grid;
+  grid-auto-flow:column;
+  justify-content:center;
+  gap:22px;
+  margin-top:8px;
+}
+.nav-links a,
+.nav-links button{
+  text-decoration:none;
+  background:none;
+  border:none;
+  font-weight:500;
+  color:var(--dark);
+  cursor:pointer;
+}
+.nav-links a.active{
+  color:var(--primary);
+  border-bottom:2px solid var(--primary);
+  padding-bottom:2px;
+}
+
+/* ===== MAIN ===== */
+main{
+  max-width:600px;
+  margin:auto;
+  padding:30px 15px 60px;
+  flex:1;
+}
+.order-card{
+  background:#fff;
+  padding:20px;
+  border-radius:20px;
+  margin-bottom:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+.order-card h4{
+  margin-bottom:6px;
+}
+.order-card ul{
+  padding-left:18px;
+}
+.order-card li{
+  margin-bottom:4px;
+}
+.status{
+  margin-top:8px;
+  font-weight:600;
+  color:green;
+}
+.date{
+  font-size:13px;
+  color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ✅ 2-LINE ADMIN NAVBAR -->
+<nav>
+  <div class="nav-top">
+    <h2>TheKrochet</h2>
+  </div>
+  <div class="nav-links">
+    <a href="admin.html">Products</a>
+    <a href="orders.html" class="active">Orders</a>
+    <button onclick="logout()">Logout</button>
+  </div>
+</nav>
+
+<main>
+  <h3 style="margin-bottom:20px;">Orders</h3>
+  <div id="ordersList"></div>
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<script>
+firebase.initializeApp({
+  apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
+  authDomain:"thekrochet-b3ca2.firebaseapp.com",
+  projectId:"thekrochet-b3ca2"
+});
+
+const auth=firebase.auth();
+const db=firebase.firestore();
+
+/* AUTH CHECK */
+auth.onAuthStateChanged(user=>{
+  if(!user) location.href="login.html";
+});
+
+function logout(){
+  auth.signOut().then(()=>location.href="login.html");
+}
+
+const ordersList=document.getElementById("ordersList");
+
+/* LOAD ORDERS */
+db.collection("orders")
+  .orderBy("createdAt","desc")
+  .onSnapshot(snap=>{
+    ordersList.innerHTML="";
+    snap.forEach(doc=>{
+      const o=doc.data();
+      let items="";
+      o.items.forEach(i=>{
+        items+=`<li>${i.name} – ₹${i.price}</li>`;
+      });
+
+      ordersList.innerHTML+=`
+        <div class="order-card">
+          <h4>${o.customer.name} (IG: ${o.customer.instagram})</h4>
+          <ul>${items}</ul>
+          <p><strong>Total:</strong> ₹${o.total}</p>
+          <div class="date">
+            ${o.createdAt?.toDate().toLocaleString() || ""}
+          </div>
+          <div class="status">Status: ${o.status}</div>
+        </div>
+      `;
+    });
+  });
+</script>
+
+</body>
+</html>
