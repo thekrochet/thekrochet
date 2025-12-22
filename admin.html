@@ -163,7 +163,6 @@ footer{
     <h4 id="formTitle">Add Product</h4>
     <input id="pname" placeholder="Product Name">
     <input id="pprice" type="number" placeholder="Price (₹)">
-    <input id="pcategory" placeholder="Category (eg: accessories, bags)">
     <input id="pimage" placeholder="Image URL">
     <textarea id="pdesc" placeholder="Short description"></textarea>
     <button class="primary-btn" id="submitBtn">➕ Add Product</button>
@@ -204,15 +203,14 @@ function logout(){
 
 /* ADD / UPDATE */
 submitBtn.onclick=async()=>{
-  if(!pname.value||!pprice.value||!pcategory.value){
-    alert("Fill all required fields");
+  if(!pname.value||!pprice.value){
+    alert("Enter product name & price");
     return;
   }
 
   const data={
     name:pname.value.trim(),
     price:Number(pprice.value),
-    category:pcategory.value.trim().toLowerCase(),
     image:pimage.value.trim(),
     description:pdesc.value.trim(),
     createdAt:firebase.firestore.FieldValue.serverTimestamp()
@@ -229,7 +227,6 @@ submitBtn.onclick=async()=>{
 
   pname.value="";
   pprice.value="";
-  pcategory.value="";
   pimage.value="";
   pdesc.value="";
 };
@@ -245,11 +242,11 @@ db.collection("products")
       <div class="product-card">
         <div class="product-info">
           <strong>${p.name}</strong><br>
-          <span>₹${p.price} | ${p.category}</span>
+          <span>₹${p.price}</span>
         </div>
         <div class="product-actions">
           <button class="edit"
-            onclick="editProduct('${doc.id}','${p.name}','${p.price}','${p.category}','${p.image}','${p.description||""}')">
+            onclick="editProduct('${doc.id}','${p.name}','${p.price}','${p.image}','${p.description||""}')">
             Edit
           </button>
           <button class="delete"
@@ -263,11 +260,10 @@ db.collection("products")
 });
 
 /* EDIT */
-function editProduct(id,name,price,category,image,desc){
+function editProduct(id,name,price,image,desc){
   editId=id;
   pname.value=name;
   pprice.value=price;
-  pcategory.value=category;
   pimage.value=image;
   pdesc.value=desc;
   submitBtn.innerText="🔄 Update Product";
