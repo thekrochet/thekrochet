@@ -1,100 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reviews | TheKrochet</title>
-<link rel="stylesheet" href="layout.css">
-<link rel="stylesheet" href="responsive.css">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reviews | TheKrochet</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#faf7f2;
+      --text:#2f2f2f;
+      --card:#ffffff;
+      --nav:#ffffff;
+      --shadow:rgba(0,0,0,0.08);
+      --primary:#d4a373;
+    }
+
+    body.dark{
+      --bg:#121212;
+      --text:#f1f1f1;
+      --card:#1e1e1e;
+      --nav:#1a1a1a;
+      --shadow:rgba(0,0,0,0.6);
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:'Poppins',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    nav{
+      background:var(--nav);
+      box-shadow:0 6px 18px var(--shadow);
+      padding:14px 20px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .nav-top{
+      text-align:center;
+    }
+
+    .nav-top h2{
+      font-family:'Playfair Display',serif;
+      font-size:22px;
+    }
+
+    .nav-links{
+      display:flex;
+      justify-content:center;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .nav-links a{
+      text-decoration:none;
+      color:var(--text);
+      font-weight:500;
+    }
+
+    .nav-links a.active{
+      color:var(--primary);
+    }
+
+    header{
+      text-align:center;
+      padding:80px 20px 60px;
+      background:linear-gradient(135deg,#fefae0,#faedcd);
+    }
+
+    body.dark header{
+      background:linear-gradient(135deg,#1f1f1f,#2a2a2a);
+    }
+
+    header h1{
+      font-family:'Playfair Display',serif;
+      font-size:2.8rem;
+      margin-bottom:10px;
+    }
+
+    section{
+      padding:40px 20px;
+      max-width:1100px;
+      margin:auto;
+      text-align:center;
+    }
+
+    .add-review-btn{
+      padding:14px 26px;
+      border-radius:16px;
+      background:linear-gradient(135deg,#d4a373,#b8895b);
+      color:#fff;
+      font-weight:600;
+      border:none;
+      cursor:pointer;
+      margin-bottom:40px;
+    }
+
+    .review-form{
+      display:none;
+      max-width:500px;
+      margin:0 auto 50px;
+      background:var(--card);
+      padding:25px;
+      border-radius:22px;
+      box-shadow:0 10px 25px var(--shadow);
+    }
+
+    .review-form input,
+    .review-form textarea,
+    .review-form select{
+      width:100%;
+      padding:14px;
+      margin-bottom:12px;
+      border-radius:14px;
+      border:1px solid #ddd;
+    }
+
+    .review-form button{
+      width:100%;
+      padding:14px;
+      border-radius:14px;
+      border:none;
+      background:linear-gradient(135deg,#d4a373,#b8895b);
+      color:white;
+      font-weight:600;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:30px;
+    }
+
+    .card{
+      background:var(--card);
+      padding:26px;
+      border-radius:22px;
+      box-shadow:0 10px 25px var(--shadow);
+    }
+
+    .stars{
+      font-size:20px;
+      margin-bottom:10px;
+    }
+
+    footer{
+      background:#1f1f1f;
+      color:#ddd;
+      text-align:center;
+      padding:22px;
+      margin-top:auto;
+    }
+  </style>
 </head>
+
 <body>
 
-<nav data-aos="fade-down">
-  <div class="nav-top">
+  <nav data-aos="fade-down">
+    <div class="nav-top">
       <h2>TheKrochet</h2>
-      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-  </div>
-  <div class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="products.html">Products</a>
-    <a href="reviews.html" class="active">Reviews</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-  </div>
-</nav>
+    </div>
 
-<header class="page-header" data-aos="fade-up">
-  <h1>Customer Reviews</h1>
-  <p>Real words from happy customers 💛</p>
-</header>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="reviews.html" class="active">Reviews</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
 
-<section style="padding: 40px 20px; max-width: 1000px; margin: auto;">
-  <div style="text-align:center; margin-bottom:30px;">
-    <button class="btn-primary" onclick="toggleForm()" data-aos="zoom-in">➕ Add Your Review</button>
-  </div>
+  <header data-aos="fade-up">
+    <h1>Customer Reviews</h1>
+    <p>Real words from happy customers 💛</p>
+  </header>
 
-  <div id="reviewForm" class="card" style="display:none; max-width:500px; margin:0 auto 40px;">
-    <input id="name" placeholder="Your Name">
-    <select id="rating">
-      <option value="5">⭐⭐⭐⭐⭐ (5)</option>
-      <option value="4">⭐⭐⭐⭐ (4)</option>
-      <option value="3">⭐⭐⭐ (3)</option>
-    </select>
-    <textarea id="reviewText" placeholder="Write your review"></textarea>
-    <button class="btn-primary" onclick="addReview()" style="width:100%">Submit</button>
-  </div>
+  <section>
+    <button
+      class="add-review-btn"
+      onclick="toggleForm()"
+      data-aos="zoom-in"
+    >
+      ➕ Add Your Review
+    </button>
 
-  <div class="grid" id="reviewsGrid"></div>
-</section>
+    <div class="review-form" id="reviewForm" data-aos="fade-up">
+      <input id="name" placeholder="Your Name">
 
-<footer>© 2025 TheKrochet</footer>
+      <select id="rating">
+        <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+        <option value="4">⭐⭐⭐⭐ (4)</option>
+        <option value="3">⭐⭐⭐ (3)</option>
+      </select>
 
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script src="main.js"></script>
+      <textarea id="reviewText" placeholder="Write your review"></textarea>
 
-<script>
-const db = firebase.firestore();
-const grid = document.getElementById("reviewsGrid");
-const form = document.getElementById("reviewForm");
+      <button onclick="addReview()">Submit Review</button>
+    </div>
 
-function toggleForm(){
-  form.style.display = form.style.display === "block" ? "none" : "block";
-}
+    <div class="grid" id="reviewsGrid"></div>
+  </section>
 
-function addReview(){
-  const name = document.getElementById("name").value;
-  const rating = Number(document.getElementById("rating").value);
-  const text = document.getElementById("reviewText").value;
+  <footer>© 2025 TheKrochet</footer>
 
-  if(!name || !text){ alert("Please fill all fields"); return; }
+  <!-- Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
-  db.collection("reviews").add({
-    name, rating, text,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  });
+  <script>
+    if(localStorage.getItem("theme")==="dark"){
+      document.body.classList.add("dark");
+    }
 
-  document.getElementById("name").value = "";
-  document.getElementById("reviewText").value = "";
-  form.style.display = "none";
-}
+    AOS.init({
+      duration:900,
+      once:true
+    });
 
-db.collection("reviews").orderBy("createdAt","desc").onSnapshot(snap => {
-  grid.innerHTML = "";
-  snap.forEach(doc => {
-    const r = doc.data();
-    grid.innerHTML += `
-      <div class="card" data-aos="fade-up">
-        <div style="color:gold; font-size:20px; margin-bottom:10px;">${"⭐".repeat(r.rating)}</div>
-        <p>${r.text}</p>
-        <span style="font-size:13px; color:#999; display:block; margin-top:10px;">— ${r.name}</span>
-      </div>`;
-  });
-});
-</script>
+    firebase.initializeApp({
+      apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
+      authDomain:"thekrochet-b3ca2.firebaseapp.com",
+      projectId:"thekrochet-b3ca2"
+    });
+
+    const db = firebase.firestore();
+    const grid = document.getElementById("reviewsGrid");
+    const form = document.getElementById("reviewForm");
+
+    function toggleForm(){
+      form.style.display =
+        form.style.display === "block" ? "none" : "block";
+    }
+
+    function addReview(){
+      const name = document.getElementById("name").value;
+      const rating = Number(document.getElementById("rating").value);
+      const text = document.getElementById("reviewText").value;
+
+      if(!name || !text){
+        alert("Please fill all fields");
+        return;
+      }
+
+      db.collection("reviews").add({
+        name,
+        rating,
+        text,
+        createdAt:firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      document.getElementById("name").value = "";
+      document.getElementById("reviewText").value = "";
+      form.style.display = "none";
+    }
+
+    db.collection("reviews")
+      .orderBy("createdAt","desc")
+      .onSnapshot(snap => {
+        grid.innerHTML = "";
+
+        snap.forEach(doc => {
+          const r = doc.data();
+
+          grid.innerHTML += `
+            <div class="card" data-aos="fade-up">
+              <div class="stars">
+                ${"⭐".repeat(r.rating)}
+              </div>
+              <p>${r.text}</p>
+              <span style="font-size:13px;color:#a0a0a0">
+                — ${r.name}
+              </span>
+            </div>
+          `;
+        });
+      });
+  </script>
+
 </body>
 </html>
-
