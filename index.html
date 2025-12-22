@@ -167,28 +167,27 @@
     <h2 data-aos="fade-up">Welcome to TheKrochet</h2>
 
     <div class="grid">
-      <div class="card" data-aos="fade-up">
+
+      <!-- CUSTOM ORDER FIRST -->
+      <div
+        class="card"
+        data-aos="fade-up"
+        style="cursor:pointer;"
+        onclick="openCustomOrder()"
+      >
+        <h3>✨ Custom Orders</h3>
+        <p>Designed just for you</p>
+      </div>
+
+      <div class="card" data-aos="fade-up" data-aos-delay="120">
         <h3>🧶 Handmade Wearables</h3>
         <p>Soft & stylish crochet fashion</p>
       </div>
 
-      <div class="card" data-aos="fade-up" data-aos-delay="120">
+      <div class="card" data-aos="fade-up" data-aos-delay="240">
         <h3>🏡 Home Décor</h3>
         <p>Warm & elegant handmade pieces</p>
       </div>
-
-      <!-- ONLY THIS PART IS CHANGED -->
-      <a
-        href="https://ig.me/m/thekrochet_?text=I%20want%20to%20make%20custom%20order%20:-%20"
-        target="_blank"
-        style="text-decoration:none; color:inherit;"
-      >
-        <div class="card" data-aos="fade-up" data-aos-delay="240">
-          <h3>✨ Custom Orders</h3>
-          <p>Designed just for you</p>
-        </div>
-      </a>
-      <!-- END -->
 
     </div>
   </section>
@@ -215,6 +214,12 @@
 
     if(localStorage.getItem("theme")==="dark"){
       document.body.classList.add("dark");
+    }
+
+    function openCustomOrder(){
+      const message = "I want to make custom order and my need is ....";
+      navigator.clipboard.writeText(message);
+      window.open("https://www.instagram.com/direct/new/", "_blank");
     }
   </script>
 
