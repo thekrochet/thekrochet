@@ -2,34 +2,190 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Admin Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | TheKrochet</title>
+
 <link rel="stylesheet" href="layout.css">
+<link rel="stylesheet" href="responsive.css">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ================= ADMIN SPECIFIC STYLES ================= */
+
+/* Container */
+.admin-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Form Styles */
+.form-header {
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/* Labels */
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text);
+  opacity: 0.8;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Responsive Form: 2 columns on larger screens */
+@media (min-width: 600px) {
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+}
+
+/* Product List Item */
+.product-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: transform 0.2s;
+}
+
+.product-item:hover {
+  transform: translateX(5px);
+  border-color: var(--primary);
+}
+
+.p-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.p-thumb {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.p-info h4 {
+  font-size: 16px;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+.p-info span {
+  font-size: 14px;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+/* Action Buttons */
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: 0.2s;
+}
+
+.btn-edit { background: #e0f2fe; color: #0284c7; }
+.btn-edit:hover { background: #bae6fd; }
+
+.btn-delete { background: #fee2e2; color: #dc2626; }
+.btn-delete:hover { background: #fecaca; }
+
+/* Mobile Adjustments */
+@media (max-width: 480px) {
+  .product-item { flex-direction: column; align-items: flex-start; gap: 15px; }
+  .actions { width: 100%; justify-content: flex-end; }
+}
+</style>
 </head>
+
 <body>
 
 <nav>
-  <div class="nav-top"><h2>TheKrochet Admin</h2></div>
+  <div class="nav-top">
+      <h2>TheKrochet Admin</h2>
+      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+  </div>
   <div class="nav-links">
-    <a href="index.html" target="_blank">View Site</a>
-    <button onclick="logout()" style="background:none; border:none; cursor:pointer;">Logout</button>
+    <a href="index.html" target="_blank">View Live Site ↗</a>
+    <button onclick="logout()" style="background:none; border:none; cursor:pointer; color:red; font-weight:600;">Logout</button>
   </div>
 </nav>
 
-<div style="max-width:600px; margin:30px auto; padding:20px;">
-  
-  <div class="card" style="margin-bottom:30px;">
-    <h3 id="formTitle" style="margin-bottom:15px;">Add Product</h3>
-    <input id="pname" placeholder="Product Name">
-    <input id="pprice" type="number" placeholder="Price (₹)">
-    <input id="pimage" placeholder="Image URL">
-    <textarea id="pdesc" placeholder="Description"></textarea>
-    <button class="btn-primary" id="submitBtn" style="width:100%">➕ Add Product</button>
+<div class="admin-container">
+
+  <div class="card" style="margin-bottom: 30px;">
+    <div class="form-header">
+      <h3 id="formTitle">Manage Inventory</h3>
+      <p style="font-size:13px; color:#888;">Add new items or edit existing ones.</p>
+    </div>
+
+    <div class="form-grid">
+      
+      <div>
+        <label for="pname">Product Name</label>
+        <input id="pname" type="text" placeholder="e.g. White Crochet Handbag">
+      </div>
+
+      <div class="form-row-2">
+        <div>
+          <label for="pprice">Price (₹)</label>
+          <input id="pprice" type="number" placeholder="e.g. 999">
+        </div>
+        <div>
+          <label for="pimage">Image URL</label>
+          <input id="pimage" type="text" placeholder="https://...">
+        </div>
+      </div>
+
+      <div>
+        <label for="pdesc">Description</label>
+        <textarea id="pdesc" rows="3" placeholder="Short details about the product..."></textarea>
+      </div>
+
+      <button class="btn-primary" id="submitBtn" style="width:100%; margin-top:10px;">
+        ➕ Add Product
+      </button>
+
+    </div>
   </div>
 
   <div class="card">
-    <h3>All Products</h3>
-    <div id="productList" style="margin-top:15px;"></div>
+    <h3 style="margin-bottom: 20px;">Current Products</h3>
+    <div id="productList">
+      <p style="text-align:center; color:#888; padding:20px;">Loading inventory...</p>
+    </div>
   </div>
 
 </div>
@@ -40,13 +196,23 @@
 <script src="main.js"></script>
 
 <script>
+/* 1. SETUP */
 const auth = firebase.auth();
 const db = firebase.firestore();
-let editId = null;
+let editId = null; // Stores ID if we are editing
 
-auth.onAuthStateChanged(user => { if(!user) location.href="login.html"; });
-function logout(){ auth.signOut().then(()=>location.href="login.html"); }
+/* 2. AUTH CHECK */
+auth.onAuthStateChanged(user => { 
+  if(!user) window.location.href = "login.html"; 
+});
 
+function logout(){ 
+  if(confirm("Are you sure you want to logout?")) {
+    auth.signOut().then(() => window.location.href = "login.html");
+  }
+}
+
+/* 3. FORM HANDLING */
 const submitBtn = document.getElementById("submitBtn");
 const pname = document.getElementById("pname");
 const pprice = document.getElementById("pprice");
@@ -55,49 +221,99 @@ const pdesc = document.getElementById("pdesc");
 const formTitle = document.getElementById("formTitle");
 
 submitBtn.onclick = async() => {
-  if(!pname.value || !pprice.value) { alert("Enter name & price"); return; }
+  // Validation
+  if(!pname.value || !pprice.value || !pimage.value) { 
+    alert("Please fill in Name, Price, and Image URL"); 
+    return; 
+  }
+
+  submitBtn.innerText = "Processing...";
+  submitBtn.disabled = true;
+
   const data = {
     name: pname.value.trim(),
     price: Number(pprice.value),
     image: pimage.value.trim(),
     description: pdesc.value.trim(),
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    createdAt: firebase.firestore.FieldValue.serverTimestamp() // Keeps sorting correct
   };
 
-  if(editId){
-    await db.collection("products").doc(editId).update(data);
-    editId = null;
-    submitBtn.innerText = "➕ Add Product";
-    formTitle.innerText = "Add Product";
-  } else {
-    await db.collection("products").add(data);
+  try {
+    if(editId){
+      // Update existing
+      await db.collection("products").doc(editId).update(data);
+      alert("Product Updated Successfully!");
+      editId = null;
+      submitBtn.innerText = "➕ Add Product";
+      formTitle.innerText = "Manage Inventory";
+    } else {
+      // Create new
+      await db.collection("products").add(data);
+      alert("New Product Added!");
+    }
+    
+    // Clear Form
+    pname.value=""; pprice.value=""; pimage.value=""; pdesc.value="";
+    
+  } catch(error) {
+    alert("Error: " + error.message);
   }
-  pname.value=""; pprice.value=""; pimage.value=""; pdesc.value="";
+  
+  submitBtn.disabled = false;
+  if(!editId) submitBtn.innerText = "➕ Add Product";
 };
 
+/* 4. LOAD PRODUCTS LIST */
 db.collection("products").orderBy("createdAt","desc").onSnapshot(snap => {
   const list = document.getElementById("productList");
+  
+  if(snap.empty) {
+    list.innerHTML = "<p style='text-align:center; padding:20px; color:#888;'>No products found.</p>";
+    return;
+  }
+
   list.innerHTML = "";
   snap.forEach(doc => {
     const p = doc.data();
     list.innerHTML += `
-      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding:10px 0;">
-        <div>
-          <strong>${p.name}</strong><br>
-          <span style="color:green;">₹${p.price}</span>
+      <div class="product-item">
+        <div class="p-left">
+          <img src="${p.image}" class="p-thumb" onerror="this.src='https://via.placeholder.com/50'">
+          <div class="p-info">
+            <h4>${p.name}</h4>
+            <span>₹${p.price}</span>
+          </div>
         </div>
-        <div>
-          <button onclick="editProduct('${doc.id}','${p.name}','${p.price}','${p.image}','${p.description||""}')">✏️</button>
-          <button onclick="if(confirm('Delete?')) db.collection('products').doc('${doc.id}').delete()" style="color:red; margin-left:10px;">🗑</button>
+        <div class="actions">
+          <button class="btn-icon btn-edit" onclick="editProduct('${doc.id}', '${p.name}', '${p.price}', '${p.image}', '${p.description || ''}')" title="Edit">
+            ✏️
+          </button>
+          <button class="btn-icon btn-delete" onclick="deleteProduct('${doc.id}')" title="Delete">
+            🗑
+          </button>
         </div>
       </div>`;
   });
 });
 
-function editProduct(id,name,price,image,desc){
-  editId=id; pname.value=name; pprice.value=price; pimage.value=image; pdesc.value=desc;
-  submitBtn.innerText="🔄 Update"; formTitle.innerText="Update Product";
-  window.scrollTo({top:0, behavior:"smooth"});
+/* 5. EDIT & DELETE ACTIONS */
+function editProduct(id, name, price, image, desc){
+  editId = id;
+  pname.value = name;
+  pprice.value = price;
+  pimage.value = image;
+  pdesc.value = desc;
+  
+  // Visual cues
+  formTitle.innerText = "Editing: " + name;
+  submitBtn.innerText = "💾 Save Changes";
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function deleteProduct(id) {
+  if(confirm("Are you sure you want to delete this product? This cannot be undone.")) {
+    db.collection("products").doc(id).delete();
+  }
 }
 </script>
 </body>
