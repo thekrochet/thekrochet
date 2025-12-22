@@ -58,9 +58,24 @@ nav{
 .nav-links a.active,
 .nav-links a:hover{color:var(--primary);}
 
+/* 🔍 SEARCH */
+.search-box{
+  max-width:420px;
+  margin:20px auto 0;
+}
+.search-box input{
+  width:100%;
+  padding:14px 18px;
+  border-radius:30px;
+  border:1px solid #ddd;
+  font-size:14px;
+  outline:none;
+}
+
+/* PRODUCTS */
 .products-section{
   max-width:1200px;
-  margin:40px auto 0;
+  margin:20px auto 0;
   padding:30px 16px;
   flex:1;
 }
@@ -97,6 +112,7 @@ nav{
   cursor:pointer;
 }
 
+/* CART */
 .cart-float{
   position:fixed;
   right:16px;
@@ -174,6 +190,11 @@ footer{
   </div>
 </nav>
 
+<!-- 🔍 SEARCH -->
+<div class="search-box" data-aos="fade-up">
+  <input type="text" id="searchInput" placeholder="Search products...">
+</div>
+
 <div class="products-section">
   <div id="products"></div>
 </div>
@@ -219,13 +240,22 @@ const cartCount = document.getElementById("cartCount");
 const cartItems = document.getElementById("cartItems");
 const totalPrice = document.getElementById("totalPrice");
 const cartModal = document.getElementById("cartModal");
+const searchInput = document.getElementById("searchInput");
 
 let cart=[];
+let allProducts=[];
 
+/* FETCH PRODUCTS */
 db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
+  allProducts=[];
+  snap.forEach(doc=>allProducts.push(doc.data()));
+  renderProducts(allProducts);
+});
+
+/* RENDER */
+function renderProducts(list){
   productDiv.innerHTML="";
-  snap.forEach((doc,i)=>{
-    const p=doc.data();
+  list.forEach((p,i)=>{
     productDiv.innerHTML+=`
       <div class="card" data-aos="fade-up">
         <img src="${p.image}">
@@ -235,13 +265,23 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
         <button onclick="addToCart('${p.name}',${p.price})">Add to Cart</button>
       </div>`;
   });
+}
+
+/* SEARCH LOGIC */
+searchInput.addEventListener("input",()=>{
+  const q=searchInput.value.toLowerCase();
+  const filtered=allProducts.filter(p=>
+    p.name.toLowerCase().includes(q) ||
+    (p.description||"").toLowerCase().includes(q)
+  );
+  renderProducts(filtered);
 });
 
+/* CART */
 function addToCart(name,price){
   cart.push({name,price});
   cartCount.innerText=cart.length;
 }
-
 function openCart(){
   cartItems.innerHTML="";
   let total=0;
@@ -256,15 +296,12 @@ function openCart(){
   totalPrice.innerText=total;
   cartModal.classList.add("active");
 }
-
 function removeItem(i){
   cart.splice(i,1);
   cartCount.innerText=cart.length;
   openCart();
 }
-
 function closeCart(){cartModal.classList.remove("active");}
-
 function sendToInstagram(){
   if(cart.length===0){alert("Cart empty");return;}
   let msg="Hi 👋 I want to buy:\n\n";
