@@ -280,6 +280,37 @@ function closeCart(){cartModal.classList.remove("active");}
 function openImg(src){popupImg.src=src;imgModal.classList.add("active");}
 
 async function sendToInstagram(){
+  if(cart.length === 0) return;
+
+  let total = 0;
+  cart.forEach(p => total += p.price);
+
+  // 1️⃣ SAVE ORDER IN FIREBASE
+  try{
+    await db.collection("orders").add({
+      items: cart,
+      total: total,
+      status: "new",
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  }catch(e){
+    console.error("Order not saved", e);
+  }
+
+  // 2️⃣ COPY MESSAGE FOR INSTAGRAM
+  let msg = "Hello, I want to order:\n";
+  cart.forEach(p => {
+    msg += `- ${p.name}: ₹${p.price}\n`;
+  });
+  msg += `\nTotal: ₹${total}`;
+
+  try{
+    await navigator.clipboard.writeText(msg);
+  }catch(e){}
+
+  // 3️⃣ OPEN INSTAGRAM
+  window.location.href = "https://ig.me/m/thekrochet_";
+    } 
   if(cart.length===0) return;
   let msg="Hello, I want to order:\n";let total=0;
   cart.forEach(p=>{msg+=`- ${p.name}: ₹${p.price}\n`;total+=p.price;});
