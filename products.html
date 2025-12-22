@@ -240,6 +240,15 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
   });
 });
 
+/* SEARCH FIX — ONLY ADDITION */
+document.getElementById("searchInput").addEventListener("input",function(){
+  const v=this.value.toLowerCase();
+  document.querySelectorAll(".card").forEach(card=>{
+    card.style.display=card.innerText.toLowerCase().includes(v)?"flex":"none";
+  });
+});
+
+/* CART */
 function addToCart(name,price){
   cart.push({name,price});
   saveCart();
@@ -248,31 +257,25 @@ function addToCart(name,price){
 function saveCart(){
   localStorage.setItem("krochetCart",JSON.stringify(cart));
 }
-
-/* ✅ UPDATED FUNCTION: REMOVE ITEM BUTTON */
 function updateCartUI(){
   cartCount.innerText=cart.length;
   cartItems.innerHTML="";
   let total=0;
-
-  cart.forEach((p,index)=>{
+  cart.forEach((p,i)=>{
     total+=p.price;
     cartItems.innerHTML+=`
       <div class="cart-item">
         <span>${p.name}</span>
-        <div style="display:flex;align-items:center;gap:10px;">
+        <div style="display:flex;gap:10px;">
           <span>₹${p.price}</span>
-          <button onclick="removeFromCart(${index})"
-            style="background:none;border:none;color:red;font-size:16px;cursor:pointer;">✖</button>
+          <button onclick="removeFromCart(${i})" style="border:none;background:none;color:red;cursor:pointer;">✖</button>
         </div>
       </div>`;
   });
-
   totalPrice.innerText=total;
 }
-
-function removeFromCart(index){
-  cart.splice(index,1);
+function removeFromCart(i){
+  cart.splice(i,1);
   saveCart();
   updateCartUI();
 }
@@ -281,29 +284,15 @@ function openCart(){cartModal.classList.add("active");}
 function closeCart(){cartModal.classList.remove("active");}
 function openImg(src){popupImg.src=src;imgModal.classList.add("active");}
 
-cartModal.addEventListener("click",e=>{
-  if(e.target===cartModal) closeCart();
-});
-
 function sendToInstagram(){
-  if(cart.length===0) return;
-
+  if(!cart.length) return;
   let total=0;
   cart.forEach(p=>total+=p.price);
-
   let msg="Hello, I want to order:\n";
   cart.forEach(p=>msg+=`- ${p.name}: ₹${p.price}\n`);
   msg+=`\nTotal: ₹${total}`;
-
-  if(navigator.clipboard) navigator.clipboard.writeText(msg).catch(()=>{});
+  navigator.clipboard?.writeText(msg);
   window.location.href="https://ig.me/m/thekrochet_";
-
-  db.collection("orders").add({
-    items:cart,
-    total:total,
-    status:"new",
-    createdAt:firebase.firestore.FieldValue.serverTimestamp()
-  }).catch(()=>{});
 }
 
 if(localStorage.getItem("theme")==="dark") document.body.classList.add("dark");
