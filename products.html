@@ -10,29 +10,82 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
-/* Page Specific Styles */
+/* ================= PAGE SPECIFIC STYLES ================= */
+
+/* 1. PROFESSIONAL SEARCH BAR STYLE */
+.search-container {
+  max-width: 500px;
+  margin: 30px auto 20px;
+  padding: 0 20px;
+}
+
+.search-box {
+  background: #fff;
+  border-radius: 50px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* Soft shadow */
+  border: 1px solid #eee;
+  transition: all 0.3s ease;
+}
+
+.search-box:focus-within {
+  box-shadow: 0 6px 20px rgba(212, 163, 115, 0.25); /* Glow on click */
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.search-icon {
+  font-size: 18px;
+  margin-right: 12px;
+  opacity: 0.6;
+}
+
+#searchInput {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 16px;
+  color: var(--text);
+  background: transparent;
+  padding: 5px 0;
+  margin: 0;
+}
+
+/* 2. PRODUCT IMAGES */
 .img-wrap { position: relative; overflow: hidden; border-radius: 14px; margin-bottom: 12px; }
-.img-wrap img { width: 100%; height: 220px; object-fit: cover; cursor: pointer; }
+.img-wrap img { width: 100%; height: 220px; object-fit: cover; cursor: pointer; transition: transform 0.3s; }
+.img-wrap:hover img { transform: scale(1.03); }
 .price { color: var(--primary-dark); font-weight: 600; margin-bottom: 8px; }
 
-/* Cart Floating Button */
+/* 3. CART FLOATING BUTTON */
 .cart-float {
   position: fixed; right: 20px; bottom: 22px;
   background: var(--primary); color: #fff; padding: 14px 20px;
   border-radius: 40px; cursor: pointer; z-index: 999;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  font-weight: 600;
+  transition: transform 0.2s;
 }
+.cart-float:active { transform: scale(0.95); }
 
-/* Modal Styling */
+/* 4. MODALS */
 #cartModal, #imgModal {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+  position: fixed; inset: 0; background: rgba(0,0,0,0.75);
   display: flex; align-items: center; justify-content: center;
   opacity: 0; pointer-events: none; z-index: 10000; transition: opacity 0.3s;
 }
 #cartModal.active, #imgModal.active { opacity: 1; pointer-events: auto; }
-.cart-box { background: var(--card); width: 90%; max-width: 400px; padding: 25px; border-radius: 22px; }
-.cart-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
-#popupImg { max-width: 90%; max-height: 80%; border-radius: 10px; }
+
+.cart-box { 
+  background: var(--card); width: 90%; max-width: 400px; 
+  padding: 25px; border-radius: 22px; 
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+.cart-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; }
+
+#popupImg { max-width: 90%; max-height: 80%; border-radius: 10px; box-shadow: 0 10px 50px rgba(0,0,0,0.5); }
 </style>
 </head>
 
@@ -52,8 +105,11 @@
   </div>
 </nav>
 
-<div style="max-width:460px; margin:24px auto 0; padding:0 16px;">
-  <input type="text" id="searchInput" placeholder="Search products...">
+<div class="search-container">
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Search for handbags, decor...">
+  </div>
 </div>
 
 <div style="max-width:1320px; margin:0 auto; padding:20px;">
@@ -64,12 +120,17 @@
 
 <div id="cartModal">
   <div class="cart-box">
-    <h3>Your Cart</h3>
+    <h3 style="margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px;">Your Cart</h3>
+    
     <div id="cartItems" style="max-height: 250px; overflow-y: auto;"></div>
-    <div style="font-weight:bold; text-align:right; margin-top:10px;">Total: ₹<span id="totalPrice">0</span></div>
-    <div style="display:flex; gap:10px; margin-top:15px;">
-        <button class="btn-primary" style="background:transparent; color:var(--text); border:1px solid #ccc;" onclick="closeCart()">Cancel</button>
-        <button class="btn-primary" onclick="sendToInstagram()">Send to Instagram</button>
+    
+    <div style="font-weight:bold; text-align:right; margin-top:15px; font-size:18px;">
+      Total: ₹<span id="totalPrice">0</span>
+    </div>
+    
+    <div style="display:flex; gap:10px; margin-top:20px;">
+        <button class="btn-primary" style="background:transparent; color:var(--text); border:1px solid #ccc; flex:1;" onclick="closeCart()">Cancel</button>
+        <button class="btn-primary" style="flex:1;" onclick="sendToInstagram()">Send on Instagram</button>
     </div>
   </div>
 </div>
@@ -119,17 +180,17 @@ function renderProduct(p, i) {
         </div>
         <h3>${p.name}</h3>
         <div class="price">₹${p.price}</div>
-        <p style="font-size:14px; color:#888; margin-bottom:10px;">${p.description||""}</p>
+        <p style="font-size:14px; color:#888; margin-bottom:12px; line-height:1.4;">${p.description||""}</p>
         <button class="btn-primary" style="width:100%" onclick="addToCart('${p.name}',${p.price})">Add to Cart</button>
       </div>`;
 }
 
-/* SEARCH */
+/* SEARCH FUNCTION */
 searchInput.addEventListener("input", (e) => {
     const val = e.target.value.toLowerCase();
     productDiv.innerHTML = "";
     const filtered = allProducts.filter(p => p.name.toLowerCase().includes(val));
-    if(filtered.length === 0) productDiv.innerHTML = "<p style='text-align:center;'>No products found.</p>";
+    if(filtered.length === 0) productDiv.innerHTML = "<p style='text-align:center; width:100%; color:#888; margin-top:30px;'>No products found matching your search.</p>";
     else filtered.forEach((p, i) => renderProduct(p, i));
 });
 
@@ -138,6 +199,7 @@ function addToCart(name, price) {
   cart.push({name, price});
   saveCart();
   updateCartUI();
+  // Optional: Visual feedback could be added here
 }
 
 function removeItem(i) {
@@ -156,7 +218,7 @@ function updateCartUI() {
   let total = 0;
   
   if(cart.length === 0) {
-    cartItems.innerHTML = '<p style="text-align:center; color:#888;">Cart is empty.</p>';
+    cartItems.innerHTML = '<p style="text-align:center; color:#888; padding:20px;">Your cart is currently empty.</p>';
   } else {
     cart.forEach((p, i) => {
         total += p.price;
@@ -165,7 +227,7 @@ function updateCartUI() {
             <span>${p.name}</span>
             <div style="display:flex; align-items:center;">
                 <span style="font-weight:600; margin-right:10px;">₹${p.price}</span>
-                <button style="color:red; border:none; background:none; cursor:pointer;" onclick="removeItem(${i})">✕</button>
+                <button style="color:#ff4d4d; border:none; background:none; cursor:pointer; font-size:16px;" onclick="removeItem(${i})">✕</button>
             </div>
         </div>`;
     });
@@ -176,19 +238,29 @@ function updateCartUI() {
 function openCart() { cartModal.classList.add("active"); }
 function closeCart() { cartModal.classList.remove("active"); }
 
-/* INSTAGRAM CHECKOUT */
+/* INSTAGRAM CHECKOUT - FIXED */
 async function sendToInstagram() {
     if(cart.length === 0) return;
-    let msg = "Hello, I want to order:\n";
+    
+    // 1. Prepare the message
+    let msg = "Hello TheKrochet, I want to order:\n";
     let total = 0;
     cart.forEach(p => { msg += `- ${p.name}: ₹${p.price}\n`; total += p.price; });
     msg += `\nTotal: ₹${total}`;
     
-    // Copy to clipboard
-    try { await navigator.clipboard.writeText(msg); } catch (err) {}
+    // 2. Copy to clipboard
+    try { 
+      await navigator.clipboard.writeText(msg); 
+    } catch (err) {
+      console.error("Copy failed", err);
+    }
     
-    // Open Instagram
-    window.location.href = "https://www.instagram.com/direct/inbox/";
+    // 3. Alert the user so they know what to do
+    alert("✅ Order details copied!\n\nI will open Instagram now.\n👉 Please PASTE the message in the chat to send it.");
+    
+    // 4. Open specific DM using deep link
+    // This attempts to open the app directly to your user
+    window.location.href = "https://ig.me/m/thekrochet_";
 }
 
 function openImg(src) { popupImg.src = src; imgModal.classList.add("active"); }
