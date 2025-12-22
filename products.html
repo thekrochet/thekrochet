@@ -13,7 +13,6 @@
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 <style>
-/* ================= STEP 1 : DARK MODE VARIABLES ================= */
 :root{
   --bg:#faf7f2;
   --text:#2f2f2f;
@@ -22,7 +21,6 @@
   --shadow:rgba(0,0,0,0.08);
   --primary:#d4a373;
 }
-
 body.dark{
   --bg:#121212;
   --text:#f1f1f1;
@@ -31,64 +29,58 @@ body.dark{
   --shadow:rgba(0,0,0,0.6);
 }
 
-/* ================= BASE ================= */
+/* BASE */
 *{margin:0;padding:0;box-sizing:border-box;}
-
 body{
   font-family:'Poppins',sans-serif;
   background:var(--bg);
   color:var(--text);
-  transition:0.3s;
+  transition:.3s;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
 }
 
-/* ================= NAVBAR ================= */
+/* NAVBAR */
 nav{
   background:var(--nav);
-  padding:15px 30px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
   box-shadow:0 6px 18px var(--shadow);
+  padding:14px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
-
-nav h2{
+.nav-top{text-align:center;}
+.nav-top h2{
   font-family:'Playfair Display',serif;
   font-size:22px;
 }
-
-nav .links{
+.nav-links{
   display:flex;
+  justify-content:center;
   flex-wrap:wrap;
+  gap:18px;
 }
-
-nav a{
-  margin-left:20px;
+.nav-links a{
   text-decoration:none;
   color:var(--text);
   font-weight:500;
 }
+.nav-links a.active,
+.nav-links a:hover{color:var(--primary);}
 
-nav a.active,
-nav a:hover{color:var(--primary);}
-
-@media(max-width:768px){
-  nav{flex-direction:column;gap:10px;}
-  nav a{margin:6px 10px;}
-}
-
-/* ================= PRODUCTS ================= */
+/* PRODUCTS */
 .products-section{
   max-width:1200px;
   margin:40px auto 0;
   padding:30px 16px;
+  flex:1;
 }
-
 #products{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:24px;
 }
-
 .card{
   background:var(--card);
   padding:16px;
@@ -97,19 +89,15 @@ nav a:hover{color:var(--primary);}
   display:flex;
   flex-direction:column;
 }
-
 .card img{
   width:100%;
   height:220px;
   object-fit:cover;
   border-radius:14px;
-  cursor:zoom-in;
 }
-
 .card h3{margin:12px 0 4px;}
 .price{color:#a98467;font-weight:600;margin-bottom:8px;}
 .card p{font-size:14px;color:#888;margin-bottom:10px;}
-
 .card button{
   margin-top:auto;
   padding:12px;
@@ -118,116 +106,27 @@ nav a:hover{color:var(--primary);}
   background:linear-gradient(135deg,#d4a373,#b8895b);
   color:#fff;
   font-weight:600;
-  cursor:pointer;
 }
 
-/* ================= CART FLOAT ================= */
-.cart-float{
-  position:fixed;
-  right:16px;
-  bottom:20px;
-  background:var(--primary);
-  color:#fff;
-  padding:14px 18px;
-  border-radius:40px;
-  font-weight:600;
-  cursor:pointer;
-  z-index:999;
-}
-
-/* ================= CART MODAL ================= */
-#cartModal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.5);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:0;
-  pointer-events:none;
-}
-
-#cartModal.active{opacity:1;pointer-events:auto;}
-
-.cart-box{
-  background:var(--card);
-  width:92%;
-  max-width:420px;
-  padding:20px;
-  border-radius:20px;
-}
-
-.cart-item{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:8px;
-}
-
-.cart-item button{
-  border:none;
-  background:none;
-  color:red;
-  cursor:pointer;
-}
-
-.total{font-weight:600;margin-top:10px;}
-
-.send-btn{
-  width:100%;
-  margin-top:12px;
-  padding:12px;
-  border:none;
-  border-radius:14px;
-  background:#d4a373;
-  color:#fff;
-  font-weight:600;
-}
-
-/* ================= IMAGE POPUP ================= */
-#imageModal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.85);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:0;
-  pointer-events:none;
-  z-index:1001;
-}
-
-#imageModal.active{opacity:1;pointer-events:auto;}
-
-#imageModal img{
-  max-width:90%;
-  max-height:90%;
-  border-radius:18px;
-}
-
-.close{
-  position:absolute;
-  top:20px;
-  right:25px;
-  font-size:30px;
-  color:#fff;
-  cursor:pointer;
-}
-
-/* ================= FOOTER ================= */
+/* FOOTER */
 footer{
   background:#1f1f1f;
   color:#ddd;
   text-align:center;
   padding:22px;
+  margin-top:auto;
 }
 </style>
 </head>
 
 <body>
 
-<nav>
-  <h2>TheKrochet</h2>
-  <div class="links">
+<!-- NAVBAR -->
+<nav data-aos="fade-down">
+  <div class="nav-top">
+    <h2>TheKrochet</h2>
+  </div>
+  <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="products.html" class="active">Products</a>
     <a href="reviews.html">Reviews</a>
@@ -240,49 +139,24 @@ footer{
   <div id="products"></div>
 </div>
 
-<div class="cart-float" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</div>
-
-<div id="cartModal">
-  <div class="cart-box">
-    <h3>Your Cart</h3>
-    <div id="cartItems"></div>
-    <div class="total">Total: ₹<span id="totalPrice">0</span></div>
-    <button class="send-btn" onclick="sendToInstagram()">Send Order on Instagam</button>
-    <button class="send-btn" style="background:#ccc;color:#000" onclick="closeCart()">Cancel</button>
-  </div>
-</div>
-
-<div id="imageModal" onclick="closeImage()">
-  <span class="close">×</span>
-  <img id="popupImg">
-</div>
-
 <footer>© 2025 TheKrochet</footer>
 
 <!-- AOS -->
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>AOS.init({duration:800,once:true});</script>
 
+<!-- DARK MODE APPLY -->
+<script>
+if(localStorage.getItem("theme")==="dark"){
+  document.body.classList.add("dark");
+}
+</script>
+
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
-/* ================= STEP 3 : APPLY DARK MODE FROM INDEX ================= */
-const savedTheme = localStorage.getItem("theme");
-if(savedTheme === "dark"){
-  document.body.classList.add("dark");
-}
-
-window.addEventListener("storage",()=>{
-  if(localStorage.getItem("theme")==="dark"){
-    document.body.classList.add("dark");
-  }else{
-    document.body.classList.remove("dark");
-  }
-});
-
-/* FIREBASE INIT */
 firebase.initializeApp({
   apiKey: "AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
   authDomain: "thekrochet-b3ca2.firebaseapp.com",
@@ -291,16 +165,8 @@ firebase.initializeApp({
 
 const db = firebase.firestore();
 const productDiv = document.getElementById("products");
-const cartCount = document.getElementById("cartCount");
-const cartItems = document.getElementById("cartItems");
-const totalPrice = document.getElementById("totalPrice");
-const cartModal = document.getElementById("cartModal");
-const popupImg = document.getElementById("popupImg");
-const imageModal = document.getElementById("imageModal");
 
-let cart = [];
-
-/* PRODUCTS FETCH */
+/* ADMIN PRODUCTS FETCH */
 db.collection("products")
 .orderBy("createdAt","desc")
 .onSnapshot(snapshot=>{
@@ -309,54 +175,14 @@ db.collection("products")
     const p = doc.data();
     productDiv.innerHTML += `
       <div class="card" data-aos="fade-up" data-aos-delay="${i*80}">
-        <img src="${p.image}" onclick="openImage('${p.image}')">
+        <img src="${p.image}">
         <h3>${p.name}</h3>
         <div class="price">₹${p.price}</div>
         <p>${p.description || ""}</p>
-        <button onclick="addToCart('${p.name}',${p.price})">➕ Add to Cart</button>
+        <button>Add to Cart</button>
       </div>`;
   });
 });
-
-function addToCart(name,price){
-  cart.push({name,price});
-  cartCount.innerText = cart.length;
-}
-
-function openCart(){
-  cartItems.innerHTML="";
-  let total=0;
-  cart.forEach((p,i)=>{
-    total+=p.price;
-    cartItems.innerHTML+=`
-      <div class="cart-item">
-        <span>${p.name} – ₹${p.price}</span>
-        <button onclick="removeItem(${i})">✕</button>
-      </div>`;
-  });
-  totalPrice.innerText=total;
-  cartModal.classList.add("active");
-}
-
-function removeItem(i){
-  cart.splice(i,1);
-  cartCount.innerText=cart.length;
-  openCart();
-}
-
-function closeCart(){cartModal.classList.remove("active");}
-function openImage(src){popupImg.src=src;imageModal.classList.add("active");}
-function closeImage(){imageModal.classList.remove("active");}
-
-function sendToInstagram(){
-  if(cart.length===0){alert("Cart empty");return;}
-  let msg="Hi 👋 I want to buy:\n\n";
-  let total=0;
-  cart.forEach((p,i)=>{msg+=`${i+1}. ${p.name} – ₹${p.price}\n`;total+=p.price;});
-  msg+=`\nTotal: ₹${total}`;
-  navigator.clipboard.writeText(msg);
-  window.open("https://ig.me/m/thekrochet_","_blank");
-}
 </script>
 
 </body>
