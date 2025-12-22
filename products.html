@@ -42,7 +42,7 @@ nav{
   display:flex;
   flex-direction:column;
   gap:12px;
-  animation:navDrop .8s ease;
+  animation:navDrop .7s ease;
 }
 @keyframes navDrop{
   from{transform:translateY(-20px);opacity:0}
@@ -80,7 +80,7 @@ nav{
   border:1px solid #ddd;
 }
 
-/* ================= PRODUCTS ================= */
+/* ================= PRODUCTS GRID ================= */
 .products-section{
   max-width:1320px;
   margin:30px auto 0;
@@ -102,6 +102,7 @@ nav{
   #products{grid-template-columns:repeat(4,1fr);}
 }
 
+/* ================= PRODUCT CARD ================= */
 .card{
   background:var(--card);
   padding:16px;
@@ -109,11 +110,14 @@ nav{
   box-shadow:0 10px 25px var(--shadow);
   display:flex;
   flex-direction:column;
-  animation:productFade .6s ease forwards;
+  position:relative;
+
+  opacity:0;
+  transform:translateY(30px);
+  animation:fadeUp .6s ease forwards;
 }
-@keyframes productFade{
-  from{opacity:0;transform:translateY(30px)}
-  to{opacity:1;transform:translateY(0)}
+@keyframes fadeUp{
+  to{opacity:1;transform:translateY(0);}
 }
 
 .img-wrap{
@@ -127,6 +131,8 @@ nav{
   object-fit:cover;
   cursor:pointer;
 }
+
+/* QUICK VIEW */
 .quick-view{
   position:absolute;
   inset:0;
@@ -135,9 +141,13 @@ nav{
   align-items:center;
   justify-content:center;
   opacity:0;
+  pointer-events:none;
   transition:.3s;
 }
-.img-wrap:hover .quick-view{opacity:1;}
+.img-wrap:hover .quick-view{
+  opacity:1;
+  pointer-events:auto;
+}
 .quick-view span{
   background:#fff;
   padding:10px 18px;
@@ -160,7 +170,7 @@ nav{
   cursor:pointer;
 }
 
-/* ================= CART FLOAT ================= */
+/* ================= CART ================= */
 .cart-float{
   position:fixed;
   right:20px;
@@ -174,35 +184,26 @@ nav{
   z-index:999;
 }
 
-/* ================= CART MODAL (FIXED) ================= */
+/* ================= CART MODAL ================= */
 #cartModal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.6);
+  background:rgba(0,0,0,.55);
   display:flex;
   align-items:center;
   justify-content:center;
   opacity:0;
   pointer-events:none;
-  z-index:2000;
 }
-#cartModal.active{
-  opacity:1;
-  pointer-events:auto;
-}
+#cartModal.active{opacity:1;pointer-events:auto;}
+
 .cart-box{
   background:var(--card);
-  width:90%;
+  width:92%;
   max-width:420px;
   padding:22px;
   border-radius:22px;
-  animation:cartPop .35s ease;
 }
-@keyframes cartPop{
-  from{transform:scale(.9);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
-
 .cart-item{
   display:flex;
   justify-content:space-between;
@@ -225,9 +226,10 @@ nav{
   color:#fff;
   font-weight:600;
 }
-
-/* lock scroll */
-body.cart-open{overflow:hidden;}
+.cancel-btn{
+  background:#ccc;
+  color:#000;
+}
 
 /* ================= IMAGE POPUP ================= */
 #imgModal{
@@ -239,7 +241,7 @@ body.cart-open{overflow:hidden;}
   justify-content:center;
   opacity:0;
   pointer-events:none;
-  z-index:3000;
+  z-index:1000;
 }
 #imgModal.active{opacity:1;pointer-events:auto;}
 #imgModal img{
@@ -294,7 +296,7 @@ footer{
     <div id="cartItems"></div>
     <div class="total">Total: ₹<span id="totalPrice">0</span></div>
     <button class="send-btn" onclick="sendToInstagram()">Send on Instagram</button>
-    <button class="send-btn" style="background:#ccc;color:#000" onclick="closeCart()">Cancel</button>
+    <button class="send-btn cancel-btn" onclick="closeCart()">Cancel</button>
   </div>
 </div>
 
@@ -322,8 +324,8 @@ const cartItems=document.getElementById("cartItems");
 const totalPrice=document.getElementById("totalPrice");
 const cartModal=document.getElementById("cartModal");
 const searchInput=document.getElementById("searchInput");
-const popupImg=document.getElementById("popupImg");
 const imgModal=document.getElementById("imgModal");
+const popupImg=document.getElementById("popupImg");
 
 let cart=[];
 let allProducts=[];
@@ -357,7 +359,7 @@ searchInput.addEventListener("input",()=>{
   const q=searchInput.value.toLowerCase();
   renderProducts(allProducts.filter(p=>
     p.name.toLowerCase().includes(q) ||
-    (p.descriptioninha.description||"").toLowerCase().includes(q)
+    (p.description||"").toLowerCase().includes(q)
   ));
 });
 
@@ -365,9 +367,7 @@ function addToCart(name,price){
   cart.push({name,price});
   cartCount.innerText=cart.length;
 }
-
 function openCart(){
-  document.body.classList.add("cart-open");
   cartItems.innerHTML="";
   let total=0;
   cart.forEach((p,i)=>{
@@ -381,17 +381,12 @@ function openCart(){
   totalPrice.innerText=total;
   cartModal.classList.add("active");
 }
-
-function closeCart(){
-  document.body.classList.remove("cart-open");
-  cartModal.classList.remove("active");
-}
-
 function removeItem(i){
   cart.splice(i,1);
   cartCount.innerText=cart.length;
   openCart();
 }
+function closeCart(){cartModal.classList.remove("active");}
 
 function sendToInstagram(){
   if(cart.length===0){alert("Cart empty");return;}
