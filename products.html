@@ -27,19 +27,19 @@ body{
   flex-direction:column;
 }
 
-/* NAVBAR */
+/* NAVBAR (2 LINES) */
 nav{
   background:var(--nav);
   box-shadow:0 6px 18px var(--shadow);
   padding:16px 20px;
   display:flex;
   flex-direction:column;
-  gap:8px;
+  gap:6px;
   position:sticky;
   top:0;
   z-index:100;
 }
-.nav-top{text-align:center;margin-bottom:6px;}
+.nav-top{text-align:center;}
 .nav-top h2{font-family:'Playfair Display',serif;font-size:22px;}
 .nav-links{
   display:flex;
@@ -53,7 +53,10 @@ nav{
 /* SEARCH */
 .search-box{max-width:460px;margin:24px auto 0;padding:0 16px;}
 .search-box input{
-  width:100%;padding:14px 18px;border-radius:30px;border:1px solid #ddd;
+  width:100%;
+  padding:14px 18px;
+  border-radius:30px;
+  border:1px solid #ddd;
 }
 
 /* PRODUCTS */
@@ -76,32 +79,76 @@ nav{
 .card h3{margin:12px 0 4px;}
 .price{color:var(--primary-dark);font-weight:600;margin-bottom:8px;}
 .card button{
-  margin-top:auto;padding:12px;border:none;border-radius:14px;
+  margin-top:auto;
+  padding:12px;
+  border:none;
+  border-radius:14px;
   background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:#fff;font-weight:600;cursor:pointer;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
 }
 
 /* CART */
 .cart-float{
-  position:fixed;right:20px;bottom:22px;background:var(--primary);color:#fff;
-  padding:14px 20px;border-radius:40px;cursor:pointer;z-index:999;
+  position:fixed;
+  right:20px;
+  bottom:22px;
+  background:var(--primary);
+  color:#fff;
+  padding:14px 20px;
+  border-radius:40px;
+  cursor:pointer;
+  z-index:999;
 }
 #cartModal,#imgModal{
-  position:fixed;inset:0;background:rgba(0,0,0,.65);
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;transition:.3s;z-index:10000;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+  z-index:10000;
 }
 #cartModal.active,#imgModal.active{opacity:1;pointer-events:auto;}
 .cart-box{
-  background:var(--card);width:90%;max-width:400px;
-  padding:25px;border-radius:22px;
+  background:var(--card);
+  width:90%;
+  max-width:400px;
+  padding:25px;
+  border-radius:22px;
 }
 .cart-item{
-  display:flex;justify-content:space-between;
-  padding:10px 0;border-bottom:1px solid #eee;
+  display:flex;
+  justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid #eee;
 }
 body.dark .cart-item{border-bottom:1px solid rgba(255,255,255,.1);}
 #imgModal img{max-width:90%;max-height:80%;border-radius:10px;}
+
+.cart-box button{
+  padding:12px;
+  border-radius:12px;
+  font-weight:600;
+  cursor:pointer;
+}
+.cart-cancel{
+  background:transparent;
+  border:1px solid #aaa;
+  color:inherit;
+  flex:1;
+}
+.cart-send{
+  background:var(--primary);
+  color:#fff;
+  border:none;
+  flex:1;
+}
+
 footer{background:#1f1f1f;color:#ddd;text-align:center;padding:22px;margin-top:auto;}
 </style>
 </head>
@@ -137,13 +184,16 @@ footer{background:#1f1f1f;color:#ddd;text-align:center;padding:22px;margin-top:a
       Total: ₹<span id="totalPrice">0</span>
     </div>
     <div style="display:flex;gap:10px;margin-top:15px;">
-      <button onclick="closeCart()" style="background:transparent;border:1px solid #aaa;color:inherit;flex:1;">Cancel</button>
-      <button onclick="sendToInstagram()" style="background:var(--primary);color:#fff;border:none;flex:1;">Send on Instagram</button>
+      <button onclick="closeCart()" class="cart-cancel">Cancel</button>
+      <button onclick="sendToInstagram()" class="cart-send">Send on Instagram</button>
     </div>
   </div>
 </div>
 
-<div id="imgModal" onclick="this.classList.remove('active')"><img id="popupImg"></div>
+<div id="imgModal" onclick="this.classList.remove('active')">
+  <img id="popupImg">
+</div>
+
 <footer>© 2025 TheKrochet</footer>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -151,7 +201,7 @@ footer{background:#1f1f1f;color:#ddd;text-align:center;padding:22px;margin-top:a
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
 <script>
-AOS.init({ duration:900, once:true });
+AOS.init({duration:900,once:true});
 
 firebase.initializeApp({
   apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
@@ -235,7 +285,6 @@ async function sendToInstagram(){
   cart.forEach(p=>{msg+=`- ${p.name}: ₹${p.price}\n`;total+=p.price;});
   msg+=`\nTotal: ₹${total}`;
   try{await navigator.clipboard.writeText(msg);}catch(e){}
-  alert("Order copied! Paste it in Instagram.");
   window.location.href="https://ig.me/m/thekrochet_";
 }
 
