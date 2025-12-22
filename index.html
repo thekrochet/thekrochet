@@ -1,176 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="layout.css">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TheKrochet | Home</title>
-
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<!-- AOS -->
-<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-
-<style>
-:root{
-  --bg:#faf7f2;
-  --text:#2f2f2f;
-  --card:#ffffff;
-  --nav:#ffffff;
-  --shadow:rgba(0,0,0,0.08);
-  --primary:#d4a373;
-}
-body.dark{
-  --bg:#121212;
-  --text:#f1f1f1;
-  --card:#1e1e1e;
-  --nav:#1a1a1a;
-  --shadow:rgba(0,0,0,0.6);
-}
-
-*{margin:0;padding:0;box-sizing:border-box;}
-body{
-  font-family:'Poppins',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  transition:background-color .35s ease,color .35s ease;
-}
-
-/* GLOBAL SMOOTH */
-nav,header,section,.card,footer{
-  transition:background-color .35s ease,color .35s ease,box-shadow .35s ease;
-}
-
-/* NAVBAR */
-nav{
-  background:var(--nav);
-  box-shadow:0 6px 18px var(--shadow);
-  padding:14px 20px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-.nav-top{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:12px;
-}
-.nav-top h2{
-  font-family:'Playfair Display',serif;
-  font-size:22px;
-}
-.toggle{
-  border:1px solid var(--primary);
-  background:none;
-  border-radius:50%;
-  width:34px;
-  height:34px;
-  cursor:pointer;
-  font-size:16px;
-  color:var(--text);
-}
-.nav-links{
-  display:flex;
-  justify-content:center;
-  gap:18px;
-  flex-wrap:wrap;
-}
-.nav-links a{
-  text-decoration:none;
-  color:var(--text);
-  font-weight:500;
-}
-.nav-links a.active,
-.nav-links a:hover{color:var(--primary);}
-
-/* HERO */
-header{
-  text-align:center;
-  padding:70px 20px 50px;
-  background:linear-gradient(135deg,#fefae0,#faedcd);
-}
-body.dark header{
-  background:linear-gradient(135deg,#1f1f1f,#2a2a2a);
-}
-header::after{
-  content:"";
-  display:block;
-  height:20px;
-}
-header h2{
-  font-family:'Playfair Display',serif;
-  font-size:2.3rem;
-  margin-bottom:12px;
-}
-header p{
-  max-width:600px;
-  margin:auto;
-  font-size:15px;
-  color:#777;
-}
-
-/* SECTION */
-section{
-  padding:40px 20px 50px;
-  max-width:1200px;
-  margin:auto;
-  text-align:center;
-}
-.grid{
-  margin-top:30px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:26px;
-}
-.card{
-  background:var(--card);
-  padding:26px;
-  border-radius:22px;
-  box-shadow:0 10px 25px var(--shadow);
-}
-
-/* MOBILE POLISH */
-@media(max-width:480px){
-  header{
-    padding:45px 16px 35px;
-  }
-  header h2{
-    font-size:1.6rem;
-  }
-  section{
-    padding:30px 16px;
-  }
-  .grid{
-    gap:20px;
-  }
-  .card{
-    padding:22px;
-  }
-}
-
-/* FOOTER */
-footer{
-  background:#1f1f1f;
-  color:#ddd;
-  text-align:center;
-  padding:22px;
-  margin-top:auto;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TheKrochet | Home</title>
+  <link rel="stylesheet" href="layout.css">
+  <link rel="stylesheet" href="responsive.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 </head>
-
 <body>
 
-<!-- NAVBAR -->
 <nav data-aos="fade-down">
   <div class="nav-top">
     <h2>TheKrochet</h2>
-    <button class="toggle" onclick="toggleTheme()">🌙</button>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
   </div>
   <div class="nav-links">
     <a href="index.html" class="active">Home</a>
@@ -181,21 +25,15 @@ footer{
   </div>
 </nav>
 
-<!-- HERO -->
-<header>
-  <h2 data-aos="zoom-in">Handmade Crochet Creations</h2>
-  <p data-aos="fade-up" data-aos-delay="150">
-    Crafted with love, warmth, and timeless elegance.
-  </p>
+<header class="page-header">
+  <h1 data-aos="zoom-in">Handmade Crochet Creations</h1>
+  <p data-aos="fade-up" data-aos-delay="150">Crafted with love, warmth, and timeless elegance.</p>
 </header>
 
-<!-- CONTENT -->
-<section>
+<section style="padding: 40px 20px; max-width: 1200px; margin: auto; text-align: center;">
   <h2 data-aos="fade-up">Welcome to TheKrochet</h2>
-  <p data-aos="fade-up" data-aos-delay="120">
-    Premium handmade crochet products, carefully crafted with passion.
-  </p>
-
+  <p data-aos="fade-up" data-aos-delay="120">Premium handmade crochet products.</p>
+  
   <div class="grid">
     <div class="card" data-aos="fade-up">
       <h3>🧶 Handmade Wearables</h3>
@@ -214,23 +52,8 @@ footer{
 
 <footer>© 2025 TheKrochet</footer>
 
-<!-- AOS -->
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script>AOS.init({duration:900,once:true});</script>
-
-<!-- DARK MODE -->
-<script>
-function toggleTheme(){
-  document.body.classList.toggle("dark");
-  localStorage.setItem(
-    "theme",
-    document.body.classList.contains("dark") ? "dark" : "light"
-  );
-}
-if(localStorage.getItem("theme")==="dark"){
-  document.body.classList.add("dark");
-}
-</script>
-
+<script src="main.js"></script>
 </body>
 </html>
+
