@@ -1,251 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel | TheKrochet</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | TheKrochet</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <style>
-    :root{
-      --primary:#d4a373;
-      --dark:#2f2f2f;
-      --light:#faf7f2;
-    }
+<style>
+:root{
+  --primary:#d4a373;
+  --dark:#2f2f2f;
+  --light:#faf7f2;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--light);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
+/* ===== NAVBAR (2 LINE + ANIMATION) ===== */
+nav{
+  background:#fff;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  padding:16px 20px 14px;
+  text-align:center;
+  animation:fadeDown .6s ease forwards;
+}
+@keyframes fadeDown{
+  from{opacity:0;transform:translateY(-12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.nav-top h2{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+}
+.nav-links{
+  display:grid;
+  grid-auto-flow:column;
+  justify-content:center;
+  gap:22px;
+  margin-top:8px;
+}
+.nav-links a,
+.nav-links button{
+  text-decoration:none;
+  background:none;
+  border:none;
+  font-weight:500;
+  color:var(--dark);
+  cursor:pointer;
+}
+.nav-links a.active{
+  color:var(--primary);
+  border-bottom:2px solid var(--primary);
+  padding-bottom:2px;
+}
 
-    body{
-      font-family:'Poppins',sans-serif;
-      background:var(--light);
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-    }
-
-    nav{
-      background:#fff;
-      padding:15px 30px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      box-shadow:0 6px 18px rgba(0,0,0,.08);
-    }
-
-    nav h2{
-      font-family:'Playfair Display',serif;
-      font-size:22px;
-    }
-
-    nav button{
-      background:none;
-      border:none;
-      cursor:pointer;
-      font-weight:500;
-      color:var(--dark);
-    }
-
-    main{
-      flex:1;
-      max-width:520px;
-      margin:auto;
-      padding:30px 15px 50px;
-    }
-
-    .admin-card{
-      background:#fff;
-      padding:20px;
-      border-radius:20px;
-      margin-bottom:22px;
-      box-shadow:0 10px 25px rgba(0,0,0,.08);
-    }
-
-    input,
-    textarea{
-      width:100%;
-      padding:14px;
-      margin-bottom:12px;
-      border-radius:14px;
-      border:1px solid #ddd;
-    }
-
-    .primary-btn{
-      width:100%;
-      padding:14px;
-      border:none;
-      border-radius:14px;
-      background:linear-gradient(135deg,#d4a373,#b8895b);
-      color:#fff;
-      font-weight:600;
-      cursor:pointer;
-    }
-
-    .product-card{
-      background:#faf7f2;
-      border-radius:16px;
-      padding:14px;
-      margin-bottom:12px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-    }
-
-    .edit{
-      background:#6b4f2c;
-      color:#fff;
-      padding:5px 10px;
-      border-radius:5px;
-      border:none;
-      margin-right:5px;
-      cursor:pointer;
-    }
-
-    .delete{
-      background:#e63939;
-      color:#fff;
-      padding:5px 10px;
-      border-radius:5px;
-      border:none;
-      cursor:pointer;
-    }
-  </style>
+/* ===== MAIN ===== */
+main{
+  flex:1;
+  max-width:520px;
+  margin:auto;
+  padding:30px 15px 50px;
+}
+.admin-card{
+  background:#fff;
+  padding:20px;
+  border-radius:20px;
+  margin-bottom:22px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+input,textarea{
+  width:100%;
+  padding:14px;
+  margin-bottom:12px;
+  border-radius:14px;
+  border:1px solid #ddd;
+}
+.primary-btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(135deg,#d4a373,#b8895b);
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+}
+.product-card{
+  background:#faf7f2;
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.edit{
+  background:#6b4f2c;
+  color:#fff;
+  padding:5px 10px;
+  border-radius:5px;
+  border:none;
+  margin-right:5px;
+  cursor:pointer;
+}
+.delete{
+  background:#e63939;
+  color:#fff;
+  padding:5px 10px;
+  border-radius:5px;
+  border:none;
+  cursor:pointer;
+}
+</style>
 </head>
 
 <body>
 
-  <nav>
+<!-- ✅ UPDATED 2-LINE NAVBAR -->
+<nav>
+  <div class="nav-top">
     <h2>TheKrochet</h2>
-    <div>
-      <a href="index.html">Home</a>
-      <button onclick="logout()">Logout</button>
-    </div>
-  </nav>
+  </div>
+  <div class="nav-links">
+    <a href="admin.html" class="active">Products</a>
+    <a href="orders.html">Orders</a>
+    <button onclick="logout()">Logout</button>
+  </div>
+</nav>
 
-  <main>
-    <div class="admin-card">
-      <h4 id="formTitle">Add Product</h4>
+<main>
+  <div class="admin-card">
+    <h4 id="formTitle">Add Product</h4>
+    <input id="pname" placeholder="Product Name">
+    <input id="pprice" type="number" placeholder="Price (₹)">
+    <input id="pimage" placeholder="Image URL">
+    <textarea id="pdesc" placeholder="Short description"></textarea>
+    <button class="primary-btn" id="submitBtn">➕ Add Product</button>
+  </div>
 
-      <input id="pname" placeholder="Product Name">
-      <input id="pprice" type="number" placeholder="Price (₹)">
-      <input id="pimage" placeholder="Image URL">
-      <textarea id="pdesc" placeholder="Short description"></textarea>
+  <div class="admin-card">
+    <h4>All Products</h4>
+    <div id="productList"></div>
+  </div>
+</main>
 
-      <button class="primary-btn" id="submitBtn">➕ Add Product</button>
-    </div>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-    <div class="admin-card">
-      <h4>All Products</h4>
-      <div id="productList"></div>
-    </div>
-  </main>
+<script>
+firebase.initializeApp({
+  apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
+  authDomain:"thekrochet-b3ca2.firebaseapp.com",
+  projectId:"thekrochet-b3ca2"
+});
 
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+const auth=firebase.auth();
+const db=firebase.firestore();
+let editId=null;
 
-  <script>
-    firebase.initializeApp({
-      apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
-      authDomain:"thekrochet-b3ca2.firebaseapp.com",
-      projectId:"thekrochet-b3ca2"
-    });
+/* AUTH */
+auth.onAuthStateChanged(user=>{
+  if(!user) location.href="login.html";
+});
+function logout(){
+  auth.signOut().then(()=>location.href="login.html");
+}
 
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-    let editId = null;
+/* FORM */
+const submitBtn=document.getElementById("submitBtn");
+const pname=document.getElementById("pname");
+const pprice=document.getElementById("pprice");
+const pimage=document.getElementById("pimage");
+const pdesc=document.getElementById("pdesc");
+const formTitle=document.getElementById("formTitle");
 
-    auth.onAuthStateChanged(user => {
-      if(!user) location.href = "login.html";
-    });
+submitBtn.onclick=async()=>{
+  if(!pname.value||!pprice.value){
+    alert("Enter product name & price");
+    return;
+  }
+  const data={
+    name:pname.value.trim(),
+    price:Number(pprice.value),
+    image:pimage.value.trim(),
+    description:pdesc.value.trim(),
+    createdAt:firebase.firestore.FieldValue.serverTimestamp()
+  };
+  if(editId){
+    await db.collection("products").doc(editId).update(data);
+    editId=null;
+    submitBtn.innerText="➕ Add Product";
+    formTitle.innerText="Add Product";
+  }else{
+    await db.collection("products").add(data);
+  }
+  pname.value=""; pprice.value=""; pimage.value=""; pdesc.value="";
+};
 
-    function logout(){
-      auth.signOut().then(() => location.href = "login.html");
-    }
+/* PRODUCTS */
+db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
+  const list=document.getElementById("productList");
+  list.innerHTML="";
+  snap.forEach(doc=>{
+    const p=doc.data();
+    list.innerHTML+=`
+      <div class="product-card">
+        <div>
+          <strong>${p.name}</strong><br>
+          <span>₹${p.price}</span>
+        </div>
+        <div>
+          <button class="edit"
+            onclick="editProduct('${doc.id}','${p.name}','${p.price}','${p.image}','${p.description||""}')">
+            Edit
+          </button>
+          <button class="delete"
+            onclick="db.collection('products').doc('${doc.id}').delete()">
+            Del
+          </button>
+        </div>
+      </div>`;
+  });
+});
 
-    const submitBtn = document.getElementById("submitBtn");
-    const pname = document.getElementById("pname");
-    const pprice = document.getElementById("pprice");
-    const pimage = document.getElementById("pimage");
-    const pdesc = document.getElementById("pdesc");
-    const formTitle = document.getElementById("formTitle");
-
-    submitBtn.onclick = async () => {
-      if(!pname.value || !pprice.value){
-        alert("Enter product name & price");
-        return;
-      }
-
-      const data = {
-        name: pname.value.trim(),
-        price: Number(pprice.value),
-        image: pimage.value.trim(),
-        description: pdesc.value.trim(),
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-
-      if(editId){
-        await db.collection("products").doc(editId).update(data);
-        editId = null;
-        submitBtn.innerText = "➕ Add Product";
-        formTitle.innerText = "Add Product";
-      } else {
-        await db.collection("products").add(data);
-      }
-
-      pname.value = "";
-      pprice.value = "";
-      pimage.value = "";
-      pdesc.value = "";
-    };
-
-    db.collection("products").orderBy("createdAt","desc").onSnapshot(snap => {
-      const list = document.getElementById("productList");
-      list.innerHTML = "";
-
-      snap.forEach(doc => {
-        const p = doc.data();
-
-        list.innerHTML += `
-          <div class="product-card">
-            <div>
-              <strong>${p.name}</strong><br>
-              <span>₹${p.price}</span>
-            </div>
-            <div>
-              <button class="edit"
-                onclick="editProduct('${doc.id}','${p.name}','${p.price}','${p.image}','${p.description || ""}')">
-                Edit
-              </button>
-              <button class="delete"
-                onclick="db.collection('products').doc('${doc.id}').delete()">
-                Del
-              </button>
-            </div>
-          </div>
-        `;
-      });
-    });
-
-    function editProduct(id, name, price, image, desc){
-      editId = id;
-      pname.value = name;
-      pprice.value = price;
-      pimage.value = image;
-      pdesc.value = desc;
-
-      submitBtn.innerText = "🔄 Update";
-      formTitle.innerText = "Update Product";
-
-      window.scrollTo({ top:0, behavior:"smooth" });
-    }
-  </script>
+function editProduct(id,name,price,image,desc){
+  editId=id;
+  pname.value=name;
+  pprice.value=price;
+  pimage.value=image;
+  pdesc.value=desc;
+  submitBtn.innerText="🔄 Update";
+  formTitle.innerText="Update Product";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
 
 </body>
 </html>
