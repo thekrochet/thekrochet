@@ -20,6 +20,35 @@
   --accent: #a98467;
 }
 
+/* ================= STEP 1: DARK MODE ================= */
+body.dark {
+  background: #121212;
+  color: #e5e5e5;
+}
+
+body.dark nav,
+body.dark .card,
+body.dark footer {
+  background: #1e1e1e;
+  color: #e5e5e5;
+}
+
+body.dark header {
+  background: linear-gradient(135deg, #2a2a2a, #1c1c1c);
+}
+
+body.dark p,
+body.dark .section-text {
+  color: #bbb;
+}
+
+body.dark h1,
+body.dark h2,
+body.dark h3 {
+  color: #f1f1f1;
+}
+
+/* ================= BASE ================= */
 * {
   margin: 0;
   padding: 0;
@@ -128,7 +157,6 @@ section h2 {
 
 .card h3 {
   margin-bottom: 12px;
-  color: #3b2f23;
   font-size: 18px;
 }
 
@@ -168,7 +196,6 @@ footer {
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
 <nav data-aos="fade-down">
   <h2>TheKrochet</h2>
   <div>
@@ -180,7 +207,6 @@ footer {
   </div>
 </nav>
 
-<!-- ================= HERO ================= -->
 <header data-aos="fade-up">
   <h1>About TheKrochet</h1>
   <p>
@@ -189,87 +215,64 @@ footer {
   </p>
 </header>
 
-<!-- ================= CONTENT ================= -->
 <main>
-
 <section>
 
   <h2 data-aos="fade-up">Our Story</h2>
   <p class="section-text" data-aos="fade-up" data-aos-delay="100">
     TheKrochet was born from a deep love for handmade art and slow fashion.
     Every piece is thoughtfully crocheted by hand, celebrating creativity,
-    comfort, and individuality. We believe handmade products carry warmth,
-    emotion, and a story that machines can never replicate.
+    comfort, and individuality.
   </p>
 
   <div class="grid">
-
     <div class="card" data-aos="fade-up">
       <h3>🧶 Handmade with Love</h3>
-      <p>
-        Each creation is carefully crocheted stitch by stitch,
-        ensuring uniqueness, durability, and a personal touch.
-      </p>
+      <p>Each creation is carefully crocheted stitch by stitch.</p>
     </div>
 
     <div class="card" data-aos="fade-up" data-aos-delay="100">
       <h3>🌿 Quality Materials</h3>
-      <p>
-        We use premium yarns that are soft, skin-friendly,
-        and long-lasting to ensure comfort and beauty.
-      </p>
+      <p>Premium yarns that are soft and long-lasting.</p>
     </div>
 
     <div class="card" data-aos="fade-up" data-aos-delay="200">
       <h3>✨ Timeless Designs</h3>
-      <p>
-        Our designs blend traditional crochet techniques with
-        modern aesthetics, perfect for everyday wear and gifting.
-      </p>
+      <p>Traditional crochet with modern aesthetics.</p>
     </div>
 
     <div class="card" data-aos="fade-up">
       <h3>🎁 Custom Creations</h3>
-      <p>
-        We happily accept custom orders so you can own a piece
-        that perfectly matches your style and imagination.
-      </p>
+      <p>Custom orders made to your imagination.</p>
     </div>
 
     <div class="card" data-aos="fade-up" data-aos-delay="100">
       <h3>🤍 Slow Fashion</h3>
-      <p>
-        We support mindful shopping by creating fewer,
-        better-quality handmade products with care.
-      </p>
+      <p>Mindful shopping with handmade care.</p>
     </div>
 
     <div class="card" data-aos="fade-up" data-aos-delay="200">
       <h3>🌸 Made in India</h3>
-      <p>
-        Proudly handcrafted in India, supporting local
-        artistry and traditional skills.
-      </p>
+      <p>Proudly handcrafted in India.</p>
     </div>
-
   </div>
 
 </section>
-
 </main>
 
-<!-- ================= FOOTER ================= -->
 <footer data-aos="fade-up">
   © 2025 TheKrochet
 </footer>
 
-<!-- ================= AOS JS ================= -->
+<!-- AOS -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 900, once: true });</script>
+
+<!-- ================= STEP 3: APPLY DARK MODE ================= -->
 <script>
-AOS.init({
-  duration: 900,
-  once: true
-});
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark");
+}
 </script>
 
 </body>
