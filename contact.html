@@ -20,6 +20,29 @@
   --accent: #a98467;
 }
 
+/* ================= STEP 1: DARK MODE ================= */
+body.dark {
+  background: #121212;
+  color: #e5e5e5;
+}
+
+body.dark nav,
+body.dark .card,
+body.dark footer {
+  background: #1e1e1e;
+  color: #e5e5e5;
+}
+
+body.dark p,
+body.dark .subtitle {
+  color: #bbb;
+}
+
+body.dark a {
+  color: #d4a373;
+}
+
+/* ================= BASE ================= */
 * {
   margin: 0;
   padding: 0;
@@ -35,7 +58,7 @@ body {
   min-height: 100vh;
 }
 
-/* ================= NAVBAR (SAME AS PRODUCTS) ================= */
+/* ================= NAVBAR ================= */
 nav {
   background: #fff;
   padding: 15px 30px;
@@ -67,7 +90,6 @@ main {
   flex: 1;
 }
 
-/* ================= PAGE TITLE ================= */
 h1 {
   text-align: center;
   padding: 30px 10px 10px;
@@ -75,28 +97,24 @@ h1 {
   font-size: 2.8rem;
 }
 
-/* ================= SUBTITLE ================= */
 .subtitle {
   text-align: center;
   color: #555;
   margin-bottom: 40px;
 }
 
-/* ================= SECTION ================= */
 section {
   padding: 20px;
   max-width: 1100px;
   margin: auto;
 }
 
-/* ================= GRID ================= */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 30px;
 }
 
-/* ================= CARD ================= */
 .card {
   background: white;
   padding: 28px;
@@ -115,7 +133,6 @@ section {
   color: #555;
 }
 
-/* ================= BUTTON ================= */
 .card a {
   display: inline-block;
   margin-top: 18px;
@@ -128,11 +145,6 @@ section {
   font-size: 14px;
 }
 
-.card a:hover {
-  opacity: 0.9;
-}
-
-/* ================= FOOTER ================= */
 footer {
   background: #1f1f1f;
   color: #ddd;
@@ -147,12 +159,10 @@ footer {
     flex-direction: column;
     gap: 10px;
   }
-
   nav a {
     margin-left: 12px;
     font-size: 14px;
   }
-
   h1 {
     font-size: 2.2rem;
   }
@@ -162,7 +172,6 @@ footer {
 
 <body>
 
-<!-- ================= NAV ================= -->
 <nav data-aos="fade-down">
   <h2>TheKrochet</h2>
   <div>
@@ -174,7 +183,6 @@ footer {
   </div>
 </nav>
 
-<!-- ================= MAIN ================= -->
 <main>
   <h1 data-aos="fade-up">Contact Us</h1>
   <p class="subtitle" data-aos="fade-up" data-aos-delay="100">
@@ -212,18 +220,19 @@ footer {
   </section>
 </main>
 
-<!-- ================= FOOTER ================= -->
 <footer data-aos="fade-up">
   © 2025 TheKrochet | Instagram: @thekrochet_
 </footer>
 
-<!-- AOS JS -->
+<!-- AOS -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 900, once: true });</script>
+
+<!-- ================= STEP 3: APPLY DARK MODE ================= -->
 <script>
-AOS.init({
-  duration: 900,
-  once: true
-});
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark");
+}
 </script>
 
 </body>
