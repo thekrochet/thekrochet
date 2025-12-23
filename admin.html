@@ -6,6 +6,7 @@
 <title>Admin Panel | TheKrochet</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="responsive.css">
 
 <style>
 :root{
@@ -124,9 +125,11 @@ input,textarea{
   margin-bottom: 12px;
   border: 1px solid #eee;
   position: relative;
+  display: flex; /* For Desktop */
+  align-items: center;
 }
 
-.product-row { display: flex; gap: 15px; align-items: center; }
+.product-row { display: flex; gap: 15px; align-items: center; flex-grow: 1; }
 .slider-container { width: 50px; height: 50px; border-radius: 10px; overflow: hidden; position: relative; flex-shrink: 0; background: #eee; }
 .slider-img { width: 100%; height: 100%; object-fit: cover; position: absolute; opacity: 0; transition: opacity 0.5s; }
 .slider-img.active { opacity: 1; }
@@ -138,11 +141,6 @@ input,textarea{
 .edit { background: #6b4f2c; }
 .del { background: #e63939; }
 
-/* ===== MOBILE ===== */
-@media(max-width:480px){
-  main{padding:24px 12px 50px}
-  .nav-links{gap:14px}
-}
 </style>
 </head>
 
@@ -154,7 +152,8 @@ input,textarea{
   </div>
   <div class="nav-links">
     <a href="admin.html" class="active">Products</a>
-    <a href="admin-reviews.html">Reviews</a> <a href="orders.html">Orders</a>
+    <a href="admin-reviews.html">Reviews</a>
+    <a href="orders.html">Orders</a>
     <button onclick="logout()">Logout</button>
   </div>
 </nav>
