@@ -122,7 +122,6 @@ input,textarea{
 
 <body>
 
-<!-- ✅ UPDATED 2-LINE NAVBAR -->
 <nav>
   <div class="nav-top">
     <h2>TheKrochet</h2>
@@ -204,12 +203,16 @@ submitBtn.onclick=async()=>{
   pname.value=""; pprice.value=""; pimage.value=""; pdesc.value="";
 };
 
-/* PRODUCTS */
-db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
+/* PRODUCTS — FIXED (NO UI CHANGE) */
+db.collection("products").onSnapshot(snap=>{
   const list=document.getElementById("productList");
   list.innerHTML="";
-  snap.forEach(doc=>{
-    const p=doc.data();
+
+  const docs = snap.docs
+    .map(d => ({ id:d.id, ...d.data() }))
+    .sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+
+  docs.forEach(p=>{
     list.innerHTML+=`
       <div class="product-card">
         <div>
@@ -218,11 +221,11 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
         </div>
         <div>
           <button class="edit"
-            onclick="editProduct('${doc.id}','${p.name}','${p.price}','${p.image}','${p.description||""}')">
+            onclick="editProduct('${p.id}','${p.name}','${p.price}','${p.image}','${p.description||""}')">
             Edit
           </button>
           <button class="delete"
-            onclick="db.collection('products').doc('${doc.id}').delete()">
+            onclick="db.collection('products').doc('${p.id}').delete()">
             Del
           </button>
         </div>
