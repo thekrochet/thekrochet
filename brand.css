@@ -1,0 +1,96 @@
+/* =========================
+   THEKROCHET BRAND LAYER
+   (LOGIC SAFE – UI ONLY)
+========================= */
+
+:root{
+  --radius-xl:24px;
+  --radius-lg:18px;
+  --radius-md:14px;
+  --ease: cubic-bezier(.4,0,.2,1);
+}
+
+/* Smooth global feel */
+*{
+  transition:
+    background-color .35s var(--ease),
+    color .35s var(--ease),
+    box-shadow .35s var(--ease),
+    transform .35s var(--ease);
+}
+
+/* Typography rhythm */
+h1,h2,h3{
+  letter-spacing:.3px;
+}
+p{
+  line-height:1.7;
+}
+
+/* Cards – premium lift */
+.card{
+  will-change:transform;
+}
+.card:hover{
+  transform:translateY(-6px) scale(1.015);
+  box-shadow:0 18px 40px rgba(0,0,0,.12);
+}
+
+/* Buttons – tactile */
+button,
+.card a{
+  position:relative;
+  overflow:hidden;
+}
+button:active{
+  transform:scale(.97);
+}
+
+/* Modal animation */
+.modal{
+  backdrop-filter: blur(6px);
+}
+.modal.active .modal-box{
+  animation:modalIn .35s var(--ease) forwards;
+}
+@keyframes modalIn{
+  from{opacity:0;transform:scale(.96)}
+  to{opacity:1;transform:scale(1)}
+}
+
+/* Image popup smooth */
+#imgModal img{
+  animation:imgPop .4s var(--ease);
+}
+@keyframes imgPop{
+  from{opacity:0;transform:scale(.97)}
+  to{opacity:1;transform:scale(1)}
+}
+
+/* Inputs – calm premium */
+input,textarea,select{
+  outline:none;
+}
+input:focus,
+textarea:focus{
+  box-shadow:0 0 0 2px rgba(212,163,115,.25);
+}
+
+/* Admin cards */
+.admin-card,
+.order-card{
+  transition:transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.admin-card:hover,
+.order-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 14px 30px rgba(0,0,0,.12);
+}
+
+/* Mobile tap comfort */
+@media(max-width:768px){
+  button, a{
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
