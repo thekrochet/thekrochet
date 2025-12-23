@@ -21,8 +21,8 @@
   --shadow:rgba(0,0,0,0.08); --primary:#d4a373; --primary-dark:#b8895b;
   
   /* SUPER SMOOTH CUSTOM EASINGS */
-  --ease-spring: cubic-bezier(0.4, 0.0, 0.2, 1); /* Material Design Standard */
-  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); /* Physical Bounce */
+  --ease-spring: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 body.dark{
@@ -58,20 +58,14 @@ body{
   background:var(--card);
   color:var(--text);
   box-shadow: 0 4px 15px var(--shadow);
-  
-  /* Smooth transition for interaction */
   transition: all 0.4s var(--ease-spring);
   outline: none;
   transform-origin: center;
 }
-
-/* Search Hover Effect */
 .search-box:hover input{
   transform: translateY(-2px) scale(1.01);
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
-
-/* Search Focus Effect */
 .search-box input:focus{
   border-color: var(--primary);
   transform: translateY(-2px) scale(1.02);
@@ -91,7 +85,7 @@ body{
   gap:30px;
 }
 
-/* ===== CARD HOVER EFFECTS ===== */
+/* ===== CARD STYLES ===== */
 .card{
   background:var(--card);
   padding:16px;
@@ -101,38 +95,48 @@ body{
   flex-direction:column;
   overflow: hidden;
   position: relative;
-  
-  /* Entrance Animation Setup */
   opacity: 0;
   transform: translateY(40px);
   animation: cardEntrance 0.8s var(--ease-spring) forwards;
-  
-  /* The Hover Physics */
   transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring);
 }
+@keyframes cardEntrance { to { opacity: 1; transform: translateY(0); } }
 
-@keyframes cardEntrance {
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Card Hover State */
 .card:hover{
   transform: translateY(-12px);
   box-shadow: 0 25px 50px rgba(0,0,0,0.15);
 }
 
-.card img{
-  width:100%;
-  height:230px;
-  object-fit:cover;
-  border-radius:20px;
-  cursor:pointer;
+/* --- NEW SLIDER STYLES --- */
+.img-window {
+  width: 100%;
+  height: 230px;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.img-slider {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1); /* Smooth Slide */
+}
+
+.img-slider img {
+  min-width: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   transition: transform 0.6s var(--ease-spring);
 }
-/* Smooth Image Zoom */
-.card:hover img{
+
+/* Zoom effect on hover inside slider */
+.card:hover .img-slider img{
   transform: scale(1.05);
 }
+/* ------------------------- */
 
 .card h3{
   margin-top:16px;
@@ -140,9 +144,7 @@ body{
   font-weight: 600;
   transition: color 0.3s ease;
 }
-.card:hover h3{
-  color: var(--primary-dark);
-}
+.card:hover h3{ color: var(--primary-dark); }
 
 .price{
   color:var(--primary-dark);
@@ -174,9 +176,7 @@ body{
   box-shadow: 0 8px 25px rgba(212, 163, 115, 0.6);
   transform: scale(1.05);
 }
-.card button:active{
-  transform: scale(0.95);
-}
+.card button:active{ transform: scale(0.95); }
 
 /* ===== CART FLOAT ===== */
 .cart-float{
@@ -194,10 +194,7 @@ body{
   transition: all 0.3s var(--ease-spring);
   animation: floaty 4s ease-in-out infinite;
 }
-.cart-float:hover{ 
-  background: var(--primary-dark);
-  transform: scale(1.1);
-}
+.cart-float:hover{ background: var(--primary-dark); transform: scale(1.1); }
 .cart-float:active{ transform: scale(0.95); }
 
 @keyframes floaty {
@@ -211,73 +208,31 @@ body{
   100% { transform: scale(1); }
 }
 
-/* ===== MODALS (NEW SMOOTH ZOOM EFFECT) ===== */
+/* ===== MODALS ===== */
 .modal{
-  position:fixed;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:1000;
-  
-  /* Background Fade Logic */
-  background:rgba(0,0,0,0);
-  backdrop-filter: blur(0px);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
+  position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:1000;
+  background:rgba(0,0,0,0); backdrop-filter: blur(0px); opacity: 0; visibility: hidden; pointer-events: none;
   transition: opacity 0.4s ease, backdrop-filter 0.4s ease, visibility 0.4s;
 }
-
 .modal.active{
-  background:rgba(0,0,0,0.6);
-  backdrop-filter: blur(8px);
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
+  background:rgba(0,0,0,0.6); backdrop-filter: blur(8px); opacity: 1; visibility: visible; pointer-events: auto;
 }
-
 .modal-box{
-  background:var(--card);
-  width:90%;
-  max-width:420px;
-  padding:26px;
-  border-radius:30px;
-  box-shadow: 0 50px 100px -20px rgba(0,0,0,0.3);
-  
-  /* ZOOM IN ANIMATION */
-  opacity: 0;
-  transform: scale(0.8) translateY(20px);
+  background:var(--card); width:90%; max-width:420px; padding:26px; border-radius:30px;
+  box-shadow: 0 50px 100px -20px rgba(0,0,0,0.3); opacity: 0; transform: scale(0.8) translateY(20px);
   transition: all 0.5s var(--ease-bounce); 
 }
-
-/* Active State for Modal Box */
-.modal.active .modal-box{
-  opacity: 1;
-  transform: scale(1) translateY(0);
-}
+.modal.active .modal-box{ opacity: 1; transform: scale(1) translateY(0); }
 
 /* IMAGE POPUP SPECIFIC */
 #imgModal .modal-box{
-  max-width:95%;
-  background:transparent;
-  box-shadow:none;
-  padding: 0;
-  transform: scale(0.9);
+  max-width:95%; background:transparent; box-shadow:none; padding: 0; transform: scale(0.9);
 }
-#imgModal.active .modal-box{
-  transform: scale(1);
-}
-
+#imgModal.active .modal-box{ transform: scale(1); }
 #imgModal img{
-  width:100%;
-  max-height:85vh;
-  object-fit:contain;
-  border-radius:24px;
-  box-shadow: 0 25px 80px rgba(0,0,0,0.6);
+  width:100%; max-height:85vh; object-fit:contain; border-radius:24px; box-shadow: 0 25px 80px rgba(0,0,0,0.6);
 }
 
-/* FORM STYLES */
 .modal-box h3{ text-align:center; margin-bottom:18px; font-size:1.4rem; }
 .form-group{margin-bottom:16px}
 .form-group label{
@@ -289,36 +244,24 @@ body{
   transition: 0.3s var(--ease-spring); outline:none;
 }
 .modal-box input:focus{
-  border-color: var(--primary);
-  background: var(--card);
-  box-shadow: 0 0 0 4px rgba(212, 163, 115, 0.15);
+  border-color: var(--primary); background: var(--card); box-shadow: 0 0 0 4px rgba(212, 163, 115, 0.15);
 }
-
 .cart-item{ display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #eee; align-items:center; }
-
 .modal-actions{ display:flex; gap:12px; margin-top:20px; }
 .modal-actions button{
-  flex:1; padding:14px; border-radius:16px; border:none;
-  cursor:pointer; font-size:14px; transition: 0.3s var(--ease-spring);
+  flex:1; padding:14px; border-radius:16px; border:none; cursor:pointer; font-size:14px; transition: 0.3s var(--ease-spring);
 }
 .modal-actions button:active{ transform: scale(0.95); }
-
 .cancel{ background:#eee; color:#555; font-weight:500; }
 .cancel:hover{ background:#ddd; }
-
 .primary{
-  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:#fff; font-weight:600;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:#fff; font-weight:600;
   box-shadow: 0 4px 15px rgba(212, 163, 115, 0.4);
 }
 .primary:hover{ 
-  box-shadow: 0 8px 25px rgba(212, 163, 115, 0.5); 
-  transform:translateY(-2px); 
+  box-shadow: 0 8px 25px rgba(212, 163, 115, 0.5); transform:translateY(-2px); 
 }
-
-footer{
-  background:#1f1f1f; color:#ddd; text-align:center; padding:22px; margin-top:auto;
-}
+footer{ background:#1f1f1f; color:#ddd; text-align:center; padding:22px; margin-top:auto; }
 </style>
 </head>
 
@@ -426,10 +369,16 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
     const sid="s"+Math.random().toString(36).slice(2);
     let i=0;
 
-    // Stagger animation
+    // Create all img tags for the slider
+    const imgHtml = imgs.map(url => `<img src="${url}">`).join('');
+
     productsDiv.innerHTML+=`
       <div class="card" style="animation-delay: ${index * 80}ms">
-        <img id="${sid}" src="${imgs[0]}" onclick='openImg(${JSON.stringify(imgs)})'>
+        <div class="img-window" onclick='openImg(${JSON.stringify(imgs)})'>
+            <div id="${sid}" class="img-slider">
+                ${imgHtml}
+            </div>
+        </div>
         <h3>${p.name}</h3>
         <div class="price">₹${p.price}</div>
         <p>${p.description||""}</p>
@@ -438,16 +387,17 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
       
     index++; 
 
+    // AUTO SCROLL LOGIC
     setInterval(()=>{
       if(document.querySelector(".modal.active")) return;
       if(imgs.length>1){
         i=(i+1)%imgs.length;
-        const el=document.getElementById(sid);
-        if(!el) return;
-        el.style.opacity="0";
-        setTimeout(()=>{ el.src=imgs[i]; el.style.opacity="1"; },350);
+        const slider=document.getElementById(sid);
+        if(!slider) return;
+        // Shift the slider using translateX
+        slider.style.transform=`translateX(-${i * 100}%)`;
       }
-    },1700);
+    },2500); // 2.5s per slide
   });
 });
 
@@ -466,7 +416,6 @@ function openImg(imgs){
   },1700);
 }
 function closeImg(e){
-  // Check if clicked strictly on the background (id=imgModal)
   if(e.target.id==="imgModal"){
     imgModal.classList.remove("active");
     clearInterval(popupTimer);
@@ -479,9 +428,8 @@ searchInput.addEventListener("input",()=>{
   document.querySelectorAll(".card").forEach(c=>{
     if(c.innerText.toLowerCase().includes(v)){
       c.style.display="flex";
-      // Reset animation for search results
       c.style.animation = 'none';
-      c.offsetHeight; /* trigger reflow */
+      c.offsetHeight; 
       c.style.animation = 'cardEntrance 0.5s var(--ease-spring) forwards';
     } else {
       c.style.display="none";
@@ -494,9 +442,8 @@ function addToCart(name,price){
   cart.push({name,price});
   localStorage.setItem("krochetCart",JSON.stringify(cart));
   
-  // Bump Animation
   cartFloat.classList.remove("cart-bump");
-  void cartFloat.offsetWidth; // trigger reflow
+  void cartFloat.offsetWidth; 
   cartFloat.classList.add("cart-bump");
   
   updateCart();
@@ -553,6 +500,3 @@ updateCart();
 
 </body>
 </html>
-
-  
-
