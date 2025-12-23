@@ -5,11 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Panel | TheKrochet</title>
 
-<!-- FONTS -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<!-- BRAND MASTER -->
-<link rel="stylesheet" href="brand.css">
 
 <style>
 :root{
@@ -32,13 +28,13 @@ body{
   flex-direction:column;
 }
 
-/* ================= NAVBAR ================= */
+/* ===== NAVBAR ===== */
 nav{
   background:#fff;
   box-shadow:0 6px 18px var(--shadow);
   padding:16px 20px 14px;
   text-align:center;
-  animation:navDrop .45s ease forwards;
+  animation:navDrop .5s ease forwards;
 }
 @keyframes navDrop{
   from{opacity:0;transform:translateY(-12px)}
@@ -48,11 +44,12 @@ nav{
 .nav-top h2{
   font-family:'Playfair Display',serif;
   font-size:22px;
-  letter-spacing:.4px;
+  letter-spacing:.5px;
 }
 
 .nav-links{
-  display:flex;
+  display:grid;
+  grid-auto-flow:column;
   justify-content:center;
   gap:22px;
   margin-top:10px;
@@ -82,7 +79,7 @@ nav{
   background:var(--primary);
 }
 
-/* ================= MAIN ================= */
+/* ===== MAIN ===== */
 main{
   flex:1;
   max-width:560px;
@@ -90,11 +87,11 @@ main{
   padding:30px 16px 60px;
 }
 
-/* ================= CARD ================= */
+/* ===== CARD ===== */
 .admin-card{
   background:var(--card);
-  padding:24px;
-  border-radius:24px;
+  padding:22px;
+  border-radius:22px;
   margin-bottom:26px;
   box-shadow:0 10px 25px var(--shadow);
   animation:cardFade .4s ease forwards;
@@ -106,10 +103,10 @@ main{
 
 .admin-card h4{
   font-weight:600;
-  margin-bottom:16px;
+  margin-bottom:14px;
 }
 
-/* ================= INPUTS ================= */
+/* ===== INPUTS ===== */
 input,textarea{
   width:100%;
   padding:14px;
@@ -117,16 +114,9 @@ input,textarea{
   border-radius:14px;
   border:1px solid #ddd;
   font-family:'Poppins',sans-serif;
-  outline:none;
 }
 
-input:focus,
-textarea:focus{
-  border-color:var(--primary);
-  box-shadow:0 0 0 2px rgba(212,163,115,.25);
-}
-
-/* ================= BUTTON ================= */
+/* ===== BUTTON ===== */
 .primary-btn{
   width:100%;
   padding:14px;
@@ -136,47 +126,83 @@ textarea:focus{
   color:#fff;
   font-weight:600;
   cursor:pointer;
+  transition:.3s ease;
 }
-
 .primary-btn:hover{
   transform:translateY(-2px);
 }
 
-/* ================= PRODUCT LIST ================= */
-.product-card{
-  background:#fdfbf8;
-  border-radius:18px;
-  padding:14px;
-  margin-bottom:12px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+/* ===== PRODUCT LIST (UPDATED) ===== */
+.product-card {
+  background: #fdfbf8;
+  border-radius: 18px;
+  padding: 12px;
+  margin-bottom: 12px;
+  display: flex; /* Aligns items in a row */
+  align-items: center; /* Centers vertically */
+  gap: 15px; /* Space between image and text */
+  border: 1px solid #eee;
+  animation: listFade .3s ease forwards;
 }
 
-.product-card strong{
-  font-weight:600;
+/* New Image Style */
+.product-thumb {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  object-fit: cover;
+  background-color: #eee;
+  flex-shrink: 0;
 }
 
-/* ================= ACTION BUTTONS ================= */
+/* Wrapper for text to fill space */
+.product-info {
+  flex-grow: 1;
+}
+
+.product-info strong {
+  font-weight: 600;
+  font-size: 15px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.product-info span {
+  font-size: 14px;
+  color: var(--primary-dark);
+}
+
+@keyframes listFade{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ===== ACTION BUTTONS ===== */
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
 .edit{
   background:#6b4f2c;
   color:#fff;
-  padding:6px 12px;
-  border-radius:8px;
+  padding:8px 14px;
+  border-radius:10px;
   border:none;
-  margin-right:6px;
   cursor:pointer;
+  font-size: 12px;
 }
 .delete{
   background:#e63939;
   color:#fff;
-  padding:6px 12px;
-  border-radius:8px;
+  padding:8px 14px;
+  border-radius:10px;
   border:none;
   cursor:pointer;
+  font-size: 12px;
 }
 
-/* ================= MOBILE ================= */
+/* ===== MOBILE ===== */
 @media(max-width:480px){
   main{padding:24px 12px 50px}
   .nav-links{gap:14px}
@@ -186,7 +212,6 @@ textarea:focus{
 
 <body>
 
-<!-- NAVBAR -->
 <nav>
   <div class="nav-top">
     <h2>TheKrochet</h2>
@@ -200,7 +225,6 @@ textarea:focus{
 
 <main>
 
-  <!-- ADD / EDIT FORM -->
   <div class="admin-card">
     <h4 id="formTitle">Add Product</h4>
 
@@ -212,7 +236,6 @@ textarea:focus{
     <button class="primary-btn" id="submitBtn">➕ Add Product</button>
   </div>
 
-  <!-- PRODUCT LIST -->
   <div class="admin-card">
     <h4>All Products</h4>
     <div id="productList"></div>
@@ -220,7 +243,6 @@ textarea:focus{
 
 </main>
 
-<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -275,7 +297,7 @@ submitBtn.onclick=async()=>{
   pname.value=""; pprice.value=""; pimage.value=""; pdesc.value="";
 };
 
-/* PRODUCTS LIST */
+/* PRODUCTS LIST - UPDATED WITH IMAGE */
 db.collection("products").onSnapshot(snap=>{
   const list=document.getElementById("productList");
   list.innerHTML="";
@@ -285,13 +307,19 @@ db.collection("products").onSnapshot(snap=>{
     .sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
 
   docs.forEach(p=>{
+    // Handle image URL or fallback
+    const imgSrc = p.image ? p.image : 'https://via.placeholder.com/60?text=No+Img';
+    
     list.innerHTML+=`
       <div class="product-card">
-        <div>
-          <strong>${p.name}</strong><br>
-          ₹${p.price}
+        <img src="${imgSrc}" class="product-thumb" alt="Product Image">
+        
+        <div class="product-info">
+          <strong>${p.name}</strong>
+          <span>₹${p.price}</span>
         </div>
-        <div>
+
+        <div class="actions">
           <button class="edit"
             onclick="editProduct('${p.id}','${p.name}','${p.price}','${p.image}','${p.description||""}')">
             Edit
@@ -319,3 +347,4 @@ function editProduct(id,name,price,image,desc){
 
 </body>
 </html>
+
