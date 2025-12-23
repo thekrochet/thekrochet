@@ -11,32 +11,36 @@
   nav { flex-direction: column; padding: 10px; }
   .nav-links { gap: 10px; flex-wrap: wrap; justify-content: center; }
   
-  /* Grid (Products) */
+  /* Products Grid */
   .grid, #products { grid-template-columns: 1fr; padding: 0 10px; }
   
-  /* Admin & Reviews Fixes */
+  /* Admin Fixes */
   .admin-card { padding: 15px; }
-  
-  /* This fixes the Reviews List to stack nicely */
+
+  /* ✅ FIXED REVIEWS LAYOUT */
   .list-item {
     display: flex;
-    flex-direction: column; /* Stack top-to-bottom */
+    flex-direction: column; /* Stacks items vertically */
     align-items: flex-start;
-    gap: 10px;
+    gap: 8px;
+    padding-bottom: 16px; /* Adds breathing room */
+    height: auto !important; /* Allows box to grow */
   }
-  
+
   .review-header {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
-  
-  /* Make the Delete button stretch full width on mobile */
+
+  /* ✅ FIX THE DELETE BUTTON OVERLAP */
   .review-del {
-    position: static; /* Remove absolute positioning */
+    position: static !important; /* FORCE it to un-stick from the top */
     width: 100%;
-    margin-top: 10px;
-    text-align: center;
+    margin-top: 12px;
+    display: block;
+    padding: 10px;
   }
 }
 
@@ -47,7 +51,16 @@
   
   /* Reset Reviews to horizontal line */
   .list-item { flex-direction: row; align-items: center; }
-  .review-del { position: absolute; top: 16px; right: 16px; width: auto; margin: 0; }
+  
+  /* Put button back in top-right corner for big screens */
+  .review-del { 
+    position: absolute; 
+    top: 16px; 
+    right: 16px; 
+    width: auto; 
+    margin: 0; 
+    padding: 6px 12px;
+  }
 }
 
 @media (min-width: 1024px) {
