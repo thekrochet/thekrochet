@@ -76,6 +76,11 @@ section{
   border:none;
   cursor:pointer;
   margin-bottom:42px;
+  transition:.35s ease;
+}
+.add-review-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 22px rgba(0,0,0,.15);
 }
 
 /* FORM */
@@ -108,6 +113,10 @@ section{
   color:white;
   font-weight:600;
   cursor:pointer;
+  transition:.3s ease;
+}
+.review-form button:hover{
+  transform:translateY(-2px);
 }
 
 /* GRID */
@@ -123,6 +132,10 @@ section{
   padding:28px;
   border-radius:26px;
   box-shadow:0 14px 28px var(--shadow);
+  transition:.4s ease;
+}
+.card:hover{
+  transform:translateY(-6px);
 }
 .stars{
   font-size:20px;
@@ -166,16 +179,18 @@ footer{
   </div>
 </nav>
 
-<header>
+<header data-aos="fade-up">
   <h1>Customer Reviews</h1>
   <p>Real words from happy customers 💛</p>
 </header>
 
 <section>
 
-<button class="add-review-btn" onclick="toggleForm()">➕ Add Your Review</button>
+<button class="add-review-btn" onclick="toggleForm()" data-aos="zoom-in">
+  ➕ Add Your Review
+</button>
 
-<div class="review-form" id="reviewForm">
+<div class="review-form" id="reviewForm" data-aos="fade-up">
   <input id="name" placeholder="Your Name">
   <select id="rating">
     <option value="5">⭐⭐⭐⭐⭐ (5)</option>
@@ -208,6 +223,7 @@ firebase.initializeApp({
   authDomain:"thekrochet-b3ca2.firebaseapp.com",
   projectId:"thekrochet-b3ca2"
 });
+
 const db=firebase.firestore();
 const grid=document.getElementById("reviewsGrid");
 const form=document.getElementById("reviewForm");
@@ -215,6 +231,7 @@ const form=document.getElementById("reviewForm");
 function toggleForm(){
   form.style.display=form.style.display==="block"?"none":"block";
 }
+
 function addReview(){
   const name=document.getElementById("name").value;
   const rating=Number(document.getElementById("rating").value);
@@ -230,12 +247,13 @@ function addReview(){
   document.getElementById("reviewText").value="";
   form.style.display="none";
 }
+
 db.collection("reviews").orderBy("createdAt","desc").onSnapshot(snap=>{
   grid.innerHTML="";
   snap.forEach(doc=>{
     const r=doc.data();
     grid.innerHTML+=`
-      <div class="card">
+      <div class="card" data-aos="fade-up">
         <div class="stars">${"⭐".repeat(r.rating)}</div>
         <p>${r.text}</p>
         <span>— ${r.name}</span>
