@@ -5,8 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TheKrochet | Home</title>
 
+<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- AOS -->
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+<!-- BRAND MASTER -->
 <link rel="stylesheet" href="brand.css">
 
 <style>
@@ -27,6 +32,7 @@ body.dark{
   --shadow:rgba(0,0,0,0.6);
 }
 *{margin:0;padding:0;box-sizing:border-box}
+
 body{
   font-family:'Poppins',sans-serif;
   background:var(--bg);
@@ -35,6 +41,8 @@ body{
   display:flex;
   flex-direction:column;
 }
+
+/* HERO */
 header{
   text-align:center;
   padding:90px 20px 70px;
@@ -48,25 +56,41 @@ header h3{
   font-size:2.6rem;
   margin-bottom:14px;
 }
-header p{font-size:15px;opacity:.85}
+header p{
+  font-size:15px;
+  opacity:.85;
+}
+
+/* SECTION */
 section{
   padding:60px 20px;
   max-width:1200px;
   margin:auto;
   text-align:center;
 }
+section h2{
+  font-family:'Playfair Display',serif;
+  font-size:2rem;
+}
+
+/* GRID */
 .grid{
   margin-top:40px;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:30px;
 }
+
+/* CARDS */
 .card{
   background:var(--card);
   padding:30px;
   border-radius:26px;
   box-shadow:0 16px 34px var(--shadow);
+  cursor:pointer;
 }
+
+/* FOOTER */
 footer{
   background:#1f1f1f;
   color:#ddd;
@@ -79,15 +103,10 @@ footer{
 
 <body>
 
-<!-- NAVBAR -->
+<!-- ================= NAVBAR (2 LINE – FIXED) ================= -->
 <nav data-aos="fade-down">
   <div class="nav-top">
-    <h2>
-      TheKrochet
-      <button onclick="toggleTheme()" style="background:none;border:none;font-size:20px;cursor:pointer">
-        🌙
-      </button>
-    </h2>
+    <h2>TheKrochet 🌙</h2>
   </div>
 
   <div class="nav-links">
@@ -99,6 +118,7 @@ footer{
   </div>
 </nav>
 
+<!-- HERO -->
 <header>
   <h3 data-aos="zoom-in">Handmade Crochet Creations</h3>
   <p data-aos="fade-up" data-aos-delay="150">
@@ -106,46 +126,50 @@ footer{
   </p>
 </header>
 
+<!-- CONTENT -->
 <section>
   <h2 data-aos="fade-up">Welcome to TheKrochet</h2>
 
   <div class="grid">
+
+    <!-- CUSTOM ORDER -->
     <div class="card" data-aos="fade-up" onclick="openCustomOrder()">
       <h3>✨ Custom Orders</h3>
       <p>Designed just for you</p>
     </div>
 
+    <!-- PRODUCTS -->
     <div class="card" data-aos="fade-up" data-aos-delay="120"
-      onclick="window.location.href='products.html'">
+         onclick="window.location.href='products.html'">
       <h3>🧶 Handmade Wearables</h3>
       <p>Soft & stylish crochet fashion</p>
     </div>
 
+    <!-- DECOR -->
     <div class="card" data-aos="fade-up" data-aos-delay="240">
       <h3>🏡 Home Décor</h3>
       <p>Warm & elegant handmade pieces</p>
     </div>
+
   </div>
 </section>
 
 <footer>© 2025 TheKrochet</footer>
 
+<!-- SCRIPTS -->
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
 AOS.init({ duration:900, once:true });
 
-function toggleTheme(){
-  document.body.classList.toggle("dark");
-  localStorage.setItem(
-    "theme",
-    document.body.classList.contains("dark") ? "dark" : "light"
-  );
-}
+/* DARK MODE SYNC */
 if(localStorage.getItem("theme")==="dark"){
   document.body.classList.add("dark");
 }
+
+/* CUSTOM ORDER → INSTAGRAM DM */
 function openCustomOrder(){
-  navigator.clipboard.writeText("I want to make a custom order").catch(()=>{});
+  const msg="I want to make a custom order and my requirement is...";
+  navigator.clipboard.writeText(msg).catch(()=>{});
   window.open("https://ig.me/m/thekrochet_","_blank");
 }
 </script>
