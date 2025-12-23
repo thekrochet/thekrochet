@@ -107,7 +107,7 @@ body{
   box-shadow: 0 25px 50px rgba(0,0,0,0.15);
 }
 
-/* --- NEW SLIDER STYLES --- */
+/* --- PRODUCT CARD SLIDER --- */
 .img-window {
   width: 100%;
   height: 230px;
@@ -121,7 +121,7 @@ body{
   display: flex;
   height: 100%;
   width: 100%;
-  transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1); /* Smooth Slide */
+  transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 .img-slider img {
@@ -131,13 +131,9 @@ body{
   object-fit: cover;
   transition: transform 0.6s var(--ease-spring);
 }
+.card:hover .img-slider img{ transform: scale(1.05); }
 
-/* Zoom effect on hover inside slider */
-.card:hover .img-slider img{
-  transform: scale(1.05);
-}
-/* ------------------------- */
-
+/* --- TEXT & BUTTONS --- */
 .card h3{
   margin-top:16px;
   font-size:17px;
@@ -224,14 +220,37 @@ body{
 }
 .modal.active .modal-box{ opacity: 1; transform: scale(1) translateY(0); }
 
-/* IMAGE POPUP SPECIFIC */
+/* --- POPUP IMAGE SLIDER (NEW) --- */
 #imgModal .modal-box{
-  max-width:95%; background:transparent; box-shadow:none; padding: 0; transform: scale(0.9);
+  max-width:600px; 
+  height: 70vh; /* Fixed height for slideshow */
+  width: 90%;
+  background:transparent; 
+  box-shadow:none; 
+  padding: 0; 
+  overflow: hidden; /* Hide scrollbars */
+  position: relative;
+  transform: scale(0.9);
 }
 #imgModal.active .modal-box{ transform: scale(1); }
-#imgModal img{
-  width:100%; max-height:85vh; object-fit:contain; border-radius:24px; box-shadow: 0 25px 80px rgba(0,0,0,0.6);
+
+.popup-slider {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); /* Smooth slide ease */
 }
+
+.popup-slider img {
+  min-width: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Shows full image */
+  border-radius: 24px;
+  /* Optional: shadow inside image */
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
+}
+/* -------------------------------- */
 
 .modal-box h3{ text-align:center; margin-bottom:18px; font-size:1.4rem; }
 .form-group{margin-bottom:16px}
@@ -323,7 +342,8 @@ footer{ background:#1f1f1f; color:#ddd; text-align:center; padding:22px; margin-
 </div>
 
 <div id="imgModal" class="modal" onclick="closeImg(event)">
-  <div class="modal-box" id="imgBox"></div>
+  <div class="modal-box" id="imgBox">
+    </div>
 </div>
 
 <footer>© 2025 TheKrochet</footer>
@@ -369,7 +389,7 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
     const sid="s"+Math.random().toString(36).slice(2);
     let i=0;
 
-    // Create all img tags for the slider
+    // Create all img tags for the slider (Card View)
     const imgHtml = imgs.map(url => `<img src="${url}">`).join('');
 
     productsDiv.innerHTML+=`
@@ -387,35 +407,49 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
       
     index++; 
 
-    // AUTO SCROLL LOGIC
+    // AUTO SCROLL LOGIC FOR CARDS
     setInterval(()=>{
       if(document.querySelector(".modal.active")) return;
       if(imgs.length>1){
         i=(i+1)%imgs.length;
         const slider=document.getElementById(sid);
         if(!slider) return;
-        // Shift the slider using translateX
         slider.style.transform=`translateX(-${i * 100}%)`;
       }
-    },2500); // 2.5s per slide
+    },2500); 
   });
 });
 
-/* IMAGE POPUP */
+/* --- POPUP SLIDESHOW LOGIC --- */
 let popupTimer;
+
 function openImg(imgs){
-  let i=0;
-  imgBox.innerHTML=`<img src="${imgs[0]}">`;
+  let i = 0;
+  
+  // Build the slider structure inside the popup
+  const slides = imgs.map(src => `<img src="${src}">`).join('');
+  imgBox.innerHTML = `
+    <div class="popup-slider" id="activePopupSlider">
+        ${slides}
+    </div>
+  `;
+  
   imgModal.classList.add("active");
   
-  popupTimer=setInterval(()=>{
-    if(imgs.length>1){
-      i=(i+1)%imgs.length;
-      imgBox.innerHTML=`<img src="${imgs[i]}">`;
+  // Start the auto-scroll for the popup
+  popupTimer = setInterval(()=>{
+    if(imgs.length > 1){
+      i = (i + 1) % imgs.length;
+      const slider = document.getElementById("activePopupSlider");
+      if(slider){
+        slider.style.transform = `translateX(-${i * 100}%)`;
+      }
     }
-  },1700);
+  }, 2000); // 2 seconds per slide in popup
 }
+
 function closeImg(e){
+  // Check if clicked strictly on the background (id=imgModal)
   if(e.target.id==="imgModal"){
     imgModal.classList.remove("active");
     clearInterval(popupTimer);
@@ -500,3 +534,4 @@ updateCart();
 
 </body>
 </html>
+
