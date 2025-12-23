@@ -145,29 +145,31 @@ input,textarea{
   animation: listFade .3s ease forwards;
 }
 
-/* === SLIDER CSS (FIXED) === */
+/* === NEW FADE SLIDER CSS === */
 .slider-container {
   width: 60px;
   height: 60px;
   border-radius: 12px;
-  overflow: hidden; /* Hides extra images */
+  position: relative;
+  overflow: hidden;
   flex-shrink: 0;
   background-color: #eee;
-  position: relative;
 }
 
-.slider-track {
-  display: flex;
+.slider-img {
+  width: 100%;
   height: 100%;
-  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* Smooth Slide */
-  width: max-content; /* Ensures track is wide enough for all images */
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.5s ease-in-out;
 }
 
-.slider-track img {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  display: block;
+.slider-img.active {
+  opacity: 1; /* Show only active image */
+  z-index: 1;
 }
 
 .product-info {
@@ -294,8 +296,12 @@ submitBtn.onclick=async()=>{
     return;
   }
 
-  // Handle Inputs (Split by comma)
-  const rawImages = pimage.value.split(',');
+  // Handle Inputs: Split by comma OR newline
+  let rawVal = pimage.value;
+  // Replace newlines with commas to handle copy-paste lists
+  rawVal = rawVal.replace(/\n/g, ','); 
+  
+  const rawImages = rawVal.split(',');
   const cleanImages = rawImages.map(url => url.trim()).filter(url => url !== "");
 
   const data={
@@ -317,7 +323,7 @@ submitBtn.onclick=async()=>{
   pname.value=""; pprice.value=""; pimage.value=""; pdesc.value="";
 };
 
-/* PRODUCTS LIST & SCROLL ENGINE */
+/* PRODUCTS LIST & FADE ENGINE */
 let scrollInterval = null;
 
 db.collection("products").onSnapshot(snap=>{
@@ -330,34 +336,30 @@ db.collection("products").onSnapshot(snap=>{
 
   docs.forEach(p=>{
     
-    // --- IMPROVED IMAGE PARSING ---
-    // This fixes the issue: It checks if it's an Array, OR a comma-separated String
+    // --- ROBUST IMAGE DATA CLEANING ---
     let images = [];
-    
     if(Array.isArray(p.image)){
-        // Already an array (New Format)
         images = p.image;
     } else if (typeof p.image === 'string' && p.image.includes(',')) {
-        // String with comma (Old Format/Legacy Fix)
         images = p.image.split(',').map(s => s.trim()).filter(s => s);
     } else if (p.image) {
-        // Single String (One image)
         images = [p.image];
     } else {
-        // No image
         images = ['https://via.placeholder.com/60?text=No+Img'];
     }
     
-    // Create HTML for slider
-    const imagesHTML = images.map(src => `<img src="${src}">`).join('');
+    // Generate HTML: Add 'active' class to the first image
+    let imagesHTML = "";
+    images.forEach((src, index) => {
+        const activeClass = index === 0 ? "active" : "";
+        imagesHTML += `<img src="${src}" class="slider-img ${activeClass}">`;
+    });
 
     list.innerHTML+=`
       <div class="product-card">
         
-        <div class="slider-container">
-            <div class="slider-track" data-count="${images.length}" data-current="0">
-                ${imagesHTML}
-            </div>
+        <div class="slider-container" data-count="${images.length}" data-current="0">
+            ${imagesHTML}
         </div>
         
         <div class="product-info">
@@ -378,7 +380,7 @@ db.collection("products").onSnapshot(snap=>{
       </div>`;
   });
 
-  // Start Scrolling
+  // Start The Animation
   startAutoScroll();
 });
 
@@ -386,25 +388,31 @@ function startAutoScroll() {
   if (scrollInterval) clearInterval(scrollInterval);
 
   scrollInterval = setInterval(() => {
-    const tracks = document.querySelectorAll('.slider-track');
+    // Find all sliders with more than 1 image
+    const sliders = document.querySelectorAll('.slider-container');
     
-    tracks.forEach(track => {
-      const count = parseInt(track.getAttribute('data-count'));
-      
-      // If only 1 image, don't scroll
-      if(count <= 1) return; 
+    sliders.forEach(slider => {
+      const count = parseInt(slider.getAttribute('data-count'));
+      if(count <= 1) return; // Skip if single image
 
-      let current = parseInt(track.getAttribute('data-current'));
+      let current = parseInt(slider.getAttribute('data-current'));
       
-      current++;
-      if(current >= count) current = 0; // Loop back to start
+      // Calculate next index
+      let next = current + 1;
+      if(next >= count) next = 0;
 
-      track.setAttribute('data-current', current);
-      // Move left by 60px * current index
-      track.style.transform = `translateX(-${current * 60}px)`;
+      // Get all images inside this slider
+      const imgs = slider.querySelectorAll('.slider-img');
+      
+      // Update classes: Hide current, Show next
+      imgs[current].classList.remove('active');
+      imgs[next].classList.add('active');
+
+      // Update data attribute
+      slider.setAttribute('data-current', next);
     });
 
-  }, 1500); // 1.5 Seconds Speed
+  }, 2000); // 2 Seconds Speed
 }
 
 function editProduct(id,name,price,imageStr,desc){
@@ -421,5 +429,4 @@ function editProduct(id,name,price,imageStr,desc){
 
 </body>
 </html>
-
 
