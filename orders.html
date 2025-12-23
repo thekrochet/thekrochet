@@ -3,215 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Orders | TheKrochet Admin</title>
+<title>Orders | TheKrochet</title>
 
-<!-- FONTS -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<!-- BRAND MASTER -->
 <link rel="stylesheet" href="brand.css">
+<link rel="stylesheet" href="responsive.css">
 
 <style>
+/* Internal styles for specific order elements not covered in global files */
 :root{
   --primary:#d4a373;
-  --primary-dark:#b8895b;
   --bg:#faf7f2;
-  --card:#ffffff;
   --text:#2f2f2f;
-  --shadow:rgba(0,0,0,.08);
 }
 
-*{margin:0;padding:0;box-sizing:border-box}
-
-body{
-  font-family:'Poppins',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
+/* Specific Order Card Styles */
+.order-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  border: 1px solid #eee;
+  animation: fadeUp .4s ease forwards;
 }
+@keyframes fadeUp{ from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 
-/* ================= NAVBAR ================= */
-nav{
-  background:#fff;
-  box-shadow:0 6px 18px var(--shadow);
-  padding:16px 20px 14px;
-  text-align:center;
-  animation:navDrop .45s ease forwards;
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
-@keyframes navDrop{
-  from{opacity:0;transform:translateY(-12px)}
-  to{opacity:1;transform:translateY(0)}
-}
+.order-id { font-weight: 600; color: var(--primary); font-size: 14px; }
+.order-date { font-size: 12px; color: #888; }
 
-.nav-top h2{
-  font-family:'Playfair Display',serif;
-  font-size:22px;
-}
-
-.nav-links{
-  display:flex;
-  justify-content:center;
-  gap:22px;
-  margin-top:10px;
+.order-items { margin-bottom: 12px; }
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #555;
 }
 
-.nav-links a,
-.nav-links button{
-  background:none;
-  border:none;
-  font-weight:500;
-  color:var(--text);
-  cursor:pointer;
-  text-decoration:none;
-  position:relative;
+.order-total {
+  text-align: right;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text);
+  border-top: 1px solid #f0f0f0;
+  padding-top: 10px;
 }
 
-.nav-links a.active{
-  color:var(--primary);
-}
-.nav-links a.active::after{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom:-4px;
-  width:100%;
-  height:2px;
-  background:var(--primary);
-}
-
-/* ================= MAIN ================= */
-main{
-  max-width:650px;
-  margin:auto;
-  padding:28px 16px 60px;
-  flex:1;
-}
-
-main h3{
-  margin-bottom:18px;
-  font-weight:600;
-}
-
-/* LOADING */
-#loading{
-  text-align:center;
-  color:#888;
-  margin-top:40px;
-}
-
-/* ================= ORDER CARD ================= */
-.order-card{
-  background:var(--card);
-  padding:20px;
-  border-radius:22px;
-  margin-bottom:18px;
-  box-shadow:0 10px 25px var(--shadow);
-  animation:cardFade .25s ease forwards;
-}
-@keyframes cardFade{
-  from{opacity:0;transform:translateY(6px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-.order-card.removing{
-  opacity:0;
-  transform:scale(.96);
-  transition:.25s;
-}
-
-.order-card h4{
-  margin-bottom:6px;
-  font-weight:600;
-}
-
-.order-card ul{
-  padding-left:18px;
-  margin:6px 0;
-}
-.order-card li{
-  margin-bottom:4px;
-  font-size:14px;
-}
-
-.total{
-  font-weight:600;
-  margin-top:6px;
-}
-
-.date{
-  font-size:13px;
-  color:#777;
-  margin-top:6px;
-}
-
-/* STATUS */
-.status{
-  margin-top:8px;
-  font-weight:600;
-}
-.status.new{color:#e58e26}
-.status.accepted{color:#2a9d8f}
-
-/* ACTIONS */
-.actions{
-  display:flex;
-  gap:10px;
-  margin-top:14px;
-}
-.actions button{
-  flex:1;
-  padding:10px;
-  border:none;
-  border-radius:12px;
-  font-weight:500;
-  cursor:pointer;
-}
-
-.accept{
-  background:#2a9d8f;
-  color:#fff;
-}
-.accept[disabled]{
-  opacity:.6;
-  cursor:default;
-}
-
-.delete{
-  background:#e63939;
-  color:#fff;
-}
-
-/* MOBILE */
-@media(max-width:480px){
-  main{padding:24px 12px 50px}
-  .nav-links{gap:14px}
+.status-select {
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <nav>
   <div class="nav-top">
     <h2>TheKrochet</h2>
   </div>
   <div class="nav-links">
     <a href="admin.html">Products</a>
-    <a href="orders.html" class="active">Orders</a>
+    <a href="admin-reviews.html">Reviews</a> <a href="orders.html" class="active">Orders</a>
     <button onclick="logout()">Logout</button>
   </div>
 </nav>
 
 <main>
-  <h3>Orders</h3>
-  <div id="loading">Loading orders…</div>
-  <div id="ordersList"></div>
+  <div class="admin-card">
+    <h4>Recent Orders</h4>
+    <div id="ordersList">Loading orders...</div>
+  </div>
 </main>
 
-<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -226,61 +106,86 @@ firebase.initializeApp({
 const auth=firebase.auth();
 const db=firebase.firestore();
 
-/* AUTH */
-auth.onAuthStateChanged(u=>{
-  if(!u) location.href="login.html";
+/* AUTH CHECK */
+auth.onAuthStateChanged(user=>{
+  if(!user) location.href="login.html";
 });
 function logout(){
   auth.signOut().then(()=>location.href="login.html");
 }
 
-const ordersList=document.getElementById("ordersList");
-const loading=document.getElementById("loading");
+/* FETCH ORDERS */
+db.collection("orders").orderBy("createdAt", "desc").onSnapshot(snap => {
+  const list = document.getElementById("ordersList");
+  list.innerHTML = "";
 
-/* LOAD ORDERS */
-db.collection("orders")
-  .orderBy("createdAt","desc")
-  .limit(25)
-  .onSnapshot(snap=>{
-    loading.style.display="none";
-    ordersList.innerHTML="";
+  if (snap.empty) {
+    list.innerHTML = "<div style='text-align:center;padding:10px;color:#999'>No orders yet.</div>";
+    return;
+  }
 
-    snap.forEach(doc=>{
-      const o=doc.data();
-      let items="";
-      o.items.forEach(i=>{
-        items+=`<li>${i.name} – ₹${i.price}</li>`;
-      });
-
-      ordersList.innerHTML+=`
-        <div class="order-card" id="order-${doc.id}">
-          <h4>${o.customer.name} (IG: ${o.customer.instagram})</h4>
-          <ul>${items}</ul>
-          <div class="total">Total: ₹${o.total}</div>
-          <div class="date">${o.createdAt?.toDate().toLocaleString()||""}</div>
-          <div class="status ${o.status}">Status: ${o.status}</div>
-
-          <div class="actions">
-            ${
-              o.status!=="accepted"
-              ? `<button class="accept" onclick="acceptOrder('${doc.id}')">Accept</button>`
-              : `<button class="accept" disabled>Accepted</button>`
-            }
-            <button class="delete" onclick="deleteOrder('${doc.id}')">Delete</button>
+  snap.forEach(doc => {
+    const o = doc.data();
+    const date = o.createdAt ? o.createdAt.toDate().toLocaleDateString() : "Date N/A";
+    
+    // Generate Items HTML
+    let itemsHtml = "";
+    if (o.items && Array.isArray(o.items)) {
+      o.items.forEach(item => {
+        itemsHtml += `
+          <div class="order-item">
+            <span>${item.name} (x${item.quantity})</span>
+            <span>₹${item.price * item.quantity}</span>
           </div>
-        </div>`;
-    });
-  });
+        `;
+      });
+    }
 
-function acceptOrder(id){
-  db.collection("orders").doc(id).update({status:"accepted"});
-}
-function deleteOrder(id){
-  const card=document.getElementById("order-"+id);
-  card.classList.add("removing");
-  setTimeout(()=>{
-    db.collection("orders").doc(id).delete();
-  },200);
+    // Status Color Logic
+    let statusColor = "#333";
+    if(o.status === "Pending") statusColor = "#f39c12";
+    if(o.status === "Shipped") statusColor = "#3498db";
+    if(o.status === "Delivered") statusColor = "#27ae60";
+
+    list.innerHTML += `
+      <div class="order-card">
+        <div class="order-header">
+          <span class="order-id">#${doc.id.substr(0,8).toUpperCase()}</span>
+          <span class="order-date">${date}</span>
+        </div>
+        
+        <div class="order-customer">
+          <strong>${o.customerName || "Customer"}</strong><br>
+          <span style="font-size:13px;color:#666">${o.address || "No address provided"}</span>
+        </div>
+        <hr style="border:0;border-top:1px solid #eee;margin:10px 0;">
+        
+        <div class="order-items">
+          ${itemsHtml}
+        </div>
+
+        <div class="order-total">
+          Total: ₹${o.total}
+        </div>
+
+        <select class="status-select" onchange="updateStatus('${doc.id}', this.value)" style="color:${statusColor};font-weight:600">
+          <option value="Pending" ${o.status === 'Pending' ? 'selected' : ''}>Pending</option>
+          <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+          <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+        </select>
+      </div>
+    `;
+  });
+});
+
+/* UPDATE STATUS FUNCTION */
+function updateStatus(id, newStatus) {
+  db.collection("orders").doc(id).update({
+    status: newStatus
+  }).then(() => {
+    // Optional: Add a toast notification here
+    console.log("Status updated");
+  }).catch(err => alert("Error updating status: " + err.message));
 }
 </script>
 
