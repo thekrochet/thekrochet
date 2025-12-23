@@ -145,12 +145,12 @@ input,textarea{
   animation: listFade .3s ease forwards;
 }
 
-/* === SLIDER CSS (AUTO SCROLL) === */
+/* === SLIDER CSS (FIXED) === */
 .slider-container {
   width: 60px;
   height: 60px;
   border-radius: 12px;
-  overflow: hidden; /* Hide scrollbars */
+  overflow: hidden; /* Hides extra images */
   flex-shrink: 0;
   background-color: #eee;
   position: relative;
@@ -159,14 +159,15 @@ input,textarea{
 .slider-track {
   display: flex;
   height: 100%;
-  transition: transform 0.5s ease-in-out; /* Smooth slide animation */
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* Smooth Slide */
+  width: max-content; /* Ensures track is wide enough for all images */
 }
 
 .slider-track img {
   width: 60px;
   height: 60px;
   object-fit: cover;
-  flex-shrink: 0; /* Stop images from squishing */
+  display: block;
 }
 
 .product-info {
@@ -293,15 +294,14 @@ submitBtn.onclick=async()=>{
     return;
   }
 
-  // Handle Multiple Images: Split string by comma into an Array
-  // Example Input: "url1, url2" -> ["url1", "url2"]
+  // Handle Inputs (Split by comma)
   const rawImages = pimage.value.split(',');
   const cleanImages = rawImages.map(url => url.trim()).filter(url => url !== "");
 
   const data={
     name:pname.value.trim(),
     price:Number(pprice.value),
-    image: cleanImages.length > 0 ? cleanImages : "", // Store as array
+    image: cleanImages.length > 0 ? cleanImages : "", 
     description:pdesc.value.trim(),
     createdAt:firebase.firestore.FieldValue.serverTimestamp()
   };
@@ -317,7 +317,7 @@ submitBtn.onclick=async()=>{
   pname.value=""; pprice.value=""; pimage.value=""; pdesc.value="";
 };
 
-/* PRODUCTS LIST & AUTO SCROLL ENGINE */
+/* PRODUCTS LIST & SCROLL ENGINE */
 let scrollInterval = null;
 
 db.collection("products").onSnapshot(snap=>{
@@ -329,17 +329,26 @@ db.collection("products").onSnapshot(snap=>{
     .sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
 
   docs.forEach(p=>{
-    // Handle Data: Convert string (old data) to array (new data)
+    
+    // --- IMPROVED IMAGE PARSING ---
+    // This fixes the issue: It checks if it's an Array, OR a comma-separated String
     let images = [];
+    
     if(Array.isArray(p.image)){
+        // Already an array (New Format)
         images = p.image;
+    } else if (typeof p.image === 'string' && p.image.includes(',')) {
+        // String with comma (Old Format/Legacy Fix)
+        images = p.image.split(',').map(s => s.trim()).filter(s => s);
     } else if (p.image) {
-        images = [p.image]; // Legacy support for single string
+        // Single String (One image)
+        images = [p.image];
     } else {
+        // No image
         images = ['https://via.placeholder.com/60?text=No+Img'];
     }
     
-    // Generate HTML for all images in the slider
+    // Create HTML for slider
     const imagesHTML = images.map(src => `<img src="${src}">`).join('');
 
     list.innerHTML+=`
@@ -369,7 +378,7 @@ db.collection("products").onSnapshot(snap=>{
       </div>`;
   });
 
-  // Start the Auto Scroll Engine
+  // Start Scrolling
   startAutoScroll();
 });
 
@@ -377,34 +386,32 @@ function startAutoScroll() {
   if (scrollInterval) clearInterval(scrollInterval);
 
   scrollInterval = setInterval(() => {
-    // Select all tracks that have more than 1 image
     const tracks = document.querySelectorAll('.slider-track');
     
     tracks.forEach(track => {
       const count = parseInt(track.getAttribute('data-count'));
-      if(count <= 1) return; // Don't scroll if only 1 image
+      
+      // If only 1 image, don't scroll
+      if(count <= 1) return; 
 
       let current = parseInt(track.getAttribute('data-current'));
       
-      // Increment index
       current++;
-      if(current >= count) current = 0; // Reset to start
+      if(current >= count) current = 0; // Loop back to start
 
-      // Save new index
       track.setAttribute('data-current', current);
-
-      // Slide calculation (60px is the width of the container)
+      // Move left by 60px * current index
       track.style.transform = `translateX(-${current * 60}px)`;
     });
 
-  }, 2000); // Scrolls every 2 seconds
+  }, 1500); // 1.5 Seconds Speed
 }
 
 function editProduct(id,name,price,imageStr,desc){
   editId=id;
   pname.value=name;
   pprice.value=price;
-  pimage.value=imageStr; // Fills input with comma separated URLs
+  pimage.value=imageStr; 
   pdesc.value=desc;
   submitBtn.innerText="🔄 Update";
   formTitle.innerText="Update Product";
@@ -414,4 +421,5 @@ function editProduct(id,name,price,imageStr,desc){
 
 </body>
 </html>
+
 
