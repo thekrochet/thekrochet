@@ -34,25 +34,19 @@ nav{
   box-shadow:0 6px 18px var(--shadow);
   padding:16px 20px 14px;
   text-align:center;
-  animation:navDrop .5s ease forwards;
-}
-@keyframes navDrop{
-  from{opacity:0;transform:translateY(-12px)}
-  to{opacity:1;transform:translateY(0)}
 }
 
 .nav-top h2{
   font-family:'Playfair Display',serif;
   font-size:22px;
-  letter-spacing:.5px;
 }
 
 .nav-links{
-  display:grid;
-  grid-auto-flow:column;
+  display:flex;
   justify-content:center;
   gap:22px;
   margin-top:10px;
+  align-items: center;
 }
 
 .nav-links a,
@@ -64,27 +58,20 @@ nav{
   cursor:pointer;
   text-decoration:none;
   position:relative;
+  font-size: 15px;
 }
 
-.nav-links a.active{
-  color:var(--primary);
-}
+.nav-links a.active{ color:var(--primary); }
 .nav-links a.active::after{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom:-4px;
-  width:100%;
-  height:2px;
-  background:var(--primary);
+  content:""; position:absolute; left:0; bottom:-4px; width:100%; height:2px; background:var(--primary);
 }
 
 /* ===== MAIN ===== */
 main{
   flex:1;
-  max-width:560px;
+  max-width:600px;
   margin:auto;
-  padding:30px 16px 60px;
+  padding:30px 16px 80px;
 }
 
 /* ===== CARD ===== */
@@ -94,16 +81,15 @@ main{
   border-radius:22px;
   margin-bottom:26px;
   box-shadow:0 10px 25px var(--shadow);
-  animation:cardFade .4s ease forwards;
+  animation: fadeUp .4s ease forwards;
 }
-@keyframes cardFade{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1;transform:translateY(0)}
-}
+@keyframes fadeUp{ from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 
 .admin-card h4{
   font-weight:600;
   margin-bottom:14px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
 }
 
 /* ===== INPUTS ===== */
@@ -128,95 +114,29 @@ input,textarea{
   cursor:pointer;
   transition:.3s ease;
 }
-.primary-btn:hover{
-  transform:translateY(-2px);
-}
+.primary-btn:hover{ transform:translateY(-2px); }
 
-/* ===== PRODUCT LIST ===== */
-.product-card {
+/* ===== LIST ITEMS ===== */
+.list-item {
   background: #fdfbf8;
   border-radius: 18px;
-  padding: 12px;
+  padding: 16px;
   margin-bottom: 12px;
-  display: flex; 
-  align-items: center; 
-  gap: 15px; 
   border: 1px solid #eee;
-  animation: listFade .3s ease forwards;
-}
-
-/* === NEW FADE SLIDER CSS === */
-.slider-container {
-  width: 60px;
-  height: 60px;
-  border-radius: 12px;
   position: relative;
-  overflow: hidden;
-  flex-shrink: 0;
-  background-color: #eee;
 }
 
-.slider-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0; /* Hidden by default */
-  transition: opacity 0.5s ease-in-out;
-}
+.product-row { display: flex; gap: 15px; align-items: center; }
+.slider-container { width: 50px; height: 50px; border-radius: 10px; overflow: hidden; position: relative; flex-shrink: 0; background: #eee; }
+.slider-img { width: 100%; height: 100%; object-fit: cover; position: absolute; opacity: 0; transition: opacity 0.5s; }
+.slider-img.active { opacity: 1; }
+.product-info strong { display: block; font-size: 15px; }
+.product-info span { font-size: 13px; color: var(--primary-dark); }
 
-.slider-img.active {
-  opacity: 1; /* Show only active image */
-  z-index: 1;
-}
-
-.product-info {
-  flex-grow: 1;
-}
-
-.product-info strong {
-  font-weight: 600;
-  font-size: 15px;
-  display: block;
-  margin-bottom: 2px;
-}
-
-.product-info span {
-  font-size: 14px;
-  color: var(--primary-dark);
-}
-
-@keyframes listFade{
-  from{opacity:0;transform:translateY(6px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-/* ===== ACTION BUTTONS ===== */
-.actions {
-  display: flex;
-  gap: 8px;
-}
-
-.edit{
-  background:#6b4f2c;
-  color:#fff;
-  padding:8px 14px;
-  border-radius:10px;
-  border:none;
-  cursor:pointer;
-  font-size: 12px;
-}
-.delete{
-  background:#e63939;
-  color:#fff;
-  padding:8px 14px;
-  border-radius:10px;
-  border:none;
-  cursor:pointer;
-  font-size: 12px;
-}
+.actions { display: flex; gap: 8px; margin-left: auto; }
+.btn-sm { padding: 6px 12px; border-radius: 8px; border: none; cursor: pointer; font-size: 12px; color: #fff; }
+.edit { background: #6b4f2c; }
+.del { background: #e63939; }
 
 /* ===== MOBILE ===== */
 @media(max-width:480px){
@@ -234,7 +154,7 @@ input,textarea{
   </div>
   <div class="nav-links">
     <a href="admin.html" class="active">Products</a>
-    <a href="orders.html">Orders</a>
+    <a href="admin-reviews.html">Reviews</a> <a href="orders.html">Orders</a>
     <button onclick="logout()">Logout</button>
   </div>
 </nav>
@@ -243,18 +163,16 @@ input,textarea{
 
   <div class="admin-card">
     <h4 id="formTitle">Add Product</h4>
-
     <input id="pname" placeholder="Product Name">
     <input id="pprice" type="number" placeholder="Price (₹)">
     <input id="pimage" placeholder="Image URL (Separate multiple with comma)">
     <textarea id="pdesc" placeholder="Short description"></textarea>
-
     <button class="primary-btn" id="submitBtn">➕ Add Product</button>
   </div>
 
   <div class="admin-card">
     <h4>All Products</h4>
-    <div id="productList"></div>
+    <div id="productList">Loading...</div>
   </div>
 
 </main>
@@ -274,7 +192,6 @@ const auth=firebase.auth();
 const db=firebase.firestore();
 let editId=null;
 
-/* AUTH */
 auth.onAuthStateChanged(user=>{
   if(!user) location.href="login.html";
 });
@@ -282,7 +199,7 @@ function logout(){
   auth.signOut().then(()=>location.href="login.html");
 }
 
-/* FORM */
+/* PRODUCTS */
 const submitBtn=document.getElementById("submitBtn");
 const pname=document.getElementById("pname");
 const pprice=document.getElementById("pprice");
@@ -291,139 +208,81 @@ const pdesc=document.getElementById("pdesc");
 const formTitle=document.getElementById("formTitle");
 
 submitBtn.onclick=async()=>{
-  if(!pname.value||!pprice.value){
-    alert("Enter product name & price");
-    return;
-  }
+  if(!pname.value||!pprice.value){ alert("Enter product name & price"); return; }
 
-  // Handle Inputs: Split by comma OR newline
-  let rawVal = pimage.value;
-  // Replace newlines with commas to handle copy-paste lists
-  rawVal = rawVal.replace(/\n/g, ','); 
-  
-  const rawImages = rawVal.split(',');
-  const cleanImages = rawImages.map(url => url.trim()).filter(url => url !== "");
+  let rawVal = pimage.value.replace(/\n/g, ','); 
+  const cleanImages = rawVal.split(',').map(u=>u.trim()).filter(u=>u!=="");
 
   const data={
-    name:pname.value.trim(),
-    price:Number(pprice.value),
-    image: cleanImages.length > 0 ? cleanImages : "", 
+    name:pname.value.trim(), price:Number(pprice.value),
+    image:cleanImages.length>0?cleanImages:"", 
     description:pdesc.value.trim(),
     createdAt:firebase.firestore.FieldValue.serverTimestamp()
   };
   
   if(editId){
     await db.collection("products").doc(editId).update(data);
-    editId=null;
-    submitBtn.innerText="➕ Add Product";
-    formTitle.innerText="Add Product";
+    editId=null; submitBtn.innerText="➕ Add Product"; formTitle.innerText="Add Product";
   }else{
     await db.collection("products").add(data);
   }
   pname.value=""; pprice.value=""; pimage.value=""; pdesc.value="";
 };
 
-/* PRODUCTS LIST & FADE ENGINE */
+/* LOAD PRODUCTS */
 let scrollInterval = null;
-
-db.collection("products").onSnapshot(snap=>{
+db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
   const list=document.getElementById("productList");
   list.innerHTML="";
+  if(snap.empty){ list.innerHTML="<div style='color:#999;text-align:center'>No products found.</div>"; return; }
 
-  const docs = snap.docs
-    .map(d => ({ id:d.id, ...d.data() }))
-    .sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+  snap.forEach(doc=>{
+    const p=doc.data();
+    let imgs = Array.isArray(p.image) ? p.image : (p.image && p.image.includes(',') ? p.image.split(',') : [p.image || '']);
+    imgs = imgs.filter(i=>i); if(imgs.length==0) imgs=['https://via.placeholder.com/60'];
 
-  docs.forEach(p=>{
-    
-    // --- ROBUST IMAGE DATA CLEANING ---
-    let images = [];
-    if(Array.isArray(p.image)){
-        images = p.image;
-    } else if (typeof p.image === 'string' && p.image.includes(',')) {
-        images = p.image.split(',').map(s => s.trim()).filter(s => s);
-    } else if (p.image) {
-        images = [p.image];
-    } else {
-        images = ['https://via.placeholder.com/60?text=No+Img'];
-    }
-    
-    // Generate HTML: Add 'active' class to the first image
-    let imagesHTML = "";
-    images.forEach((src, index) => {
-        const activeClass = index === 0 ? "active" : "";
-        imagesHTML += `<img src="${src}" class="slider-img ${activeClass}">`;
-    });
+    let imgHtml = imgs.map((src,i)=>`<img src="${src}" class="slider-img ${i===0?'active':''}">`).join('');
 
     list.innerHTML+=`
-      <div class="product-card">
-        
-        <div class="slider-container" data-count="${images.length}" data-current="0">
-            ${imagesHTML}
-        </div>
-        
-        <div class="product-info">
-          <strong>${p.name}</strong>
-          <span>₹${p.price}</span>
-        </div>
-
-        <div class="actions">
-          <button class="edit"
-            onclick="editProduct('${p.id}','${p.name}','${p.price}', '${images.join(', ')}', '${p.description||""}')">
-            Edit
-          </button>
-          <button class="delete"
-            onclick="db.collection('products').doc('${p.id}').delete()">
-            Del
-          </button>
+      <div class="list-item">
+        <div class="product-row">
+            <div class="slider-container" data-count="${imgs.length}" data-current="0">${imgHtml}</div>
+            <div class="product-info"><strong>${p.name}</strong><span>₹${p.price}</span></div>
+            <div class="actions">
+              <button class="btn-sm edit" onclick="editProduct('${doc.id}','${p.name}','${p.price}','${imgs.join(',')}', '${p.description||""}')">Edit</button>
+              <button class="btn-sm del" onclick="deleteItem('products', '${doc.id}')">Del</button>
+            </div>
         </div>
       </div>`;
   });
-
-  // Start The Animation
   startAutoScroll();
 });
 
 function startAutoScroll() {
   if (scrollInterval) clearInterval(scrollInterval);
-
   scrollInterval = setInterval(() => {
-    // Find all sliders with more than 1 image
-    const sliders = document.querySelectorAll('.slider-container');
-    
-    sliders.forEach(slider => {
+    document.querySelectorAll('.slider-container').forEach(slider => {
       const count = parseInt(slider.getAttribute('data-count'));
-      if(count <= 1) return; // Skip if single image
-
+      if(count <= 1) return;
       let current = parseInt(slider.getAttribute('data-current'));
-      
-      // Calculate next index
-      let next = current + 1;
-      if(next >= count) next = 0;
-
-      // Get all images inside this slider
+      let next = current + 1; if(next >= count) next = 0;
       const imgs = slider.querySelectorAll('.slider-img');
-      
-      // Update classes: Hide current, Show next
-      imgs[current].classList.remove('active');
-      imgs[next].classList.add('active');
-
-      // Update data attribute
+      imgs[current].classList.remove('active'); imgs[next].classList.add('active');
       slider.setAttribute('data-current', next);
     });
-
-  }, 2000); // 2 Seconds Speed
+  }, 2000); 
 }
 
 function editProduct(id,name,price,imageStr,desc){
-  editId=id;
-  pname.value=name;
-  pprice.value=price;
-  pimage.value=imageStr; 
-  pdesc.value=desc;
-  submitBtn.innerText="🔄 Update";
-  formTitle.innerText="Update Product";
+  editId=id; pname.value=name; pprice.value=price; pimage.value=imageStr; pdesc.value=desc;
+  submitBtn.innerText="🔄 Update"; formTitle.innerText="Update Product";
   window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function deleteItem(collection, id){
+  if(confirm("Are you sure? This cannot be undone.")){
+    db.collection(collection).doc(id).delete().catch(e=>alert(e.message));
+  }
 }
 </script>
 
