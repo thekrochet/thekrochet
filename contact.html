@@ -5,8 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact | TheKrochet</title>
 
+<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+<!-- ✅ BRAND MASTER -->
+<link rel="stylesheet" href="brand.css">
 
 <style>
 :root{
@@ -35,65 +39,6 @@ body{
   display:flex;
   flex-direction:column;
 }
-
-/* ================= NAVBAR (FORCED 2 LINE) ================= */
-nav{
-  background:var(--nav);
-  box-shadow:0 6px 18px var(--shadow);
-  padding:14px 16px 12px;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.nav-top{
-  text-align:center;
-}
-.nav-top h2{
-  font-family:'Playfair Display',serif;
-  font-size:22px;
-}
-
-/* 🔒 FORCE SINGLE ROW LINKS */
-.nav-links{
-  display:flex;
-  justify-content:center;
-  gap:18px;
-  flex-wrap:nowrap;              /* ❌ wrap band */
-  overflow-x:auto;               /* 👉 scroll if needed */
-  -webkit-overflow-scrolling:touch;
-}
-
-.nav-links::-webkit-scrollbar{
-  display:none;
-}
-
-.nav-links a{
-  flex:0 0 auto;                 /* ❌ shrink nahi */
-  text-decoration:none;
-  color:var(--text);
-  font-weight:500;
-  position:relative;
-  white-space:nowrap;            /* ❌ text break nahi */
-}
-
-.nav-links a.active{color:var(--primary)}
-
-.nav-links a::after{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom:-4px;
-  width:0;
-  height:2px;
-  background:var(--primary);
-  transition:.3s;
-}
-.nav-links a:hover::after,
-.nav-links a.active::after{
-  width:100%;
-}
-/* ========================================================= */
 
 /* HERO */
 header{
@@ -135,7 +80,6 @@ section{
   border-radius:28px;
   text-align:center;
   box-shadow:0 14px 30px var(--shadow);
-  transition:.45s ease;
   position:relative;
   overflow:hidden;
 }
@@ -148,7 +92,6 @@ section{
   transition:.45s;
 }
 .card:hover::before{opacity:.08}
-.card:hover{transform:translateY(-8px)}
 .card h3{font-size:20px;margin-bottom:8px}
 .card p{font-size:14px;opacity:.85;margin-bottom:16px}
 .card a{
@@ -175,9 +118,10 @@ footer{
 
 <body>
 
+<!-- ✅ NAVBAR — SAME AS PRODUCTS / INDEX -->
 <nav data-aos="fade-down">
   <div class="nav-top">
-    <h2>TheKrochet</h2>
+    <h2>TheKrochet 🌙</h2>
   </div>
   <div class="nav-links">
     <a href="index.html">Home</a>
@@ -195,23 +139,31 @@ footer{
 
 <section>
   <div class="grid">
+
     <div class="card" data-aos="fade-up">
       <h3>📩 Instagram</h3>
       <p>DM us directly for orders & quick queries</p>
-      <a href="https://instagram.com/thekrochet_" target="_blank">Message on Instagram</a>
+      <a href="https://instagram.com/thekrochet_" target="_blank">
+        Message on Instagram
+      </a>
     </div>
 
     <div class="card" data-aos="fade-up" data-aos-delay="120">
       <h3>🎁 Custom Orders</h3>
       <p>Have something unique in mind? We crochet it.</p>
-      <a href="https://instagram.com/thekrochet_" target="_blank">Request Custom Order</a>
+      <a href="https://instagram.com/thekrochet_" target="_blank">
+        Request Custom Order
+      </a>
     </div>
 
     <div class="card" data-aos="fade-up" data-aos-delay="240">
       <h3>🤝 Collaborations</h3>
       <p>Brand partnerships & creative collaborations</p>
-      <a href="https://instagram.com/thekrochet_" target="_blank">Collaborate With Us</a>
+      <a href="https://instagram.com/thekrochet_" target="_blank">
+        Collaborate With Us
+      </a>
     </div>
+
   </div>
 </section>
 
@@ -220,6 +172,7 @@ footer{
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
 AOS.init({ duration:900, once:true });
+
 if(localStorage.getItem("theme")==="dark"){
   document.body.classList.add("dark");
 }
