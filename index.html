@@ -5,13 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TheKrochet | Home</title>
 
-<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<!-- AOS -->
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-
-<!-- BRAND CSS (MASTER) -->
 <link rel="stylesheet" href="brand.css">
 
 <style>
@@ -24,7 +19,6 @@
   --primary:#d4a373;
   --primary-dark:#b8895b;
 }
-
 body.dark{
   --bg:#121212;
   --text:#f1f1f1;
@@ -32,9 +26,7 @@ body.dark{
   --nav:#1a1a1a;
   --shadow:rgba(0,0,0,0.6);
 }
-
 *{margin:0;padding:0;box-sizing:border-box}
-
 body{
   font-family:'Poppins',sans-serif;
   background:var(--bg);
@@ -42,10 +34,7 @@ body{
   min-height:100vh;
   display:flex;
   flex-direction:column;
-  transition:.3s ease;
 }
-
-/* ===== HERO ===== */
 header{
   text-align:center;
   padding:90px 20px 70px;
@@ -59,74 +48,46 @@ header h3{
   font-size:2.6rem;
   margin-bottom:14px;
 }
-header p{
-  font-size:15px;
-  opacity:.85;
-}
-
-/* ===== SECTION ===== */
+header p{font-size:15px;opacity:.85}
 section{
   padding:60px 20px;
   max-width:1200px;
   margin:auto;
   text-align:center;
 }
-section h2{
-  font-family:'Playfair Display',serif;
-  font-size:2rem;
-}
-
-/* ===== GRID ===== */
 .grid{
   margin-top:40px;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:30px;
 }
-
-/* ===== CARDS ===== */
 .card{
   background:var(--card);
   padding:30px;
   border-radius:26px;
   box-shadow:0 16px 34px var(--shadow);
-  cursor:pointer;
-  position:relative;
-  overflow:hidden;
 }
-.card h3{
-  font-size:18px;
-  margin-bottom:8px;
-}
-.card p{
-  font-size:14px;
-  opacity:.8;
-}
-
-/* ===== FOOTER ===== */
 footer{
   background:#1f1f1f;
   color:#ddd;
   text-align:center;
   padding:22px;
   margin-top:auto;
-  font-size:14px;
-}
-
-/* ===== MOBILE ===== */
-@media(max-width:480px){
-  header h3{font-size:2.1rem}
-  section h2{font-size:1.7rem}
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR (2 LINE – BRAND CONTROLLED) -->
+<!-- NAVBAR -->
 <nav data-aos="fade-down">
   <div class="nav-top">
-    <h2>TheKrochet 🌙</h2>
+    <h2>
+      TheKrochet
+      <button onclick="toggleTheme()" style="background:none;border:none;font-size:20px;cursor:pointer">
+        🌙
+      </button>
+    </h2>
   </div>
 
   <div class="nav-links">
@@ -138,7 +99,6 @@ footer{
   </div>
 </nav>
 
-<!-- HERO -->
 <header>
   <h3 data-aos="zoom-in">Handmade Crochet Creations</h3>
   <p data-aos="fade-up" data-aos-delay="150">
@@ -146,12 +106,10 @@ footer{
   </p>
 </header>
 
-<!-- CONTENT -->
 <section>
   <h2 data-aos="fade-up">Welcome to TheKrochet</h2>
 
   <div class="grid">
-
     <div class="card" data-aos="fade-up" onclick="openCustomOrder()">
       <h3>✨ Custom Orders</h3>
       <p>Designed just for you</p>
@@ -167,13 +125,11 @@ footer{
       <h3>🏡 Home Décor</h3>
       <p>Warm & elegant handmade pieces</p>
     </div>
-
   </div>
 </section>
 
 <footer>© 2025 TheKrochet</footer>
 
-<!-- Scripts -->
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
 AOS.init({ duration:900, once:true });
@@ -188,10 +144,8 @@ function toggleTheme(){
 if(localStorage.getItem("theme")==="dark"){
   document.body.classList.add("dark");
 }
-
 function openCustomOrder(){
-  const msg="I want to make a custom order and my requirement is...";
-  navigator.clipboard.writeText(msg).catch(()=>{});
+  navigator.clipboard.writeText("I want to make a custom order").catch(()=>{});
   window.open("https://ig.me/m/thekrochet_","_blank");
 }
 </script>
