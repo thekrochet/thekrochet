@@ -6,10 +6,8 @@
 <title>Products | TheKrochet</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 <style>
-/* ===== SAME CSS — UNCHANGED ===== */
 :root{
   --bg:#faf7f2; --text:#2f2f2f; --card:#ffffff; --nav:#ffffff;
   --shadow:rgba(0,0,0,0.08); --primary:#d4a373; --primary-dark:#b8895b;
@@ -27,77 +25,157 @@ body{
   display:flex;
   flex-direction:column;
 }
+
+/* NAV */
 nav{
   background:var(--nav);
   box-shadow:0 6px 18px var(--shadow);
   padding:14px 20px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
 }
-.nav-top{display:flex;justify-content:center}
+.nav-top{text-align:center}
 .nav-top h2{font-family:'Playfair Display',serif;font-size:22px}
-.nav-links{display:flex;justify-content:center;gap:18px;flex-wrap:wrap}
+.nav-links{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  margin-top:8px;
+  flex-wrap:wrap
+}
 .nav-links a{text-decoration:none;color:var(--text);font-weight:500}
 .nav-links a.active{color:var(--primary)}
-.search-box{max-width:460px;margin:24px auto;padding:0 16px}
+
+/* SEARCH */
+.search-box{
+  max-width:460px;
+  margin:24px auto 0;
+  padding:0 16px
+}
 .search-box input{
-  width:100%;padding:14px 18px;border-radius:30px;
-  border:1px solid #ddd;background:var(--card);color:var(--text)
+  width:100%;
+  padding:14px 18px;
+  border-radius:30px;
+  border:1px solid #ddd;
+  background:var(--card);
+  color:var(--text)
 }
-.products-section{max-width:1320px;margin:auto;padding:0 20px 80px;flex:1}
-#products{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:28px}
+
+/* PRODUCTS */
+.products-section{
+  max-width:1200px;
+  margin:auto;
+  padding:30px 20px 80px;
+  flex:1
+}
+#products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:26px
+}
 .card{
-  background:var(--card);padding:16px;border-radius:22px;
+  background:var(--card);
+  padding:16px;
+  border-radius:22px;
   box-shadow:0 10px 25px var(--shadow);
-  display:flex;flex-direction:column;
-  animation:fadeUp .6s ease forwards;opacity:0;transform:translateY(20px)
+  display:flex;
+  flex-direction:column;
 }
-@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
-.card img{width:100%;height:220px;object-fit:cover;border-radius:14px;cursor:pointer}
-.price{color:var(--primary-dark);font-weight:600;margin:6px 0}
+.card img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:14px;
+  cursor:pointer;
+  transition:opacity .35s ease, transform .35s ease;
+}
+.price{
+  color:var(--primary-dark);
+  font-weight:600;
+  margin:6px 0
+}
 .card button{
-  margin-top:auto;padding:12px;border:none;border-radius:14px;
+  margin-top:auto;
+  padding:12px;
+  border:none;
+  border-radius:14px;
   background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:#fff;font-weight:600;cursor:pointer
+  color:#fff;
+  font-weight:600;
+  cursor:pointer
 }
+
+/* CART */
 .cart-float{
-  position:fixed;right:20px;bottom:22px;background:var(--primary);
-  color:#fff;padding:14px 20px;border-radius:40px;cursor:pointer;z-index:999
+  position:fixed;
+  right:20px;
+  bottom:22px;
+  background:var(--primary);
+  color:#fff;
+  padding:14px 20px;
+  border-radius:40px;
+  cursor:pointer;
+  z-index:999
 }
 .modal{
-  position:fixed;inset:0;background:rgba(0,0,0,.6);
-  display:none;align-items:center;justify-content:center;z-index:1000
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:1000
 }
 .modal.active{display:flex}
 .modal-box{
-  background:var(--card);width:90%;max-width:400px;
-  padding:22px;border-radius:22px
+  background:var(--card);
+  width:90%;
+  max-width:420px;
+  padding:22px;
+  border-radius:22px
 }
-.modal-box h3{text-align:center;margin-bottom:10px}
-.modal-box label{font-size:13px;font-weight:500;display:block;margin-bottom:4px}
 .modal-box input{
-  width:100%;padding:14px;margin-bottom:12px;
-  border-radius:14px;border:1px solid #ddd;background:var(--bg);color:var(--text)
+  width:100%;
+  padding:12px;
+  margin-bottom:10px;
+  border-radius:12px;
+  border:1px solid #ddd;
 }
-.cart-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #ddd}
-.modal-actions{display:flex;gap:10px;margin-top:14px}
+.cart-item{
+  display:flex;
+  justify-content:space-between;
+  padding:8px 0;
+  border-bottom:1px solid #ddd
+}
+.modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:14px
+}
 .modal-actions button{
-  flex:1;padding:12px;border-radius:14px;border:none;cursor:pointer
+  flex:1;
+  padding:12px;
+  border-radius:14px;
+  border:none;
+  cursor:pointer
 }
 .cancel{background:#ccc}
 .primary{
   background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:#fff;font-weight:600
+  color:#fff;
+  font-weight:600
 }
-#imgModal img{max-width:90%;max-height:80%;border-radius:12px}
-footer{background:#1f1f1f;color:#ddd;text-align:center;padding:22px}
+
+footer{
+  background:#1f1f1f;
+  color:#ddd;
+  text-align:center;
+  padding:22px
+}
 </style>
 </head>
 
 <body>
 
-<nav data-aos="fade-down">
+<nav>
   <div class="nav-top"><h2>TheKrochet</h2></div>
   <div class="nav-links">
     <a href="index.html">Home</a>
@@ -118,6 +196,7 @@ footer{background:#1f1f1f;color:#ddd;text-align:center;padding:22px}
 
 <div class="cart-float" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</div>
 
+<!-- CART MODAL -->
 <div id="cartModal" class="modal">
   <div class="modal-box">
     <h3>Your Cart</h3>
@@ -127,62 +206,93 @@ footer{background:#1f1f1f;color:#ddd;text-align:center;padding:22px}
     </div>
     <div class="modal-actions">
       <button class="cancel" onclick="closeCart()">Cancel</button>
-      <button class="primary" onclick="openOrderForm()">Send on Instagram</button>
+      <button class="primary" onclick="openOrderForm()">Continue</button>
     </div>
   </div>
 </div>
 
+<!-- ORDER MODAL -->
 <div id="orderModal" class="modal">
   <div class="modal-box">
-    <h3>Complete Order</h3>
-    <label>Your Name</label>
+    <h3>Your Details</h3>
     <input id="custName" placeholder="Your Name">
-    <label>Instagram Username</label>
-    <input id="custInsta" placeholder="@username">
+    <input id="custInsta" placeholder="Instagram Username">
     <div class="modal-actions">
       <button class="cancel" onclick="closeOrder()">Back</button>
-      <button class="primary" onclick="submitOrder()">Place Order</button>
+      <button class="primary" onclick="submitOrder()">Send on Instagram</button>
     </div>
   </div>
-</div>
-
-<div id="imgModal" class="modal" onclick="this.classList.remove('active')">
-  <img id="popupImg">
 </div>
 
 <footer>© 2025 TheKrochet</footer>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
 <script>
-AOS.init({duration:900,once:true});
+/* DARK MODE SYNC */
+if(localStorage.getItem("theme")==="dark"){
+  document.body.classList.add("dark");
+}
 
+/* FIREBASE */
 firebase.initializeApp({
   apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
   authDomain:"thekrochet-b3ca2.firebaseapp.com",
   projectId:"thekrochet-b3ca2"
 });
 const db=firebase.firestore();
-const productDiv=products;
+
+/* ELEMENTS */
+const productsDiv=document.getElementById("products");
+const cartItems=document.getElementById("cartItems");
+const cartCount=document.getElementById("cartCount");
+const totalPrice=document.getElementById("totalPrice");
+const cartModal=document.getElementById("cartModal");
+const orderModal=document.getElementById("orderModal");
+const searchInput=document.getElementById("searchInput");
+
 let cart=JSON.parse(localStorage.getItem("krochetCart"))||[];
 
-db.collection("products").onSnapshot(snap=>{
-  productDiv.innerHTML="";
+/* LOAD PRODUCTS */
+db.collection("products")
+.orderBy("createdAt","desc")
+.onSnapshot(snap=>{
+  productsDiv.innerHTML="";
   snap.forEach(doc=>{
     const p=doc.data();
-    productDiv.innerHTML+=`
+    const imgs=p.images||[p.image];
+    const imgId="img_"+doc.id;
+    let i=0;
+
+    productsDiv.innerHTML+=`
       <div class="card">
-        <img src="${p.image}" onclick="openImg('${p.image}')">
+        <img id="${imgId}" src="${imgs[0]}">
         <h3>${p.name}</h3>
         <div class="price">₹${p.price}</div>
         <p>${p.description||""}</p>
         <button onclick="addToCart('${p.name}',${p.price})">Add to Cart</button>
       </div>`;
+
+    setInterval(()=>{
+      if(document.querySelector(".modal.active")) return;
+      if(imgs.length>1){
+        i=(i+1)%imgs.length;
+        const el=document.getElementById(imgId);
+        if(!el) return;
+        el.style.opacity="0";
+        el.style.transform="scale(0.97)";
+        setTimeout(()=>{
+          el.src=imgs[i];
+          el.style.opacity="1";
+          el.style.transform="scale(1)";
+        },350);
+      }
+    },1700);
   });
 });
 
+/* SEARCH */
 searchInput.addEventListener("input",()=>{
   const v=searchInput.value.toLowerCase();
   document.querySelectorAll(".card").forEach(c=>{
@@ -190,13 +300,13 @@ searchInput.addEventListener("input",()=>{
   });
 });
 
-function addToCart(name,price){cart.push({name,price});saveCart();}
-function saveCart(){
+/* CART FUNCTIONS */
+function addToCart(name,price){
+  cart.push({name,price});
   localStorage.setItem("krochetCart",JSON.stringify(cart));
   updateCart();
 }
 function updateCart(){
-  cartCount.innerText=cart.length;
   cartItems.innerHTML="";
   let total=0;
   cart.forEach((p,i)=>{
@@ -204,27 +314,36 @@ function updateCart(){
     cartItems.innerHTML+=`
       <div class="cart-item">
         <span>${p.name}</span>
-        <span>₹${p.price} <b onclick="removeItem(${i})" style="cursor:pointer;color:red;">✖</b></span>
+        <span>₹${p.price} <b style="cursor:pointer;color:red" onclick="removeItem(${i})">✖</b></span>
       </div>`;
   });
+  cartCount.innerText=cart.length;
   totalPrice.innerText=total;
 }
-function removeItem(i){cart.splice(i,1);saveCart();}
-updateCart();
+function removeItem(i){
+  cart.splice(i,1);
+  localStorage.setItem("krochetCart",JSON.stringify(cart));
+  updateCart();
+}
 
 function openCart(){cartModal.classList.add("active")}
 function closeCart(){cartModal.classList.remove("active")}
 function openOrderForm(){closeCart();orderModal.classList.add("active")}
 function closeOrder(){orderModal.classList.remove("active")}
-function openImg(src){popupImg.src=src;imgModal.classList.add("active")}
 
-/* ===== 🔥 FIXED SECTION ===== */
+/* SUBMIT ORDER */
 function submitOrder(){
   const name=custName.value.trim();
   const insta=custInsta.value.trim();
-  if(!name||!insta){alert("Fill details");return;}
+  if(!name||!insta) return;
 
-  let total=0; cart.forEach(p=>total+=p.price);
+  let total=0;
+  let msg="Hello, I want to order:\n";
+  cart.forEach(p=>{
+    total+=p.price;
+    msg+=`- ${p.name}: ₹${p.price}\n`;
+  });
+  msg+=`\nTotal: ₹${total}\nName: ${name}\nInstagram: ${insta}`;
 
   db.collection("orders").add({
     customer:{name,instagram:insta},
@@ -235,23 +354,19 @@ function submitOrder(){
     createdAt:firebase.firestore.FieldValue.serverTimestamp()
   });
 
-  let msg="Hello, I want to order:\n";
-  cart.forEach(p=>msg+=`- ${p.name}: ₹${p.price}\n`);
-  msg+=`\nTotal: ₹${total}\nName: ${name}\nInstagram: ${insta}`;
+  navigator.clipboard.writeText(msg).catch(()=>{});
 
-  navigator.clipboard.writeText(msg).then(()=>{
-    cart=[];
-    localStorage.removeItem("krochetCart");
-    updateCart();
-    setTimeout(()=>{
-      window.location.href="https://ig.me/m/thekrochet_";
-    },300);
-  });
+  cart=[];
+  localStorage.removeItem("krochetCart");
+  updateCart();
+  closeOrder();
+
+  setTimeout(()=>{
+    window.location.href="https://ig.me/m/thekrochet_";
+  },300);
 }
 
-if(localStorage.getItem("theme")==="dark"){
-  document.body.classList.add("dark");
-}
+updateCart();
 </script>
 
 </body>
