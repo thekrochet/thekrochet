@@ -1,87 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login | TheKrochet</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <style>
-    body{
-      font-family:"Poppins",sans-serif;
-      background:linear-gradient(135deg,#f8f5f0,#efe7dc);
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
+<style>
+:root{
+  --primary:#d4a373;
+  --primary-dark:#b8895b;
+  --bg:#faf7f2;
+  --card:#ffffff;
+  --text:#2f2f2f;
+  --shadow:rgba(0,0,0,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
 
-    .login-card{
-      background:#ffffff;
-      border-radius:20px;
-      padding:30px;
-      box-shadow:0 15px 35px rgba(0,0,0,0.12);
-      width:100%;
-      max-width:400px;
-      text-align:center;
-    }
+body{
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#f8f5f0,#efe7dc);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--text);
+}
 
-    input{
-      width:100%;
-      padding:14px;
-      margin-bottom:12px;
-      border-radius:14px;
-      border:1px solid #e0d6c8;
-      box-sizing:border-box;
-    }
+/* ===== LOGIN CARD ===== */
+.login-card{
+  background:var(--card);
+  width:100%;
+  max-width:420px;
+  padding:34px 30px 36px;
+  border-radius:26px;
+  box-shadow:0 20px 40px var(--shadow);
+  text-align:center;
+  animation:cardIn .55s ease forwards;
+}
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
 
-    button{
-      width:100%;
-      padding:14px;
-      border-radius:14px;
-      border:none;
-      background:linear-gradient(135deg,#d4a373,#b8895b);
-      color:#fff;
-      font-weight:600;
-      cursor:pointer;
-    }
-  </style>
+.login-card h2{
+  font-family:'Playfair Display',serif;
+  font-size:26px;
+  margin-bottom:4px;
+}
+
+.login-card p{
+  font-size:14px;
+  color:#777;
+  margin-bottom:22px;
+}
+
+/* ===== INPUTS ===== */
+input{
+  width:100%;
+  padding:14px 16px;
+  margin-bottom:14px;
+  border-radius:14px;
+  border:1px solid #e0d6c8;
+  font-size:14px;
+  outline:none;
+  transition:.25s ease;
+}
+
+input:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(212,163,115,.25);
+}
+
+/* ===== BUTTON ===== */
+button{
+  width:100%;
+  padding:14px;
+  border-radius:16px;
+  border:none;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff;
+  font-weight:600;
+  font-size:15px;
+  cursor:pointer;
+  transition:.3s ease;
+}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 22px rgba(0,0,0,.18);
+}
+
+/* ===== FOOT NOTE ===== */
+.note{
+  margin-top:16px;
+  font-size:12px;
+  color:#999;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:420px){
+  .login-card{
+    padding:28px 22px 30px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="login-card">
-    <h2>TheKrochet</h2>
-    <p>Admin Login</p>
+<div class="login-card">
+  <h2>TheKrochet</h2>
+  <p>Admin Panel Login</p>
 
-    <input id="email" type="email" placeholder="Admin Email">
-    <input id="password" type="password" placeholder="Password">
+  <input id="email" type="email" placeholder="Admin Email">
+  <input id="password" type="password" placeholder="Password">
 
-    <button onclick="login()">Login</button>
-  </div>
+  <button onclick="login()">Login</button>
 
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <div class="note">Authorized access only</div>
+</div>
 
-  <script>
-    firebase.initializeApp({
-      apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
-      authDomain:"thekrochet-b3ca2.firebaseapp.com",
-      projectId:"thekrochet-b3ca2"
-    });
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
-    function login(){
-      const e = document.getElementById("email").value;
-      const p = document.getElementById("password").value;
+<script>
+firebase.initializeApp({
+  apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
+  authDomain:"thekrochet-b3ca2.firebaseapp.com",
+  projectId:"thekrochet-b3ca2"
+});
 
-      firebase.auth()
-        .signInWithEmailAndPassword(e,p)
-        .then(()=>location.href="admin.html")
-        .catch(err=>alert(err.message));
-    }
-  </script>
+function login(){
+  const email=document.getElementById("email").value;
+  const password=document.getElementById("password").value;
+
+  firebase.auth()
+    .signInWithEmailAndPassword(email,password)
+    .then(()=>location.href="admin.html")
+    .catch(err=>alert(err.message));
+}
+</script>
 
 </body>
 </html>
