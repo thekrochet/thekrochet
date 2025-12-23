@@ -4,16 +4,10 @@
 ============================================= */
 
 /* 📱 MOBILE (Default - Under 768px) */
-/* This applies to ALL screens unless overridden below */
-
-body {
-  overflow-x: hidden; /* Prevents side-scrolling bugs */
-}
+body { overflow-x: hidden; }
 
 /* Make text readable on small phones */
-header h1, header h3 {
-  font-size: 2rem !important; /* Smaller header for mobile */
-}
+header h1, header h3 { font-size: 2rem !important; }
 
 /* Adjust grid to be 1 column on mobile */
 .grid, #products {
@@ -24,116 +18,34 @@ header h1, header h3 {
 }
 
 /* Fix Navbar on Mobile */
-nav {
-  padding: 10px;
-  flex-direction: column;
-}
-.nav-links {
-  gap: 12px;
-  flex-wrap: wrap; /* Allows links to stack */
-  justify-content: center;
-}
-.nav-links a {
-  font-size: 14px;
-}
+nav { padding: 10px; flex-direction: column; }
+.nav-links { gap: 12px; flex-wrap: wrap; justify-content: center; }
+.nav-links a { font-size: 14px; }
 
 /* Fix Cards on Mobile */
-.card {
-  padding: 20px;
-}
+.card { padding: 20px; }
 
 /* Admin Panel Mobile Fixes */
-.admin-card {
-  padding: 18px;
-}
-.admin-card input, .admin-card textarea {
-  font-size: 16px; /* Prevents iPhone zoom on focus */
-}
-.list-item {
-  flex-direction: column;
-  align-items: flex-start;
-}
-.product-row {
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-}
-.actions {
-  margin-left: 0;
-  margin-top: 10px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
-.btn-sm {
-  flex: 1;
-  text-align: center;
-}
-
+.admin-card { padding: 18px; }
+.admin-card input, .admin-card textarea { font-size: 16px; }
+.list-item { flex-direction: column; align-items: flex-start; }
+.product-row { flex-direction: column; align-items: flex-start; width: 100%; }
+.actions { margin-left: 0; margin-top: 10px; width: 100%; display: flex; justify-content: space-between; }
+.btn-sm { flex: 1; text-align: center; }
 
 /* 📱 TABLET (Between 768px and 1024px) */
 @media (min-width: 768px) {
-  
-  /* 2 Cards per row */
-  .grid, #products {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-  }
-
-  /* Restore Header Size */
-  header h1, header h3 {
-    font-size: 2.5rem !important;
-  }
-
-  /* Navbar spreads out */
-  nav {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .nav-top, .nav-links {
-    margin: 0;
-  }
-
-  /* Admin Fixes */
-  .list-item {
-    flex-direction: row;
-    align-items: center;
-  }
-  .product-row {
-    flex-direction: row;
-    align-items: center;
-  }
-  .actions {
-    margin-left: auto;
-    margin-top: 0;
-    width: auto;
-  }
+  .grid, #products { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  header h1, header h3 { font-size: 2.5rem !important; }
+  nav { flex-direction: row; justify-content: space-between; align-items: center; }
+  .list-item { flex-direction: row; align-items: center; }
+  .product-row { flex-direction: row; align-items: center; }
+  .actions { margin-left: auto; margin-top: 0; width: auto; }
 }
 
-
-/* 💻 LAPTOP & DESKTOP (Over 1024px) */
+/* 💻 LAPTOP (Over 1024px) */
 @media (min-width: 1024px) {
-
-  /* 3 Cards per row */
-  .grid, #products {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-  }
-  
-  /* Admin Panel gets wider */
-  main {
-    max-width: 800px;
-  }
-}
-
-
-/* 🖥️ LARGE SCREENS (Over 1400px) */
-@media (min-width: 1400px) {
-  
-  /* 4 Cards per row */
-  .grid, #products {
-    grid-template-columns: repeat(4, 1fr);
-  }
+  .grid, #products { grid-template-columns: repeat(3, 1fr); gap: 30px; }
+  main { max-width: 800px; }
 }
 
