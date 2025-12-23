@@ -1,51 +1,56 @@
-/* =============================================
-   MASTER RESPONSIVE SHEET
-   Fixes: Mobile, Tablet, Laptop, Desktop
-============================================= */
+/* ================= RESPONSIVE MASTER ================= */
 
-/* 📱 MOBILE (Default - Under 768px) */
-body { overflow-x: hidden; }
-
-/* Make text readable on small phones */
-header h1, header h3 { font-size: 2rem !important; }
-
-/* Adjust grid to be 1 column on mobile */
-.grid, #products {
-  display: grid;
-  grid-template-columns: 1fr; /* 1 Card per row */
-  gap: 20px;
-  padding: 0 10px;
+/* 📱 MOBILE (Under 768px) */
+@media (max-width: 768px) {
+  
+  /* Global Fixes */
+  body { overflow-x: hidden; }
+  header h1 { font-size: 2rem !important; }
+  
+  /* Navbar */
+  nav { flex-direction: column; padding: 10px; }
+  .nav-links { gap: 10px; flex-wrap: wrap; justify-content: center; }
+  
+  /* Grid (Products) */
+  .grid, #products { grid-template-columns: 1fr; padding: 0 10px; }
+  
+  /* Admin & Reviews Fixes */
+  .admin-card { padding: 15px; }
+  
+  /* This fixes the Reviews List to stack nicely */
+  .list-item {
+    display: flex;
+    flex-direction: column; /* Stack top-to-bottom */
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .review-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* Make the Delete button stretch full width on mobile */
+  .review-del {
+    position: static; /* Remove absolute positioning */
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+  }
 }
 
-/* Fix Navbar on Mobile */
-nav { padding: 10px; flex-direction: column; }
-.nav-links { gap: 12px; flex-wrap: wrap; justify-content: center; }
-.nav-links a { font-size: 14px; }
-
-/* Fix Cards on Mobile */
-.card { padding: 20px; }
-
-/* Admin Panel Mobile Fixes */
-.admin-card { padding: 18px; }
-.admin-card input, .admin-card textarea { font-size: 16px; }
-.list-item { flex-direction: column; align-items: flex-start; }
-.product-row { flex-direction: column; align-items: flex-start; width: 100%; }
-.actions { margin-left: 0; margin-top: 10px; width: 100%; display: flex; justify-content: space-between; }
-.btn-sm { flex: 1; text-align: center; }
-
-/* 📱 TABLET (Between 768px and 1024px) */
+/* 💻 TABLET & DESKTOP (Over 768px) */
 @media (min-width: 768px) {
-  .grid, #products { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-  header h1, header h3 { font-size: 2.5rem !important; }
-  nav { flex-direction: row; justify-content: space-between; align-items: center; }
+  .grid, #products { grid-template-columns: repeat(2, 1fr); }
+  nav { flex-direction: row; justify-content: space-between; }
+  
+  /* Reset Reviews to horizontal line */
   .list-item { flex-direction: row; align-items: center; }
-  .product-row { flex-direction: row; align-items: center; }
-  .actions { margin-left: auto; margin-top: 0; width: auto; }
+  .review-del { position: absolute; top: 16px; right: 16px; width: auto; margin: 0; }
 }
 
-/* 💻 LAPTOP (Over 1024px) */
 @media (min-width: 1024px) {
-  .grid, #products { grid-template-columns: repeat(3, 1fr); gap: 30px; }
-  main { max-width: 800px; }
+  .grid, #products { grid-template-columns: repeat(3, 1fr); }
 }
 
