@@ -10,33 +10,40 @@
 <style>
 :root{
   --primary:#d4a373;
+  --primary-dark:#b8895b;
   --dark:#2f2f2f;
   --light:#faf7f2;
+  --card:#ffffff;
+  --shadow:rgba(0,0,0,.08);
 }
+
 *{margin:0;padding:0;box-sizing:border-box}
+
 body{
   font-family:'Poppins',sans-serif;
   background:var(--light);
   min-height:100vh;
   display:flex;
   flex-direction:column;
+  color:var(--dark);
 }
 
-/* ===== NAVBAR (2 LINE + ANIMATION) ===== */
+/* ===== NAVBAR ===== */
 nav{
   background:#fff;
-  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  box-shadow:0 6px 18px var(--shadow);
   padding:16px 20px 14px;
   text-align:center;
   animation:fadeDown .6s ease forwards;
 }
 @keyframes fadeDown{
-  from{opacity:0;transform:translateY(-12px)}
-  to{opacity:1;transform:translateY(0)}
+  from{opacity:0;transform:translateY(-14px)}
+  to{opacity:1;transform:none}
 }
 .nav-top h2{
   font-family:'Playfair Display',serif;
   font-size:22px;
+  letter-spacing:.3px;
 }
 .nav-links{
   display:grid;
@@ -47,50 +54,79 @@ nav{
 }
 .nav-links a,
 .nav-links button{
-  text-decoration:none;
   background:none;
   border:none;
   font-weight:500;
   color:var(--dark);
   cursor:pointer;
+  position:relative;
 }
 .nav-links a.active{
   color:var(--primary);
-  border-bottom:2px solid var(--primary);
-  padding-bottom:2px;
+}
+.nav-links a.active::after{
+  content:"";
+  position:absolute;
+  left:0;right:0;bottom:-4px;
+  height:2px;
+  background:var(--primary);
+  border-radius:2px;
 }
 
 /* ===== MAIN ===== */
 main{
   flex:1;
-  max-width:520px;
+  max-width:560px;
+  width:100%;
   margin:auto;
-  padding:30px 15px 50px;
+  padding:30px 16px 60px;
 }
+
 .admin-card{
-  background:#fff;
-  padding:20px;
-  border-radius:20px;
-  margin-bottom:22px;
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  background:var(--card);
+  padding:22px;
+  border-radius:22px;
+  margin-bottom:26px;
+  box-shadow:0 12px 28px var(--shadow);
+  animation:cardIn .7s ease both;
 }
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:none}
+}
+.admin-card h4{
+  margin-bottom:14px;
+  font-weight:600;
+}
+
+/* ===== FORM ===== */
 input,textarea{
   width:100%;
   padding:14px;
   margin-bottom:12px;
   border-radius:14px;
   border:1px solid #ddd;
+  font-size:14px;
+}
+input:focus,textarea:focus{
+  outline:none;
+  border-color:var(--primary);
 }
 .primary-btn{
   width:100%;
   padding:14px;
   border:none;
   border-radius:14px;
-  background:linear-gradient(135deg,#d4a373,#b8895b);
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
   color:#fff;
   font-weight:600;
   cursor:pointer;
+  transition:.25s ease;
 }
+.primary-btn:hover{transform:translateY(-2px)}
+.primary-btn:active{transform:scale(.98)}
+
+/* ===== PRODUCT LIST ===== */
 .product-card{
   background:#faf7f2;
   border-radius:16px;
@@ -99,27 +135,36 @@ input,textarea{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  transition:.25s ease;
+}
+.product-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 22px rgba(0,0,0,.08);
+}
+.product-card strong{font-size:14px}
+.product-card span{font-size:13px;color:#555}
+
+/* ACTION BUTTONS */
+.edit,.delete{
+  border:none;
+  padding:6px 12px;
+  border-radius:8px;
+  color:#fff;
+  cursor:pointer;
+  font-size:12px;
+  transition:.2s ease;
 }
 .edit{
   background:#6b4f2c;
-  color:#fff;
-  padding:5px 10px;
-  border-radius:5px;
-  border:none;
-  margin-right:5px;
-  cursor:pointer;
-  min-width:54px;
-  text-align:center;
+  margin-right:6px;
 }
-.delete{
-  background:#e63939;
-  color:#fff;
-  padding:5px 10px;
-  border-radius:5px;
-  border:none;
-  cursor:pointer;
-  min-width:48px;
-  text-align:center;
+.delete{background:#e63939}
+.edit:hover,.delete:hover{opacity:.85}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:420px){
+  .nav-links{gap:14px}
+  main{padding-top:24px}
 }
 </style>
 </head>
@@ -138,6 +183,7 @@ input,textarea{
 </nav>
 
 <main>
+
   <div class="admin-card">
     <h4 id="formTitle">Add Product</h4>
     <input id="pname" placeholder="Product Name">
@@ -151,6 +197,7 @@ input,textarea{
     <h4>All Products</h4>
     <div id="productList"></div>
   </div>
+
 </main>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -207,7 +254,7 @@ submitBtn.onclick=async()=>{
   pname.value=""; pprice.value=""; pimage.value=""; pdesc.value="";
 };
 
-/* PRODUCTS — FIXED (NO UI CHANGE) */
+/* PRODUCTS */
 db.collection("products").onSnapshot(snap=>{
   const list=document.getElementById("productList");
   list.innerHTML="";
