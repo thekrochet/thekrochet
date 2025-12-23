@@ -5,11 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact | TheKrochet</title>
 
-<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-<!-- ✅ BRAND MASTER -->
 <link rel="stylesheet" href="brand.css">
 
 <style>
@@ -73,25 +71,14 @@ section{
   gap:36px;
 }
 
-/* CONTACT CARD */
+/* CARD */
 .card{
   background:var(--card);
   padding:34px 28px;
   border-radius:28px;
   text-align:center;
   box-shadow:0 14px 30px var(--shadow);
-  position:relative;
-  overflow:hidden;
 }
-.card::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(135deg,transparent,var(--primary));
-  opacity:0;
-  transition:.45s;
-}
-.card:hover::before{opacity:.08}
 .card h3{font-size:20px;margin-bottom:8px}
 .card p{font-size:14px;opacity:.85;margin-bottom:16px}
 .card a{
@@ -118,11 +105,8 @@ footer{
 
 <body>
 
-<!-- ✅ NAVBAR — SAME AS PRODUCTS / INDEX -->
-<nav data-aos="fade-down">
-  <div class="nav-top">
-    <h2>TheKrochet</h2>
-  </div>
+<nav>
+  <div class="nav-top"><h2>TheKrochet</h2></div>
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="products.html">Products</a>
@@ -132,7 +116,7 @@ footer{
   </div>
 </nav>
 
-<header data-aos="fade-up">
+<header>
   <h1>Contact Us</h1>
   <p>We’d love to hear from you — orders, queries & collaborations 💛</p>
 </header>
@@ -140,8 +124,8 @@ footer{
 <section>
   <div class="grid">
 
-    <!-- INSTAGRAM PROFILE -->
-    <div class="card" data-aos="fade-up">
+    <!-- INSTAGRAM -->
+    <div class="card">
       <h3>📩 Instagram</h3>
       <p>DM us directly for orders & quick queries</p>
       <a href="https://instagram.com/thekrochet_" target="_blank">
@@ -150,19 +134,19 @@ footer{
     </div>
 
     <!-- CUSTOM ORDER -->
-    <div class="card" data-aos="fade-up" data-aos-delay="120">
+    <div class="card">
       <h3>🎁 Custom Orders</h3>
       <p>Have something unique in mind? We crochet it.</p>
-      <a href="#" onclick="customOrder(event)">
+      <a href="javascript:void(0)" onclick="customOrder()">
         Request Custom Order
       </a>
     </div>
 
-    <!-- COLLABORATION -->
-    <div class="card" data-aos="fade-up" data-aos-delay="240">
+    <!-- COLLAB -->
+    <div class="card">
       <h3>🤝 Collaborations</h3>
       <p>Brand partnerships & creative collaborations</p>
-      <a href="#" onclick="collabOrder(event)">
+      <a href="javascript:void(0)" onclick="collabOrder()">
         Collaborate With Us
       </a>
     </div>
@@ -180,35 +164,39 @@ if(localStorage.getItem("theme")==="dark"){
   document.body.classList.add("dark");
 }
 
-/* ===== INSTAGRAM DM HELPERS ===== */
-function customOrder(e){
-  e.preventDefault();
+/* ===== 100% WORKING INSTAGRAM DM ===== */
+function customOrder(){
   const msg =
 `Hi there 👋
-I would like you to make a custom crochet order.
+I would like to place a custom crochet order.
 
-My requirement is:
-• Product type:
+My requirements:
+• Product:
 • Color:
 • Size / Details:
 
-Please let me know the process. Thank you 💛`;
+Please guide me further. Thank you 💛`;
 
-  navigator.clipboard.writeText(msg).catch(()=>{});
-  window.open("https://ig.me/m/thekrochet_","_blank");
+  navigator.clipboard.writeText(msg).finally(()=>{
+    setTimeout(()=>{
+      window.location.href="https://ig.me/m/thekrochet_";
+    },200);
+  });
 }
 
-function collabOrder(e){
-  e.preventDefault();
+function collabOrder(){
   const msg =
 `Hello 👋
 I’m interested in collaborating with TheKrochet.
 
-Please let me know the collaboration process.
-Looking forward to hearing from you.`;
+Please share the collaboration details.
+Looking forward to your response.`;
 
-  navigator.clipboard.writeText(msg).catch(()=>{});
-  window.open("https://ig.me/m/thekrochet_","_blank");
+  navigator.clipboard.writeText(msg).finally(()=>{
+    setTimeout(()=>{
+      window.location.href="https://ig.me/m/thekrochet_";
+    },200);
+  });
 }
 </script>
 
