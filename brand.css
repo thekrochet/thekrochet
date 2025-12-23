@@ -1,18 +1,56 @@
 /* =========================
-   MASTER NAVBAR – THEKROCHET
-   (ALL PAGES – 2 LINE FIXED)
+   THEKROCHET BRAND LAYER
+   (LOGIC SAFE – UI ONLY)
+========================= */
+
+:root{
+  --radius-xl:24px;
+  --radius-lg:18px;
+  --radius-md:14px;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+
+/* Smooth feel */
+*{
+  transition:
+    background-color .35s var(--ease),
+    color .35s var(--ease),
+    box-shadow .35s var(--ease),
+    transform .35s var(--ease);
+}
+
+/* Typography */
+h1,h2,h3{letter-spacing:.3px}
+p{line-height:1.7}
+
+/* Cards */
+.card:hover{
+  transform:translateY(-6px) scale(1.015);
+  box-shadow:0 18px 40px rgba(0,0,0,.12);
+}
+
+/* Buttons */
+button:active{transform:scale(.97)}
+
+/* Inputs */
+input:focus,textarea:focus{
+  box-shadow:0 0 0 2px rgba(212,163,115,.25);
+}
+
+/* =========================
+   MASTER NAVBAR (FINAL)
+   SAME AS products.html
 ========================= */
 
 nav{
   background:var(--nav);
   box-shadow:0 6px 18px var(--shadow);
-  padding:14px 20px 16px;
+  padding:14px 20px;
   display:flex;
   flex-direction:column;
-  align-items:center;
+  gap:8px;
 }
 
-/* ===== LINE 1 : BRAND ===== */
 .nav-top{
   text-align:center;
 }
@@ -21,27 +59,14 @@ nav{
   font-family:'Playfair Display',serif;
   font-size:22px;
   line-height:1.2;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
 }
 
-/* ===== LINE 2 : ALL LINKS (SINGLE ROW) ===== */
+/* 🔒 THIS IS THE FIX */
 .nav-links{
   display:flex;
   justify-content:center;
-  align-items:center;
-  gap:20px;
-  flex-wrap:nowrap;          /* 🔒 NEVER DROP TO 3RD LINE */
-  white-space:nowrap;
-  overflow-x:auto;           /* safety for very small screens */
-  padding-bottom:2px;
-}
-
-/* hide scrollbar (mobile clean look) */
-.nav-links::-webkit-scrollbar{
-  display:none;
+  gap:18px;
+  flex-wrap:wrap;   /* ✅ 2 lines always */
 }
 
 .nav-links a{
@@ -49,7 +74,6 @@ nav{
   color:var(--text);
   font-weight:500;
   position:relative;
-  white-space:nowrap;
 }
 
 .nav-links a.active{
