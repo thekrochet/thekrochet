@@ -3,72 +3,191 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Orders | TheKrochet</title>
+<title>Order Management | TheKrochet</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="brand.css">
 <link rel="stylesheet" href="responsive.css">
 
 <style>
-/* Internal styles for specific order elements not covered in global files */
+/* Internal styles for Admin Dashboard */
 :root{
   --primary:#d4a373;
+  --primary-dark:#b8895b;
   --bg:#faf7f2;
   --text:#2f2f2f;
+  --success: #27ae60;
+  --warning: #f39c12;
+  --info: #3498db;
+  --danger: #e74c3c;
 }
 
-/* Specific Order Card Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg);
+}
+
+/* Navbar Tweaks */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+/* Page Header */
+.page-header {
+  margin-bottom: 25px;
+  text-align: center;
+}
+.page-header h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--primary-dark);
+  margin-bottom: 5px;
+}
+.page-header p {
+  font-size: 14px;
+  color: #777;
+}
+
+/* Order Card Design */
 .order-card {
   background: #fff;
-  padding: 20px;
-  border-radius: 18px;
-  margin-bottom: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-  border: 1px solid #eee;
-  animation: fadeUp .4s ease forwards;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+  transition: transform 0.2s ease;
 }
-@keyframes fadeUp{ from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+.order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
 
+/* Card Header */
 .order-header {
+  background: #fdfbf8;
+  padding: 15px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #f0f0f0;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
 }
-.order-id { font-weight: 600; color: var(--primary); font-size: 14px; }
-.order-date { font-size: 12px; color: #888; }
+.order-id {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: var(--text);
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+.order-date {
+  font-size: 12px;
+  color: #888;
+  font-weight: 500;
+  background: #fff;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid #eee;
+}
 
-.order-items { margin-bottom: 12px; }
+/* Customer Section */
+.customer-info {
+  padding: 15px 20px;
+  border-bottom: 1px dashed #eee;
+}
+.customer-name {
+  font-weight: 600;
+  color: var(--primary-dark);
+  font-size: 15px;
+  display: block;
+}
+.customer-address {
+  font-size: 13px;
+  color: #666;
+  margin-top: 4px;
+  display: block;
+  line-height: 1.4;
+}
+
+/* Items List */
+.order-items {
+  padding: 15px 20px;
+  background: #fff;
+}
 .order-item {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 14px;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
+  color: #444;
+  border-bottom: 1px solid #fafafa;
+  padding-bottom: 8px;
+}
+.order-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.item-qty {
+  font-size: 12px;
+  background: #eee;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 5px;
   color: #555;
 }
 
+/* Footer & Actions */
+.order-footer {
+  padding: 15px 20px;
+  background: #fafafa;
+  border-top: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 .order-total {
-  text-align: right;
+  display: flex;
+  justify-content: space-between;
   font-weight: 700;
   font-size: 16px;
   color: var(--text);
-  border-top: 1px solid #f0f0f0;
-  padding-top: 10px;
 }
 
+/* Status Select */
 .status-select {
-  margin-top: 10px;
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  background: #fafafa;
   width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
   font-family: 'Poppins', sans-serif;
+  font-weight: 500;
   cursor: pointer;
+  outline: none;
 }
+/* Delete Button */
+.btn-delete {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: underline;
+  align-self: flex-end;
+}
+.btn-delete:hover { color: var(--danger); }
+
+/* Status Colors */
+.status-pending { color: var(--warning); border-color: var(--warning); }
+.status-shipped { color: var(--info); border-color: var(--info); }
+.status-delivered { color: var(--success); border-color: var(--success); }
+
 </style>
 </head>
 
@@ -86,9 +205,15 @@
 </nav>
 
 <main>
-  <div class="admin-card">
-    <h4>Recent Orders</h4>
-    <div id="ordersList">Loading orders...</div>
+  <div class="page-header">
+    <h4>Order Dashboard</h4>
+    <p>Manage and track your customer orders</p>
+  </div>
+
+  <div id="ordersList">
+    <div style="text-align:center; padding: 40px; color: #999;">
+      Loading orders...
+    </div>
   </div>
 </main>
 
@@ -120,74 +245,109 @@ db.collection("orders").orderBy("createdAt", "desc").onSnapshot(snap => {
   list.innerHTML = "";
 
   if (snap.empty) {
-    list.innerHTML = "<div style='text-align:center;padding:10px;color:#999'>No orders yet.</div>";
+    list.innerHTML = `
+      <div style='text-align:center;padding:40px;color:#999'>
+        <h3>No Orders Yet 🍃</h3>
+        <p>Your sales will appear here.</p>
+      </div>`;
     return;
   }
 
   snap.forEach(doc => {
     const o = doc.data();
-    const date = o.createdAt ? o.createdAt.toDate().toLocaleDateString() : "Date N/A";
+    const date = o.createdAt ? o.createdAt.toDate().toLocaleDateString() : "Just now";
     
-    // Generate Items HTML
+    // ✅ AUTO-FIX BAD DATA (NaN / Undefined)
+    // We check if quantity exists, if not default to 1.
+    // We check if price is valid, if not default to 0.
+    
     let itemsHtml = "";
+    let calculatedTotal = 0; // Recalculate total to be safe
+
     if (o.items && Array.isArray(o.items)) {
       o.items.forEach(item => {
+        // Fallback Logic:
+        const qty = item.quantity || item.qty || 1; 
+        const price = Number(item.price) || 0;
+        const itemTotal = price * qty;
+        calculatedTotal += itemTotal;
+
         itemsHtml += `
           <div class="order-item">
-            <span>${item.name} (x${item.quantity})</span>
-            <span>₹${item.price * item.quantity}</span>
+            <span style="flex:1">${item.name} <span class="item-qty">x${qty}</span></span>
+            <span style="font-weight:500">₹${itemTotal}</span>
           </div>
         `;
       });
     }
 
-    // Status Color Logic
-    let statusColor = "#333";
-    if(o.status === "Pending") statusColor = "#f39c12";
-    if(o.status === "Shipped") statusColor = "#3498db";
-    if(o.status === "Delivered") statusColor = "#27ae60";
+    // Determine Status Class for Color
+    let statusClass = "status-pending";
+    if(o.status === "Shipped") statusClass = "status-shipped";
+    if(o.status === "Delivered") statusClass = "status-delivered";
+
+    // Use saved total if available, otherwise use our recalculated one
+    const finalTotal = o.total ? o.total : calculatedTotal;
 
     list.innerHTML += `
       <div class="order-card">
         <div class="order-header">
           <span class="order-id">#${doc.id.substr(0,8).toUpperCase()}</span>
-          <span class="order-date">${date}</span>
+          <span class="order-date">📅 ${date}</span>
         </div>
         
-        <div class="order-customer">
-          <strong>${o.customerName || "Customer"}</strong><br>
-          <span style="font-size:13px;color:#666">${o.address || "No address provided"}</span>
+        <div class="customer-info">
+          <span class="customer-name">${o.customerName || "Guest Customer"}</span>
+          <span class="customer-address">📍 ${o.address || "No address provided"}</span>
         </div>
-        <hr style="border:0;border-top:1px solid #eee;margin:10px 0;">
         
         <div class="order-items">
           ${itemsHtml}
         </div>
 
-        <div class="order-total">
-          Total: ₹${o.total}
-        </div>
+        <div class="order-footer">
+          <div class="order-total">
+            <span>Total Amount</span>
+            <span style="color:var(--primary-dark)">₹${finalTotal}</span>
+          </div>
 
-        <select class="status-select" onchange="updateStatus('${doc.id}', this.value)" style="color:${statusColor};font-weight:600">
-          <option value="Pending" ${o.status === 'Pending' ? 'selected' : ''}>Pending</option>
-          <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
-          <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
-        </select>
+          <select class="status-select ${statusClass}" onchange="updateStatus('${doc.id}', this)">
+            <option value="Pending" ${o.status === 'Pending' ? 'selected' : ''}>⏳ Pending</option>
+            <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>🚚 Shipped</option>
+            <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>✅ Delivered</option>
+          </select>
+          
+          <button class="btn-delete" onclick="deleteOrder('${doc.id}')">Delete Order Record</button>
+        </div>
       </div>
     `;
   });
 });
 
 /* UPDATE STATUS FUNCTION */
-function updateStatus(id, newStatus) {
+function updateStatus(id, selectElement) {
+  const newStatus = selectElement.value;
+  
+  // Update Color immediately for better UI feel
+  selectElement.className = "status-select"; // reset
+  if(newStatus === "Pending") selectElement.classList.add("status-pending");
+  if(newStatus === "Shipped") selectElement.classList.add("status-shipped");
+  if(newStatus === "Delivered") selectElement.classList.add("status-delivered");
+
   db.collection("orders").doc(id).update({
     status: newStatus
-  }).then(() => {
-    // Optional: Add a toast notification here
-    console.log("Status updated");
-  }).catch(err => alert("Error updating status: " + err.message));
+  }).catch(err => alert("Error: " + err.message));
+}
+
+/* DELETE ORDER FUNCTION */
+function deleteOrder(id) {
+  if(confirm("Are you sure you want to delete this order history? This cannot be undone.")){
+    db.collection("orders").doc(id).delete()
+    .catch(err => alert("Error: " + err.message));
+  }
 }
 </script>
 
 </body>
 </html>
+
