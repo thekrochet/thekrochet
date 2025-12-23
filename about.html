@@ -1,214 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Us | TheKrochet</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us | TheKrochet</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-  <!-- AOS -->
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf7f2;
+  --text:#2f2f2f;
+  --card:#ffffff;
+  --nav:#ffffff;
+  --shadow:rgba(0,0,0,0.08);
+  --primary:#d4a373;
+  --primary-dark:#b8895b;
+}
+body.dark{
+  --bg:#121212;
+  --text:#f1f1f1;
+  --card:#1e1e1e;
+  --nav:#1a1a1a;
+  --shadow:rgba(0,0,0,0.6);
+}
+*{margin:0;padding:0;box-sizing:border-box}
 
-  <style>
-    :root{
-      --bg:#faf7f2;
-      --text:#2f2f2f;
-      --card:#ffffff;
-      --nav:#ffffff;
-      --shadow:rgba(0,0,0,0.08);
-      --primary:#d4a373;
-    }
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
 
-    body.dark{
-      --bg:#121212;
-      --text:#f1f1f1;
-      --card:#1e1e1e;
-      --nav:#1a1a1a;
-      --shadow:rgba(0,0,0,0.6);
-    }
+/* ================= NAVBAR (FORCED 2 LINE) ================= */
+nav{
+  background:var(--nav);
+  box-shadow:0 6px 18px var(--shadow);
+  padding:14px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.nav-top{text-align:center}
+.nav-top h2{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+}
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
+/* 🔒 NEVER 3 LINES */
+.nav-links{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:nowrap;        /* ❌ wrap band */
+  overflow-x:auto;         /* ✅ scroll allowed */
+  white-space:nowrap;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.nav-links::-webkit-scrollbar{display:none}
 
-    body{
-      font-family:'Poppins',sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-    }
+.nav-links a{
+  text-decoration:none;
+  color:var(--text);
+  font-weight:500;
+  position:relative;
+  white-space:nowrap;
+}
+.nav-links a.active{color:var(--primary)}
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  left:0;bottom:-4px;
+  width:0;height:2px;
+  background:var(--primary);
+  transition:.3s;
+}
+.nav-links a:hover::after,
+.nav-links a.active::after{width:100%}
 
-    nav{
-      background:var(--nav);
-      box-shadow:0 6px 18px var(--shadow);
-      padding:14px 20px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
+/* ================= HERO ================= */
+header{
+  text-align:center;
+  padding:100px 20px 80px;
+  background:linear-gradient(135deg,#fefae0,#faedcd);
+}
+body.dark header{
+  background:linear-gradient(135deg,#1f1f1f,#2a2a2a);
+}
+header h1{
+  font-family:'Playfair Display',serif;
+  font-size:3rem;
+  margin-bottom:14px;
+}
+header p{
+  max-width:720px;
+  margin:auto;
+  font-size:16px;
+  line-height:1.7;
+  opacity:.85;
+}
 
-    .nav-top{
-      display:flex;
-      justify-content:center;
-      align-items:center;
-    }
+/* ================= SECTION ================= */
+section{
+  padding:70px 20px;
+  max-width:1200px;
+  margin:auto;
+}
+.section-title{
+  text-align:center;
+  margin-bottom:40px;
+}
+.section-title h2{
+  font-family:'Playfair Display',serif;
+  font-size:2.1rem;
+  margin-bottom:10px;
+}
+.section-title p{
+  max-width:760px;
+  margin:auto;
+  font-size:15px;
+  line-height:1.8;
+  opacity:.8;
+}
 
-    .nav-top h2{
-      font-family:'Playfair Display',serif;
-      font-size:22px;
-    }
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:36px;
+}
 
-    .nav-links{
-      display:flex;
-      justify-content:center;
-      gap:18px;
-      flex-wrap:wrap;
-    }
+/* CARDS */
+.card{
+  background:var(--card);
+  padding:32px;
+  border-radius:28px;
+  box-shadow:0 14px 30px var(--shadow);
+  text-align:center;
+}
+.card h3{
+  font-size:19px;
+  margin-bottom:10px;
+}
+.card p{
+  font-size:14px;
+  line-height:1.6;
+  opacity:.85;
+}
 
-    .nav-links a{
-      text-decoration:none;
-      color:var(--text);
-      font-weight:500;
-    }
-
-    .nav-links a.active{
-      color:var(--primary);
-    }
-
-    header{
-      text-align:center;
-      padding:90px 20px 70px;
-      background:linear-gradient(135deg,#fefae0,#faedcd);
-    }
-
-    body.dark header{
-      background:linear-gradient(135deg,#1f1f1f,#2a2a2a);
-    }
-
-    header h1{
-      font-family:'Playfair Display',serif;
-      font-size:3rem;
-      margin-bottom:12px;
-    }
-
-    header p{
-      max-width:700px;
-      margin:auto;
-      font-size:16px;
-      color:#666;
-    }
-
-    section{
-      padding:60px 20px;
-      max-width:1200px;
-      margin:auto;
-    }
-
-    .section-text{
-      max-width:800px;
-      margin:0 auto 50px;
-      text-align:center;
-      font-size:15px;
-      line-height:1.8;
-      color:#555;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:30px;
-    }
-
-    .card{
-      background:var(--card);
-      padding:28px;
-      border-radius:22px;
-      text-align:center;
-      box-shadow:0 10px 25px var(--shadow);
-    }
-
-    footer{
-      background:#1f1f1f;
-      color:#ddd;
-      text-align:center;
-      padding:22px;
-      margin-top:auto;
-    }
-  </style>
+/* FOOTER */
+footer{
+  background:#1f1f1f;
+  color:#ddd;
+  text-align:center;
+  padding:22px;
+  margin-top:auto;
+}
+</style>
 </head>
 
 <body>
 
-  <nav data-aos="fade-down">
-    <div class="nav-top">
-      <h2>TheKrochet</h2>
-    </div>
+<nav data-aos="fade-down">
+  <div class="nav-top"><h2>TheKrochet</h2></div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="about.html" class="active">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
 
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="products.html">Products</a>
-      <a href="reviews.html">Reviews</a>
-      <a href="about.html" class="active">About</a>
-      <a href="contact.html">Contact</a>
-    </div>
-  </nav>
+<header data-aos="fade-up">
+  <h1>About TheKrochet</h1>
+  <p>
+    Handmade crochet creations crafted with patience, passion, and timeless elegance.
+  </p>
+</header>
 
-  <header data-aos="fade-up">
-    <h1>About TheKrochet</h1>
+<section>
+
+  <div class="section-title" data-aos="fade-up">
+    <h2>Our Story</h2>
     <p>
-      Handmade crochet creations crafted with patience, passion, and timeless elegance.
-    </p>
-  </header>
-
-  <section>
-    <h2 data-aos="fade-up" style="text-align:center;">
-      Our Story
-    </h2>
-
-    <p class="section-text" data-aos="fade-up" data-aos-delay="120">
       TheKrochet was born from a deep love for handmade art and slow fashion.
       Every piece is thoughtfully crocheted by hand, celebrating creativity,
       comfort, and individuality.
     </p>
+  </div>
 
-    <div class="grid">
-      <div class="card" data-aos="fade-up">
-        <h3>🧶 Handmade with Love</h3>
-        <p>Each creation is carefully crocheted stitch by stitch.</p>
-      </div>
+  <div class="grid">
 
-      <div class="card" data-aos="fade-up" data-aos-delay="120">
-        <h3>🌿 Quality Materials</h3>
-        <p>Premium yarns that are soft, durable, and skin-friendly.</p>
-      </div>
-
-      <div class="card" data-aos="fade-up" data-aos-delay="240">
-        <h3>✨ Timeless Designs</h3>
-        <p>Classic crochet blended with modern aesthetics.</p>
-      </div>
+    <div class="card" data-aos="fade-up">
+      <h3>🧶 Handmade with Love</h3>
+      <p>
+        Each creation is carefully crocheted stitch by stitch, ensuring warmth,
+        durability, and soul in every product.
+      </p>
     </div>
-  </section>
 
-  <footer>© 2025 TheKrochet</footer>
+    <div class="card" data-aos="fade-up" data-aos-delay="120">
+      <h3>🌿 Quality Materials</h3>
+      <p>
+        Premium yarns that are soft, skin-friendly, long-lasting,
+        and responsibly sourced.
+      </p>
+    </div>
 
-  <!-- Scripts -->
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script>
-    AOS.init({
-      duration:900,
-      once:true
-    });
+    <div class="card" data-aos="fade-up" data-aos-delay="240">
+      <h3>✨ Timeless Designs</h3>
+      <p>
+        Classic crochet craftsmanship blended with modern aesthetics,
+        made to stay relevant forever.
+      </p>
+    </div>
 
-    if(localStorage.getItem("theme")==="dark"){
-      document.body.classList.add("dark");
-    }
-  </script>
+  </div>
+
+</section>
+
+<footer>© 2025 TheKrochet</footer>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+AOS.init({duration:900,once:true});
+if(localStorage.getItem("theme")==="dark"){
+  document.body.classList.add("dark");
+}
+</script>
 
 </body>
 </html>
