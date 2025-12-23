@@ -1,200 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact | TheKrochet</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | TheKrochet</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-  <style>
-    :root {
-      --bg: #faf7f2;
-      --text: #2f2f2f;
-      --card: #ffffff;
-      --nav: #ffffff;
-      --shadow: rgba(0, 0, 0, 0.08);
-      --primary: #d4a373;
-    }
+<style>
+:root{
+  --bg:#faf7f2;
+  --text:#2f2f2f;
+  --card:#ffffff;
+  --nav:#ffffff;
+  --shadow:rgba(0,0,0,0.08);
+  --primary:#d4a373;
+  --primary-dark:#b8895b;
+}
+body.dark{
+  --bg:#121212;
+  --text:#f1f1f1;
+  --card:#1e1e1e;
+  --nav:#1a1a1a;
+  --shadow:rgba(0,0,0,0.6);
+}
+*{margin:0;padding:0;box-sizing:border-box}
 
-    body.dark {
-      --bg: #121212;
-      --text: #f1f1f1;
-      --card: #1e1e1e;
-      --nav: #1a1a1a;
-      --shadow: rgba(0, 0, 0, 0.6);
-    }
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+/* NAV */
+nav{
+  background:var(--nav);
+  box-shadow:0 6px 18px var(--shadow);
+  padding:14px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.nav-top{text-align:center}
+.nav-top h2{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+}
+.nav-links{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.nav-links a{
+  text-decoration:none;
+  color:var(--text);
+  font-weight:500;
+  position:relative;
+}
+.nav-links a.active{color:var(--primary)}
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  left:0;bottom:-4px;
+  width:0;height:2px;
+  background:var(--primary);
+  transition:.3s;
+}
+.nav-links a:hover::after,
+.nav-links a.active::after{width:100%}
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+/* HERO */
+header{
+  text-align:center;
+  padding:90px 20px 70px;
+  background:linear-gradient(135deg,#fefae0,#faedcd);
+}
+body.dark header{
+  background:linear-gradient(135deg,#1f1f1f,#2a2a2a);
+}
+header h1{
+  font-family:'Playfair Display',serif;
+  font-size:2.8rem;
+  margin-bottom:10px;
+}
+header p{
+  max-width:620px;
+  margin:auto;
+  font-size:15px;
+  opacity:.85;
+}
 
-    nav {
-      background: var(--nav);
-      box-shadow: 0 6px 18px var(--shadow);
-      padding: 14px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+/* SECTION */
+section{
+  padding:60px 20px;
+  max-width:1100px;
+  margin:auto;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:36px;
+}
 
-    .nav-top {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+/* CONTACT CARD */
+.card{
+  background:var(--card);
+  padding:34px 28px;
+  border-radius:28px;
+  text-align:center;
+  box-shadow:0 14px 30px var(--shadow);
+  transition:.45s ease;
+  position:relative;
+  overflow:hidden;
+}
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,transparent,var(--primary));
+  opacity:0;
+  transition:.45s;
+}
+.card:hover::before{opacity:.08}
+.card:hover{
+  transform:translateY(-8px);
+}
+.card h3{
+  font-size:20px;
+  margin-bottom:8px;
+}
+.card p{
+  font-size:14px;
+  opacity:.85;
+  margin-bottom:16px;
+}
+.card a{
+  display:inline-block;
+  padding:12px 26px;
+  border-radius:16px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  font-size:14px;
+  transition:.35s;
+}
+.card a:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 22px rgba(0,0,0,.15);
+}
 
-    .nav-top h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 22px;
-    }
-
-    .nav-links {
-      display: flex;
-      justify-content: center;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 500;
-    }
-
-    .nav-links a.active {
-      color: var(--primary);
-    }
-
-    header {
-      text-align: center;
-      padding: 80px 20px 60px;
-      background: linear-gradient(135deg, #fefae0, #faedcd);
-    }
-
-    body.dark header {
-      background: linear-gradient(135deg, #1f1f1f, #2a2a2a);
-    }
-
-    header h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.8rem;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      max-width: 600px;
-      margin: auto;
-      font-size: 15px;
-      color: #666;
-    }
-
-    section {
-      padding: 60px 20px;
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 30px;
-    }
-
-    .card {
-      background: var(--card);
-      padding: 28px;
-      border-radius: 22px;
-      text-align: center;
-      box-shadow: 0 10px 25px var(--shadow);
-    }
-
-    .card a {
-      display: inline-block;
-      padding: 12px 22px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #d4a373, #b8895b);
-      color: #fff;
-      font-weight: 600;
-      text-decoration: none;
-      font-size: 14px;
-      margin-top: 10px;
-    }
-
-    footer {
-      background: #1f1f1f;
-      color: #ddd;
-      text-align: center;
-      padding: 22px;
-      margin-top: auto;
-    }
-  </style>
+/* FOOTER */
+footer{
+  background:#1f1f1f;
+  color:#ddd;
+  text-align:center;
+  padding:22px;
+  margin-top:auto;
+}
+</style>
 </head>
 
 <body>
 
-  <nav data-aos="fade-down">
-    <div class="nav-top">
-      <h2>TheKrochet</h2>
+<nav data-aos="fade-down">
+  <div class="nav-top"><h2>TheKrochet</h2></div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="about.html">About</a>
+    <a href="contact.html" class="active">Contact</a>
+  </div>
+</nav>
+
+<header data-aos="fade-up">
+  <h1>Contact Us</h1>
+  <p>We’d love to hear from you — orders, queries & collaborations 💛</p>
+</header>
+
+<section>
+  <div class="grid">
+
+    <div class="card" data-aos="fade-up">
+      <h3>📩 Instagram</h3>
+      <p>DM us directly for orders & quick queries</p>
+      <a href="https://instagram.com/thekrochet_" target="_blank">
+        Message on Instagram
+      </a>
     </div>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="products.html">Products</a>
-      <a href="reviews.html">Reviews</a>
-      <a href="about.html">About</a>
-      <a href="contact.html" class="active">Contact</a>
+
+    <div class="card" data-aos="fade-up" data-aos-delay="120">
+      <h3>🎁 Custom Orders</h3>
+      <p>Have something unique in mind? We crochet it.</p>
+      <a href="https://instagram.com/thekrochet_" target="_blank">
+        Request Custom Order
+      </a>
     </div>
-  </nav>
 
-  <header data-aos="fade-up">
-    <h1>Contact Us</h1>
-    <p>We’d love to hear from you 💛</p>
-  </header>
-
-  <section>
-    <div class="grid">
-      <div class="card" data-aos="fade-up">
-        <h3>📩 Instagram</h3>
-        <p>DM us for orders, queries & collaborations</p>
-        <a href="https://instagram.com/thekrochet_" target="_blank">Message on Instagram</a>
-      </div>
-
-      <div class="card" data-aos="fade-up" data-aos-delay="120">
-        <h3>🎁 Custom Orders</h3>
-        <p>Want something unique? We do custom crochet</p>
-        <a href="https://instagram.com/thekrochet_" target="_blank">Request Custom Order</a>
-      </div>
-
-      <div class="card" data-aos="fade-up" data-aos-delay="240">
-        <h3>🤝 Collaborations</h3>
-        <p>Brand partnerships & creative collabs</p>
-        <a href="https://instagram.com/thekrochet_" target="_blank">Collaborate With Us</a>
-      </div>
+    <div class="card" data-aos="fade-up" data-aos-delay="240">
+      <h3>🤝 Collaborations</h3>
+      <p>Brand partnerships & creative collaborations</p>
+      <a href="https://instagram.com/thekrochet_" target="_blank">
+        Collaborate With Us
+      </a>
     </div>
-  </section>
 
-  <footer>© 2025 TheKrochet</footer>
+  </div>
+</section>
 
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script>
-    AOS.init({ duration: 900, once: true });
+<footer>© 2025 TheKrochet</footer>
 
-    if (localStorage.getItem("theme") === "dark") {
-      document.body.classList.add("dark");
-    }
-  </script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+AOS.init({ duration:900, once:true });
+
+if(localStorage.getItem("theme")==="dark"){
+  document.body.classList.add("dark");
+}
+</script>
 
 </body>
 </html>
