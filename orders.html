@@ -5,27 +5,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Orders | TheKrochet Admin</title>
 
+<!-- FONTS -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- BRAND MASTER -->
+<link rel="stylesheet" href="brand.css">
 
 <style>
 :root{
   --primary:#d4a373;
-  --dark:#2f2f2f;
-  --light:#faf7f2;
+  --primary-dark:#b8895b;
+  --bg:#faf7f2;
+  --card:#ffffff;
+  --text:#2f2f2f;
+  --shadow:rgba(0,0,0,.08);
 }
+
 *{margin:0;padding:0;box-sizing:border-box}
+
 body{
   font-family:'Poppins',sans-serif;
-  background:var(--light);
+  background:var(--bg);
+  color:var(--text);
   min-height:100vh;
   display:flex;
   flex-direction:column;
 }
 
-/* ===== NAVBAR WITH ANIMATION ===== */
+/* ================= NAVBAR ================= */
 nav{
   background:#fff;
-  box-shadow:0 4px 12px rgba(0,0,0,.06);
+  box-shadow:0 6px 18px var(--shadow);
   padding:16px 20px 14px;
   text-align:center;
   animation:navDrop .45s ease forwards;
@@ -38,115 +48,156 @@ nav{
 .nav-top h2{
   font-family:'Playfair Display',serif;
   font-size:22px;
-  animation:titleFade .4s ease forwards;
-}
-@keyframes titleFade{
-  from{opacity:0;transform:translateY(-6px)}
-  to{opacity:1;transform:translateY(0)}
 }
 
 .nav-links{
-  display:grid;
-  grid-auto-flow:column;
+  display:flex;
   justify-content:center;
   gap:22px;
-  margin-top:8px;
+  margin-top:10px;
 }
+
 .nav-links a,
 .nav-links button{
   background:none;
   border:none;
   font-weight:500;
-  color:var(--dark);
+  color:var(--text);
   cursor:pointer;
   text-decoration:none;
-  opacity:0;
-  animation:linkFade .4s ease forwards;
-}
-.nav-links a:nth-child(1){animation-delay:.05s}
-.nav-links a:nth-child(2){animation-delay:.1s}
-.nav-links button{animation-delay:.15s}
-
-@keyframes linkFade{
-  from{opacity:0;transform:translateY(6px)}
-  to{opacity:1;transform:translateY(0)}
+  position:relative;
 }
 
 .nav-links a.active{
   color:var(--primary);
-  border-bottom:2px solid var(--primary);
+}
+.nav-links a.active::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-4px;
+  width:100%;
+  height:2px;
+  background:var(--primary);
 }
 
-/* ===== MAIN ===== */
+/* ================= MAIN ================= */
 main{
   max-width:650px;
   margin:auto;
-  padding:24px 15px 60px;
+  padding:28px 16px 60px;
   flex:1;
+}
+
+main h3{
+  margin-bottom:18px;
+  font-weight:600;
 }
 
 /* LOADING */
 #loading{
   text-align:center;
-  margin-top:40px;
   color:#888;
+  margin-top:40px;
 }
 
-/* ORDER CARD */
+/* ================= ORDER CARD ================= */
 .order-card{
-  background:#fff;
-  padding:18px;
-  border-radius:18px;
+  background:var(--card);
+  padding:20px;
+  border-radius:22px;
   margin-bottom:18px;
-  box-shadow:0 6px 16px rgba(0,0,0,.06);
+  box-shadow:0 10px 25px var(--shadow);
   animation:cardFade .25s ease forwards;
 }
 @keyframes cardFade{
   from{opacity:0;transform:translateY(6px)}
   to{opacity:1;transform:translateY(0)}
 }
+
 .order-card.removing{
   opacity:0;
   transform:scale(.96);
   transition:.25s;
 }
 
-.order-card h4{margin-bottom:6px}
-.order-card ul{padding-left:18px}
-.order-card li{margin-bottom:4px}
-
-.status{font-weight:600;margin-top:6px}
-.status.new{color:orange}
-.status.accepted{color:green}
-
-.actions{
-  display:flex;
-  gap:10px;
-  margin-top:12px;
+.order-card h4{
+  margin-bottom:6px;
+  font-weight:600;
 }
-.actions button{
-  flex:1;
-  padding:10px;
-  border:none;
-  border-radius:10px;
-  font-weight:500;
-  cursor:pointer;
+
+.order-card ul{
+  padding-left:18px;
+  margin:6px 0;
 }
-.accept{background:#2a9d8f;color:#fff}
-.delete{background:#e63939;color:#fff}
+.order-card li{
+  margin-bottom:4px;
+  font-size:14px;
+}
+
+.total{
+  font-weight:600;
+  margin-top:6px;
+}
 
 .date{
   font-size:13px;
   color:#777;
   margin-top:6px;
 }
+
+/* STATUS */
+.status{
+  margin-top:8px;
+  font-weight:600;
+}
+.status.new{color:#e58e26}
+.status.accepted{color:#2a9d8f}
+
+/* ACTIONS */
+.actions{
+  display:flex;
+  gap:10px;
+  margin-top:14px;
+}
+.actions button{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:12px;
+  font-weight:500;
+  cursor:pointer;
+}
+
+.accept{
+  background:#2a9d8f;
+  color:#fff;
+}
+.accept[disabled]{
+  opacity:.6;
+  cursor:default;
+}
+
+.delete{
+  background:#e63939;
+  color:#fff;
+}
+
+/* MOBILE */
+@media(max-width:480px){
+  main{padding:24px 12px 50px}
+  .nav-links{gap:14px}
+}
 </style>
 </head>
 
 <body>
 
+<!-- NAVBAR -->
 <nav>
-  <div class="nav-top"><h2>TheKrochet</h2></div>
+  <div class="nav-top">
+    <h2>TheKrochet</h2>
+  </div>
   <div class="nav-links">
     <a href="admin.html">Products</a>
     <a href="orders.html" class="active">Orders</a>
@@ -160,6 +211,7 @@ main{
   <div id="ordersList"></div>
 </main>
 
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -174,6 +226,7 @@ firebase.initializeApp({
 const auth=firebase.auth();
 const db=firebase.firestore();
 
+/* AUTH */
 auth.onAuthStateChanged(u=>{
   if(!u) location.href="login.html";
 });
@@ -184,12 +237,14 @@ function logout(){
 const ordersList=document.getElementById("ordersList");
 const loading=document.getElementById("loading");
 
+/* LOAD ORDERS */
 db.collection("orders")
   .orderBy("createdAt","desc")
-  .limit(20)
+  .limit(25)
   .onSnapshot(snap=>{
     loading.style.display="none";
     ordersList.innerHTML="";
+
     snap.forEach(doc=>{
       const o=doc.data();
       let items="";
@@ -201,7 +256,7 @@ db.collection("orders")
         <div class="order-card" id="order-${doc.id}">
           <h4>${o.customer.name} (IG: ${o.customer.instagram})</h4>
           <ul>${items}</ul>
-          <p><b>Total:</b> ₹${o.total}</p>
+          <div class="total">Total: ₹${o.total}</div>
           <div class="date">${o.createdAt?.toDate().toLocaleString()||""}</div>
           <div class="status ${o.status}">Status: ${o.status}</div>
 
@@ -223,7 +278,9 @@ function acceptOrder(id){
 function deleteOrder(id){
   const card=document.getElementById("order-"+id);
   card.classList.add("removing");
-  setTimeout(()=>db.collection("orders").doc(id).delete(),200);
+  setTimeout(()=>{
+    db.collection("orders").doc(id).delete();
+  },200);
 }
 </script>
 
