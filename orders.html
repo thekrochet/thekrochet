@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Order Management | TheKrochet</title>
+<title>Orders | TheKrochet</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -11,15 +11,12 @@
 <link rel="stylesheet" href="responsive.css">
 
 <style>
-/* Internal styles for Admin Dashboard */
+/* Internal styles for Dashboard */
 :root{
   --primary:#d4a373;
-  --primary-dark:#b8895b;
   --bg:#faf7f2;
   --text:#2f2f2f;
   --success: #27ae60;
-  --warning: #f39c12;
-  --info: #3498db;
   --danger: #e74c3c;
 }
 
@@ -28,7 +25,6 @@ body {
   background-color: var(--bg);
 }
 
-/* Navbar Tweaks */
 nav {
   position: sticky;
   top: 0;
@@ -37,7 +33,6 @@ nav {
   backdrop-filter: blur(10px);
 }
 
-/* Page Header */
 .page-header {
   margin-bottom: 25px;
   text-align: center;
@@ -45,148 +40,129 @@ nav {
 .page-header h4 {
   font-family: 'Playfair Display', serif;
   font-size: 28px;
-  color: var(--primary-dark);
-  margin-bottom: 5px;
-}
-.page-header p {
-  font-size: 14px;
-  color: #777;
+  color: #b8895b;
 }
 
-/* Order Card Design */
+/* CARD DESIGN */
 .order-card {
   background: #fff;
   border-radius: 16px;
-  margin-bottom: 24px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-  border: 1px solid #f0f0f0;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 1px solid #eee;
   overflow: hidden;
-  transition: transform 0.2s ease;
-}
-.order-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
 }
 
-/* Card Header */
+/* HEADER: ID + DATE */
 .order-header {
-  background: #fdfbf8;
-  padding: 15px 20px;
+  background: #fcfcfc;
+  padding: 12px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #f0f0f0;
 }
 .order-id {
-  font-family: 'Playfair Display', serif;
   font-weight: 700;
-  color: var(--text);
-  font-size: 16px;
-  letter-spacing: 0.5px;
+  color: #b8895b;
+  font-size: 14px;
 }
 .order-date {
   font-size: 12px;
   color: #888;
-  font-weight: 500;
-  background: #fff;
-  padding: 4px 10px;
-  border-radius: 20px;
-  border: 1px solid #eee;
 }
 
-/* Customer Section */
-.customer-info {
-  padding: 15px 20px;
-  border-bottom: 1px dashed #eee;
+/* CUSTOMER NAME */
+.customer-section {
+  padding: 15px 20px 5px;
+}
+.customer-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #999;
+  letter-spacing: 1px;
 }
 .customer-name {
+  font-size: 16px;
   font-weight: 600;
-  color: var(--primary-dark);
-  font-size: 15px;
+  color: var(--text);
+  margin-top: 2px;
   display: block;
-}
-.customer-address {
-  font-size: 13px;
-  color: #666;
-  margin-top: 4px;
-  display: block;
-  line-height: 1.4;
 }
 
-/* Items List */
+/* ITEMS LIST */
 .order-items {
-  padding: 15px 20px;
-  background: #fff;
+  padding: 10px 20px;
 }
 .order-item {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   font-size: 14px;
-  margin-bottom: 10px;
-  color: #444;
-  border-bottom: 1px solid #fafafa;
-  padding-bottom: 8px;
-}
-.order-item:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
+  margin-bottom: 8px;
+  color: #555;
+  border-bottom: 1px solid #f9f9f9;
+  padding-bottom: 5px;
 }
 .item-qty {
-  font-size: 12px;
-  background: #eee;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-left: 5px;
-  color: #555;
+  font-weight: 600;
+  color: #b8895b;
 }
 
-/* Footer & Actions */
+/* TOTAL & ACTIONS */
 .order-footer {
   padding: 15px 20px;
   background: #fafafa;
   border-top: 1px solid #eee;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
 }
-.order-total {
+
+.total-row {
   display: flex;
   justify-content: space-between;
+  font-size: 17px;
   font-weight: 700;
-  font-size: 16px;
   color: var(--text);
+  margin-bottom: 5px;
 }
 
-/* Status Select */
-.status-select {
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  background: #fff;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
-  cursor: pointer;
-  outline: none;
+/* ACTION BUTTONS */
+.action-buttons {
+  display: flex;
+  gap: 10px;
 }
-/* Delete Button */
-.btn-delete {
-  background: none;
+
+.btn {
+  flex: 1;
+  padding: 12px;
   border: none;
-  color: #999;
-  font-size: 12px;
+  border-radius: 10px;
+  font-weight: 600;
   cursor: pointer;
-  text-decoration: underline;
-  align-self: flex-end;
+  font-size: 14px;
+  transition: 0.2s;
 }
-.btn-delete:hover { color: var(--danger); }
 
-/* Status Colors */
-.status-pending { color: var(--warning); border-color: var(--warning); }
-.status-shipped { color: var(--info); border-color: var(--info); }
-.status-delivered { color: var(--success); border-color: var(--success); }
+/* Accept Button Styles */
+.btn-accept {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-accept.accepted {
+  background: var(--success);
+  pointer-events: none; /* Disable click after accepting */
+}
+
+/* Delete Button Styles */
+.btn-delete {
+  background: #ffebeb;
+  color: var(--danger);
+}
+.btn-delete:hover {
+  background: var(--danger);
+  color: #fff;
+}
 
 </style>
 </head>
@@ -199,21 +175,19 @@ nav {
   </div>
   <div class="nav-links">
     <a href="admin.html">Products</a>
-    <a href="admin-reviews.html">Reviews</a> <a href="orders.html" class="active">Orders</a>
+    <a href="admin-reviews.html">Reviews</a>
+    <a href="orders.html" class="active">Orders</a>
     <button onclick="logout()">Logout</button>
   </div>
 </nav>
 
 <main>
   <div class="page-header">
-    <h4>Order Dashboard</h4>
-    <p>Manage and track your customer orders</p>
+    <h4>Orders</h4>
   </div>
 
   <div id="ordersList">
-    <div style="text-align:center; padding: 40px; color: #999;">
-      Loading orders...
-    </div>
+    <div style="text-align:center; padding: 40px; color: #999;">Loading...</div>
   </div>
 </main>
 
@@ -231,7 +205,6 @@ firebase.initializeApp({
 const auth=firebase.auth();
 const db=firebase.firestore();
 
-/* AUTH CHECK */
 auth.onAuthStateChanged(user=>{
   if(!user) location.href="login.html";
 });
@@ -245,11 +218,7 @@ db.collection("orders").orderBy("createdAt", "desc").onSnapshot(snap => {
   list.innerHTML = "";
 
   if (snap.empty) {
-    list.innerHTML = `
-      <div style='text-align:center;padding:40px;color:#999'>
-        <h3>No Orders Yet 🍃</h3>
-        <p>Your sales will appear here.</p>
-      </div>`;
+    list.innerHTML = "<div style='text-align:center;padding:40px;color:#999'>No orders yet.</div>";
     return;
   }
 
@@ -257,16 +226,12 @@ db.collection("orders").orderBy("createdAt", "desc").onSnapshot(snap => {
     const o = doc.data();
     const date = o.createdAt ? o.createdAt.toDate().toLocaleDateString() : "Just now";
     
-    // ✅ AUTO-FIX BAD DATA (NaN / Undefined)
-    // We check if quantity exists, if not default to 1.
-    // We check if price is valid, if not default to 0.
-    
+    // Auto-fix for NaN/Undefined quantities
     let itemsHtml = "";
-    let calculatedTotal = 0; // Recalculate total to be safe
+    let calculatedTotal = 0;
 
     if (o.items && Array.isArray(o.items)) {
       o.items.forEach(item => {
-        // Fallback Logic:
         const qty = item.quantity || item.qty || 1; 
         const price = Number(item.price) || 0;
         const itemTotal = price * qty;
@@ -274,31 +239,30 @@ db.collection("orders").orderBy("createdAt", "desc").onSnapshot(snap => {
 
         itemsHtml += `
           <div class="order-item">
-            <span style="flex:1">${item.name} <span class="item-qty">x${qty}</span></span>
-            <span style="font-weight:500">₹${itemTotal}</span>
+            <span>${item.name}</span>
+            <span class="item-qty">x${qty}</span>
           </div>
         `;
       });
     }
 
-    // Determine Status Class for Color
-    let statusClass = "status-pending";
-    if(o.status === "Shipped") statusClass = "status-shipped";
-    if(o.status === "Delivered") statusClass = "status-delivered";
-
-    // Use saved total if available, otherwise use our recalculated one
     const finalTotal = o.total ? o.total : calculatedTotal;
+    
+    // Check if already accepted to style button
+    const isAccepted = o.status === "Accepted";
+    const btnText = isAccepted ? "✅ Accepted" : "Accept Order";
+    const btnClass = isAccepted ? "btn-accept accepted" : "btn-accept";
 
     list.innerHTML += `
       <div class="order-card">
         <div class="order-header">
-          <span class="order-id">#${doc.id.substr(0,8).toUpperCase()}</span>
-          <span class="order-date">📅 ${date}</span>
+          <span class="order-id">#${doc.id.substr(0,6).toUpperCase()}</span>
+          <span class="order-date">${date}</span>
         </div>
         
-        <div class="customer-info">
-          <span class="customer-name">${o.customerName || "Guest Customer"}</span>
-          <span class="customer-address">📍 ${o.address || "No address provided"}</span>
+        <div class="customer-section">
+          <span class="customer-label">Name / Instagram</span>
+          <span class="customer-name">${o.customerName || "Guest"}</span>
         </div>
         
         <div class="order-items">
@@ -306,45 +270,33 @@ db.collection("orders").orderBy("createdAt", "desc").onSnapshot(snap => {
         </div>
 
         <div class="order-footer">
-          <div class="order-total">
-            <span>Total Amount</span>
-            <span style="color:var(--primary-dark)">₹${finalTotal}</span>
+          <div class="total-row">
+            <span>Total</span>
+            <span>₹${finalTotal}</span>
           </div>
 
-          <select class="status-select ${statusClass}" onchange="updateStatus('${doc.id}', this)">
-            <option value="Pending" ${o.status === 'Pending' ? 'selected' : ''}>⏳ Pending</option>
-            <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>🚚 Shipped</option>
-            <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>✅ Delivered</option>
-          </select>
-          
-          <button class="btn-delete" onclick="deleteOrder('${doc.id}')">Delete Order Record</button>
+          <div class="action-buttons">
+            <button class="${btnClass}" onclick="acceptOrder('${doc.id}')">${btnText}</button>
+            <button class="btn btn-delete" onclick="deleteOrder('${doc.id}')">Delete</button>
+          </div>
         </div>
       </div>
     `;
   });
 });
 
-/* UPDATE STATUS FUNCTION */
-function updateStatus(id, selectElement) {
-  const newStatus = selectElement.value;
-  
-  // Update Color immediately for better UI feel
-  selectElement.className = "status-select"; // reset
-  if(newStatus === "Pending") selectElement.classList.add("status-pending");
-  if(newStatus === "Shipped") selectElement.classList.add("status-shipped");
-  if(newStatus === "Delivered") selectElement.classList.add("status-delivered");
-
+/* ✅ SIMPLE ACCEPT FUNCTION */
+function acceptOrder(id) {
+  // Just update status to 'Accepted'
   db.collection("orders").doc(id).update({
-    status: newStatus
-  }).catch(err => alert("Error: " + err.message));
+    status: "Accepted"
+  }).catch(err => console.log(err));
 }
 
-/* DELETE ORDER FUNCTION */
+/* 🗑️ SIMPLE DELETE FUNCTION (No Popup) */
 function deleteOrder(id) {
-  if(confirm("Are you sure you want to delete this order history? This cannot be undone.")){
-    db.collection("orders").doc(id).delete()
-    .catch(err => alert("Error: " + err.message));
-  }
+  // Deletes immediately
+  db.collection("orders").doc(id).delete();
 }
 </script>
 
