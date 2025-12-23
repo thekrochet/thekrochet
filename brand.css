@@ -96,7 +96,7 @@ textarea:focus{
 
 /* =========================
    MASTER NAVBAR – THEKROCHET
-   (ALL PAGES, 2 LINE FIXED)
+   (ALL PAGES – 2 LINE FIXED)
 ========================= */
 
 nav{
@@ -118,11 +118,12 @@ nav{
   line-height:1.2;
 }
 
+/* 🔒 CRITICAL FIX: FLEX + WRAP (NO GRID, NO NOWRAP) */
 .nav-links{
   display:flex;
   justify-content:center;
   gap:20px;
-  flex-wrap:wrap;        /* 🔒 forces second line */
+  flex-wrap:wrap;   /* ✅ always allows 2nd line */
 }
 
 .nav-links a{
@@ -151,4 +152,3 @@ nav{
 .nav-links a.active::after{
   width:100%;
 }
-
