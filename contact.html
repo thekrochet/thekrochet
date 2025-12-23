@@ -140,26 +140,29 @@ footer{
 <section>
   <div class="grid">
 
+    <!-- INSTAGRAM PROFILE -->
     <div class="card" data-aos="fade-up">
       <h3>📩 Instagram</h3>
       <p>DM us directly for orders & quick queries</p>
       <a href="https://instagram.com/thekrochet_" target="_blank">
-        Message on Instagram
+        Visit Instagram Profile
       </a>
     </div>
 
+    <!-- CUSTOM ORDER -->
     <div class="card" data-aos="fade-up" data-aos-delay="120">
       <h3>🎁 Custom Orders</h3>
       <p>Have something unique in mind? We crochet it.</p>
-      <a href="https://instagram.com/thekrochet_" target="_blank">
+      <a href="#" onclick="customOrder(event)">
         Request Custom Order
       </a>
     </div>
 
+    <!-- COLLABORATION -->
     <div class="card" data-aos="fade-up" data-aos-delay="240">
       <h3>🤝 Collaborations</h3>
       <p>Brand partnerships & creative collaborations</p>
-      <a href="https://instagram.com/thekrochet_" target="_blank">
+      <a href="#" onclick="collabOrder(event)">
         Collaborate With Us
       </a>
     </div>
@@ -175,6 +178,37 @@ AOS.init({ duration:900, once:true });
 
 if(localStorage.getItem("theme")==="dark"){
   document.body.classList.add("dark");
+}
+
+/* ===== INSTAGRAM DM HELPERS ===== */
+function customOrder(e){
+  e.preventDefault();
+  const msg =
+`Hi there 👋
+I would like you to make a custom crochet order.
+
+My requirement is:
+• Product type:
+• Color:
+• Size / Details:
+
+Please let me know the process. Thank you 💛`;
+
+  navigator.clipboard.writeText(msg).catch(()=>{});
+  window.open("https://ig.me/m/thekrochet_","_blank");
+}
+
+function collabOrder(e){
+  e.preventDefault();
+  const msg =
+`Hello 👋
+I’m interested in collaborating with TheKrochet.
+
+Please let me know the collaboration process.
+Looking forward to hearing from you.`;
+
+  navigator.clipboard.writeText(msg).catch(()=>{});
+  window.open("https://ig.me/m/thekrochet_","_blank");
 }
 </script>
 
