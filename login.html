@@ -5,7 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Login | TheKrochet</title>
 
+<!-- FONTS -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- BRAND MASTER -->
+<link rel="stylesheet" href="brand.css">
 
 <style>
 :root{
@@ -16,6 +20,7 @@
   --text:#2f2f2f;
   --shadow:rgba(0,0,0,.12);
 }
+
 *{margin:0;padding:0;box-sizing:border-box}
 
 body{
@@ -33,27 +38,28 @@ body{
   background:var(--card);
   width:100%;
   max-width:420px;
-  padding:34px 30px 36px;
-  border-radius:26px;
+  padding:36px 30px 38px;
+  border-radius:28px;
   box-shadow:0 20px 40px var(--shadow);
   text-align:center;
-  animation:cardIn .55s ease forwards;
+  animation:cardIn .5s ease forwards;
 }
+
 @keyframes cardIn{
-  from{opacity:0;transform:translateY(16px)}
+  from{opacity:0;transform:translateY(18px)}
   to{opacity:1;transform:translateY(0)}
 }
 
 .login-card h2{
   font-family:'Playfair Display',serif;
   font-size:26px;
-  margin-bottom:4px;
+  margin-bottom:6px;
 }
 
 .login-card p{
   font-size:14px;
   color:#777;
-  margin-bottom:22px;
+  margin-bottom:24px;
 }
 
 /* ===== INPUTS ===== */
@@ -102,7 +108,7 @@ button:hover{
 /* ===== MOBILE ===== */
 @media(max-width:420px){
   .login-card{
-    padding:28px 22px 30px;
+    padding:30px 22px 32px;
   }
 }
 </style>
