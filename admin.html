@@ -11,9 +11,9 @@
 :root{
   --primary:#d4a373;
   --primary-dark:#b8895b;
-  --dark:#2f2f2f;
-  --light:#faf7f2;
+  --bg:#faf7f2;
   --card:#ffffff;
+  --text:#2f2f2f;
   --shadow:rgba(0,0,0,.08);
 }
 
@@ -21,11 +21,11 @@
 
 body{
   font-family:'Poppins',sans-serif;
-  background:var(--light);
+  background:var(--bg);
+  color:var(--text);
   min-height:100vh;
   display:flex;
   flex-direction:column;
-  color:var(--dark);
 }
 
 /* ===== NAVBAR ===== */
@@ -34,143 +34,154 @@ nav{
   box-shadow:0 6px 18px var(--shadow);
   padding:16px 20px 14px;
   text-align:center;
-  animation:fadeDown .6s ease forwards;
+  animation:navDrop .5s ease forwards;
 }
-@keyframes fadeDown{
-  from{opacity:0;transform:translateY(-14px)}
-  to{opacity:1;transform:none}
+@keyframes navDrop{
+  from{opacity:0;transform:translateY(-12px)}
+  to{opacity:1;transform:translateY(0)}
 }
+
 .nav-top h2{
   font-family:'Playfair Display',serif;
   font-size:22px;
-  letter-spacing:.3px;
+  letter-spacing:.5px;
 }
+
 .nav-links{
   display:grid;
   grid-auto-flow:column;
   justify-content:center;
   gap:22px;
-  margin-top:8px;
+  margin-top:10px;
 }
+
 .nav-links a,
 .nav-links button{
   background:none;
   border:none;
   font-weight:500;
-  color:var(--dark);
+  color:var(--text);
   cursor:pointer;
+  text-decoration:none;
   position:relative;
 }
+
 .nav-links a.active{
   color:var(--primary);
 }
 .nav-links a.active::after{
   content:"";
   position:absolute;
-  left:0;right:0;bottom:-4px;
+  left:0;
+  bottom:-4px;
+  width:100%;
   height:2px;
   background:var(--primary);
-  border-radius:2px;
 }
 
 /* ===== MAIN ===== */
 main{
   flex:1;
   max-width:560px;
-  width:100%;
   margin:auto;
   padding:30px 16px 60px;
 }
 
+/* ===== CARD ===== */
 .admin-card{
   background:var(--card);
   padding:22px;
   border-radius:22px;
   margin-bottom:26px;
-  box-shadow:0 12px 28px var(--shadow);
-  animation:cardIn .7s ease both;
+  box-shadow:0 10px 25px var(--shadow);
+  animation:cardFade .4s ease forwards;
 }
-@keyframes cardIn{
-  from{opacity:0;transform:translateY(18px)}
-  to{opacity:1;transform:none}
-}
-.admin-card h4{
-  margin-bottom:14px;
-  font-weight:600;
+@keyframes cardFade{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
-/* ===== FORM ===== */
+.admin-card h4{
+  font-weight:600;
+  margin-bottom:14px;
+}
+
+/* ===== INPUTS ===== */
 input,textarea{
   width:100%;
   padding:14px;
   margin-bottom:12px;
   border-radius:14px;
   border:1px solid #ddd;
-  font-size:14px;
+  font-family:'Poppins',sans-serif;
 }
-input:focus,textarea:focus{
-  outline:none;
-  border-color:var(--primary);
-}
+
+/* ===== BUTTON ===== */
 .primary-btn{
   width:100%;
   padding:14px;
   border:none;
-  border-radius:14px;
+  border-radius:16px;
   background:linear-gradient(135deg,var(--primary),var(--primary-dark));
   color:#fff;
   font-weight:600;
   cursor:pointer;
-  transition:.25s ease;
+  transition:.3s ease;
 }
-.primary-btn:hover{transform:translateY(-2px)}
-.primary-btn:active{transform:scale(.98)}
+.primary-btn:hover{
+  transform:translateY(-2px);
+}
 
 /* ===== PRODUCT LIST ===== */
 .product-card{
-  background:#faf7f2;
-  border-radius:16px;
+  background:#fdfbf8;
+  border-radius:18px;
   padding:14px;
   margin-bottom:12px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  transition:.25s ease;
+  animation:listFade .3s ease forwards;
 }
-.product-card:hover{
-  transform:translateY(-3px);
-  box-shadow:0 10px 22px rgba(0,0,0,.08);
+@keyframes listFade{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:translateY(0)}
 }
-.product-card strong{font-size:14px}
-.product-card span{font-size:13px;color:#555}
 
-/* ACTION BUTTONS */
-.edit,.delete{
-  border:none;
-  padding:6px 12px;
-  border-radius:8px;
-  color:#fff;
-  cursor:pointer;
-  font-size:12px;
-  transition:.2s ease;
+.product-card strong{
+  font-weight:600;
 }
+
+/* ===== ACTION BUTTONS ===== */
 .edit{
   background:#6b4f2c;
+  color:#fff;
+  padding:6px 12px;
+  border-radius:8px;
+  border:none;
   margin-right:6px;
+  cursor:pointer;
 }
-.delete{background:#e63939}
-.edit:hover,.delete:hover{opacity:.85}
+.delete{
+  background:#e63939;
+  color:#fff;
+  padding:6px 12px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+}
 
-/* ===== RESPONSIVE ===== */
-@media(max-width:420px){
+/* ===== MOBILE ===== */
+@media(max-width:480px){
+  main{padding:24px 12px 50px}
   .nav-links{gap:14px}
-  main{padding-top:24px}
 }
 </style>
 </head>
 
 <body>
 
+<!-- NAVBAR -->
 <nav>
   <div class="nav-top">
     <h2>TheKrochet</h2>
@@ -184,15 +195,19 @@ input:focus,textarea:focus{
 
 <main>
 
+  <!-- ADD / EDIT FORM -->
   <div class="admin-card">
     <h4 id="formTitle">Add Product</h4>
+
     <input id="pname" placeholder="Product Name">
     <input id="pprice" type="number" placeholder="Price (₹)">
     <input id="pimage" placeholder="Image URL">
     <textarea id="pdesc" placeholder="Short description"></textarea>
+
     <button class="primary-btn" id="submitBtn">➕ Add Product</button>
   </div>
 
+  <!-- PRODUCT LIST -->
   <div class="admin-card">
     <h4>All Products</h4>
     <div id="productList"></div>
@@ -200,6 +215,7 @@ input:focus,textarea:focus{
 
 </main>
 
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -254,7 +270,7 @@ submitBtn.onclick=async()=>{
   pname.value=""; pprice.value=""; pimage.value=""; pdesc.value="";
 };
 
-/* PRODUCTS */
+/* PRODUCTS LIST */
 db.collection("products").onSnapshot(snap=>{
   const list=document.getElementById("productList");
   list.innerHTML="";
@@ -268,7 +284,7 @@ db.collection("products").onSnapshot(snap=>{
       <div class="product-card">
         <div>
           <strong>${p.name}</strong><br>
-          <span>₹${p.price}</span>
+          ₹${p.price}
         </div>
         <div>
           <button class="edit"
