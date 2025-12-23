@@ -42,26 +42,29 @@ body{
   transition:.3s ease;
 }
 
-/* ===== NAVBAR ===== */
+/* ===== NAVBAR (STRICT 2 LINES LOCKED) ===== */
 nav{
   background:var(--nav);
   box-shadow:0 6px 18px var(--shadow);
   padding:14px 20px;
   display:flex;
-  flex-direction:column;
+  flex-direction:column; /* 🔒 NEVER CHANGE */
   gap:10px;
 }
+
 .nav-top{
   display:flex;
   justify-content:center;
   align-items:center;
   gap:12px;
 }
+
 .nav-top h2{
   font-family:'Playfair Display',serif;
   font-size:22px;
   letter-spacing:.4px;
 }
+
 .toggle{
   border:1px solid var(--primary);
   background:none;
@@ -82,13 +85,18 @@ nav{
   gap:20px;
   flex-wrap:wrap;
 }
+
 .nav-links a{
   text-decoration:none;
   color:var(--text);
   font-weight:500;
   position:relative;
 }
-.nav-links a.active{color:var(--primary)}
+
+.nav-links a.active{
+  color:var(--primary);
+}
+
 .nav-links a::after{
   content:"";
   position:absolute;
@@ -99,8 +107,11 @@ nav{
   background:var(--primary);
   transition:.3s;
 }
+
 .nav-links a:hover::after,
-.nav-links a.active::after{width:100%}
+.nav-links a.active::after{
+  width:100%;
+}
 
 /* ===== HERO ===== */
 header{
@@ -108,14 +119,17 @@ header{
   padding:90px 20px 70px;
   background:linear-gradient(135deg,#fefae0,#faedcd);
 }
+
 body.dark header{
   background:linear-gradient(135deg,#1f1f1f,#2a2a2a);
 }
+
 header h3{
   font-family:'Playfair Display',serif;
   font-size:2.6rem;
   margin-bottom:14px;
 }
+
 header p{
   font-size:15px;
   opacity:.85;
@@ -128,6 +142,7 @@ section{
   margin:auto;
   text-align:center;
 }
+
 section h2{
   font-family:'Playfair Display',serif;
   font-size:2rem;
@@ -152,6 +167,7 @@ section h2{
   overflow:hidden;
   transition:.45s ease;
 }
+
 .card::before{
   content:"";
   position:absolute;
@@ -160,14 +176,20 @@ section h2{
   opacity:0;
   transition:.4s;
 }
-.card:hover::before{opacity:.08}
+
+.card:hover::before{
+  opacity:.08;
+}
+
 .card:hover{
   transform:translateY(-10px) scale(1.03);
 }
+
 .card h3{
   font-size:18px;
   margin-bottom:8px;
 }
+
 .card p{
   font-size:14px;
   opacity:.8;
@@ -193,7 +215,7 @@ footer{
 
 <body>
 
-<!-- NAV -->
+<!-- NAVBAR -->
 <nav data-aos="fade-down">
   <div class="nav-top">
     <h2>TheKrochet</h2>
@@ -256,6 +278,7 @@ function toggleTheme(){
     document.body.classList.contains("dark") ? "dark" : "light"
   );
 }
+
 if(localStorage.getItem("theme")==="dark"){
   document.body.classList.add("dark");
 }
