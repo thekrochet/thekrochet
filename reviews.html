@@ -8,6 +8,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
+<!-- ✅ BRAND MASTER -->
+<link rel="stylesheet" href="brand.css">
+
 <style>
 :root{
   --bg:#faf7f2;
@@ -36,57 +39,7 @@ body{
   flex-direction:column;
 }
 
-/* ================= NAVBAR (FORCED 2 LINE) ================= */
-nav{
-  background:var(--nav);
-  box-shadow:0 6px 18px var(--shadow);
-  padding:14px 20px;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.nav-top{
-  text-align:center;
-}
-.nav-top h2{
-  font-family:'Playfair Display',serif;
-  font-size:22px;
-}
-
-/* 🔒 HARD LOCK — NEVER 3 LINES */
-.nav-links{
-  display:flex;
-  justify-content:center;
-  gap:20px;
-  flex-wrap:nowrap;          /* ❌ wrap band */
-  overflow-x:auto;           /* ✅ scroll allowed */
-  white-space:nowrap;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-}
-.nav-links::-webkit-scrollbar{display:none}
-
-.nav-links a{
-  text-decoration:none;
-  color:var(--text);
-  font-weight:500;
-  white-space:nowrap;
-  position:relative;
-}
-.nav-links a.active{color:var(--primary)}
-.nav-links a::after{
-  content:"";
-  position:absolute;
-  left:0;bottom:-4px;
-  width:0;height:2px;
-  background:var(--primary);
-  transition:.3s;
-}
-.nav-links a:hover::after,
-.nav-links a.active::after{width:100%}
-
-/* ================= HERO ================= */
+/* ===== HERO ===== */
 header{
   text-align:center;
   padding:90px 20px 70px;
@@ -105,7 +58,7 @@ header p{
   opacity:.85;
 }
 
-/* ================= SECTION ================= */
+/* ===== SECTION ===== */
 section{
   padding:60px 20px;
   max-width:1100px;
@@ -199,8 +152,11 @@ footer{
 
 <body>
 
+<!-- ✅ NAVBAR (INDEX SYNC – NO TOGGLE) -->
 <nav data-aos="fade-down">
-  <div class="nav-top"><h2>TheKrochet</h2></div>
+  <div class="nav-top">
+    <h2>TheKrochet 🌙</h2>
+  </div>
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="products.html">Products</a>
@@ -264,10 +220,12 @@ function addReview(){
   const rating=Number(document.getElementById("rating").value);
   const text=document.getElementById("reviewText").value;
   if(!name||!text) return;
+
   db.collection("reviews").add({
     name,rating,text,
     createdAt:firebase.firestore.FieldValue.serverTimestamp()
   });
+
   document.getElementById("name").value="";
   document.getElementById("reviewText").value="";
   form.style.display="none";
