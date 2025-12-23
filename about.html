@@ -120,6 +120,27 @@ footer{
   padding:22px;
   margin-top:auto;
 }
+    /* 📱 FORCE MOBILE FIX (Paste inside <style> at the bottom) */
+  @media (max-width: 768px) {
+    /* Fix the Navigation */
+    nav { flex-direction: column; padding: 10px; gap: 10px; }
+    .nav-links { gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .nav-links a { font-size: 14px; }
+    
+    /* Fix the Big Header */
+    header { padding: 60px 20px 40px; }
+    header h1 { font-size: 2rem !important; }
+    header p { font-size: 14px; padding: 0 10px; }
+    
+    /* Fix the Grid & Section */
+    section { padding: 40px 20px; }
+    .grid { grid-template-columns: 1fr; gap: 24px; }
+    
+    /* Fix Cards */
+    .card { padding: 24px; }
+    .section-title h2 { font-size: 1.8rem; }
+  }
+  
 </style>
 </head>
 
