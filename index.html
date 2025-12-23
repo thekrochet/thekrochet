@@ -1,236 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TheKrochet | Home</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TheKrochet | Home</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <!-- AOS -->
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<!-- AOS -->
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-  <style>
-    :root{
-      --bg:#faf7f2;
-      --text:#2f2f2f;
-      --card:#ffffff;
-      --nav:#ffffff;
-      --shadow:rgba(0,0,0,0.08);
-      --primary:#d4a373;
-    }
+<style>
+:root{
+  --bg:#faf7f2;
+  --text:#2f2f2f;
+  --card:#ffffff;
+  --nav:#ffffff;
+  --shadow:rgba(0,0,0,0.08);
+  --primary:#d4a373;
+  --primary-dark:#b8895b;
+}
 
-    body.dark{
-      --bg:#121212;
-      --text:#f1f1f1;
-      --card:#1e1e1e;
-      --nav:#1a1a1a;
-      --shadow:rgba(0,0,0,0.6);
-    }
+body.dark{
+  --bg:#121212;
+  --text:#f1f1f1;
+  --card:#1e1e1e;
+  --nav:#1a1a1a;
+  --shadow:rgba(0,0,0,0.6);
+}
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
+*{margin:0;padding:0;box-sizing:border-box}
 
-    body{
-      font-family:'Poppins',sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-      transition:0.3s;
-    }
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  transition:.3s ease;
+}
 
-    nav{
-      background:var(--nav);
-      box-shadow:0 6px 18px var(--shadow);
-      padding:14px 20px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
+/* ===== NAVBAR ===== */
+nav{
+  background:var(--nav);
+  box-shadow:0 6px 18px var(--shadow);
+  padding:14px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
 
-    .nav-top{
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      gap:12px;
-    }
+.nav-top{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:14px;
+}
 
-    .nav-top h2{
-      font-family:'Playfair Display',serif;
-      font-size:22px;
-    }
+.nav-top h2{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+  letter-spacing:.5px;
+}
 
-    .toggle{
-      border:1px solid var(--primary);
-      background:none;
-      border-radius:50%;
-      width:30px;
-      height:30px;
-      cursor:pointer;
-    }
+.toggle{
+  border:1px solid var(--primary);
+  background:none;
+  border-radius:50%;
+  width:30px;
+  height:30px;
+  cursor:pointer;
+  transition:.3s;
+}
+.toggle:hover{
+  background:var(--primary);
+  color:#fff;
+}
 
-    .nav-links{
-      display:flex;
-      justify-content:center;
-      gap:18px;
-      flex-wrap:wrap;
-    }
+.nav-links{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
 
-    .nav-links a{
-      text-decoration:none;
-      color:var(--text);
-      font-weight:500;
-    }
+.nav-links a{
+  text-decoration:none;
+  color:var(--text);
+  font-weight:500;
+  position:relative;
+}
 
-    .nav-links a.active{
-      color:var(--primary);
-    }
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-4px;
+  width:0;
+  height:2px;
+  background:var(--primary);
+  transition:.3s;
+}
 
-    header{
-      text-align:center;
-      padding:70px 20px 50px;
-      background:linear-gradient(135deg,#fefae0,#faedcd);
-    }
+.nav-links a:hover::after,
+.nav-links a.active::after{
+  width:100%;
+}
 
-    body.dark header{
-      background:linear-gradient(135deg,#1f1f1f,#2a2a2a);
-    }
+/* ===== HERO ===== */
+header{
+  text-align:center;
+  padding:80px 20px 60px;
+  background:linear-gradient(135deg,#fefae0,#faedcd);
+}
 
-    header h2{
-      font-family:'Playfair Display',serif;
-      font-size:2.3rem;
-      margin-bottom:12px;
-    }
+body.dark header{
+  background:linear-gradient(135deg,#1f1f1f,#2a2a2a);
+}
 
-    section{
-      padding:40px 20px;
-      max-width:1200px;
-      margin:auto;
-      text-align:center;
-    }
+header h3{
+  font-family:'Playfair Display',serif;
+  font-size:2.4rem;
+  margin-bottom:14px;
+}
 
-    .grid{
-      margin-top:30px;
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:26px;
-    }
+header p{
+  font-size:15px;
+  opacity:.85;
+}
 
-    .card{
-      background:var(--card);
-      padding:26px;
-      border-radius:22px;
-      box-shadow:0 10px 25px var(--shadow);
-    }
+/* ===== SECTION ===== */
+section{
+  padding:50px 20px;
+  max-width:1200px;
+  margin:auto;
+  text-align:center;
+}
 
-    footer{
-      background:#1f1f1f;
-      color:#ddd;
-      text-align:center;
-      padding:22px;
-      margin-top:auto;
-    }
-  </style>
+section h2{
+  font-family:'Playfair Display',serif;
+  font-size:1.9rem;
+}
+
+.grid{
+  margin-top:36px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:30px;
+}
+
+/* ===== CARDS ===== */
+.card{
+  background:var(--card);
+  padding:28px;
+  border-radius:24px;
+  box-shadow:0 14px 30px var(--shadow);
+  cursor:pointer;
+  transition:.4s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,transparent,var(--primary));
+  opacity:0;
+  transition:.4s;
+}
+
+.card:hover::before{
+  opacity:.08;
+}
+
+.card:hover{
+  transform:translateY(-8px) scale(1.02);
+}
+
+.card h3{
+  font-size:18px;
+  margin-bottom:8px;
+}
+
+.card p{
+  font-size:14px;
+  opacity:.8;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  background:#1f1f1f;
+  color:#ddd;
+  text-align:center;
+  padding:22px;
+  margin-top:auto;
+  font-size:14px;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:480px){
+  header h3{font-size:2rem}
+  .nav-links{gap:14px}
+}
+</style>
 </head>
 
 <body>
 
-  <nav data-aos="fade-down">
-    <div class="nav-top">
-      <h2>TheKrochet</h2>
-      <button class="toggle" onclick="toggleTheme()">🌙</button>
+<!-- NAV -->
+<nav data-aos="fade-down">
+  <div class="nav-top">
+    <h2>TheKrochet</h2>
+    <button class="toggle" onclick="toggleTheme()">🌙</button>
+  </div>
+
+  <div class="nav-links">
+    <a href="index.html" class="active">Home</a>
+    <a href="products.html">Products</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header>
+  <h3 data-aos="zoom-in">Handmade Crochet Creations</h3>
+  <p data-aos="fade-up" data-aos-delay="150">
+    Crafted with love, warmth & timeless elegance
+  </p>
+</header>
+
+<!-- CONTENT -->
+<section>
+  <h2 data-aos="fade-up">Welcome to TheKrochet</h2>
+
+  <div class="grid">
+
+    <div class="card" data-aos="fade-up" onclick="openCustomOrder()">
+      <h3>✨ Custom Orders</h3>
+      <p>Designed just for you</p>
     </div>
 
-    <div class="nav-links">
-      <a href="index.html" class="active">Home</a>
-      <a href="products.html">Products</a>
-      <a href="reviews.html">Reviews</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
+    <div class="card" data-aos="fade-up" data-aos-delay="120"
+      onclick="window.location.href='products.html'">
+      <h3>🧶 Handmade Wearables</h3>
+      <p>Soft & stylish crochet fashion</p>
     </div>
-  </nav>
 
-  <header>
-    <h3 data-aos="zoom-in">Handmade Crochet Creations</h3>
-    <p data-aos="fade-up" data-aos-delay="150">
-      Crafted with love, warmth, and timeless elegance.
-    </p>
-  </header>
-
-  <section>
-    <h2 data-aos="fade-up">Welcome to TheKrochet</h2>
-
-    <div class="grid">
-
-      <!-- CUSTOM ORDERS -->
-      <div
-        class="card"
-        data-aos="fade-up"
-        style="cursor:pointer;"
-        onclick="openCustomOrder()"
-      >
-        <h3>✨ Custom Orders</h3>
-        <p>Designed just for you</p>
-      </div>
-
-      <!-- HANDMADE WEARABLES -->
-      <div
-        class="card"
-        data-aos="fade-up"
-        data-aos-delay="120"
-        style="cursor:pointer;"
-        onclick="window.location.href='products.html'"
-      >
-        <h3>🧶 Handmade Wearables</h3>
-        <p>Soft & stylish crochet fashion</p>
-      </div>
-
-      <!-- HOME DECOR -->
-      <div class="card" data-aos="fade-up" data-aos-delay="240">
-        <h3>🏡 Home Décor</h3>
-        <p>Warm & elegant handmade pieces</p>
-      </div>
-
+    <div class="card" data-aos="fade-up" data-aos-delay="240">
+      <h3>🏡 Home Décor</h3>
+      <p>Warm & elegant handmade pieces</p>
     </div>
-  </section>
 
-  <footer>
-    © 2025 TheKrochet
-  </footer>
+  </div>
+</section>
 
-  <!-- Scripts -->
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script>
-    AOS.init({
-      duration:900,
-      once:true
-    });
+<footer>© 2025 TheKrochet</footer>
 
-    function toggleTheme(){
-      document.body.classList.toggle("dark");
-      localStorage.setItem(
-        "theme",
-        document.body.classList.contains("dark") ? "dark" : "light"
-      );
-    }
+<!-- Scripts -->
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+AOS.init({ duration:900, once:true });
 
-    if(localStorage.getItem("theme")==="dark"){
-      document.body.classList.add("dark");
-    }
+function toggleTheme(){
+  document.body.classList.toggle("dark");
+  localStorage.setItem(
+    "theme",
+    document.body.classList.contains("dark") ? "dark" : "light"
+  );
+}
 
-    // CUSTOM ORDER ACTION
-    function openCustomOrder(){
-      const message = "I want to make custom order and my need is ....";
-      navigator.clipboard.writeText(message);
-      window.open("https://ig.me/m/thekrochet_", "_blank");
-    }
-  </script>
+if(localStorage.getItem("theme")==="dark"){
+  document.body.classList.add("dark");
+}
+
+function openCustomOrder(){
+  const msg="I want to make a custom order and my requirement is...";
+  navigator.clipboard.writeText(msg).catch(()=>{});
+  window.open("https://ig.me/m/thekrochet_","_blank");
+}
+</script>
 
 </body>
 </html>
