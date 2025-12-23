@@ -132,30 +132,43 @@ input,textarea{
   transform:translateY(-2px);
 }
 
-/* ===== PRODUCT LIST (UPDATED) ===== */
+/* ===== PRODUCT LIST ===== */
 .product-card {
   background: #fdfbf8;
   border-radius: 18px;
   padding: 12px;
   margin-bottom: 12px;
-  display: flex; /* Aligns items in a row */
-  align-items: center; /* Centers vertically */
-  gap: 15px; /* Space between image and text */
+  display: flex; 
+  align-items: center; 
+  gap: 15px; 
   border: 1px solid #eee;
   animation: listFade .3s ease forwards;
 }
 
-/* New Image Style */
-.product-thumb {
+/* === SLIDER CSS (AUTO SCROLL) === */
+.slider-container {
   width: 60px;
   height: 60px;
   border-radius: 12px;
-  object-fit: cover;
-  background-color: #eee;
+  overflow: hidden; /* Hide scrollbars */
   flex-shrink: 0;
+  background-color: #eee;
+  position: relative;
 }
 
-/* Wrapper for text to fill space */
+.slider-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.5s ease-in-out; /* Smooth slide animation */
+}
+
+.slider-track img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  flex-shrink: 0; /* Stop images from squishing */
+}
+
 .product-info {
   flex-grow: 1;
 }
@@ -230,7 +243,7 @@ input,textarea{
 
     <input id="pname" placeholder="Product Name">
     <input id="pprice" type="number" placeholder="Price (₹)">
-    <input id="pimage" placeholder="Image URL">
+    <input id="pimage" placeholder="Image URL (Separate multiple with comma)">
     <textarea id="pdesc" placeholder="Short description"></textarea>
 
     <button class="primary-btn" id="submitBtn">➕ Add Product</button>
@@ -279,13 +292,20 @@ submitBtn.onclick=async()=>{
     alert("Enter product name & price");
     return;
   }
+
+  // Handle Multiple Images: Split string by comma into an Array
+  // Example Input: "url1, url2" -> ["url1", "url2"]
+  const rawImages = pimage.value.split(',');
+  const cleanImages = rawImages.map(url => url.trim()).filter(url => url !== "");
+
   const data={
     name:pname.value.trim(),
     price:Number(pprice.value),
-    image:pimage.value.trim(),
+    image: cleanImages.length > 0 ? cleanImages : "", // Store as array
     description:pdesc.value.trim(),
     createdAt:firebase.firestore.FieldValue.serverTimestamp()
   };
+  
   if(editId){
     await db.collection("products").doc(editId).update(data);
     editId=null;
@@ -297,7 +317,9 @@ submitBtn.onclick=async()=>{
   pname.value=""; pprice.value=""; pimage.value=""; pdesc.value="";
 };
 
-/* PRODUCTS LIST - UPDATED WITH IMAGE */
+/* PRODUCTS LIST & AUTO SCROLL ENGINE */
+let scrollInterval = null;
+
 db.collection("products").onSnapshot(snap=>{
   const list=document.getElementById("productList");
   list.innerHTML="";
@@ -307,12 +329,27 @@ db.collection("products").onSnapshot(snap=>{
     .sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
 
   docs.forEach(p=>{
-    // Handle image URL or fallback
-    const imgSrc = p.image ? p.image : 'https://via.placeholder.com/60?text=No+Img';
+    // Handle Data: Convert string (old data) to array (new data)
+    let images = [];
+    if(Array.isArray(p.image)){
+        images = p.image;
+    } else if (p.image) {
+        images = [p.image]; // Legacy support for single string
+    } else {
+        images = ['https://via.placeholder.com/60?text=No+Img'];
+    }
     
+    // Generate HTML for all images in the slider
+    const imagesHTML = images.map(src => `<img src="${src}">`).join('');
+
     list.innerHTML+=`
       <div class="product-card">
-        <img src="${imgSrc}" class="product-thumb" alt="Product Image">
+        
+        <div class="slider-container">
+            <div class="slider-track" data-count="${images.length}" data-current="0">
+                ${imagesHTML}
+            </div>
+        </div>
         
         <div class="product-info">
           <strong>${p.name}</strong>
@@ -321,7 +358,7 @@ db.collection("products").onSnapshot(snap=>{
 
         <div class="actions">
           <button class="edit"
-            onclick="editProduct('${p.id}','${p.name}','${p.price}','${p.image}','${p.description||""}')">
+            onclick="editProduct('${p.id}','${p.name}','${p.price}', '${images.join(', ')}', '${p.description||""}')">
             Edit
           </button>
           <button class="delete"
@@ -331,13 +368,43 @@ db.collection("products").onSnapshot(snap=>{
         </div>
       </div>`;
   });
+
+  // Start the Auto Scroll Engine
+  startAutoScroll();
 });
 
-function editProduct(id,name,price,image,desc){
+function startAutoScroll() {
+  if (scrollInterval) clearInterval(scrollInterval);
+
+  scrollInterval = setInterval(() => {
+    // Select all tracks that have more than 1 image
+    const tracks = document.querySelectorAll('.slider-track');
+    
+    tracks.forEach(track => {
+      const count = parseInt(track.getAttribute('data-count'));
+      if(count <= 1) return; // Don't scroll if only 1 image
+
+      let current = parseInt(track.getAttribute('data-current'));
+      
+      // Increment index
+      current++;
+      if(current >= count) current = 0; // Reset to start
+
+      // Save new index
+      track.setAttribute('data-current', current);
+
+      // Slide calculation (60px is the width of the container)
+      track.style.transform = `translateX(-${current * 60}px)`;
+    });
+
+  }, 2000); // Scrolls every 2 seconds
+}
+
+function editProduct(id,name,price,imageStr,desc){
   editId=id;
   pname.value=name;
   pprice.value=price;
-  pimage.value=image;
+  pimage.value=imageStr; // Fills input with comma separated URLs
   pdesc.value=desc;
   submitBtn.innerText="🔄 Update";
   formTitle.innerText="Update Product";
