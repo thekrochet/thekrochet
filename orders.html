@@ -7,7 +7,6 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="brand.css">
 <link rel="stylesheet" href="responsive.css">
 
@@ -22,7 +21,7 @@
   --nav-bg: rgba(255, 255, 255, 0.9);
   --success: #27ae60;
   --danger: #e74c3c;
-  --shadow: 0 10px 30px rgba(184, 137, 91, 0.15); /* Warm Shadow */
+  --shadow: 0 10px 30px rgba(184, 137, 91, 0.15);
   --border: rgba(0,0,0,0.03);
 }
 
@@ -128,10 +127,10 @@ nav{
   opacity: 0.6;
 }
 
-/* ✨ GRID LAYOUT ✨ */
+/* ✨ GRID LAYOUT */
 .orders-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Auto Grid */
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 25px;
   padding: 10px 20px 60px;
   max-width: 1200px;
@@ -144,61 +143,49 @@ nav{
   border-radius: 18px;
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease;
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
+.order-card:hover { transform: translateY(-3px); }
 
-.order-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(184, 137, 91, 0.2);
-}
-
-/* HEADER: ID + DATE */
+/* HEADER: DATE & TIME */
 .order-header {
   background: rgba(0,0,0,0.02);
   padding: 15px 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   border-bottom: 1px solid var(--border);
 }
-.order-id {
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
-  color: var(--primary-dark);
-  font-size: 14px;
-  letter-spacing: 0.5px;
-}
-.order-date {
+
+.order-date-badge {
   font-size: 12px;
-  color: var(--text);
-  opacity: 0.6;
+  font-weight: 600;
+  color: var(--primary);
+  background: rgba(212, 163, 115, 0.1);
+  padding: 6px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
 }
 
 /* BODY SECTION */
-.card-body {
-  padding: 20px;
-  flex-grow: 1;
-}
+.card-body { padding: 20px; flex-grow: 1; }
 
-.customer-section {
-  margin-bottom: 15px;
-}
-.customer-label {
-  font-size: 10px;
-  text-transform: uppercase;
+.customer-name {
+  font-size: 18px;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
   color: var(--text);
-  opacity: 0.5;
-  letter-spacing: 1px;
+  margin-bottom: 5px;
   display: block;
 }
-.customer-name {
-  font-size: 16px;
-  font-weight: 600;
+.customer-sub {
+  font-size: 12px;
   color: var(--text);
-  margin-top: 2px;
+  opacity: 0.5;
+  margin-bottom: 15px;
   display: block;
 }
 
@@ -206,23 +193,20 @@ nav{
 .order-items {
   margin-top: 15px;
   border-top: 1px dashed var(--border);
-  padding-top: 10px;
+  padding-top: 15px;
 }
 .order-item {
   display: flex;
   justify-content: space-between;
   font-size: 14px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   color: var(--text);
-  opacity: 0.8;
+  opacity: 0.9;
 }
 .item-qty {
   font-weight: 600;
-  color: var(--primary);
-  background: rgba(0,0,0,0.05);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 12px;
+  color: var(--primary-dark);
+  font-size: 13px;
 }
 
 /* FOOTER & ACTIONS */
@@ -244,13 +228,13 @@ nav{
 .action-buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
 }
 
 .btn {
   padding: 12px;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
   font-size: 14px;
@@ -262,7 +246,7 @@ nav{
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: #fff;
 }
-.btn-accept:hover { transform: translateY(-2px); opacity: 0.9; }
+.btn-accept:hover { opacity: 0.9; }
 
 .btn-accept.accepted {
   background: var(--success);
@@ -278,12 +262,11 @@ nav{
   color: #fff;
 }
 
-/* Mobile Fix for Navbar */
+/* Mobile Fix */
 @media(max-width: 600px){
   .nav-links { gap: 14px; }
   .orders-grid { grid-template-columns: 1fr; padding: 10px 15px 50px; }
 }
-
 </style>
 </head>
 
@@ -305,12 +288,12 @@ nav{
 <main>
   <div class="page-header">
     <h4>Orders Dashboard</h4>
-    <p>Manage your incoming requests</p>
+    <p>Recent incoming requests</p>
   </div>
 
   <div id="ordersList" class="orders-grid">
     <div style="text-align:center; width:100%; grid-column:1/-1; padding:40px; color:#999;">
-      Loading...
+      Loading recent orders...
     </div>
   </div>
 </main>
@@ -320,7 +303,6 @@ nav{
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
-/* ✅ THE KROCHET CONFIG */
 firebase.initializeApp({
   apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
   authDomain:"thekrochet-b3ca2.firebaseapp.com",
@@ -349,92 +331,93 @@ function logout(){
   auth.signOut().then(()=>location.href="login.html");
 }
 
-/* FETCH ORDERS */
-db.collection("orders").orderBy("createdAt", "desc").onSnapshot(snap => {
-  const list = document.getElementById("ordersList");
-  list.innerHTML = "";
+/* 🚀 FETCH ORDERS (LIMIT 50 FOR SPEED) */
+db.collection("orders")
+  .orderBy("createdAt", "desc")
+  .limit(50)
+  .onSnapshot(snap => {
+    const list = document.getElementById("ordersList");
+    list.innerHTML = "";
 
-  if (snap.empty) {
-    list.innerHTML = "<div style='text-align:center;width:100%;grid-column:1/-1;padding:40px;color:#999'>No orders yet.</div>";
-    return;
-  }
-
-  snap.forEach(doc => {
-    const o = doc.data();
-    const date = o.createdAt ? o.createdAt.toDate().toLocaleDateString() : "Just now";
-    
-    // Auto-fix for NaN/Undefined quantities
-    let itemsHtml = "";
-    let calculatedTotal = 0;
-
-    if (o.items && Array.isArray(o.items)) {
-      o.items.forEach(item => {
-        const qty = item.quantity || item.qty || 1; 
-        const price = Number(item.price) || 0;
-        const itemTotal = price * qty;
-        calculatedTotal += itemTotal;
-
-        itemsHtml += `
-          <div class="order-item">
-            <span>${item.name}</span>
-            <span class="item-qty">x${qty}</span>
-          </div>
-        `;
-      });
+    if (snap.empty) {
+      list.innerHTML = "<div style='text-align:center;width:100%;grid-column:1/-1;padding:40px;color:#999'>No orders yet.</div>";
+      return;
     }
 
-    const finalTotal = o.total ? o.total : calculatedTotal;
-    
-    // Check if already accepted to style button
-    const isAccepted = o.status === "Accepted";
-    const btnText = isAccepted ? "✅ Accepted" : "Accept";
-    const btnClass = isAccepted ? "btn btn-accept accepted" : "btn btn-accept";
+    snap.forEach(doc => {
+      const o = doc.data();
+      
+      // ⏰ Format Date & Time
+      let dateDisplay = "Just now";
+      if(o.createdAt) {
+        const d = o.createdAt.toDate();
+        const datePart = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+        const timePart = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        dateDisplay = `${datePart} • ${timePart}`;
+      }
 
-    list.innerHTML += `
-      <div class="order-card">
-        <div class="order-header">
-          <span class="order-id">#${doc.id.substr(0,6).toUpperCase()}</span>
-          <span class="order-date">${date}</span>
-        </div>
-        
-        <div class="card-body">
-          <div class="customer-section">
-            <span class="customer-label">Name / Instagram</span>
-            <span class="customer-name">${o.customerName || "Guest"}</span>
+      // ✅ FIX NAME ISSUE: Check all possible name fields
+      const finalName = o.customerName || o.name || o.instagram || o.instaId || "Guest";
+
+      // Items Logic
+      let itemsHtml = "";
+      let calculatedTotal = 0;
+      if (o.items && Array.isArray(o.items)) {
+        o.items.forEach(item => {
+          const qty = item.quantity || item.qty || 1; 
+          const price = Number(item.price) || 0;
+          calculatedTotal += price * qty;
+          itemsHtml += `
+            <div class="order-item">
+              <span>${item.name}</span>
+              <span class="item-qty">x${qty}</span>
+            </div>`;
+        });
+      }
+
+      const finalTotal = o.total ? o.total : calculatedTotal;
+      const isAccepted = o.status === "Accepted";
+      const btnText = isAccepted ? "✅ Accepted" : "Accept";
+      const btnClass = isAccepted ? "btn btn-accept accepted" : "btn btn-accept";
+
+      list.innerHTML += `
+        <div class="order-card">
+          <div class="order-header">
+            <span class="order-date-badge">📅 ${dateDisplay}</span>
           </div>
           
-          <div class="order-items">
-            ${itemsHtml}
-          </div>
-        </div>
-
-        <div class="order-footer">
-          <div class="total-row">
-            <span>Total</span>
-            <span>₹${finalTotal}</span>
+          <div class="card-body">
+            <span class="customer-name">${finalName}</span>
+            <span class="customer-sub">Instagram / Name</span>
+            
+            <div class="order-items">
+              ${itemsHtml}
+            </div>
           </div>
 
-          <div class="action-buttons">
-            <button class="${btnClass}" onclick="acceptOrder('${doc.id}')">${btnText}</button>
-            <button class="btn btn-delete" onclick="deleteOrder('${doc.id}')">Delete</button>
+          <div class="order-footer">
+            <div class="total-row">
+              <span>Total</span>
+              <span>₹${finalTotal}</span>
+            </div>
+
+            <div class="action-buttons">
+              <button class="${btnClass}" onclick="acceptOrder('${doc.id}')">${btnText}</button>
+              <button class="btn btn-delete" onclick="deleteOrder('${doc.id}')">Delete</button>
+            </div>
           </div>
         </div>
-      </div>
-    `;
-  });
+      `;
+    });
 });
 
-/* SIMPLE ACCEPT FUNCTION */
 function acceptOrder(id) {
-  // Just update status to 'Accepted'
   db.collection("orders").doc(id).update({
     status: "Accepted"
   }).catch(err => console.log(err));
 }
 
-/* DELETE FUNCTION */
 function deleteOrder(id) {
-  // Deletes immediately
   db.collection("orders").doc(id).delete();
 }
 </script>
