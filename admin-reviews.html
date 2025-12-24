@@ -18,19 +18,32 @@
   --bg:#faf7f2;
   --text:#2f2f2f;
   --card-bg: #ffffff;
+  --nav-bg: rgba(255, 255, 255, 0.9);
   --danger: #e74c3c;
   --shadow: 0 10px 30px rgba(184, 137, 91, 0.15);
+  --border: rgba(0,0,0,0.03);
+}
+
+/* 🌙 DARK MODE VARIABLES */
+body.dark-mode {
+  --bg: #121212;
+  --text: #e0e0e0;
+  --card-bg: #1e1e1e;
+  --nav-bg: rgba(30, 30, 30, 0.9);
+  --shadow: 0 10px 30px rgba(0,0,0,0.5);
+  --border: #333;
 }
 
 body {
   font-family: 'Poppins', sans-serif;
   background-color: var(--bg);
   color: var(--text);
+  transition: background 0.3s, color 0.3s;
 }
 
-/* NAVBAR (Same as Orders) */
+/* NAVBAR */
 nav{
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--nav-bg);
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 20px rgba(0,0,0,0.05);
   padding: 16px 20px 14px;
@@ -38,6 +51,14 @@ nav{
   position: sticky;
   top: 0;
   z-index: 100;
+  transition: background 0.3s;
+}
+
+.nav-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .nav-top h2{
@@ -45,7 +66,21 @@ nav{
   font-size: 24px;
   letter-spacing: .5px;
   color: var(--text);
+  margin: 0;
 }
+
+/* 🌙 TOGGLE */
+.theme-toggle {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: 0.2s;
+  line-height: 1;
+}
+.theme-toggle:hover { background: rgba(128,128,128,0.1); }
 
 .nav-links{
   display: flex;
@@ -66,9 +101,10 @@ nav{
   font-size: 15px;
   font-family: 'Poppins', sans-serif;
   position: relative;
+  opacity: 0.7;
 }
 
-.nav-links a.active{ color: var(--primary); }
+.nav-links a.active{ opacity:1; color: var(--primary); font-weight: 600; }
 .nav-links a.active::after{
   content: ""; position: absolute; left: 0; bottom: -4px; width: 100%; height: 2px; background: var(--primary);
 }
@@ -88,7 +124,7 @@ nav{
 /* ✨ GRID LAYOUT FOR REVIEWS */
 .reviews-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Smart columns */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 25px;
   padding: 10px 40px 60px;
   max-width: 1200px;
@@ -100,7 +136,7 @@ nav{
   background: var(--card-bg);
   border-radius: 18px;
   box-shadow: var(--shadow);
-  border: 1px solid rgba(0,0,0,0.03);
+  border: 1px solid var(--border);
   padding: 25px;
   display: flex;
   flex-direction: column;
@@ -128,19 +164,21 @@ nav{
 
 .review-date {
   font-size: 12px;
-  color: #999;
-  background: #f9f9f9;
+  color: var(--text);
+  opacity: 0.6;
+  background: rgba(128,128,128,0.1);
   padding: 4px 8px;
   border-radius: 6px;
 }
 
 .review-text {
   font-size: 14px;
-  color: #555;
+  color: var(--text);
+  opacity: 0.8;
   line-height: 1.6;
   font-style: italic;
   margin-bottom: 20px;
-  flex-grow: 1; /* Pushes bottom section down */
+  flex-grow: 1; 
 }
 
 /* STARS & DELETE ROW */
@@ -148,7 +186,7 @@ nav{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--border);
   padding-top: 15px;
   margin-top: 10px;
 }
@@ -160,7 +198,7 @@ nav{
 }
 
 .btn-delete {
-  background: #fff5f5;
+  background: rgba(231, 76, 60, 0.1);
   color: var(--danger);
   border: none;
   padding: 8px 16px;
@@ -189,6 +227,7 @@ nav{
 <nav>
   <div class="nav-top">
     <h2>TheKrochet</h2>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
   </div>
   <div class="nav-links">
     <a href="admin.html">Products</a>
@@ -225,6 +264,18 @@ firebase.initializeApp({
 const auth=firebase.auth();
 const db=firebase.firestore();
 
+/* 🌙 DARK MODE SYNC */
+function toggleTheme() {
+  document.body.classList.toggle("dark-mode");
+  const isDark = document.body.classList.contains("dark-mode");
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+  document.getElementById("themeBtn").innerText = isDark ? "☀️" : "🌙";
+}
+if(localStorage.getItem("theme") === "dark"){
+  document.body.classList.add("dark-mode");
+  document.getElementById("themeBtn").innerText = "☀️";
+}
+
 auth.onAuthStateChanged(user=>{
   if(!user) location.href="login.html";
 });
@@ -244,10 +295,8 @@ db.collection("reviews").orderBy("createdAt", "desc").onSnapshot(snap => {
 
   snap.forEach(doc => {
     const r = doc.data();
-    // Convert Firestore Timestamp to Date
     const date = r.createdAt ? r.createdAt.toDate().toLocaleDateString() : "Unknown Date";
     
-    // Generate Stars
     let starHtml = "";
     for(let i=0; i<5; i++) {
       if(i < r.rating) starHtml += "★";
