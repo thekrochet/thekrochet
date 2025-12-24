@@ -19,20 +19,33 @@
   --bg:#faf7f2;
   --text:#2f2f2f;
   --card-bg: #ffffff;
+  --nav-bg: rgba(255, 255, 255, 0.9);
   --success: #27ae60;
   --danger: #e74c3c;
   --shadow: 0 10px 30px rgba(184, 137, 91, 0.15); /* Warm Shadow */
+  --border: rgba(0,0,0,0.03);
+}
+
+/* 🌙 DARK MODE VARIABLES */
+body.dark-mode {
+  --bg: #121212;
+  --text: #e0e0e0;
+  --card-bg: #1e1e1e;
+  --nav-bg: rgba(30, 30, 30, 0.9);
+  --shadow: 0 10px 30px rgba(0,0,0,0.5);
+  --border: #333;
 }
 
 body {
   font-family: 'Poppins', sans-serif;
   background-color: var(--bg);
   color: var(--text);
+  transition: background 0.3s, color 0.3s;
 }
 
-/* NAVBAR (Matches admin.html) */
+/* NAVBAR */
 nav{
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--nav-bg);
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 20px rgba(0,0,0,0.05);
   padding: 16px 20px 14px;
@@ -40,6 +53,14 @@ nav{
   position: sticky;
   top: 0;
   z-index: 100;
+  transition: background 0.3s;
+}
+
+.nav-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .nav-top h2{
@@ -47,7 +68,21 @@ nav{
   font-size: 24px;
   letter-spacing: .5px;
   color: var(--text);
+  margin: 0;
 }
+
+/* 🌙 TOGGLE */
+.theme-toggle {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: 0.2s;
+  line-height: 1;
+}
+.theme-toggle:hover { background: rgba(128,128,128,0.1); }
 
 .nav-links{
   display: flex;
@@ -68,9 +103,10 @@ nav{
   font-size: 15px;
   font-family: 'Poppins', sans-serif;
   position: relative;
+  opacity: 0.7;
 }
 
-.nav-links a.active{ color: var(--primary); }
+.nav-links a.active{ opacity: 1; color: var(--primary); font-weight: 600; }
 .nav-links a.active::after{
   content: ""; position: absolute; left: 0; bottom: -4px; width: 100%; height: 2px; background: var(--primary);
 }
@@ -87,8 +123,9 @@ nav{
   margin-bottom: 5px;
 }
 .page-header p {
-  color: #888;
+  color: var(--text);
   font-size: 0.9rem;
+  opacity: 0.6;
 }
 
 /* ✨ GRID LAYOUT ✨ */
@@ -106,7 +143,7 @@ nav{
   background: var(--card-bg);
   border-radius: 18px;
   box-shadow: var(--shadow);
-  border: 1px solid rgba(0,0,0,0.03);
+  border: 1px solid var(--border);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
   display: flex;
@@ -120,12 +157,12 @@ nav{
 
 /* HEADER: ID + DATE */
 .order-header {
-  background: #fdfbf8;
+  background: rgba(0,0,0,0.02);
   padding: 15px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border);
 }
 .order-id {
   font-family: 'Playfair Display', serif;
@@ -136,7 +173,8 @@ nav{
 }
 .order-date {
   font-size: 12px;
-  color: #999;
+  color: var(--text);
+  opacity: 0.6;
 }
 
 /* BODY SECTION */
@@ -151,7 +189,8 @@ nav{
 .customer-label {
   font-size: 10px;
   text-transform: uppercase;
-  color: #bbb;
+  color: var(--text);
+  opacity: 0.5;
   letter-spacing: 1px;
   display: block;
 }
@@ -166,7 +205,7 @@ nav{
 /* ITEMS LIST */
 .order-items {
   margin-top: 15px;
-  border-top: 1px dashed #eee;
+  border-top: 1px dashed var(--border);
   padding-top: 10px;
 }
 .order-item {
@@ -174,12 +213,13 @@ nav{
   justify-content: space-between;
   font-size: 14px;
   margin-bottom: 8px;
-  color: #666;
+  color: var(--text);
+  opacity: 0.8;
 }
 .item-qty {
   font-weight: 600;
   color: var(--primary);
-  background: #faf7f2;
+  background: rgba(0,0,0,0.05);
   padding: 2px 8px;
   border-radius: 4px;
   font-size: 12px;
@@ -188,8 +228,8 @@ nav{
 /* FOOTER & ACTIONS */
 .order-footer {
   padding: 20px;
-  background: #fff;
-  border-top: 1px solid #f9f9f9;
+  background: rgba(0,0,0,0.02);
+  border-top: 1px solid var(--border);
 }
 
 .total-row {
@@ -230,7 +270,7 @@ nav{
 }
 
 .btn-delete {
-  background: #fff5f5;
+  background: rgba(231, 76, 60, 0.1);
   color: var(--danger);
 }
 .btn-delete:hover {
@@ -252,6 +292,7 @@ nav{
 <nav>
   <div class="nav-top">
     <h2>TheKrochet</h2>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
   </div>
   <div class="nav-links">
     <a href="admin.html">Products</a>
@@ -288,6 +329,18 @@ firebase.initializeApp({
 
 const auth=firebase.auth();
 const db=firebase.firestore();
+
+/* 🌙 DARK MODE SYNC */
+function toggleTheme() {
+  document.body.classList.toggle("dark-mode");
+  const isDark = document.body.classList.contains("dark-mode");
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+  document.getElementById("themeBtn").innerText = isDark ? "☀️" : "🌙";
+}
+if(localStorage.getItem("theme") === "dark"){
+  document.body.classList.add("dark-mode");
+  document.getElementById("themeBtn").innerText = "☀️";
+}
 
 auth.onAuthStateChanged(user=>{
   if(!user) location.href="login.html";
@@ -332,7 +385,7 @@ db.collection("orders").orderBy("createdAt", "desc").onSnapshot(snap => {
 
     const finalTotal = o.total ? o.total : calculatedTotal;
     
-    // Check if already accepted
+    // Check if already accepted to style button
     const isAccepted = o.status === "Accepted";
     const btnText = isAccepted ? "✅ Accepted" : "Accept";
     const btnClass = isAccepted ? "btn btn-accept accepted" : "btn btn-accept";
@@ -373,6 +426,7 @@ db.collection("orders").orderBy("createdAt", "desc").onSnapshot(snap => {
 
 /* SIMPLE ACCEPT FUNCTION */
 function acceptOrder(id) {
+  // Just update status to 'Accepted'
   db.collection("orders").doc(id).update({
     status: "Accepted"
   }).catch(err => console.log(err));
@@ -380,9 +434,8 @@ function acceptOrder(id) {
 
 /* DELETE FUNCTION */
 function deleteOrder(id) {
-  if(confirm("Delete this order?")) {
-    db.collection("orders").doc(id).delete();
-  }
+  // Deletes immediately
+  db.collection("orders").doc(id).delete();
 }
 </script>
 
