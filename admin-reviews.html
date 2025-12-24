@@ -12,24 +12,23 @@
 <link rel="stylesheet" href="responsive.css">
 
 <style>
-/* Internal styles for Premium Reviews */
+/* Internal styles */
 :root{
   --primary:#d4a373;
   --bg:#faf7f2;
   --text:#2f2f2f;
   --card-bg: #ffffff;
-  --nav-bg: rgba(255, 255, 255, 0.9);
+  --nav-bg: rgba(255, 255, 255, 0.95);
   --danger: #e74c3c;
   --shadow: 0 10px 30px rgba(184, 137, 91, 0.15);
   --border: rgba(0,0,0,0.03);
 }
 
-/* 🌙 DARK MODE VARIABLES */
 body.dark-mode {
   --bg: #121212;
   --text: #e0e0e0;
   --card-bg: #1e1e1e;
-  --nav-bg: rgba(30, 30, 30, 0.9);
+  --nav-bg: rgba(30, 30, 30, 0.95);
   --shadow: 0 10px 30px rgba(0,0,0,0.5);
   --border: #333;
 }
@@ -39,6 +38,9 @@ body {
   background-color: var(--bg);
   color: var(--text);
   transition: background 0.3s, color 0.3s;
+  margin: 0;
+  /* ✅ FIX: Prevents screen from shifting/scrolling sideways */
+  overflow-x: hidden;
 }
 
 /* NAVBAR */
@@ -64,12 +66,10 @@ nav{
 .nav-top h2{
   font-family:'Playfair Display',serif;
   font-size: 24px;
-  letter-spacing: .5px;
   color: var(--text);
   margin: 0;
 }
 
-/* 🌙 TOGGLE */
 .theme-toggle {
   background: none;
   border: none;
@@ -77,8 +77,8 @@ nav{
   cursor: pointer;
   padding: 5px;
   border-radius: 50%;
-  transition: 0.2s;
   line-height: 1;
+  transition: 0.2s;
 }
 .theme-toggle:hover { background: rgba(128,128,128,0.1); }
 
@@ -87,7 +87,6 @@ nav{
   justify-content: center;
   gap: 22px;
   margin-top: 10px;
-  align-items: center;
   flex-wrap: wrap;
 }
 
@@ -100,14 +99,10 @@ nav{
   text-decoration: none;
   font-size: 15px;
   font-family: 'Poppins', sans-serif;
-  position: relative;
   opacity: 0.7;
 }
 
 .nav-links a.active{ opacity:1; color: var(--primary); font-weight: 600; }
-.nav-links a.active::after{
-  content: ""; position: absolute; left: 0; bottom: -4px; width: 100%; height: 2px; background: var(--primary);
-}
 
 /* PAGE HEADER */
 .page-header {
@@ -121,7 +116,7 @@ nav{
   margin-bottom: 5px;
 }
 
-/* ✨ GRID LAYOUT FOR REVIEWS */
+/* ✨ REVIEWS GRID */
 .reviews-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -129,9 +124,12 @@ nav{
   padding: 10px 40px 60px;
   max-width: 1200px;
   margin: 0 auto;
+  /* ✅ FIX: Ensures grid doesn't overflow */
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* REVIEW CARD DESIGN */
+/* REVIEW CARD */
 .review-card {
   background: var(--card-bg);
   border-radius: 18px;
@@ -141,12 +139,9 @@ nav{
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
-  position: relative;
 }
 
-.review-card:hover {
-  transform: translateY(-5px);
-}
+.review-card:hover { transform: translateY(-5px); }
 
 .review-header {
   display: flex;
@@ -178,10 +173,9 @@ nav{
   line-height: 1.6;
   font-style: italic;
   margin-bottom: 20px;
-  flex-grow: 1; 
+  flex-grow: 1;
 }
 
-/* STARS & DELETE ROW */
 .review-footer {
   display: flex;
   justify-content: space-between;
@@ -322,9 +316,8 @@ db.collection("reviews").orderBy("createdAt", "desc").onSnapshot(snap => {
 });
 
 function deleteReview(id) {
-  if(confirm("Permanently delete this review?")) {
-    db.collection("reviews").doc(id).delete();
-  }
+  // Silent Delete
+  db.collection("reviews").doc(id).delete();
 }
 </script>
 
