@@ -42,8 +42,10 @@ body {
   color: var(--text);
   transition: background 0.3s, color 0.3s;
   margin: 0;
-  /* ✅ FIX: Prevents screen from shifting/scrolling sideways */
+  padding: 0;
+  /* ✅ FIX: Prevents screen from shifting sideways */
   overflow-x: hidden; 
+  width: 100%;
 }
 
 /* =========================================
@@ -138,7 +140,7 @@ nav {
   padding: 10px 20px 80px;
   max-width: 1200px;
   margin: 0 auto;
-  /* ✅ FIX: Ensures grid doesn't overflow */
+  /* ✅ FIX: Ensures grid fits perfectly */
   width: 100%;
   box-sizing: border-box;
 }
@@ -329,6 +331,7 @@ function toggleTheme() {
   localStorage.setItem("theme", isDark ? "dark" : "light");
   document.getElementById("themeBtn").innerText = isDark ? "☀️" : "🌙";
 }
+// Check saved theme on load
 if(localStorage.getItem("theme") === "dark"){
   document.body.classList.add("dark-mode");
   document.getElementById("themeBtn").innerText = "☀️";
@@ -432,7 +435,7 @@ function acceptOrder(id) {
 }
 
 function deleteOrder(id) {
-  // ✅ FIX: Deleted immediately without confirmation popup
+  // ✅ SILENT DELETE (No Popup)
   db.collection("orders").doc(id).delete();
 }
 </script>
