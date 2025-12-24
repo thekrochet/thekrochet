@@ -18,9 +18,23 @@
   --bg:#faf7f2;
   --text:#2f2f2f;
   --card-bg: #ffffff;
+  --nav-bg: rgba(255, 255, 255, 0.9);
+  --input-bg: #fdfbf8;
   --danger: #e74c3c;
   --success: #27ae60;
   --shadow: 0 10px 30px rgba(184, 137, 91, 0.15);
+  --border: #eee;
+}
+
+/* 🌙 DARK MODE VARIABLES */
+body.dark-mode {
+  --bg: #121212;
+  --text: #e0e0e0;
+  --card-bg: #1e1e1e;
+  --nav-bg: rgba(30, 30, 30, 0.9);
+  --input-bg: #2a2a2a;
+  --shadow: 0 10px 30px rgba(0,0,0,0.5);
+  --border: #333;
 }
 
 body {
@@ -28,11 +42,12 @@ body {
   background-color: var(--bg);
   color: var(--text);
   padding-bottom: 50px;
+  transition: background 0.3s, color 0.3s;
 }
 
 /* NAVBAR */
 nav{
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--nav-bg);
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 20px rgba(0,0,0,0.05);
   padding: 16px 20px 14px;
@@ -40,6 +55,14 @@ nav{
   position: sticky;
   top: 0;
   z-index: 100;
+  transition: background 0.3s;
+}
+
+.nav-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .nav-top h2{
@@ -47,7 +70,21 @@ nav{
   font-size: 24px;
   letter-spacing: .5px;
   color: var(--text);
+  margin: 0;
 }
+
+/* 🌙 TOGGLE BUTTON */
+.theme-toggle {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: 0.2s;
+  line-height: 1;
+}
+.theme-toggle:hover { background: rgba(128,128,128,0.1); }
 
 .nav-links{
   display: flex;
@@ -68,9 +105,10 @@ nav{
   font-size: 15px;
   font-family: 'Poppins', sans-serif;
   position: relative;
+  opacity: 0.7;
 }
 
-.nav-links a.active{ color: var(--primary); }
+.nav-links a.active{ opacity: 1; color: var(--primary); font-weight: 600; }
 .nav-links a.active::after{
   content: ""; position: absolute; left: 0; bottom: -4px; width: 100%; height: 2px; background: var(--primary);
 }
@@ -102,7 +140,7 @@ nav{
   max-width: 600px;
   margin-left: auto; 
   margin-right: auto;
-  border: 1px solid rgba(0,0,0,0.03);
+  border: 1px solid var(--border);
 }
 
 .form-title {
@@ -117,16 +155,16 @@ nav{
   width: 100%;
   padding: 12px 15px;
   margin-bottom: 15px;
-  border: 1px solid #eee;
+  border: 1px solid var(--border);
   border-radius: 10px;
   font-family: 'Poppins', sans-serif;
   font-size: 14px;
-  background: #fdfbf8;
+  background: var(--input-bg);
+  color: var(--text);
   transition: 0.3s;
 }
 .form-group input:focus {
   border-color: var(--primary);
-  background: #fff;
   outline: none;
 }
 
@@ -168,7 +206,7 @@ nav{
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0,0,0,0.05);
   transition: transform 0.3s;
-  border: 1px solid #eee;
+  border: 1px solid var(--border);
   display: flex;
   flex-direction: column;
 }
@@ -223,10 +261,10 @@ nav{
   font-weight: 500;
   cursor: pointer;
 }
-.btn-edit { background: #f0f0f0; color: #333; }
-.btn-edit:hover { background: #e0e0e0; }
+.btn-edit { background: var(--input-bg); color: var(--text); border: 1px solid var(--border); }
+.btn-edit:hover { opacity: 0.8; }
 
-.btn-del { background: #fff5f5; color: var(--danger); }
+.btn-del { background: rgba(231, 76, 60, 0.1); color: var(--danger); }
 .btn-del:hover { background: var(--danger); color: white; }
 
 </style>
@@ -237,6 +275,7 @@ nav{
 <nav>
   <div class="nav-top">
     <h2>TheKrochet</h2>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
   </div>
   <div class="nav-links">
     <a href="admin.html" class="active">Products</a>
@@ -279,7 +318,6 @@ nav{
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
-/* FIREBASE CONFIG */
 firebase.initializeApp({
   apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
   authDomain:"thekrochet-b3ca2.firebaseapp.com",
@@ -288,11 +326,20 @@ firebase.initializeApp({
 
 const auth=firebase.auth();
 const db=firebase.firestore();
-
-/* Global Object to store product data */
 let allProducts = {};
 
-/* AUTH CHECK */
+/* 🌙 DARK MODE SYNC LOGIC */
+function toggleTheme() {
+  document.body.classList.toggle("dark-mode");
+  const isDark = document.body.classList.contains("dark-mode");
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+  document.getElementById("themeBtn").innerText = isDark ? "☀️" : "🌙";
+}
+if(localStorage.getItem("theme") === "dark"){
+  document.body.classList.add("dark-mode");
+  document.getElementById("themeBtn").innerText = "☀️";
+}
+
 auth.onAuthStateChanged(user=>{
   if(!user) location.href="login.html";
 });
@@ -304,7 +351,7 @@ function logout(){
 db.collection("products").orderBy("createdAt", "desc").onSnapshot(snap => {
   const container = document.getElementById("productsList");
   container.innerHTML = "";
-  allProducts = {}; // Reset data
+  allProducts = {}; 
 
   if(snap.empty){
     container.innerHTML = "<div style='text-align:center; width:100%; grid-column:1/-1; padding:40px; color:#999'>No products yet.</div>";
@@ -313,7 +360,7 @@ db.collection("products").orderBy("createdAt", "desc").onSnapshot(snap => {
 
   snap.forEach(doc => {
     const p = doc.data();
-    allProducts[doc.id] = p; // Save data for editing later
+    allProducts[doc.id] = p; 
 
     const imgUrl = p.image || 'https://via.placeholder.com/300?text=No+Image';
 
@@ -357,26 +404,23 @@ function addProduct() {
 
 /* START EDIT MODE */
 function startEdit(id) {
-  const p = allProducts[id]; // Get data from global object
+  const p = allProducts[id];
   
-  // Fill Form
   document.getElementById('editId').value = id;
   document.getElementById('pName').value = p.name;
   document.getElementById('pPrice').value = p.price;
   document.getElementById('pImg').value = p.image || '';
   document.getElementById('pDesc').value = p.description || '';
 
-  // Change Buttons
   document.getElementById('addBtn').style.display = 'none';
   document.getElementById('updateBtn').style.display = 'block';
   document.getElementById('cancelBtn').style.display = 'block';
   document.getElementById('formTitle').innerText = "Edit Product";
 
-  // Scroll to form
   document.getElementById('formSection').scrollIntoView({behavior: "smooth"});
 }
 
-/* UPDATE PRODUCT (No Popup!) */
+/* UPDATE PRODUCT */
 function updateProduct() {
   const id = document.getElementById('editId').value;
   const name = document.getElementById('pName').value;
@@ -390,7 +434,7 @@ function updateProduct() {
     image: image,
     description: desc
   }).then(() => {
-    resetForm(); // Go back to Add mode
+    resetForm(); 
   }).catch(err => alert("Error updating: " + err.message));
 }
 
@@ -402,7 +446,6 @@ function resetForm() {
   document.getElementById('pDesc').value = "";
   document.getElementById('editId').value = "";
 
-  // Reset Buttons
   document.getElementById('addBtn').style.display = 'block';
   document.getElementById('updateBtn').style.display = 'none';
   document.getElementById('cancelBtn').style.display = 'none';
