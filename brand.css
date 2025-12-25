@@ -95,3 +95,15 @@ nav{
 .nav-links a.active::after{
   width:100%;
 }
+/* ================= FOOTER ================= */
+footer {
+  background: #1a1a1a;
+  color: #888;
+  text-align: center;
+  padding: 25px;
+  font-size: 0.9rem;
+  margin-top: auto;
+  border-top: 1px solid #333;
+}
+
+
