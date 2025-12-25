@@ -8,29 +8,30 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-<!-- ✅ BRAND MASTER -->
 <link rel="stylesheet" href="brand.css">
-
-  <link rel="stylesheet" href="responsive.css">
+<link rel="stylesheet" href="responsive.css">
 
 <style>
 :root{
   --bg:#faf7f2;
   --text:#2f2f2f;
   --card:#ffffff;
-  --nav:#ffffff;
-  --shadow:rgba(0,0,0,0.08);
+  --nav:rgba(255, 255, 255, 0.95);
+  --shadow:rgba(212, 163, 115, 0.15);
   --primary:#d4a373;
   --primary-dark:#b8895b;
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
 }
+
 body.dark{
   --bg:#121212;
   --text:#f1f1f1;
   --card:#1e1e1e;
-  --nav:#1a1a1a;
-  --shadow:rgba(0,0,0,0.6);
+  --nav:rgba(26, 26, 26, 0.95);
+  --shadow:rgba(0,0,0,0.5);
 }
-*{margin:0;padding:0;box-sizing:border-box}
+
+*{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
 
 body{
   font-family:'Poppins',sans-serif;
@@ -39,135 +40,238 @@ body{
   min-height:100vh;
   display:flex;
   flex-direction:column;
+  transition: background 0.5s var(--ease), color 0.5s var(--ease);
+  overflow-x: hidden;
 }
 
-/* ===== HERO ===== */
+/* ================= NAVBAR ================= */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--nav);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+body.dark nav {
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.nav-top h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Link Hover Animation */
+.nav-links a {
+  position: relative;
+  transition: color 0.3s ease;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 50%;
+  background-color: var(--primary);
+  transition: all 0.3s var(--ease);
+  transform: translateX(-50%);
+}
+.nav-links a:hover { color: var(--primary); }
+.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+/* ================= HERO ================= */
 header{
   text-align:center;
-  padding:90px 20px 70px;
-  background:linear-gradient(135deg,#fefae0,#faedcd);
+  padding: 100px 20px 70px;
+  background: linear-gradient(135deg, #fefae0 0%, #faf7f2 100%);
+  position: relative;
+  overflow: hidden;
 }
 body.dark header{
-  background:linear-gradient(135deg,#1f1f1f,#2a2a2a);
+  background: linear-gradient(135deg, #1f1f1f 0%, #121212 100%);
 }
+
+/* Subtle background animation */
+header::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle, var(--primary) 0%, transparent 20%);
+  opacity: 0.05;
+  animation: floatBG 15s infinite linear;
+  pointer-events: none;
+}
+@keyframes floatBG { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
 header h1{
   font-family:'Playfair Display',serif;
-  font-size:2.8rem;
-  margin-bottom:10px;
+  font-size: 3rem;
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+  position: relative;
 }
 header p{
-  font-size:15px;
-  opacity:.85;
+  font-size: 1.1rem;
+  opacity: 0.8;
 }
 
-/* ===== SECTION ===== */
+/* ================= SECTION ================= */
 section{
-  padding:60px 20px;
-  max-width:1100px;
-  margin:auto;
-  text-align:center;
+  padding: 60px 24px;
+  max-width: 1100px;
+  margin: auto;
+  text-align: center;
 }
 
-/* ADD REVIEW */
+/* ADD REVIEW BUTTON */
 .add-review-btn{
-  padding:14px 28px;
-  border-radius:18px;
-  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:#fff;
-  font-weight:600;
-  border:none;
-  cursor:pointer;
-  margin-bottom:42px;
-  transition:.35s ease;
+  padding: 16px 32px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 50px;
+  box-shadow: 0 10px 20px rgba(212, 163, 115, 0.3);
+  transition: all 0.3s var(--ease);
 }
 .add-review-btn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 10px 22px rgba(0,0,0,.15);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 15px 30px rgba(212, 163, 115, 0.5);
 }
+.add-review-btn:active{ transform: scale(0.95); }
 
-/* FORM */
+/* REVIEW FORM */
 .review-form{
-  display:none;
-  max-width:520px;
-  margin:0 auto 60px;
-  background:var(--card);
-  padding:30px;
-  border-radius:28px;
-  box-shadow:0 14px 30px var(--shadow);
+  display: none;
+  max-width: 520px;
+  margin: 0 auto 60px;
+  background: var(--card);
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.05);
+  animation: slideDown 0.5s var(--ease);
 }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
 .review-form input,
 .review-form textarea,
 .review-form select{
-  width:100%;
-  padding:14px;
-  margin-bottom:12px;
-  border-radius:14px;
-  border:1px solid #ddd;
-  background:var(--bg);
-  color:var(--text);
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+  outline: none;
 }
+.review-form input:focus,
+.review-form textarea:focus,
+.review-form select:focus{
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(212, 163, 115, 0.15);
+  background: var(--card);
+}
+
 .review-form button{
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:none;
-  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:white;
-  font-weight:600;
-  cursor:pointer;
-  transition:.3s ease;
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  border: none;
+  background: var(--primary-dark);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 .review-form button:hover{
-  transform:translateY(-2px);
+  background: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(212, 163, 115, 0.3);
 }
 
 /* GRID */
 .grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:34px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
 }
 
 /* REVIEW CARD */
 .card{
-  background:var(--card);
-  padding:28px;
-  border-radius:26px;
-  box-shadow:0 14px 28px var(--shadow);
-  transition:.4s ease;
+  background: var(--card);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px var(--shadow);
+  transition: all 0.4s var(--ease);
+  border: 1px solid transparent;
+  position: relative;
+  overflow: hidden;
+  text-align: left;
 }
 .card:hover{
-  transform:translateY(-6px);
-}
-.stars{
-  font-size:20px;
-  margin-bottom:10px;
-}
-.card p{
-  font-size:14px;
-  line-height:1.7;
-}
-.card span{
-  display:block;
-  margin-top:10px;
-  font-size:13px;
-  color:#9a9a9a;
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  border-color: rgba(212, 163, 115, 0.2);
 }
 
-/* FOOTER */
+.stars{
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: #f1c40f; /* Star color */
+}
+.card p{
+  font-size: 0.95rem;
+  line-height: 1.7;
+  opacity: 0.9;
+  font-style: italic;
+}
+.card span{
+  display: block;
+  margin-top: 15px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ================= FOOTER ================= */
 footer{
-  background:#1f1f1f;
-  color:#ddd;
-  text-align:center;
-  padding:22px;
-  margin-top:auto;
+  background: #1a1a1a;
+  color: #888;
+  text-align: center;
+  padding: 30px;
+  font-size: 0.9rem;
+  margin-top: auto;
+  border-top: 1px solid #333;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  header h1 { font-size: 2.2rem; }
+  .grid { gap: 20px; }
+  .card { padding: 24px; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- ✅ NAVBAR (INDEX SYNC – NO TOGGLE) -->
 <nav data-aos="fade-down">
   <div class="nav-top">
     <h2>TheKrochet</h2>
@@ -181,25 +285,25 @@ footer{
   </div>
 </nav>
 
-<header data-aos="fade-up">
+<header data-aos="zoom-in" data-aos-duration="1000">
   <h1>Customer Reviews</h1>
-  <p>Real words from happy customers 💛</p>
+  <p data-aos="fade-up" data-aos-delay="200">Real words from happy customers 💛</p>
 </header>
 
 <section>
 
-<button class="add-review-btn" onclick="toggleForm()" data-aos="zoom-in">
+<button class="add-review-btn" onclick="toggleForm()" data-aos="fade-up" data-aos-delay="300">
   ➕ Add Your Review
 </button>
 
-<div class="review-form" id="reviewForm" data-aos="fade-up">
+<div class="review-form" id="reviewForm">
   <input id="name" placeholder="Your Name">
   <select id="rating">
-    <option value="5">⭐⭐⭐⭐⭐ (5)</option>
-    <option value="4">⭐⭐⭐⭐ (4)</option>
-    <option value="3">⭐⭐⭐ (3)</option>
+    <option value="5">⭐⭐⭐⭐⭐ (5 Stars)</option>
+    <option value="4">⭐⭐⭐⭐ (4 Stars)</option>
+    <option value="3">⭐⭐⭐ (3 Stars)</option>
   </select>
-  <textarea id="reviewText" placeholder="Write your review"></textarea>
+  <textarea id="reviewText" rows="4" placeholder="Write your review here..."></textarea>
   <button onclick="addReview()">Submit Review</button>
 </div>
 
@@ -214,12 +318,14 @@ footer{
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
 <script>
-AOS.init({duration:900,once:true});
+AOS.init({ duration: 900, once: true, offset: 50 });
 
+/* DARK MODE SYNC */
 if(localStorage.getItem("theme")==="dark"){
   document.body.classList.add("dark");
 }
 
+/* FIREBASE CONFIG */
 firebase.initializeApp({
   apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
   authDomain:"thekrochet-b3ca2.firebaseapp.com",
@@ -231,38 +337,54 @@ const grid=document.getElementById("reviewsGrid");
 const form=document.getElementById("reviewForm");
 
 function toggleForm(){
-  form.style.display=form.style.display==="block"?"none":"block";
+  if(form.style.display === "block"){
+    form.style.display = "none";
+  } else {
+    form.style.display = "block";
+    // Smooth scroll to form
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
 }
 
 function addReview(){
   const name=document.getElementById("name").value;
   const rating=Number(document.getElementById("rating").value);
   const text=document.getElementById("reviewText").value;
-  if(!name||!text) return;
+  
+  if(!name || !text){
+    alert("Please fill in all fields!");
+    return;
+  }
 
   db.collection("reviews").add({
-    name,rating,text,
-    createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    name, rating, text,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(() => {
+    alert("Review submitted successfully!");
+    document.getElementById("name").value="";
+    document.getElementById("reviewText").value="";
+    form.style.display="none";
   });
-
-  document.getElementById("name").value="";
-  document.getElementById("reviewText").value="";
-  form.style.display="none";
 }
 
+/* FETCH REVIEWS */
 db.collection("reviews").orderBy("createdAt","desc").onSnapshot(snap=>{
   grid.innerHTML="";
+  let delay = 0;
   snap.forEach(doc=>{
     const r=doc.data();
+    // Staggered animation delay
     grid.innerHTML+=`
-      <div class="card" data-aos="fade-up">
-        <div class="stars">${"⭐".repeat(r.rating)}</div>
-        <p>${r.text}</p>
+      <div class="card" data-aos="fade-up" data-aos-delay="${delay}">
+        <div class="stars">${"★".repeat(r.rating) + "☆".repeat(5-r.rating)}</div>
+        <p>"${r.text}"</p>
         <span>— ${r.name}</span>
       </div>`;
+    delay += 100; // Increase delay for next card
   });
 });
 </script>
 
 </body>
 </html>
+
