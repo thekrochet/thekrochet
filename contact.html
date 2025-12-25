@@ -34,10 +34,10 @@ body.dark{
   --shadow:rgba(0,0,0,0.5);
 }
 
-/* ✅ CRITICAL: Box Sizing & Tap Highlight Removal */
+/* ✅ CRITICAL: Forces elements to stay inside width */
 *{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
 
-/* ✅ CRITICAL: Forces scrollbar to show (Prevents Screen Jerk) */
+/* ✅ CRITICAL: Always show scrollbar track to stop screen jumping */
 html { overflow-y: scroll; }
 
 body{
@@ -84,11 +84,11 @@ body.dark nav { border-bottom: 1px solid rgba(255,255,255,0.05); }
 .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
 /* =========================================
-   3. HERO SECTION
+   3. HERO SECTION (Compact spacing)
    ========================================= */
 header{
   text-align:center;
-  padding: 100px 20px 70px;
+  padding: 80px 20px 40px; 
   background: linear-gradient(135deg, #fefae0 0%, #faf7f2 100%);
   position: relative; overflow: hidden;
 }
@@ -104,76 +104,52 @@ header::before {
 @keyframes floatBG { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
 header h1{
-  font-family:'Playfair Display',serif; font-size: 3rem;
+  font-family:'Playfair Display',serif; font-size: 2.8rem;
   margin-bottom: 12px; letter-spacing: -0.5px; position: relative;
 }
-header p{
-  max-width: 620px; margin: auto; font-size: 1.1rem;
-  line-height: 1.7; opacity: 0.85;
-}
+header p{ font-size: 1.05rem; opacity: 0.8; max-width: 600px; margin: 0 auto; }
 
 /* =========================================
-   4. CONTENT SECTION
+   4. CONTENT SECTION (Matches Index Style)
    ========================================= */
 section{
-  padding: 60px 24px;
-  max-width: 1100px;
-  margin: auto;
+  padding: 40px 20px 60px; 
+  max-width: 1000px; margin: auto; text-align: center;
   width: 100%;
 }
 
 /* GRID */
 .grid{
+  margin-top: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
+  gap: 25px;
 }
 
-/* CARDS (Micro-Animations) */
+/* CARDS (Identical to Index) */
 .card{
   background: var(--card);
-  padding: 40px 30px;
-  border-radius: 24px;
-  text-align: center;
+  padding: 30px 25px; 
+  border-radius: 20px;
   box-shadow: 0 10px 30px var(--shadow);
-  position: relative; overflow: hidden;
-  border: 1px solid transparent;
-  transition: all 0.4s var(--ease);
+  cursor: pointer; border: 1px solid transparent;
+  transition: all 0.4s var(--ease); position: relative; overflow: hidden;
 }
 
-/* Hover Effect: Lift & Glow */
-.card:hover{
+/* Card Hover Effects */
+.card:hover {
   transform: translateY(-8px);
   box-shadow: 0 20px 40px rgba(0,0,0,0.1);
   border-color: rgba(212, 163, 115, 0.3);
 }
 
-.card h3{
-  font-size: 1.3rem; margin-bottom: 10px;
-  transition: color 0.3s ease;
+.card h3 {
+  font-size: 1.3rem; margin-bottom: 8px;
+  transition: color 0.3s ease, transform 0.3s var(--ease);
 }
-.card:hover h3 { color: var(--primary); }
-
-.card p{
-  font-size: 0.95rem; opacity: 0.85; margin-bottom: 25px;
-  line-height: 1.6;
-}
-
-/* BUTTON STYLES INSIDE CARDS */
-.card a{
-  display: inline-block;
-  padding: 14px 28px; border-radius: 50px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: #fff; font-weight: 600; text-decoration: none;
-  font-size: 0.95rem;
-  box-shadow: 0 8px 20px rgba(212, 163, 115, 0.25);
-  transition: all 0.3s var(--ease);
-}
-.card a:hover{
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 15px 30px rgba(212, 163, 115, 0.4);
-}
-.card a:active{ transform: scale(0.95); }
+.card:hover h3 { color: var(--primary); transform: scale(1.02); }
+.card p { font-size: 0.9rem; opacity: 0.7; transition: opacity 0.3s ease; }
+.card:hover p { opacity: 1; }
 
 /* =========================================
    5. FOOTER
@@ -184,23 +160,35 @@ footer{
 }
 
 /* =========================================
-   6. RESPONSIVE
+   6. RESPONSIVE FIX
    ========================================= */
 @media (max-width: 768px) {
-  header { padding: 80px 20px 50px; }
-  header h1 { font-size: 2.5rem; }
-  section { padding: 40px 20px; }
-  .grid { gap: 20px; }
-  .card { padding: 30px 20px; }
+  header { padding: 70px 20px 40px; }
+  header h1 { font-size: 2.2rem; }
 }
 
 @media (max-width: 480px) {
-  /* Prevent Squeezing */
-  section { padding: 30px 15px; }
-  .grid { grid-template-columns: 1fr; gap: 20px; }
+  /* ✅ Force Container to use Full Width */
+  section { 
+    padding: 30px 15px !important; 
+    width: 100% !important;
+  }
   
+  /* ✅ Switch to Flex Column to stretch cards fully */
+  .grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
+    margin-top: 15px !important;
+  }
+  
+  /* ✅ Ensure Cards are Full Width */
+  .card {
+    width: 100% !important;
+    padding: 25px 20px !important;
+  }
+
   header h1 { font-size: 2rem; }
-  header p { font-size: 0.95rem; }
 }
 </style>
 </head>
@@ -230,28 +218,19 @@ footer{
 <section>
   <div class="grid">
 
-    <div class="card" data-aos="fade-up" data-aos-delay="100">
+    <div class="card" data-aos="fade-up" data-aos-delay="100" onclick="window.open('https://ig.me/m/thekrochet_', '_blank')">
       <h3>📩 Instagram</h3>
       <p>DM us directly for orders & quick queries</p>
-      <a href="https://ig.me/m/thekrochet_" target="_blank">
-        Visit Instagram
-      </a>
     </div>
 
-    <div class="card" data-aos="fade-up" data-aos-delay="200">
+    <div class="card" data-aos="fade-up" data-aos-delay="200" onclick="customOrder()">
       <h3>🎁 Custom Orders</h3>
       <p>Have something unique in mind? We crochet it.</p>
-      <a href="javascript:void(0)" onclick="customOrder()">
-        Request Custom Order
-      </a>
     </div>
 
-    <div class="card" data-aos="fade-up" data-aos-delay="300">
+    <div class="card" data-aos="fade-up" data-aos-delay="300" onclick="collabOrder()">
       <h3>🤝 Collaborations</h3>
       <p>Brand partnerships & creative collaborations</p>
-      <a href="javascript:void(0)" onclick="collabOrder()">
-        Collaborate With Us
-      </a>
     </div>
 
   </div>
@@ -282,8 +261,8 @@ My requirements:
 Please guide me further. Thank you 💛`;
 
   navigator.clipboard.writeText(msg).finally(()=>{
-    // Using ig.me/m/ links for direct chat opening
-    setTimeout(()=>{ window.open("https://ig.me/m/thekrochet_", "_blank"); }, 200);
+    // Direct DM link
+    window.open("https://ig.me/m/thekrochet_", "_blank");
   });
 }
 
@@ -296,7 +275,7 @@ Please share the collaboration details.
 Looking forward to your response.`;
 
   navigator.clipboard.writeText(msg).finally(()=>{
-    setTimeout(()=>{ window.open("https://ig.me/m/thekrochet_", "_blank"); }, 200);
+    window.open("https://ig.me/m/thekrochet_", "_blank");
   });
 }
 </script>
