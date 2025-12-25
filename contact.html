@@ -5,34 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact | TheKrochet</title>
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-<!-- BRAND MASTER -->
 <link rel="stylesheet" href="brand.css">
-
-  <link rel="stylesheet" href="responsive.css">
+<link rel="stylesheet" href="responsive.css">
 
 <style>
+/* =========================================
+   1. VARIABLES & GLOBAL RESET
+   ========================================= */
 :root{
   --bg:#faf7f2;
   --text:#2f2f2f;
   --card:#ffffff;
-  --nav:#ffffff;
-  --shadow:rgba(0,0,0,0.08);
+  --nav:rgba(255, 255, 255, 0.95);
+  --shadow:rgba(212, 163, 115, 0.15);
   --primary:#d4a373;
   --primary-dark:#b8895b;
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
 }
+
 body.dark{
   --bg:#121212;
   --text:#f1f1f1;
   --card:#1e1e1e;
-  --nav:#1a1a1a;
-  --shadow:rgba(0,0,0,0.6);
+  --nav:rgba(26, 26, 26, 0.95);
+  --shadow:rgba(0,0,0,0.5);
 }
 
-*{margin:0;padding:0;box-sizing:border-box}
+/* ✅ CRITICAL: Box Sizing & Tap Highlight Removal */
+*{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+
+/* ✅ CRITICAL: Forces scrollbar to show (Prevents Screen Jerk) */
+html { overflow-y: scroll; }
 
 body{
   font-family:'Poppins',sans-serif;
@@ -41,120 +47,166 @@ body{
   min-height:100vh;
   display:flex;
   flex-direction:column;
+  transition: background 0.5s var(--ease), color 0.5s var(--ease);
+  overflow-x: hidden;
 }
 
-/* ===== HERO ===== */
+/* =========================================
+   2. NAVBAR
+   ========================================= */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--nav);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+body.dark nav { border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+.nav-top h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Micro-Animation: Link Underline */
+.nav-links a { position: relative; transition: color 0.3s ease; }
+.nav-links a::after {
+  content: ''; position: absolute; width: 0; height: 2px;
+  bottom: -4px; left: 50%; background-color: var(--primary);
+  transition: all 0.3s var(--ease); transform: translateX(-50%);
+}
+.nav-links a:hover { color: var(--primary); }
+.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+/* =========================================
+   3. HERO SECTION
+   ========================================= */
 header{
   text-align:center;
-  padding:90px 20px 70px;
-  background:linear-gradient(135deg,#fefae0,#faedcd);
+  padding: 100px 20px 70px;
+  background: linear-gradient(135deg, #fefae0 0%, #faf7f2 100%);
+  position: relative; overflow: hidden;
 }
-body.dark header{
-  background:linear-gradient(135deg,#1f1f1f,#2a2a2a);
+body.dark header{ background: linear-gradient(135deg, #1f1f1f 0%, #121212 100%); }
+
+/* Animated Background Effect */
+header::before {
+  content: ''; position: absolute; top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle, var(--primary) 0%, transparent 20%);
+  opacity: 0.05; animation: floatBG 15s infinite linear; pointer-events: none;
 }
+@keyframes floatBG { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
 header h1{
-  font-family:'Playfair Display',serif;
-  font-size:2.8rem;
-  margin-bottom:10px;
+  font-family:'Playfair Display',serif; font-size: 3rem;
+  margin-bottom: 12px; letter-spacing: -0.5px; position: relative;
 }
 header p{
-  max-width:620px;
-  margin:auto;
-  font-size:15px;
-  opacity:.85;
+  max-width: 620px; margin: auto; font-size: 1.1rem;
+  line-height: 1.7; opacity: 0.85;
 }
 
-/* ===== SECTION ===== */
+/* =========================================
+   4. CONTENT SECTION
+   ========================================= */
 section{
-  padding:60px 20px;
-  max-width:1100px;
-  margin:auto;
+  padding: 60px 24px;
+  max-width: 1100px;
+  margin: auto;
+  width: 100%;
 }
+
+/* GRID */
 .grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:36px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
 }
 
-/* ===== CONTACT CARD ===== */
+/* CARDS (Micro-Animations) */
 .card{
-  background:var(--card);
-  padding:34px 28px;
-  border-radius:28px;
-  text-align:center;
-  box-shadow:0 14px 30px var(--shadow);
-  position:relative;
-  overflow:hidden;
-  transform:translateY(20px);
-  opacity:0;
-  animation:cardIn .8s cubic-bezier(.4,0,.2,1) forwards;
-}
-.card:nth-child(2){animation-delay:.1s}
-.card:nth-child(3){animation-delay:.2s}
-
-@keyframes cardIn{
-  to{transform:none;opacity:1}
+  background: var(--card);
+  padding: 40px 30px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 10px 30px var(--shadow);
+  position: relative; overflow: hidden;
+  border: 1px solid transparent;
+  transition: all 0.4s var(--ease);
 }
 
-.card::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(135deg,transparent,var(--primary));
-  opacity:0;
-  transition:.45s cubic-bezier(.4,0,.2,1);
-}
-.card:hover::before{opacity:.08}
-
+/* Hover Effect: Lift & Glow */
 .card:hover{
-  transform:translateY(-8px) scale(1.02);
-  box-shadow:0 20px 40px rgba(0,0,0,.14);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  border-color: rgba(212, 163, 115, 0.3);
 }
 
 .card h3{
-  font-size:20px;
-  margin-bottom:8px;
+  font-size: 1.3rem; margin-bottom: 10px;
+  transition: color 0.3s ease;
 }
+.card:hover h3 { color: var(--primary); }
+
 .card p{
-  font-size:14px;
-  opacity:.85;
-  margin-bottom:16px;
+  font-size: 0.95rem; opacity: 0.85; margin-bottom: 25px;
+  line-height: 1.6;
 }
 
+/* BUTTON STYLES INSIDE CARDS */
 .card a{
-  display:inline-block;
-  padding:12px 26px;
-  border-radius:16px;
-  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:#fff;
-  font-weight:600;
-  text-decoration:none;
-  font-size:14px;
-  transition:transform .35s cubic-bezier(.4,0,.2,1),
-             box-shadow .35s cubic-bezier(.4,0,.2,1);
+  display: inline-block;
+  padding: 14px 28px; border-radius: 50px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff; font-weight: 600; text-decoration: none;
+  font-size: 0.95rem;
+  box-shadow: 0 8px 20px rgba(212, 163, 115, 0.25);
+  transition: all 0.3s var(--ease);
 }
 .card a:hover{
-  transform:translateY(-3px);
-  box-shadow:0 12px 26px rgba(0,0,0,.2);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 30px rgba(212, 163, 115, 0.4);
 }
-.card a:active{
-  transform:scale(.97);
+.card a:active{ transform: scale(0.95); }
+
+/* =========================================
+   5. FOOTER
+   ========================================= */
+footer{
+  background: #1a1a1a; color: #888; text-align: center;
+  padding: 25px; font-size: 0.9rem; margin-top: auto; border-top: 1px solid #333;
 }
 
-/* ===== FOOTER ===== */
-footer{
-  background:#1f1f1f;
-  color:#ddd;
-  text-align:center;
-  padding:22px;
-  margin-top:auto;
+/* =========================================
+   6. RESPONSIVE
+   ========================================= */
+@media (max-width: 768px) {
+  header { padding: 80px 20px 50px; }
+  header h1 { font-size: 2.5rem; }
+  section { padding: 40px 20px; }
+  .grid { gap: 20px; }
+  .card { padding: 30px 20px; }
+}
+
+@media (max-width: 480px) {
+  /* Prevent Squeezing */
+  section { padding: 30px 15px; }
+  .grid { grid-template-columns: 1fr; gap: 20px; }
+  
+  header h1 { font-size: 2rem; }
+  header p { font-size: 0.95rem; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <nav data-aos="fade-down">
   <div class="nav-top">
     <h2>TheKrochet</h2>
@@ -168,25 +220,25 @@ footer{
   </div>
 </nav>
 
-<header data-aos="fade-up">
-  <h1>Contact Us</h1>
-  <p>We’d love to hear from you — orders, queries & collaborations 💛</p>
+<header>
+  <h1 data-aos="zoom-in" data-aos-duration="1000">Contact Us</h1>
+  <p data-aos="fade-up" data-aos-delay="200">
+    We’d love to hear from you — orders, queries & collaborations 💛
+  </p>
 </header>
 
 <section>
   <div class="grid">
 
-    <!-- Instagram -->
-    <div class="card">
+    <div class="card" data-aos="fade-up" data-aos-delay="100">
       <h3>📩 Instagram</h3>
       <p>DM us directly for orders & quick queries</p>
-      <a href="https://instagram.com/thekrochet_" target="_blank">
+      <a href="https://ig.me/m/thekrochet_" target="_blank">
         Visit Instagram
       </a>
     </div>
 
-    <!-- Custom Order -->
-    <div class="card">
+    <div class="card" data-aos="fade-up" data-aos-delay="200">
       <h3>🎁 Custom Orders</h3>
       <p>Have something unique in mind? We crochet it.</p>
       <a href="javascript:void(0)" onclick="customOrder()">
@@ -194,8 +246,7 @@ footer{
       </a>
     </div>
 
-    <!-- Collaboration -->
-    <div class="card">
+    <div class="card" data-aos="fade-up" data-aos-delay="300">
       <h3>🤝 Collaborations</h3>
       <p>Brand partnerships & creative collaborations</p>
       <a href="javascript:void(0)" onclick="collabOrder()">
@@ -210,13 +261,14 @@ footer{
 
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
-AOS.init({ duration:900, once:true });
+AOS.init({ duration: 900, once: true, offset: 50 });
 
+/* DARK MODE SYNC */
 if(localStorage.getItem("theme")==="dark"){
   document.body.classList.add("dark");
 }
 
-/* DM LOGIC — UNCHANGED */
+/* DM LOGIC — COPY & REDIRECT */
 function customOrder(){
   const msg =
 `Hi there 👋
@@ -230,9 +282,8 @@ My requirements:
 Please guide me further. Thank you 💛`;
 
   navigator.clipboard.writeText(msg).finally(()=>{
-    setTimeout(()=>{
-      window.location.href="https://ig.me/m/thekrochet_";
-    },200);
+    // Using ig.me/m/ links for direct chat opening
+    setTimeout(()=>{ window.open("https://ig.me/m/thekrochet_", "_blank"); }, 200);
   });
 }
 
@@ -245,12 +296,11 @@ Please share the collaboration details.
 Looking forward to your response.`;
 
   navigator.clipboard.writeText(msg).finally(()=>{
-    setTimeout(()=>{
-      window.location.href="https://ig.me/m/thekrochet_";
-    },200);
+    setTimeout(()=>{ window.open("https://ig.me/m/thekrochet_", "_blank"); }, 200);
   });
 }
 </script>
 
 </body>
 </html>
+
