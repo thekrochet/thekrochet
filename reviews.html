@@ -12,6 +12,9 @@
 <link rel="stylesheet" href="responsive.css">
 
 <style>
+/* =========================================
+   1. GLOBAL RESET & VARIABLES
+   ========================================= */
 :root{
   --bg:#faf7f2;
   --text:#2f2f2f;
@@ -31,7 +34,11 @@ body.dark{
   --shadow:rgba(0,0,0,0.5);
 }
 
+/* ✅ Forces elements to stay inside width & removes tap highlight */
 *{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+
+/* ✅ Forces scrollbar to show (Prevents Screen Jerk on Load) */
+html { overflow-y: scroll; }
 
 body{
   font-family:'Poppins',sans-serif;
@@ -44,7 +51,9 @@ body{
   overflow-x: hidden;
 }
 
-/* ================= NAVBAR ================= */
+/* =========================================
+   2. NAVBAR
+   ========================================= */
 nav {
   position: sticky;
   top: 0;
@@ -55,9 +64,7 @@ nav {
   transition: all 0.3s ease;
 }
 
-body.dark nav {
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
+body.dark nav { border-bottom: 1px solid rgba(255,255,255,0.05); }
 
 .nav-top h2 {
   display: flex;
@@ -66,81 +73,57 @@ body.dark nav {
   gap: 10px;
 }
 
-/* Link Hover Animation */
-.nav-links a {
-  position: relative;
-  transition: color 0.3s ease;
-}
+.nav-links a { position: relative; transition: color 0.3s ease; }
 .nav-links a::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: -4px;
-  left: 50%;
-  background-color: var(--primary);
-  transition: all 0.3s var(--ease);
-  transform: translateX(-50%);
+  content: ''; position: absolute; width: 0; height: 2px;
+  bottom: -4px; left: 50%; background-color: var(--primary);
+  transition: all 0.3s var(--ease); transform: translateX(-50%);
 }
 .nav-links a:hover { color: var(--primary); }
 .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
-/* ================= HERO ================= */
+/* =========================================
+   3. HERO & SECTIONS
+   ========================================= */
 header{
   text-align:center;
   padding: 100px 20px 70px;
   background: linear-gradient(135deg, #fefae0 0%, #faf7f2 100%);
-  position: relative;
-  overflow: hidden;
+  position: relative; overflow: hidden;
 }
-body.dark header{
-  background: linear-gradient(135deg, #1f1f1f 0%, #121212 100%);
-}
+body.dark header{ background: linear-gradient(135deg, #1f1f1f 0%, #121212 100%); }
 
-/* Subtle background animation */
+/* Background Animation */
 header::before {
-  content: '';
-  position: absolute;
-  top: -50%; left: -50%;
+  content: ''; position: absolute; top: -50%; left: -50%;
   width: 200%; height: 200%;
   background: radial-gradient(circle, var(--primary) 0%, transparent 20%);
-  opacity: 0.05;
-  animation: floatBG 15s infinite linear;
-  pointer-events: none;
+  opacity: 0.05; animation: floatBG 15s infinite linear; pointer-events: none;
 }
 @keyframes floatBG { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
 header h1{
-  font-family:'Playfair Display',serif;
-  font-size: 3rem;
-  margin-bottom: 10px;
-  letter-spacing: -0.5px;
-  position: relative;
+  font-family:'Playfair Display',serif; font-size: 3rem;
+  margin-bottom: 10px; letter-spacing: -0.5px; position: relative;
 }
-header p{
-  font-size: 1.1rem;
-  opacity: 0.8;
-}
+header p{ font-size: 1.1rem; opacity: 0.8; }
 
-/* ================= SECTION ================= */
 section{
   padding: 60px 24px;
   max-width: 1100px;
   margin: auto;
   text-align: center;
+  width: 100%;
 }
 
-/* ADD REVIEW BUTTON */
+/* =========================================
+   4. FORM & BUTTONS
+   ========================================= */
 .add-review-btn{
-  padding: 16px 32px;
-  border-radius: 50px;
+  padding: 16px 32px; border-radius: 50px;
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: #fff;
-  font-weight: 600;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  margin-bottom: 50px;
+  color: #fff; font-weight: 600; font-size: 1rem;
+  border: none; cursor: pointer; margin-bottom: 50px;
   box-shadow: 0 10px 20px rgba(212, 163, 115, 0.3);
   transition: all 0.3s var(--ease);
 }
@@ -150,78 +133,51 @@ section{
 }
 .add-review-btn:active{ transform: scale(0.95); }
 
-/* REVIEW FORM */
 .review-form{
-  display: none;
-  max-width: 520px;
-  margin: 0 auto 60px;
-  background: var(--card);
-  padding: 40px;
-  border-radius: 24px;
+  display: none; max-width: 520px; margin: 0 auto 60px;
+  background: var(--card); padding: 40px; border-radius: 24px;
   box-shadow: 0 20px 50px rgba(0,0,0,0.1);
   border: 1px solid rgba(0,0,0,0.05);
   animation: slideDown 0.5s var(--ease);
 }
 @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 
-.review-form input,
-.review-form textarea,
-.review-form select{
-  width: 100%;
-  padding: 16px;
-  margin-bottom: 16px;
-  border-radius: 12px;
-  border: 1px solid rgba(0,0,0,0.1);
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Poppins', sans-serif;
-  transition: all 0.3s ease;
-  outline: none;
+.review-form input, .review-form textarea, .review-form select{
+  width: 100%; padding: 16px; margin-bottom: 16px;
+  border-radius: 12px; border: 1px solid rgba(0,0,0,0.1);
+  background: var(--bg); color: var(--text);
+  font-family: 'Poppins', sans-serif; transition: all 0.3s ease; outline: none;
 }
-.review-form input:focus,
-.review-form textarea:focus,
-.review-form select:focus{
+.review-form input:focus, .review-form textarea:focus, .review-form select:focus{
   border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(212, 163, 115, 0.15);
-  background: var(--card);
+  box-shadow: 0 0 0 4px rgba(212, 163, 115, 0.15); background: var(--card);
 }
 
 .review-form button{
-  width: 100%;
-  padding: 16px;
-  border-radius: 12px;
-  border: none;
-  background: var(--primary-dark);
-  color: white;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  width: 100%; padding: 16px; border-radius: 12px;
+  border: none; background: var(--primary-dark); color: white;
+  font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.3s ease;
 }
 .review-form button:hover{
-  background: var(--primary);
-  transform: translateY(-2px);
+  background: var(--primary); transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(212, 163, 115, 0.3);
 }
 
-/* GRID */
+/* =========================================
+   5. GRID & CARDS
+   ========================================= */
 .grid{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px;
 }
 
-/* REVIEW CARD */
 .card{
-  background: var(--card);
-  padding: 30px;
-  border-radius: 20px;
+  background: var(--card); padding: 30px; border-radius: 20px;
   box-shadow: 0 10px 30px var(--shadow);
   transition: all 0.4s var(--ease);
-  border: 1px solid transparent;
-  position: relative;
-  overflow: hidden;
-  text-align: left;
+  border: 1px solid transparent; position: relative;
+  overflow: hidden; text-align: left;
 }
 .card:hover{
   transform: translateY(-8px);
@@ -229,39 +185,33 @@ section{
   border-color: rgba(212, 163, 115, 0.2);
 }
 
-.stars{
-  font-size: 18px;
-  margin-bottom: 12px;
-  color: #f1c40f; /* Star color */
-}
-.card p{
-  font-size: 0.95rem;
-  line-height: 1.7;
-  opacity: 0.9;
-  font-style: italic;
-}
+.stars{ font-size: 18px; margin-bottom: 12px; color: #f1c40f; }
+.card p{ font-size: 0.95rem; line-height: 1.7; opacity: 0.9; font-style: italic; }
 .card span{
-  display: block;
-  margin-top: 15px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--primary-dark);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  display: block; margin-top: 15px; font-size: 0.9rem;
+  font-weight: 600; color: var(--primary-dark);
+  text-transform: uppercase; letter-spacing: 1px;
 }
 
-/* ================= FOOTER ================= */
-footer{
-  background: #1a1a1a;
-  color: #888;
+/* Loading Message */
+.loading-msg {
+  grid-column: 1 / -1;
   text-align: center;
-  padding: 30px;
-  font-size: 0.9rem;
-  margin-top: auto;
-  border-top: 1px solid #333;
+  font-size: 1.1rem;
+  color: var(--text);
+  opacity: 0.6;
+  padding: 40px;
 }
 
-/* ================= RESPONSIVE ================= */
+/* =========================================
+   6. FOOTER
+   ========================================= */
+footer{
+  background: #1a1a1a; color: #888; text-align: center;
+  padding: 30px; font-size: 0.9rem; margin-top: auto; border-top: 1px solid #333;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   header h1 { font-size: 2.2rem; }
   .grid { gap: 20px; }
@@ -307,7 +257,9 @@ footer{
   <button onclick="addReview()">Submit Review</button>
 </div>
 
-<div class="grid" id="reviewsGrid"></div>
+<div class="grid" id="reviewsGrid">
+  <div class="loading-msg">Loading reviews...</div>
+</div>
 
 </section>
 
@@ -341,7 +293,6 @@ function toggleForm(){
     form.style.display = "none";
   } else {
     form.style.display = "block";
-    // Smooth scroll to form
     form.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 }
@@ -367,20 +318,26 @@ function addReview(){
   });
 }
 
-/* FETCH REVIEWS */
-db.collection("reviews").orderBy("createdAt","desc").onSnapshot(snap=>{
-  grid.innerHTML="";
+/* FETCH REVIEWS (OPTIMIZED) */
+// Added .limit(50) to make loading instant
+db.collection("reviews").orderBy("createdAt","desc").limit(50).onSnapshot(snap=>{
+  grid.innerHTML=""; // Clear "Loading..." text
+  
+  if(snap.empty){
+    grid.innerHTML = "<div class='loading-msg'>No reviews yet. Be the first!</div>";
+    return;
+  }
+
   let delay = 0;
   snap.forEach(doc=>{
     const r=doc.data();
-    // Staggered animation delay
     grid.innerHTML+=`
       <div class="card" data-aos="fade-up" data-aos-delay="${delay}">
         <div class="stars">${"★".repeat(r.rating) + "☆".repeat(5-r.rating)}</div>
         <p>"${r.text}"</p>
         <span>— ${r.name}</span>
       </div>`;
-    delay += 100; // Increase delay for next card
+    delay += 100; 
   });
 });
 </script>
