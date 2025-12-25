@@ -5,33 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About Us | TheKrochet</title>
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-<!-- ✅ BRAND MASTER -->
 <link rel="stylesheet" href="brand.css">
-
-  <link rel="stylesheet" href="responsive.css">
+<link rel="stylesheet" href="responsive.css">
 
 <style>
+/* =========================================
+   1. VARIABLES & GLOBAL RESET
+   ========================================= */
 :root{
   --bg:#faf7f2;
   --text:#2f2f2f;
   --card:#ffffff;
-  --nav:#ffffff;
-  --shadow:rgba(0,0,0,0.08);
+  --nav:rgba(255, 255, 255, 0.95);
+  --shadow:rgba(212, 163, 115, 0.15);
   --primary:#d4a373;
   --primary-dark:#b8895b;
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
 }
+
 body.dark{
   --bg:#121212;
   --text:#f1f1f1;
   --card:#1e1e1e;
-  --nav:#1a1a1a;
-  --shadow:rgba(0,0,0,0.6);
+  --nav:rgba(26, 26, 26, 0.95);
+  --shadow:rgba(0,0,0,0.5);
 }
-*{margin:0;padding:0;box-sizing:border-box}
+
+/* ✅ CRITICAL: Box Sizing & Tap Highlight Removal */
+*{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+
+/* ✅ CRITICAL: Forces scrollbar to show (Prevents Screen Jerk) */
+html { overflow-y: scroll; }
 
 body{
   font-family:'Poppins',sans-serif;
@@ -40,113 +47,175 @@ body{
   min-height:100vh;
   display:flex;
   flex-direction:column;
+  transition: background 0.5s var(--ease), color 0.5s var(--ease);
+  overflow-x: hidden;
 }
 
-/* ===== HERO ===== */
+/* =========================================
+   2. NAVBAR
+   ========================================= */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--nav);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+body.dark nav { border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+.nav-top h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Micro-Animation: Link Underline */
+.nav-links a { position: relative; transition: color 0.3s ease; }
+.nav-links a::after {
+  content: ''; position: absolute; width: 0; height: 2px;
+  bottom: -4px; left: 50%; background-color: var(--primary);
+  transition: all 0.3s var(--ease); transform: translateX(-50%);
+}
+.nav-links a:hover { color: var(--primary); }
+.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+/* =========================================
+   3. HERO SECTION
+   ========================================= */
 header{
   text-align:center;
-  padding:100px 20px 80px;
-  background:linear-gradient(135deg,#fefae0,#faedcd);
+  padding: 100px 20px 70px;
+  background: linear-gradient(135deg, #fefae0 0%, #faf7f2 100%);
+  position: relative; overflow: hidden;
 }
-body.dark header{
-  background:linear-gradient(135deg,#1f1f1f,#2a2a2a);
+body.dark header{ background: linear-gradient(135deg, #1f1f1f 0%, #121212 100%); }
+
+/* Animated Background Effect */
+header::before {
+  content: ''; position: absolute; top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle, var(--primary) 0%, transparent 20%);
+  opacity: 0.05; animation: floatBG 15s infinite linear; pointer-events: none;
 }
+@keyframes floatBG { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
 header h1{
-  font-family:'Playfair Display',serif;
-  font-size:3rem;
-  margin-bottom:14px;
+  font-family:'Playfair Display',serif; font-size: 3rem;
+  margin-bottom: 12px; letter-spacing: -0.5px; position: relative;
 }
 header p{
-  max-width:720px;
-  margin:auto;
-  font-size:16px;
-  line-height:1.7;
-  opacity:.85;
+  max-width: 720px; margin: auto; font-size: 1.1rem;
+  line-height: 1.7; opacity: 0.85;
 }
 
-/* ===== SECTION ===== */
+/* =========================================
+   4. CONTENT SECTION
+   ========================================= */
 section{
-  padding:70px 20px;
-  max-width:1200px;
-  margin:auto;
+  padding: 60px 24px;
+  max-width: 1200px;
+  margin: auto;
+  width: 100%;
 }
-.section-title{
-  text-align:center;
-  margin-bottom:40px;
-}
+
+.section-title{ text-align: center; margin-bottom: 50px; }
 .section-title h2{
-  font-family:'Playfair Display',serif;
-  font-size:2.1rem;
-  margin-bottom:10px;
+  font-family: 'Playfair Display', serif; font-size: 2.2rem;
+  color: var(--primary-dark); margin-bottom: 15px; position: relative; display: inline-block;
 }
+body.dark .section-title h2 { color: var(--primary); }
+
 .section-title p{
-  max-width:760px;
-  margin:auto;
-  font-size:15px;
-  line-height:1.8;
-  opacity:.8;
+  max-width: 800px; margin: auto; font-size: 1rem;
+  line-height: 1.8; opacity: 0.8;
 }
 
 /* GRID */
 .grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:36px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
 }
 
-/* CARDS */
+/* CARDS (Micro-Animations) */
 .card{
-  background:var(--card);
-  padding:32px;
-  border-radius:28px;
-  box-shadow:0 14px 30px var(--shadow);
-  text-align:center;
-}
-.card h3{
-  font-size:19px;
-  margin-bottom:10px;
-}
-.card p{
-  font-size:14px;
-  line-height:1.6;
-  opacity:.85;
+  background: var(--card);
+  padding: 35px 25px;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px var(--shadow);
+  text-align: center;
+  border: 1px solid transparent;
+  transition: all 0.4s var(--ease);
+  position: relative; overflow: hidden;
 }
 
-/* FOOTER */
-footer{
-  background:#1f1f1f;
-  color:#ddd;
-  text-align:center;
-  padding:22px;
-  margin-top:auto;
+/* Hover Effect */
+.card:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  border-color: rgba(212, 163, 115, 0.3);
 }
-    /* 📱 FORCE MOBILE FIX (Paste inside <style> at the bottom) */
-  @media (max-width: 768px) {
-    /* Fix the Navigation */
-    nav { flex-direction: column; padding: 10px; gap: 10px; }
-    .nav-links { gap: 12px; flex-wrap: wrap; justify-content: center; }
-    .nav-links a { font-size: 14px; }
-    
-    /* Fix the Big Header */
-    header { padding: 60px 20px 40px; }
-    header h1 { font-size: 2rem !important; }
-    header p { font-size: 14px; padding: 0 10px; }
-    
-    /* Fix the Grid & Section */
-    section { padding: 40px 20px; }
-    .grid { grid-template-columns: 1fr; gap: 24px; }
-    
-    /* Fix Cards */
-    .card { padding: 24px; }
-    .section-title h2 { font-size: 1.8rem; }
-  }
+
+.card h3{
+  font-size: 1.3rem; margin-bottom: 12px;
+  transition: color 0.3s ease, transform 0.3s var(--ease);
+}
+.card:hover h3 { color: var(--primary); transform: scale(1.05); }
+
+.card p{
+  font-size: 0.95rem; line-height: 1.7; opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+.card:hover p { opacity: 1; }
+
+/* Icon Animation Inside Card (Optional Enhancement) */
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+  background: linear-gradient(to right, var(--primary), var(--primary-dark));
+  transform: scaleX(0); transform-origin: left; transition: transform 0.4s var(--ease);
+}
+.card:hover::before { transform: scaleX(1); }
+
+
+/* =========================================
+   5. FOOTER
+   ========================================= */
+footer{
+  background: #1a1a1a; color: #888; text-align: center;
+  padding: 25px; font-size: 0.9rem; margin-top: auto; border-top: 1px solid #333;
+}
+
+/* =========================================
+   6. RESPONSIVE
+   ========================================= */
+@media (max-width: 768px) {
+  header { padding: 80px 20px 50px; }
+  header h1 { font-size: 2.5rem; }
+  section { padding: 40px 20px; }
+  .grid { gap: 20px; }
+  .card { padding: 30px 20px; }
+}
+
+@media (max-width: 480px) {
+  /* Prevent Squeezing */
+  section { padding: 30px 15px; }
+  .grid { grid-template-columns: 1fr; gap: 20px; }
+  .card { padding: 25px 20px; }
   
+  header h1 { font-size: 2rem; }
+  header p { font-size: 0.95rem; }
+  .section-title h2 { font-size: 1.8rem; }
+}
 </style>
 </head>
 
 <body>
 
-<!-- ✅ NAVBAR (INDEX + PRODUCTS SYNC, 2 LINE FIXED) -->
 <nav data-aos="fade-down">
   <div class="nav-top">
     <h2>TheKrochet</h2>
@@ -160,9 +229,9 @@ footer{
   </div>
 </nav>
 
-<header data-aos="fade-up">
-  <h1>About TheKrochet</h1>
-  <p>
+<header>
+  <h1 data-aos="zoom-in" data-aos-duration="1000">About TheKrochet</h1>
+  <p data-aos="fade-up" data-aos-delay="200">
     Handmade crochet creations crafted with patience, passion, and timeless elegance.
   </p>
 </header>
@@ -180,7 +249,7 @@ footer{
 
   <div class="grid">
 
-    <div class="card" data-aos="fade-up">
+    <div class="card" data-aos="fade-up" data-aos-delay="100">
       <h3>🧶 Handmade with Love</h3>
       <p>
         Each creation is carefully crocheted stitch by stitch, ensuring warmth,
@@ -188,7 +257,7 @@ footer{
       </p>
     </div>
 
-    <div class="card" data-aos="fade-up" data-aos-delay="120">
+    <div class="card" data-aos="fade-up" data-aos-delay="200">
       <h3>🌿 Quality Materials</h3>
       <p>
         Premium yarns that are soft, skin-friendly, long-lasting,
@@ -196,7 +265,7 @@ footer{
       </p>
     </div>
 
-    <div class="card" data-aos="fade-up" data-aos-delay="240">
+    <div class="card" data-aos="fade-up" data-aos-delay="300">
       <h3>✨ Timeless Designs</h3>
       <p>
         Classic crochet craftsmanship blended with modern aesthetics,
@@ -212,8 +281,9 @@ footer{
 
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
-AOS.init({ duration:900, once:true });
+AOS.init({ duration: 900, once: true, offset: 50 });
 
+/* DARK MODE SYNC */
 if(localStorage.getItem("theme")==="dark"){
   document.body.classList.add("dark");
 }
@@ -221,3 +291,4 @@ if(localStorage.getItem("theme")==="dark"){
 
 </body>
 </html>
+
