@@ -34,10 +34,10 @@ body.dark{
   --shadow:rgba(0,0,0,0.5);
 }
 
-/* ✅ CRITICAL: Box Sizing & Tap Highlight Removal */
+/* ✅ CRITICAL: Forces elements to stay inside width */
 *{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
 
-/* ✅ CRITICAL: Forces scrollbar to show (Prevents Screen Jerk) */
+/* ✅ CRITICAL: Always show scrollbar track to stop screen jumping */
 html { overflow-y: scroll; }
 
 body{
@@ -84,11 +84,11 @@ body.dark nav { border-bottom: 1px solid rgba(255,255,255,0.05); }
 .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
 /* =========================================
-   3. HERO SECTION
+   3. HERO SECTION (Compact spacing)
    ========================================= */
 header{
   text-align:center;
-  padding: 100px 20px 70px;
+  padding: 80px 20px 40px; 
   background: linear-gradient(135deg, #fefae0 0%, #faf7f2 100%);
   position: relative; overflow: hidden;
 }
@@ -104,83 +104,64 @@ header::before {
 @keyframes floatBG { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
 header h1{
-  font-family:'Playfair Display',serif; font-size: 3rem;
+  font-family:'Playfair Display',serif; font-size: 2.8rem;
   margin-bottom: 12px; letter-spacing: -0.5px; position: relative;
 }
-header p{
-  max-width: 720px; margin: auto; font-size: 1.1rem;
-  line-height: 1.7; opacity: 0.85;
-}
+header p{ font-size: 1.05rem; opacity: 0.8; max-width: 600px; margin: 0 auto; }
 
 /* =========================================
-   4. CONTENT SECTION
+   4. CONTENT SECTION (Matches Index Style)
    ========================================= */
 section{
-  padding: 60px 24px;
-  max-width: 1200px;
-  margin: auto;
+  padding: 40px 20px 60px; 
+  max-width: 1000px; margin: auto; text-align: center;
   width: 100%;
 }
 
-.section-title{ text-align: center; margin-bottom: 50px; }
-.section-title h2{
-  font-family: 'Playfair Display', serif; font-size: 2.2rem;
-  color: var(--primary-dark); margin-bottom: 15px; position: relative; display: inline-block;
+section h2{
+  font-family: 'Playfair Display', serif; font-size: 2rem;
+  color: var(--primary-dark); position: relative; display: inline-block; margin-bottom: 15px;
 }
-body.dark .section-title h2 { color: var(--primary); }
+body.dark section h2 { color: var(--primary); }
 
-.section-title p{
-  max-width: 800px; margin: auto; font-size: 1rem;
+.about-text {
+  max-width: 800px; margin: 0 auto 40px; font-size: 1rem;
   line-height: 1.8; opacity: 0.8;
 }
 
 /* GRID */
 .grid{
+  margin-top: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
+  gap: 25px;
 }
 
-/* CARDS (Micro-Animations) */
+/* CARDS (Identical to Index) */
 .card{
   background: var(--card);
-  padding: 35px 25px;
-  border-radius: 24px;
+  padding: 30px 25px; 
+  border-radius: 20px;
   box-shadow: 0 10px 30px var(--shadow);
-  text-align: center;
-  border: 1px solid transparent;
-  transition: all 0.4s var(--ease);
-  position: relative; overflow: hidden;
+  cursor: pointer; border: 1px solid transparent;
+  transition: all 0.4s var(--ease); position: relative; overflow: hidden;
+  text-align: center; /* Centered text for About cards */
 }
 
-/* Hover Effect */
-.card:hover{
+/* Card Hover Effects */
+.card:hover {
   transform: translateY(-8px);
   box-shadow: 0 20px 40px rgba(0,0,0,0.1);
   border-color: rgba(212, 163, 115, 0.3);
 }
 
-.card h3{
-  font-size: 1.3rem; margin-bottom: 12px;
+.card h3 {
+  font-size: 1.3rem; margin-bottom: 8px;
   transition: color 0.3s ease, transform 0.3s var(--ease);
 }
-.card:hover h3 { color: var(--primary); transform: scale(1.05); }
-
-.card p{
-  font-size: 0.95rem; line-height: 1.7; opacity: 0.85;
-  transition: opacity 0.3s ease;
-}
+.card:hover h3 { color: var(--primary); transform: scale(1.02); }
+.card p { font-size: 0.9rem; opacity: 0.7; transition: opacity 0.3s ease; }
 .card:hover p { opacity: 1; }
-
-/* Icon Animation Inside Card (Optional Enhancement) */
-.card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; width: 100%; height: 4px;
-  background: linear-gradient(to right, var(--primary), var(--primary-dark));
-  transform: scaleX(0); transform-origin: left; transition: transform 0.4s var(--ease);
-}
-.card:hover::before { transform: scaleX(1); }
-
 
 /* =========================================
    5. FOOTER
@@ -191,25 +172,35 @@ footer{
 }
 
 /* =========================================
-   6. RESPONSIVE
+   6. RESPONSIVE FIX (Important for Mobile)
    ========================================= */
 @media (max-width: 768px) {
-  header { padding: 80px 20px 50px; }
-  header h1 { font-size: 2.5rem; }
-  section { padding: 40px 20px; }
-  .grid { gap: 20px; }
-  .card { padding: 30px 20px; }
+  header { padding: 70px 20px 40px; }
+  header h1 { font-size: 2.2rem; }
 }
 
 @media (max-width: 480px) {
-  /* Prevent Squeezing */
-  section { padding: 30px 15px; }
-  .grid { grid-template-columns: 1fr; gap: 20px; }
-  .card { padding: 25px 20px; }
+  /* ✅ Force Container to use Full Width */
+  section { 
+    padding: 30px 15px !important; 
+    width: 100% !important;
+  }
   
+  /* ✅ Switch to Flex Column to stretch cards fully */
+  .grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
+    margin-top: 15px !important;
+  }
+  
+  /* ✅ Ensure Cards are Full Width */
+  .card {
+    width: 100% !important;
+    padding: 25px 20px !important;
+  }
+
   header h1 { font-size: 2rem; }
-  header p { font-size: 0.95rem; }
-  .section-title h2 { font-size: 1.8rem; }
 }
 </style>
 </head>
@@ -238,18 +229,16 @@ footer{
 
 <section>
 
-  <div class="section-title" data-aos="fade-up">
-    <h2>Our Story</h2>
-    <p>
-      TheKrochet was born from a deep love for handmade art and slow fashion.
-      Every piece is thoughtfully crocheted by hand, celebrating creativity,
-      comfort, and individuality.
-    </p>
-  </div>
+  <h2 data-aos="fade-up">Our Story</h2>
+  <p class="about-text" data-aos="fade-up" data-aos-delay="100">
+    TheKrochet was born from a deep love for handmade art and slow fashion.
+    Every piece is thoughtfully crocheted by hand, celebrating creativity,
+    comfort, and individuality.
+  </p>
 
   <div class="grid">
 
-    <div class="card" data-aos="fade-up" data-aos-delay="100">
+    <div class="card" data-aos="fade-up" data-aos-delay="200">
       <h3>🧶 Handmade with Love</h3>
       <p>
         Each creation is carefully crocheted stitch by stitch, ensuring warmth,
@@ -257,7 +246,7 @@ footer{
       </p>
     </div>
 
-    <div class="card" data-aos="fade-up" data-aos-delay="200">
+    <div class="card" data-aos="fade-up" data-aos-delay="300">
       <h3>🌿 Quality Materials</h3>
       <p>
         Premium yarns that are soft, skin-friendly, long-lasting,
@@ -265,7 +254,7 @@ footer{
       </p>
     </div>
 
-    <div class="card" data-aos="fade-up" data-aos-delay="300">
+    <div class="card" data-aos="fade-up" data-aos-delay="400">
       <h3>✨ Timeless Designs</h3>
       <p>
         Classic crochet craftsmanship blended with modern aesthetics,
