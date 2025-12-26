@@ -5,20 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Product Manager | TheKrochet</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="brand.css">
 <link rel="stylesheet" href="responsive.css">
 
 <style>
-/* Internal styles for Premium Product Manager */
+/* INTERNAL STYLES */
 :root{
   --primary:#d4a373;
   --bg:#faf7f2;
   --text:#2f2f2f;
   --card-bg: #ffffff;
-  --nav-bg: rgba(255, 255, 255, 0.9);
+  --nav-bg: rgba(255, 255, 255, 0.95);
   --input-bg: #fdfbf8;
   --danger: #e74c3c;
   --success: #27ae60;
@@ -26,12 +24,11 @@
   --border: #eee;
 }
 
-/* 🌙 DARK MODE VARIABLES */
 body.dark-mode {
   --bg: #121212;
   --text: #e0e0e0;
   --card-bg: #1e1e1e;
-  --nav-bg: rgba(30, 30, 30, 0.9);
+  --nav-bg: rgba(30, 30, 30, 0.95);
   --input-bg: #2a2a2a;
   --shadow: 0 10px 30px rgba(0,0,0,0.5);
   --border: #333;
@@ -45,17 +42,16 @@ body {
   transition: background 0.3s, color 0.3s;
 }
 
-/* NAVBAR */
-nav{
-  background: var(--nav-bg);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  padding: 16px 20px 14px;
-  text-align: center;
+/* ✅ NAVBAR (Matches Reviews Page Style) */
+nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  transition: background 0.3s;
+  background: var(--nav-bg);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding: 15px 0;
+  text-align: center;
 }
 
 .nav-top {
@@ -63,55 +59,53 @@ nav{
   align-items: center;
   justify-content: center;
   gap: 10px;
+  margin-bottom: 10px;
 }
 
-.nav-top h2{
-  font-family:'Playfair Display',serif;
-  font-size: 24px;
-  letter-spacing: .5px;
+.nav-top h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
   color: var(--text);
   margin: 0;
 }
 
-/* 🌙 TOGGLE BUTTON */
+/* Theme Toggle Button */
 .theme-toggle {
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 1.2rem;
   cursor: pointer;
   padding: 5px;
   border-radius: 50%;
   transition: 0.2s;
-  line-height: 1;
 }
 .theme-toggle:hover { background: rgba(128,128,128,0.1); }
 
-.nav-links{
+.nav-links {
   display: flex;
   justify-content: center;
-  gap: 22px;
-  margin-top: 10px;
-  align-items: center;
-  flex-wrap: wrap;
+  gap: 25px;
 }
 
-.nav-links a, .nav-links button{
+.nav-links a, .nav-links button {
   background: none;
   border: none;
-  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
   color: var(--text);
+  opacity: 0.6;
   cursor: pointer;
   text-decoration: none;
-  font-size: 15px;
-  font-family: 'Poppins', sans-serif;
-  position: relative;
-  opacity: 0.7;
+  font-weight: 500;
+  transition: 0.3s;
 }
 
-.nav-links a.active{ opacity: 1; color: var(--primary); font-weight: 600; }
-.nav-links a.active::after{
-  content: ""; position: absolute; left: 0; bottom: -4px; width: 100%; height: 2px; background: var(--primary);
+.nav-links .active, .nav-links a:hover, .nav-links button:hover {
+  opacity: 1;
+  color: var(--primary);
+  font-weight: 600;
 }
+
 
 /* PAGE LAYOUT */
 .container {
@@ -120,26 +114,22 @@ nav{
   padding: 20px;
 }
 
-.page-header {
-  text-align: center;
-  padding: 20px 0 30px;
-}
 .page-header h4 {
   font-family: 'Playfair Display', serif;
   font-size: 2rem;
   color: #b8895b;
+  text-align: center;
+  margin: 30px 0;
 }
 
-/* ✨ FORM CARD */
+/* ✅ CENTERED FORM CARD */
 .form-card {
   background: var(--card-bg);
-  padding: 30px;
-  border-radius: 18px;
+  padding: 35px;
+  border-radius: 20px;
   box-shadow: var(--shadow);
-  margin-bottom: 40px;
-  max-width: 600px;
-  margin-left: auto; 
-  margin-right: auto;
+  max-width: 500px; /* Locked width for better centering */
+  margin: 40px auto; /* Perfect Center */
   border: 1px solid var(--border);
 }
 
@@ -153,119 +143,77 @@ nav{
 
 .form-group input, .form-group textarea {
   width: 100%;
-  padding: 12px 15px;
+  padding: 14px;
   margin-bottom: 15px;
   border: 1px solid var(--border);
-  border-radius: 10px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 14px;
+  border-radius: 12px;
   background: var(--input-bg);
   color: var(--text);
-  transition: 0.3s;
-}
-.form-group input:focus {
-  border-color: var(--primary);
   outline: none;
+  font-family: 'Poppins', sans-serif;
 }
 
-/* BUTTONS */
 .btn-main {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.3s;
-  font-size: 15px;
+  width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 1rem;
 }
+.btn-add { background: var(--primary); color: #fff; }
+.btn-update { background: var(--success); color: #fff; display: none; }
+.btn-cancel { background: #eee; color: #555; display: none; margin-top: 10px; }
 
-/* Add Mode (Default) */
-.btn-add { background: var(--primary); color: white; }
-.btn-add:hover { background: #b8895b; }
 
-/* Update Mode (Green) */
-.btn-update { background: var(--success); color: white; display: none; }
-.btn-update:hover { background: #219150; }
-
-/* Cancel Mode */
-.btn-cancel { 
-  background: #eee; color: #666; display: none; margin-top: 10px; 
-}
-
-/* ✨ PRODUCTS GRID */
+/* ✅ GRID & SLIDER SYSTEM */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 25px;
+  gap: 30px;
+  margin-top: 40px;
 }
 
 .product-card {
   background: var(--card-bg);
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-  transition: transform 0.3s;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
   border: 1px solid var(--border);
   display: flex;
   flex-direction: column;
+  transition: transform 0.3s;
 }
-
 .product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
 
+/* Slider Box */
 .p-img-box {
   width: 100%;
-  height: 220px;
+  height: 250px;
   overflow: hidden;
-  background: #f9f9f9;
+  position: relative;
+  background: var(--input-bg);
 }
-.p-img-box img {
+
+/* The Moving Strip */
+.img-slider {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Individual Images */
+.img-slider img {
+  min-width: 100%;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.p-info {
-  padding: 15px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
+.p-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+.p-name { font-weight: 600; font-size: 1.1rem; margin-bottom: 5px; color: var(--text); }
+.p-price { color: var(--primary); font-weight: 700; font-size: 1.1rem; margin-bottom: 15px; }
 
-.p-name {
-  font-weight: 600;
-  font-size: 16px;
-  margin-bottom: 5px;
-  color: var(--text);
-}
-
-.p-price {
-  color: var(--primary);
-  font-weight: 700;
-  font-size: 15px;
-  margin-bottom: 15px;
-}
-
-.p-actions {
-  margin-top: auto;
-  display: flex;
-  gap: 10px;
-}
-
-.btn-sm {
-  flex: 1;
-  padding: 8px;
-  border: none;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-}
+.p-actions { margin-top: auto; display: flex; gap: 10px; }
+.btn-sm { flex: 1; padding: 10px; border: none; border-radius: 10px; cursor: pointer; font-weight: 500; }
 .btn-edit { background: var(--input-bg); color: var(--text); border: 1px solid var(--border); }
-.btn-edit:hover { opacity: 0.8; }
-
 .btn-del { background: rgba(231, 76, 60, 0.1); color: var(--danger); }
-.btn-del:hover { background: var(--danger); color: white; }
 
 </style>
 </head>
@@ -277,6 +225,7 @@ nav{
     <h2>TheKrochet</h2>
     <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
   </div>
+  
   <div class="nav-links">
     <a href="admin.html" class="active">Products</a>
     <a href="admin-reviews.html">Reviews</a>
@@ -295,10 +244,9 @@ nav{
     <h3 class="form-title" id="formTitle">Add New Item</h3>
     <div class="form-group">
       <input type="hidden" id="editId">
-
-      <input type="text" id="pName" placeholder="Product Name (e.g. Handmade Bag)">
+      <input type="text" id="pName" placeholder="Product Name">
       <input type="number" id="pPrice" placeholder="Price (₹)">
-      <input type="text" id="pImg" placeholder="Image URL (Paste link here)">
+      <input type="text" id="pImg" placeholder="Image URL (Comma separated for slider)">
       <textarea id="pDesc" rows="3" placeholder="Short Description..."></textarea>
       
       <button id="addBtn" class="btn-main btn-add" onclick="addProduct()">+ Add Product</button>
@@ -328,7 +276,7 @@ const auth=firebase.auth();
 const db=firebase.firestore();
 let allProducts = {};
 
-/* 🌙 DARK MODE SYNC LOGIC */
+/* THEME LOGIC */
 function toggleTheme() {
   document.body.classList.toggle("dark-mode");
   const isDark = document.body.classList.contains("dark-mode");
@@ -347,7 +295,7 @@ function logout(){
   auth.signOut().then(()=>location.href="login.html");
 }
 
-/* FETCH PRODUCTS (UPDATED WITH IMAGE FIX) */
+/* FETCH PRODUCTS (WITH AUTO-SCROLL LOOP) */
 db.collection("products").orderBy("createdAt", "desc").onSnapshot(snap => {
   const container = document.getElementById("productsList");
   container.innerHTML = "";
@@ -362,24 +310,26 @@ db.collection("products").orderBy("createdAt", "desc").onSnapshot(snap => {
     const p = doc.data();
     allProducts[doc.id] = p; 
 
-    // ✅ FIX: Handle Comma-Separated Images
-    let imgUrl = p.image;
-    
-    // 1. Check if 'images' array exists (future proofing)
-    if(p.images && p.images.length > 0) imgUrl = p.images[0];
-    
-    // 2. If 'image' is a string with comma, split it and take the first one
-    if(imgUrl && typeof imgUrl === 'string' && imgUrl.includes(",")){
-        imgUrl = imgUrl.split(",")[0].trim();
+    // ✅ HANDLE MULTIPLE IMAGES FOR SLIDER
+    let imgs = p.images;
+    if (!imgs) {
+      if (p.image && typeof p.image === 'string' && p.image.includes(",")) {
+        imgs = p.image.split(",").map(url => url.trim());
+      } else {
+        imgs = [p.image || 'https://via.placeholder.com/300?text=No+Image'];
+      }
     }
-    
-    // 3. Fallback placeholder
-    if(!imgUrl) imgUrl = 'https://via.placeholder.com/300?text=No+Image';
+
+    // Generate Slider HTML
+    const imgHtml = imgs.map(url => `<img src="${url}">`).join('');
+    const sid = "s" + Math.random().toString(36).substr(2, 9); // Unique ID for slider
 
     container.innerHTML += `
       <div class="product-card">
         <div class="p-img-box">
-          <img src="${imgUrl}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300?text=Error'">
+          <div id="${sid}" class="img-slider">
+            ${imgHtml}
+          </div>
         </div>
         <div class="p-info">
           <div class="p-name">${p.name}</div>
@@ -391,6 +341,16 @@ db.collection("products").orderBy("createdAt", "desc").onSnapshot(snap => {
         </div>
       </div>
     `;
+
+    // ✅ AUTO SCROLL LOOP (1.7 Seconds)
+    if(imgs.length > 1){
+      let i = 0;
+      setInterval(() => {
+        i = (i + 1) % imgs.length;
+        const slider = document.getElementById(sid);
+        if(slider) slider.style.transform = `translateX(-${i * 100}%)`;
+      }, 1700);
+    }
   });
 });
 
@@ -417,7 +377,6 @@ function addProduct() {
 /* START EDIT MODE */
 function startEdit(id) {
   const p = allProducts[id];
-  
   document.getElementById('editId').value = id;
   document.getElementById('pName').value = p.name;
   document.getElementById('pPrice').value = p.price;
