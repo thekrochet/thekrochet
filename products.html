@@ -1,3 +1,6 @@
+/body>
+</html>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -373,14 +376,27 @@ const imgBox=document.getElementById("imgBox");
 
 let cart=JSON.parse(localStorage.getItem("krochetCart"))||[];
 
-/* LOAD PRODUCTS */
+/* LOAD PRODUCTS (UPDATED TO FIX COMMA IMAGES) */
 db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
   productsDiv.innerHTML="";
   let index = 0; 
   
   snap.forEach(doc=>{
     const p=doc.data();
-    const imgs=p.images||[p.image];
+    
+    // ✅ AUTO-DETECT COMMA SEPARATED LINKS
+    let imgs = p.images;
+    if (!imgs) {
+      // If 'images' array doesn't exist, check single 'image' string
+      if (p.image && typeof p.image === 'string' && p.image.includes(",")) {
+        // Split by comma and remove spaces
+        imgs = p.image.split(",").map(url => url.trim());
+      } else {
+        // Just a single image
+        imgs = [p.image];
+      }
+    }
+
     const sid="s"+Math.random().toString(36).slice(2);
     let i=0;
 
@@ -533,4 +549,3 @@ updateCart();
 
 </body>
 </html>
-
