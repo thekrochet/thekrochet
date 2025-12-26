@@ -42,7 +42,7 @@ body {
   transition: background 0.3s, color 0.3s;
 }
 
-/* ✅ NAVBAR - Centered & Clean */
+/* ✅ NAVBAR - Horizontal (Logo Left, Links Right) */
 nav {
   position: sticky;
   top: 0;
@@ -50,25 +50,21 @@ nav {
   background: var(--nav-bg);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0,0,0,0.05);
-  padding: 15px 0;
+  padding: 15px 5%; /* Horizontal padding */
   display: flex;
-  flex-direction: column;
+  justify-content: space-between; /* Push apart */
   align-items: center;
-  gap: 15px;
 }
 
 .nav-top {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 15px;
-  position: relative;
-  width: 100%;
 }
 
 .nav-top h2 {
   font-family: 'Playfair Display', serif;
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: var(--text);
   margin: 0;
 }
@@ -82,16 +78,13 @@ nav {
   padding: 5px;
   border-radius: 50%;
   transition: 0.2s;
-  position: absolute;
-  right: 5%; /* Keeps it to the right */
 }
 .theme-toggle:hover { transform: scale(1.1); }
 
 .nav-links {
   display: flex;
-  justify-content: center;
   gap: 30px;
-  width: 100%;
+  align-items: center;
 }
 
 .nav-links a, .nav-links button {
@@ -100,19 +93,17 @@ nav {
   font-family: 'Poppins', sans-serif;
   font-size: 1rem;
   color: var(--text);
-  opacity: 0.6;
+  opacity: 0.7;
   cursor: pointer;
   text-decoration: none;
   font-weight: 500;
   transition: 0.3s;
-  padding-bottom: 5px;
 }
 
 .nav-links .active, .nav-links a:hover, .nav-links button:hover {
   opacity: 1;
   color: var(--primary);
   font-weight: 600;
-  border-bottom: 2px solid var(--primary);
 }
 
 
@@ -131,15 +122,16 @@ nav {
   margin: 20px 0 40px;
 }
 
-/* ✅ PERFECT FORM CARD */
+/* ✅ FORM CARD - Inputs Centered */
 .form-card {
   background: var(--card-bg);
   padding: 40px;
   border-radius: 24px;
   box-shadow: var(--shadow);
   max-width: 550px;
-  margin: 0 auto 50px; /* Centered */
+  margin: 0 auto 50px;
   border: 1px solid var(--border);
+  text-align: center; /* Center Content */
 }
 
 .form-title {
@@ -147,7 +139,6 @@ nav {
   font-size: 1.6rem;
   margin-bottom: 25px;
   color: var(--text);
-  text-align: center;
 }
 
 .form-group input, .form-group textarea {
@@ -161,8 +152,10 @@ nav {
   outline: none;
   font-family: 'Poppins', sans-serif;
   font-size: 0.95rem;
+  text-align: center; /* ✅ CENTERED TEXT INSIDE INPUTS */
   transition: border-color 0.3s;
 }
+
 .form-group input:focus, .form-group textarea:focus {
   border-color: var(--primary);
 }
@@ -228,6 +221,13 @@ nav {
 .btn-sm { flex: 1; padding: 10px; border: none; border-radius: 10px; cursor: pointer; font-weight: 500; }
 .btn-edit { background: var(--input-bg); color: var(--text); border: 1px solid var(--border); }
 .btn-del { background: rgba(231, 76, 60, 0.1); color: var(--danger); }
+
+/* Mobile Navbar Adjustments */
+@media (max-width: 768px) {
+  nav { flex-direction: column; gap: 15px; }
+  .nav-links { gap: 20px; }
+  .theme-toggle { position: absolute; top: 20px; right: 5%; }
+}
 
 </style>
 </head>
