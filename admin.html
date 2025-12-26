@@ -6,138 +6,111 @@
 <title>Admin Panel | TheKrochet</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="brand.css"> 
 
 <style>
 /* =========================================
-   ADMIN SPECIFIC STYLES 
-   (Inherits from brand.css variables)
+   ADMIN STYLES (MATCHING BRAND THEME)
    ========================================= */
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Poppins', sans-serif;
   padding-bottom: 80px;
 }
 
 /* Navbar */
 nav {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 20px 5%; background: var(--nav); 
+  padding: 15px 5%; background: var(--nav); 
   border-bottom: 1px solid rgba(0,0,0,0.05);
   position: sticky; top: 0; z-index: 100;
   backdrop-filter: blur(10px);
 }
-.logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--primary-dark); font-weight: 700; }
+.logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--primary-dark); font-weight: 700; }
 .nav-links button {
   background: none; border: none; color: var(--text); font-size: 1rem; 
-  margin-left: 20px; cursor: pointer; transition: 0.3s; font-family: 'Poppins', sans-serif; opacity: 0.6;
+  margin-left: 20px; cursor: pointer; transition: 0.3s; opacity: 0.7; font-family: 'Poppins', sans-serif;
 }
 .nav-links button.active, .nav-links button:hover { color: var(--primary-dark); opacity: 1; font-weight: 600; }
 
-/* Login Modal */
-#loginModal {
-  position: fixed; inset: 0; background: var(--bg); z-index: 2000;
-  display: flex; align-items: center; justify-content: center;
-}
-.login-box {
-  background: var(--card); padding: 50px; border-radius: 30px; text-align: center; width: 90%; max-width: 420px;
-  box-shadow: 0 20px 60px var(--shadow);
-}
-.login-box h2 { font-family: 'Playfair Display', serif; margin-bottom: 10px; color: var(--primary-dark); }
-.login-box p { font-size: 0.9rem; opacity: 0.7; margin-bottom: 30px; }
-
-.login-box input {
-  width: 100%; padding: 16px; margin: 10px 0; background: var(--bg); border: 1px solid rgba(0,0,0,0.1); 
-  color: var(--text); border-radius: 12px; outline: none; transition: 0.3s;
-}
-.login-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(212, 163, 115, 0.15); }
-
-.login-box button {
-  width: 100%; padding: 16px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); 
-  color: #fff; font-weight: 600; border: none; border-radius: 12px; cursor: pointer; margin-top: 20px;
-  box-shadow: 0 10px 20px rgba(212, 163, 115, 0.3);
-}
-
 /* Sections */
-.section { display: none; padding: 40px 20px; max-width: 1200px; margin: auto; }
-.section.active { display: block; animation: fadeIn 0.5s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.section { display: none; padding: 20px; max-width: 1200px; margin: auto; }
+.section.active { display: block; }
 
-/* Product Grid */
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; margin-top: 20px; }
+/* Grid & Cards */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-top: 20px; }
+
 .card {
   background: var(--card); border-radius: 20px; padding: 15px; 
   box-shadow: 0 10px 30px var(--shadow); position: relative; overflow: hidden;
-  transition: transform 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.05);
 }
-.card:hover { transform: translateY(-5px); }
-.card img { width: 100%; height: 220px; object-fit: cover; border-radius: 15px; background: var(--bg); margin-bottom: 15px; }
-.card h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 5px; }
-.card .price { color: var(--primary-dark); font-weight: 700; font-size: 1.1rem; }
+.card img { width: 100%; height: 200px; object-fit: cover; border-radius: 15px; background: var(--bg); margin-bottom: 10px; }
+.card h3 { margin: 5px 0; font-size: 1.1rem; font-weight: 600; }
+.card .price { color: var(--primary-dark); font-weight: 700; }
 
-/* Buttons inside Cards */
+/* Card Actions */
 .actions { display: flex; gap: 10px; margin-top: 15px; }
 .actions button {
-  flex: 1; padding: 10px; border-radius: 12px; border: none; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: 0.2s;
+  flex: 1; padding: 10px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; transition: 0.2s;
 }
-.btn-edit { background: var(--bg); color: var(--text); border: 1px solid rgba(0,0,0,0.05); }
-.btn-edit:hover { border-color: var(--primary); color: var(--primary-dark); }
+.btn-edit { background: var(--bg); color: var(--text); border: 1px solid rgba(0,0,0,0.1); }
 .btn-del { background: #fee2e2; color: #ef4444; }
-.btn-del:hover { background: #fecaca; }
 
-/* Floating Add Button */
+/* Floating Add Button (+) */
 .fab {
-  position: fixed; bottom: 40px; right: 40px; width: 65px; height: 65px;
-  background: var(--primary-dark); color: #fff; border-radius: 50%; font-size: 32px;
+  position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+  background: var(--primary-dark); color: #fff; border-radius: 50%; font-size: 30px;
   display: flex; align-items: center; justify-content: center; cursor: pointer;
-  box-shadow: 0 15px 35px rgba(184, 137, 91, 0.4); z-index: 100; transition: 0.3s;
+  box-shadow: 0 10px 25px rgba(184, 137, 91, 0.4); z-index: 100; transition: 0.3s;
 }
-.fab:hover { transform: scale(1.1); background: var(--primary); }
+.fab:hover { transform: scale(1.1); }
 
-/* Modal Form */
+/* Login & Product Modals */
 .modal {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 1000;
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 2000;
   display: none; align-items: center; justify-content: center;
 }
 .modal.active { display: flex; }
+
 .modal-box {
-  background: var(--card); padding: 40px; border-radius: 30px; width: 90%; max-width: 500px;
-  max-height: 90vh; overflow-y: auto; box-shadow: 0 50px 100px rgba(0,0,0,0.2);
+  background: var(--card); padding: 30px; border-radius: 25px; width: 90%; max-width: 450px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15); text-align: center;
 }
-.modal-box h2 { font-family: 'Playfair Display', serif; margin-bottom: 25px; color: var(--primary-dark); text-align: center; }
+.modal-box h2 { font-family: 'Playfair Display', serif; margin-bottom: 20px; color: var(--primary-dark); }
+
 .modal-box input, .modal-box textarea {
   width: 100%; padding: 14px; margin-bottom: 15px; background: var(--bg); 
   border: 1px solid rgba(0,0,0,0.1); color: var(--text); border-radius: 12px; outline: none;
 }
-.btns { display: flex; gap: 15px; margin-top: 10px; }
-.btns button { flex: 1; padding: 14px; border-radius: 12px; border: none; cursor: pointer; font-weight: 600; }
-.btn-save { background: var(--primary-dark); color: #fff; }
+.modal-box button {
+  width: 100%; padding: 14px; background: var(--primary-dark); color: #fff; font-weight: 600;
+  border: none; border-radius: 12px; cursor: pointer; margin-top: 10px;
+}
+.btns { display: flex; gap: 10px; margin-top: 10px; }
+.btns button { flex: 1; }
 .btn-cancel { background: var(--bg); color: var(--text); }
 
 /* Orders List */
-.order-card { 
-  background: var(--card); padding: 25px; margin-bottom: 20px; border-radius: 20px; 
-  box-shadow: 0 5px 20px var(--shadow); border: 1px solid rgba(0,0,0,0.02);
-}
-.order-header { display: flex; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--bg); }
-.status-badge { padding: 6px 12px; border-radius: 30px; font-size: 0.8rem; background: var(--bg); color: var(--primary-dark); font-weight: 600; }
+.order-card { background: var(--card); padding: 20px; margin-bottom: 15px; border-radius: 15px; box-shadow: 0 5px 20px var(--shadow); }
+.order-header { display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--bg); }
+.status-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; background: var(--bg); color: var(--primary-dark); font-weight: 600; }
 </style>
 </head>
 <body>
 
-<div id="loginModal">
-  <div class="login-box">
+<div id="loginModal" class="modal">
+  <div class="modal-box">
     <h2>Admin Login</h2>
-    <p>Welcome back to TheKrochet</p>
     <input type="email" id="adminEmail" placeholder="Email">
     <input type="password" id="adminPass" placeholder="Password">
-    <button onclick="login()">Enter Dashboard</button>
+    <button onclick="login()">Login</button>
   </div>
 </div>
 
 <nav>
-  <div class="logo">TheKrochet</div>
+  <div class="logo">TheKrochet ☀️</div>
   <div class="nav-links">
     <button onclick="showSection('products')" class="active">Products</button>
     <button onclick="showSection('reviews')">Reviews</button>
@@ -168,7 +141,7 @@ nav {
     <input id="pImage" placeholder="Image Link(s) - Comma separated for slider">
     <div class="btns">
       <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-save" onclick="saveProduct()">Save Product</button>
+      <button style="background:var(--primary-dark);color:#fff" onclick="saveProduct()">Save</button>
     </div>
   </div>
 </div>
@@ -192,24 +165,22 @@ if(localStorage.getItem("theme")==="dark") document.body.classList.add("dark");
 
 let editingId = null;
 
-/* AUTH STATE (FIXED: Accepts any logged-in user) */
+/* AUTH CHECK (Universal Login) */
 auth.onAuthStateChanged(user => {
   if(user){
-    // ✅ User is logged in (Matches your Krishna email)
-    document.getElementById("loginModal").style.display = "none";
+    document.getElementById("loginModal").classList.remove("active"); // Hide Login
     loadProducts();
     loadReviews();
     loadOrders();
   } else {
-    // ❌ No user logged in
-    document.getElementById("loginModal").style.display = "flex";
+    document.getElementById("loginModal").classList.add("active"); // Show Login
   }
 });
 
 function login(){
   const e = document.getElementById("adminEmail").value;
   const p = document.getElementById("adminPass").value;
-  auth.signInWithEmailAndPassword(e, p).catch(err => alert("Login Failed: " + err.message));
+  auth.signInWithEmailAndPassword(e, p).catch(err => alert("Error: " + err.message));
 }
 
 function logout(){ auth.signOut(); }
@@ -222,7 +193,7 @@ function showSection(id){
   event.target.classList.add("active");
 }
 
-/* --- PRODUCTS --- */
+/* --- PRODUCTS (WITH IMAGE FIX) --- */
 function loadProducts(){
   db.collection("products").orderBy("createdAt", "desc").onSnapshot(snap => {
     const grid = document.getElementById("productGrid");
@@ -230,7 +201,7 @@ function loadProducts(){
     snap.forEach(doc => {
       const p = doc.data();
       
-      // ✅ LOGIC: Handle comma images correctly
+      // ✅ IMAGE FIX: Show 1st image if comma exists
       let displayImg = p.image;
       if(p.images && p.images.length > 0) displayImg = p.images[0];
       if(displayImg && displayImg.includes(",")) displayImg = displayImg.split(",")[0].trim();
@@ -270,7 +241,7 @@ function saveProduct(){
 }
 
 function deleteProduct(id){
-  if(confirm("Delete this product?")) db.collection("products").doc(id).delete();
+  if(confirm("Delete product?")) db.collection("products").doc(id).delete();
 }
 
 /* MODAL LOGIC */
@@ -306,17 +277,17 @@ function loadReviews(){
     snap.forEach(doc => {
       const r = doc.data();
       grid.innerHTML += `
-        <div class="card" style="padding:25px;">
-          <div style="color:#f1c40f;margin-bottom:10px;">${"★".repeat(r.rating)}</div>
-          <p style="font-style:italic;opacity:0.8">"${r.text}"</p>
-          <small style="color:var(--primary-dark);display:block;margin-top:10px;font-weight:600;">— ${r.name}</small>
-          <button class="btn-del" style="margin-top:15px;width:100%;padding:10px;border-radius:10px;" onclick="deleteReview('${doc.id}')">Delete</button>
+        <div class="card" style="padding:20px;">
+          <div style="color:#f1c40f;">${"★".repeat(r.rating)}</div>
+          <p style="font-style:italic;margin-top:5px;">"${r.text}"</p>
+          <small style="color:var(--primary-dark);display:block;margin-top:10px;">— ${r.name}</small>
+          <button class="btn-del" style="margin-top:10px;width:100%;padding:8px;border-radius:8px;" onclick="deleteReview('${doc.id}')">Delete</button>
         </div>`;
     });
   });
 }
 function deleteReview(id){
-  if(confirm("Delete this review?")) db.collection("reviews").doc(id).delete();
+  if(confirm("Delete review?")) db.collection("reviews").doc(id).delete();
 }
 
 /* --- ORDERS --- */
@@ -327,24 +298,23 @@ function loadOrders(){
     snap.forEach(doc => {
       const o = doc.data();
       let itemsHtml = o.items.map(i => `<div>• ${i.name} (₹${i.price})</div>`).join("");
-      
       list.innerHTML += `
         <div class="order-card">
           <div class="order-header">
             <strong>${o.customerName} <span style="opacity:0.6">(@${o.instagram})</span></strong>
             <span class="status-badge">${o.status}</span>
           </div>
-          <div style="margin-bottom:15px;opacity:0.8;line-height:1.6;">${itemsHtml}</div>
-          <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--bg);padding-top:15px;">
-            <strong style="color:var(--primary-dark);font-size:1.1rem;">Total: ₹${o.total}</strong>
-            <button class="btn-del" style="padding:8px 15px;border-radius:8px;" onclick="deleteOrder('${doc.id}')">Archive</button>
+          <div style="margin-bottom:10px;opacity:0.8;">${itemsHtml}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--bg);padding-top:10px;">
+            <strong style="color:var(--primary-dark)">Total: ₹${o.total}</strong>
+            <button class="btn-del" style="padding:6px 15px;border-radius:8px;" onclick="deleteOrder('${doc.id}')">Archive</button>
           </div>
         </div>`;
     });
   });
 }
 function deleteOrder(id){
-  if(confirm("Archive this order?")) db.collection("orders").doc(id).delete();
+  if(confirm("Archive order?")) db.collection("orders").doc(id).delete();
 }
 </script>
 
