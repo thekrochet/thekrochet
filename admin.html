@@ -10,7 +10,9 @@
 <link rel="stylesheet" href="responsive.css">
 
 <style>
-/* INTERNAL STYLES */
+/* =========================================
+   ADMIN PANEL SPECIFIC CSS
+   ========================================= */
 :root{
   --primary:#d4a373;
   --bg:#faf7f2;
@@ -42,7 +44,7 @@ body {
   transition: background 0.3s, color 0.3s;
 }
 
-/* ✅ NAVBAR - Horizontal (Logo Left, Links Right) */
+/* ✅ NAVBAR (MATCHING HOME/REVIEWS EXACTLY) */
 nav {
   position: sticky;
   top: 0;
@@ -50,10 +52,11 @@ nav {
   background: var(--nav-bg);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0,0,0,0.05);
-  padding: 15px 5%; /* Horizontal padding */
+  padding: 15px 5%;
   display: flex;
-  justify-content: space-between; /* Push apart */
+  justify-content: space-between;
   align-items: center;
+  transition: all 0.3s ease;
 }
 
 .nav-top {
@@ -69,7 +72,7 @@ nav {
   margin: 0;
 }
 
-/* Theme Toggle Button */
+/* Theme Toggle */
 .theme-toggle {
   background: none;
   border: none;
@@ -97,6 +100,7 @@ nav {
   cursor: pointer;
   text-decoration: none;
   font-weight: 500;
+  position: relative;
   transition: 0.3s;
 }
 
@@ -104,6 +108,10 @@ nav {
   opacity: 1;
   color: var(--primary);
   font-weight: 600;
+}
+.nav-links .active::after {
+  content: ''; position: absolute; width: 100%; height: 2px;
+  bottom: -4px; left: 0; background-color: var(--primary);
 }
 
 
@@ -119,19 +127,19 @@ nav {
   font-size: 2.2rem;
   color: #b8895b;
   text-align: center;
-  margin: 20px 0 40px;
+  margin: 30px 0 40px;
 }
 
-/* ✅ FORM CARD - Inputs Centered */
+/* ✅ PERFECTED ADD ITEM CARD */
 .form-card {
   background: var(--card-bg);
   padding: 40px;
   border-radius: 24px;
   box-shadow: var(--shadow);
   max-width: 550px;
-  margin: 0 auto 50px;
+  margin: 0 auto 50px; /* Centered horizontally */
   border: 1px solid var(--border);
-  text-align: center; /* Center Content */
+  text-align: center;
 }
 
 .form-title {
@@ -141,10 +149,15 @@ nav {
   color: var(--text);
 }
 
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
 .form-group input, .form-group textarea {
   width: 100%;
   padding: 16px;
-  margin-bottom: 18px;
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--input-bg);
@@ -152,23 +165,27 @@ nav {
   outline: none;
   font-family: 'Poppins', sans-serif;
   font-size: 0.95rem;
-  text-align: center; /* ✅ CENTERED TEXT INSIDE INPUTS */
-  transition: border-color 0.3s;
+  text-align: center; /* ✅ Text starts in center */
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .form-group input:focus, .form-group textarea:focus {
   border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(212, 163, 115, 0.1);
 }
 
+/* Buttons */
 .btn-main {
-  width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 1rem; margin-top: 10px;
+  width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 1rem; margin-top: 10px; transition: transform 0.2s;
 }
+.btn-main:active { transform: scale(0.98); }
+
 .btn-add { background: var(--primary); color: #fff; box-shadow: 0 4px 15px rgba(212, 163, 115, 0.3); }
 .btn-update { background: var(--success); color: #fff; display: none; }
-.btn-cancel { background: #eee; color: #555; display: none; margin-top: 10px; }
+.btn-cancel { background: #eee; color: #555; display: none; }
 
 
-/* ✅ GRID & SLIDER SYSTEM */
+/* ✅ GRID & SLIDER (Side-by-Side 1.7s Loop) */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -188,7 +205,7 @@ nav {
 }
 .product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
 
-/* Slider Box */
+/* Slider Container */
 .p-img-box {
   width: 100%;
   height: 260px;
@@ -197,7 +214,7 @@ nav {
   background: var(--input-bg);
 }
 
-/* The Moving Strip */
+/* Moving Strip */
 .img-slider {
   display: flex;
   height: 100%;
@@ -205,7 +222,7 @@ nav {
   transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
-/* Individual Images */
+/* Images */
 .img-slider img {
   min-width: 100%;
   width: 100%;
@@ -222,13 +239,13 @@ nav {
 .btn-edit { background: var(--input-bg); color: var(--text); border: 1px solid var(--border); }
 .btn-del { background: rgba(231, 76, 60, 0.1); color: var(--danger); }
 
-/* Mobile Navbar Adjustments */
+/* Mobile Fixes */
 @media (max-width: 768px) {
-  nav { flex-direction: column; gap: 15px; }
-  .nav-links { gap: 20px; }
+  nav { flex-direction: column; gap: 15px; padding: 20px; }
+  .nav-links { gap: 20px; flex-wrap: wrap; justify-content: center; }
   .theme-toggle { position: absolute; top: 20px; right: 5%; }
+  .form-card { padding: 30px 20px; }
 }
-
 </style>
 </head>
 
@@ -309,7 +326,7 @@ function logout(){
   auth.signOut().then(()=>location.href="login.html");
 }
 
-/* FETCH PRODUCTS (WITH AUTO-SCROLL LOOP) */
+/* FETCH PRODUCTS (1.7s Auto-Scroll Loop) */
 db.collection("products").orderBy("createdAt", "desc").onSnapshot(snap => {
   const container = document.getElementById("productsList");
   container.innerHTML = "";
@@ -324,7 +341,7 @@ db.collection("products").orderBy("createdAt", "desc").onSnapshot(snap => {
     const p = doc.data();
     allProducts[doc.id] = p; 
 
-    // ✅ HANDLE MULTIPLE IMAGES FOR SLIDER
+    // ✅ HANDLE MULTIPLE IMAGES
     let imgs = p.images;
     if (!imgs) {
       if (p.image && typeof p.image === 'string' && p.image.includes(",")) {
