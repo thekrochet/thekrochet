@@ -29,10 +29,11 @@ html { scroll-behavior: smooth; }
 body{
   font-family:'Poppins',sans-serif; background:var(--bg); color:var(--text);
   min-height:100vh; display:flex; flex-direction:column; overflow-x: hidden;
+  transition: background 0.5s var(--ease-spring);
 }
 
 /* =========================================
-   2. NAVBAR (Fixed 2-Line Layout)
+   2. NAVBAR
    ========================================= */
 nav {
   position: sticky; top: 0; z-index: 100;
@@ -40,16 +41,8 @@ nav {
   padding: 10px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
   display: flex; flex-direction: column; gap: 8px;
 }
-
-/* Line 1: Logo & Profile */
-.nav-line-1 {
-  position: relative; width: 100%; display: flex; 
-  justify-content: center; align-items: center; padding: 0 15px;
-}
-.nav-logo {
-  font-family: 'Playfair Display', serif; font-size: 1.8rem; 
-  color: var(--text); text-decoration: none; font-weight: 700;
-}
+.nav-line-1 { position: relative; width: 100%; display: flex; justify-content: center; align-items: center; padding: 0 15px; }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--text); text-decoration: none; font-weight: 700; }
 #userBtn {
   position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
   width: 38px; height: 38px; border-radius: 50%;
@@ -58,21 +51,10 @@ nav {
   cursor: pointer; transition: 0.3s;
 }
 #userBtn:hover { background: var(--primary); color: #fff; }
-
-/* Line 2: Links */
-.nav-line-2 {
-  display: flex; justify-content: center; gap: 20px;
-}
-.nav-links a {
-  text-decoration: none; color: var(--text); font-weight: 500; 
-  font-size: 0.9rem; opacity: 0.7; transition: 0.3s; 
-  position: relative; padding-bottom: 2px;
-}
+.nav-line-2 { display: flex; justify-content: center; gap: 20px; }
+.nav-links a { text-decoration: none; color: var(--text); font-weight: 500; font-size: 0.9rem; opacity: 0.7; transition: 0.3s; position: relative; padding-bottom: 2px; }
 .nav-links a.active, .nav-links a:hover { opacity: 1; color: var(--primary); }
-.nav-links a::after {
-  content: ''; position: absolute; width: 0; height: 2px;
-  bottom: 0; left: 0; background: var(--primary); transition: 0.3s;
-}
+.nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background: var(--primary); transition: 0.3s; }
 .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
 /* =========================================
@@ -104,7 +86,7 @@ nav {
 .logout-btn { width: 100%; padding: 12px; background: #fee2e2; color: #ef4444; border: none; font-weight: 600; cursor: pointer; border-radius: 10px; margin-bottom: 20px; }
 
 /* =========================================
-   4. CONTENT & CARDS
+   4. CONTENT & CARDS (ANIMATION FIXED)
    ========================================= */
 .search-box{ max-width:460px; margin:20px auto 0; padding:0 16px; }
 .search-box input{ width:100%; padding:14px 24px; border-radius:50px; border:2px solid transparent; background:var(--card); color:var(--text); box-shadow: 0 4px 15px var(--shadow); outline: none; transition: 0.3s; }
@@ -116,6 +98,7 @@ nav {
 .card{ background:var(--card); padding:15px; border-radius:24px; box-shadow:0 10px 20px var(--shadow); display:flex; flex-direction:column; overflow: hidden; animation: fadeUp 0.6s ease forwards; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
 
+/* SLIDER CSS RESTORED */
 .img-window { width: 100%; height: 230px; border-radius: 20px; overflow: hidden; cursor: pointer; position: relative; margin-bottom: 15px; }
 .img-slider { display: flex; height: 100%; width: 100%; transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1); }
 .img-slider img { min-width: 100%; width: 100%; height: 100%; object-fit: cover; }
@@ -152,7 +135,10 @@ nav {
 .loading-spin { border: 3px solid #f3f3f3; border-top: 3px solid var(--primary); border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display:inline-block; margin-right:5px; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-#imgModal .modal-box { max-width: 600px; background: transparent; box-shadow: none; padding: 0; }
+/* POPUP IMAGE SLIDER */
+#imgModal .modal-box { max-width: 600px; background: transparent; box-shadow: none; padding: 0; overflow: hidden; }
+.popup-slider { display: flex; width: 100%; transition: transform 0.5s ease; }
+.popup-slider img { min-width: 100%; width: 100%; border-radius: 15px; }
 </style>
 </head>
 
@@ -306,28 +292,32 @@ function handleProfileClick(){ currentUser ? (document.getElementById("sidebar")
 function closeSidebar(){ document.getElementById("sidebar").classList.remove("active"); document.getElementById("overlay").classList.remove("active"); }
 function logout(){ auth.signOut(); closeSidebar(); }
 
-/* LOAD DATA */
+/* LOAD DATA - FIXED */
 function loadUserData(uid){
   const list = document.getElementById("orderList");
   const addrBox = document.getElementById("sidebarAddress");
   
-  db.collection("orders").where("userId", "==", uid).orderBy("createdAt", "desc").onSnapshot(snap => {
+  // REMOVED 'orderBy' to fix missing index bug in Firestore
+  db.collection("orders").where("userId", "==", uid).onSnapshot(snap => {
     list.innerHTML = "";
     if(snap.empty){ list.innerHTML = `<p style="text-align:center;opacity:0.5;">No orders yet.</p>`; addrBox.innerText = "No address saved."; return; }
     
-    // Get latest address
-    const lastOrder = snap.docs[0].data();
-    if(lastOrder.address) addrBox.innerText = lastOrder.address;
-    else addrBox.innerText = "No address saved.";
+    // Sort manually since we removed database index requirement
+    let orders = [];
+    snap.forEach(doc => orders.push({id:doc.id, ...doc.data()}));
+    orders.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
-    snap.forEach(doc => {
-      const o = doc.data();
-      list.innerHTML += `<div class="order-item"><div class="order-header"><span>#${doc.id.slice(0,5)}</span><span class="order-status">${o.status}</span></div><div style="font-size:0.8rem;opacity:0.7;">${o.createdAt?o.createdAt.toDate().toLocaleDateString():'Just now'}</div><div style="font-weight:600;font-size:0.9rem;">₹${o.total}</div></div>`;
+    let savedAddr = null;
+    orders.forEach(o => {
+      if(!savedAddr && o.address) savedAddr = o.address;
+      const date = o.createdAt ? new Date(o.createdAt.seconds*1000).toLocaleDateString() : 'Just now';
+      list.innerHTML += `<div class="order-item"><div class="order-header"><span>#${o.id.slice(0,5)}</span><span class="order-status">${o.status}</span></div><div style="font-size:0.8rem;opacity:0.7;">${date}</div><div style="font-weight:600;font-size:0.9rem;">₹${o.total}</div></div>`;
     });
+    if(savedAddr) addrBox.innerText = savedAddr;
   });
 }
 
-/* PRODUCTS & CART */
+/* PRODUCTS & ANIMATIONS FIXED */
 const productsDiv = document.getElementById("products");
 db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
   productsDiv.innerHTML="";
@@ -336,8 +326,18 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
     let imgs = p.images || (p.image && p.image.includes(",") ? p.image.split(",").map(u=>u.trim()) : [p.image]);
     const sid="s"+Math.random().toString(36).slice(2);
     const imgHtml = imgs.map(url => `<img src="${url}">`).join('');
+    
     productsDiv.innerHTML+=`<div class="card" style="animation-delay:${idx*50}ms"><div class="img-window" onclick='openImg(${JSON.stringify(imgs)})'><div id="${sid}" class="img-slider">${imgHtml}</div></div><h3>${p.name}</h3><div class="price">₹${p.price}</div><p>${p.description||""}</p><button onclick="addToCart('${p.name}',${p.price})">Add to Cart</button></div>`;
-    if(imgs.length > 1){ let i=0; setInterval(()=>{ i=(i+1)%imgs.length; const s=document.getElementById(sid); if(s) s.style.transform=`translateX(-${i * 100}%)`; }, 2500); }
+    
+    // FIXED SLIDER ANIMATION
+    if(imgs.length > 1){ 
+        let i=0; 
+        setInterval(()=>{ 
+            i=(i+1)%imgs.length; 
+            const s=document.getElementById(sid); 
+            if(s) s.style.transform=`translateX(-${i * 100}%)`; 
+        }, 2500); 
+    }
   });
 });
 
@@ -359,37 +359,26 @@ function toggleAuthMode(){ isRegistering = !isRegistering; const t=document.getE
 function performLogin(){ const e=document.getElementById("authEmail").value, p=document.getElementById("authPass").value; if(!e||!p) return alert("Enter details"); if(isRegistering){ auth.createUserWithEmailAndPassword(e,p).then(()=>{alert("Created!");closeModal('authModal')}).catch(e=>alert(e.message)); } else { auth.signInWithEmailAndPassword(e,p).then(()=>closeModal('authModal')).catch(e=>alert(e.message)); } }
 function checkLoginForOrder(){ closeModal('cartModal'); currentUser ? openModal('orderModal') : openModal('authModal'); }
 
-/* =========================================
-   🚀 PAYMENT & ORDER FLOW
-   ========================================= */
-
-// Step 1: Open Payment Selector
+/* 🚀 PAYMENT & ORDER FLOW */
 function openPaymentModal(){
   const name=document.getElementById("custName").value.trim();
   const insta=document.getElementById("custInsta").value.trim();
   const addr=document.getElementById("custAddress").value.trim();
   if(!name||!insta||!addr) return alert("Please fill Name, Instagram, and Address.");
-  
   document.getElementById("payAmountDisplay").innerText = currentTotal;
   closeModal('orderModal');
   openModal('paymentAppModal');
 }
 
-// Step 2: Launch App & Show Check Modal
 function launchUPI(appType){
-  // 1. Launch App
   let link = `upi://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`;
   if(appType==='paytm') link = `paytmmp://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`;
   if(appType==='phonepe') link = `phonepe://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`;
-  
   window.location.href = link;
-
-  // 2. Show "Confirm" Modal immediately
   closeModal('paymentAppModal');
   setTimeout(()=>{ openModal('confirmCheckModal'); }, 1000);
 }
 
-// Step 3: Final Confirm -> Save & Reload
 function confirmAndFinishOrder(){
   const name=document.getElementById("custName").value.trim();
   const insta=document.getElementById("custInsta").value.trim();
@@ -402,7 +391,7 @@ function confirmAndFinishOrder(){
   }).then(() => {
     alert("Order Confirmed! Thank you.");
     cart=[]; localStorage.removeItem("krochetCart");
-    location.reload(); // ✅ Reloads page as requested
+    location.reload(); 
   });
 }
 
