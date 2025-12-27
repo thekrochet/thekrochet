@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Orders | TheKrochet</title>
+<title>Order Manager | TheKrochet</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
@@ -13,62 +13,86 @@
 
 <style>
 /* =========================================
-   1. THEME VARIABLES
+   1. THEME VARIABLES (Exact match to Admin.html)
    ========================================= */
 :root{
-  --bg:#faf7f2; --text:#2f2f2f; --card:#ffffff; --nav:rgba(255, 255, 255, 0.95);
-  --primary:#d4a373; --primary-dark:#b8895b;
-  --shadow:rgba(0,0,0,0.08); 
-  --success:#27ae60; --danger:#e74c3c;
-  --ease: cubic-bezier(0.23, 1, 0.32, 1);
-}
-body.dark{
-  --bg:#121212; --text:#f1f1f1; --card:#1e1e1e; --nav:rgba(20, 20, 20, 0.95);
-  --shadow:rgba(0,0,0,0.6);
+  --primary:#d4a373;
+  --primary-dark:#b8895b;
+  --bg:#faf7f2;
+  --text:#2f2f2f;
+  --card-bg: #ffffff;
+  --nav-bg: rgba(255, 255, 255, 0.95);
+  --input-bg: #fdfbf8;
+  --danger: #e74c3c;
+  --success: #27ae60;
+  --shadow: 0 10px 30px rgba(184, 137, 91, 0.15);
+  --border: #eee;
 }
 
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:'Poppins',sans-serif; background:var(--bg); color:var(--text);
-  min-height:100vh; display:flex; flex-direction:column; transition:0.3s;
+body.dark-mode {
+  --bg: #121212;
+  --text: #e0e0e0;
+  --card-bg: #1e1e1e;
+  --nav-bg: rgba(30, 30, 30, 0.95);
+  --input-bg: #2a2a2a;
+  --shadow: 0 10px 30px rgba(0,0,0,0.5);
+  --border: #333;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.3s, color 0.3s;
 }
 
 /* =========================================
-   2. NAVBAR (MATCHING HOME STYLE)
+   2. NAVBAR (COPIED FROM ADMIN.HTML)
    ========================================= */
 nav {
-  position: sticky; top: 0; z-index: 100;
-  background: var(--nav); backdrop-filter: blur(10px);
-  padding: 15px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  display: flex; flex-direction: column; gap: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--nav-bg);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding: 15px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.nav-top { display: flex; justify-content: center; align-items: center; position: relative; width: 100%; }
-.nav-logo { 
-  font-family: 'Playfair Display', serif; font-size: 1.8rem; 
-  color: var(--text); text-decoration: none; font-weight: 700; 
-}
-.admin-badge {
-  font-size: 0.7rem; background: var(--primary); color: #fff;
-  padding: 2px 6px; border-radius: 4px; margin-left: 8px; vertical-align: middle;
-  font-family: 'Poppins', sans-serif; letter-spacing: 1px;
-}
+.nav-top { display: flex; align-items: center; gap: 15px; }
+.nav-top h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--text); margin: 0; }
 
-.nav-links { display: flex; justify-content: center; gap: 20px; }
-.nav-links a, .logout-link {
-  text-decoration: none; color: var(--text); font-weight: 500; 
-  font-size: 0.9rem; opacity: 0.7; transition: 0.3s; cursor: pointer;
+.theme-toggle { background: none; border: none; font-size: 1.4rem; cursor: pointer; padding: 5px; border-radius: 50%; transition: 0.2s; }
+.theme-toggle:hover { transform: scale(1.1); }
+
+.nav-links { display: flex; gap: 30px; align-items: center; }
+.nav-links a, .nav-links button {
+  background: none; border: none; font-family: 'Poppins', sans-serif;
+  font-size: 1rem; color: var(--text); opacity: 0.7; cursor: pointer;
+  text-decoration: none; font-weight: 500; transition: 0.3s;
 }
-.nav-links a:hover, .logout-link:hover { opacity: 1; color: var(--primary); }
-.nav-links a.active { opacity: 1; color: var(--primary); }
+.nav-links .active, .nav-links a:hover, .nav-links button:hover { opacity: 1; color: var(--primary); font-weight: 600; }
+
+@media (max-width: 768px) {
+  nav { flex-direction: column; gap: 15px; }
+  .nav-links { gap: 20px; }
+  .theme-toggle { position: absolute; top: 20px; right: 5%; }
+}
 
 /* =========================================
-   3. ORDERS GRID
+   3. ORDERS GRID LAYOUT
    ========================================= */
 .container { max-width: 1200px; margin: 0 auto; padding: 20px; width: 100%; flex: 1; }
-.header { text-align: center; margin-bottom: 30px; }
-.header h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--primary-dark); }
+.page-header { text-align: center; margin: 20px 0 40px; }
+.page-header h4 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--primary-dark); }
 
 .orders-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px;
@@ -76,8 +100,8 @@ nav {
 
 /* ORDER CARD */
 .order-card {
-  background: var(--card); border-radius: 18px; overflow: hidden;
-  box-shadow: 0 10px 30px var(--shadow); border: 1px solid rgba(0,0,0,0.05);
+  background: var(--card-bg); border-radius: 18px; overflow: hidden;
+  box-shadow: var(--shadow); border: 1px solid var(--border);
   display: flex; flex-direction: column;
   animation: fadeUp 0.5s ease forwards;
 }
@@ -93,39 +117,36 @@ nav {
 
 .customer-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
 .cust-name { font-weight: 700; font-size: 1.1rem; color: var(--text); }
-.cust-insta { font-size: 0.85rem; opacity: 0.7; color: var(--primary-dark); }
-.cust-price { font-weight: 700; color: var(--primary-dark); font-size: 1.2rem; }
+.cust-insta { font-size: 0.85rem; opacity: 0.7; color: var(--primary); font-weight: 500; }
+.cust-price { font-weight: 700; color: var(--primary); font-size: 1.2rem; }
 
-/* ADDRESS BOX - ALWAYS READABLE */
+/* ADDRESS BOX */
 .address-box {
-  background: #ffffff; color: #333333; /* Forced High Contrast */
+  background: var(--input-bg); color: var(--text); 
   border: 1px dashed var(--primary);
   padding: 12px; border-radius: 8px;
   font-size: 0.9rem; line-height: 1.4; margin-bottom: 15px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
-.address-label { font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--primary-dark); display: block; margin-bottom: 4px; }
+.address-label { font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--primary); display: block; margin-bottom: 4px; }
 
 /* ITEMS LIST */
-.items-list { border-top: 1px solid rgba(0,0,0,0.1); padding-top: 10px; margin-bottom: 15px; }
-.item-row { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 5px; color: var(--text); }
-.item-qty { background: rgba(0,0,0,0.05); padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+.items-list { border-top: 1px solid var(--border); padding-top: 10px; margin-bottom: 15px; }
+.item-row { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 5px; color: var(--text); opacity: 0.9; }
+.item-qty { background: var(--input-bg); padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; border: 1px solid var(--border); }
 
 /* STATUS CONTROLS */
-.card-footer { padding: 15px 20px; background: rgba(0,0,0,0.03); border-top: 1px solid rgba(0,0,0,0.05); }
+.card-footer { padding: 15px 20px; background: rgba(0,0,0,0.02); border-top: 1px solid var(--border); }
 .status-label { font-size: 0.75rem; font-weight: 700; color: var(--text); opacity: 0.6; margin-bottom: 8px; display: block; letter-spacing: 1px; }
 
 .status-select {
-  width: 100%; padding: 12px; border-radius: 10px; border: 2px solid var(--primary);
-  background: var(--card); color: var(--text); font-family: 'Poppins', sans-serif; font-weight: 500;
-  cursor: pointer; outline: none; margin-bottom: 15px; appearance: none;
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23d4a373%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-  background-repeat: no-repeat; background-position: right 15px top 50%; background-size: 12px auto;
+  width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--primary);
+  background: var(--card-bg); color: var(--text); font-family: 'Poppins', sans-serif; font-weight: 500;
+  cursor: pointer; outline: none; margin-bottom: 15px;
 }
 
 .delete-btn {
   width: 100%; padding: 12px; border: none; border-radius: 10px;
-  background: #ffe5e5; color: var(--danger); font-weight: 600; cursor: pointer; transition: 0.2s;
+  background: rgba(231, 76, 60, 0.1); color: var(--danger); font-weight: 600; cursor: pointer; transition: 0.2s;
 }
 .delete-btn:hover { background: var(--danger); color: #fff; }
 
@@ -136,33 +157,33 @@ nav {
 
 <nav>
   <div class="nav-top">
-    <a href="#" class="nav-logo">TheKrochet <span class="admin-badge">ADMIN</span></a>
+    <h2>TheKrochet</h2>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
   </div>
+  
   <div class="nav-links">
-    <a href="index.html">View Website</a>
-    <span class="logout-link" onclick="logout()">Logout</span>
+    <a href="admin.html">Products</a>
+    <a href="admin-reviews.html">Reviews</a>
+    <a href="orders.html" class="active">Orders</a>
+    <button onclick="logout()">Logout</button>
   </div>
 </nav>
 
 <div class="container">
-  <div class="header" data-aos="fade-up">
-    <h2>Order Dashboard</h2>
-    <p>Manage shipments & update tracking</p>
+  <div class="page-header">
+    <h4>Orders Dashboard</h4>
   </div>
 
   <div id="ordersList" class="orders-grid">
-    <p style="text-align:center; opacity:0.5; width:100%;">Loading orders...</p>
+    <div style="text-align:center; width:100%; grid-column:1/-1; padding:40px; color:#999;">Loading orders...</div>
   </div>
 </div>
 
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
-AOS.init({duration:800});
-
 // 1. FIREBASE CONFIG
 firebase.initializeApp({
   apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
@@ -171,40 +192,49 @@ firebase.initializeApp({
 });
 const auth=firebase.auth(); const db=firebase.firestore();
 
-// 2. THEME CHECK
-if(localStorage.getItem("theme") === "dark") document.body.classList.add("dark");
+// 2. THEME LOGIC (Matches admin.html)
+function toggleTheme() {
+  document.body.classList.toggle("dark-mode");
+  const isDark = document.body.classList.contains("dark-mode");
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+  document.getElementById("themeBtn").innerText = isDark ? "☀️" : "🌙";
+}
+if(localStorage.getItem("theme") === "dark"){
+  document.body.classList.add("dark-mode");
+  document.getElementById("themeBtn").innerText = "☀️";
+}
 
 // 3. AUTH CHECK
 auth.onAuthStateChanged(u=>{ if(!u) location.href="login.html"; });
 function logout(){ auth.signOut().then(()=>location.href="login.html"); }
 
-// 4. FETCH & RENDER ORDERS
+// 4. FETCH ORDERS
 db.collection("orders").orderBy("createdAt", "desc").onSnapshot(snap => {
   const list = document.getElementById("ordersList"); 
   list.innerHTML = "";
   
   if (snap.empty) { 
-    list.innerHTML = "<p style='text-align:center;opacity:0.6;grid-column:1/-1;'>No orders found.</p>"; 
+    list.innerHTML = "<div style='text-align:center; width:100%; grid-column:1/-1; padding:40px; color:#999'>No orders found.</div>"; 
     return; 
   }
 
   // Calculate Order Number Logic
-  const totalOrders = snap.size; // Only visually works if we pull all
-
+  const totalOrders = snap.size; 
   let index = 0;
+
   snap.forEach(doc => {
     const o = doc.data();
     const id = doc.id;
-    const orderNum = totalOrders - index; // Visual numbering
+    const orderNum = totalOrders - index; 
     index++;
     
     // Date Format
     const date = o.createdAt ? new Date(o.createdAt.seconds*1000).toLocaleString() : 'N/A';
 
-    // Address Handling
+    // Address
     const address = o.address || "No address provided";
 
-    // Items Logic
+    // Items
     let itemsHtml = "";
     if(o.items) {
       o.items.forEach(i => {
@@ -212,16 +242,25 @@ db.collection("orders").orderBy("createdAt", "desc").onSnapshot(snap => {
       });
     }
 
-    // Status Dropdown Logic
-    const statuses = ["Paid via UPI", "Processing", "Shipped", "Delivered"];
+    // ✅ TRACKING STATUSES (Exact match to Products.html logic)
+    // 1. Order Placed (covers 'Paid via UPI')
+    // 2. Processing
+    // 3. Shipped
+    // 4. Delivered
+    const statuses = ["Order Placed", "Processing", "Shipped", "Delivered"];
+    
+    // Handle 'Paid via UPI' legacy status by defaulting to 'Order Placed'
+    let currentStatus = o.status;
+    if(currentStatus === "Paid via UPI" || currentStatus === "Pending Payment") currentStatus = "Order Placed";
+
     let optionsHtml = "";
     statuses.forEach(s => {
-      const selected = o.status === s ? "selected" : "";
+      const selected = currentStatus === s ? "selected" : "";
       optionsHtml += `<option value="${s}" ${selected}>${s}</option>`;
     });
 
     list.innerHTML += `
-      <div class="order-card" style="animation-delay: ${index * 50}ms">
+      <div class="order-card">
         <div class="card-header">
           <span>Order #${orderNum}</span>
           <span style="opacity:0.9; font-size:0.8rem; font-weight:400;">${date.split(',')[0]}</span>
@@ -258,12 +297,10 @@ db.collection("orders").orderBy("createdAt", "desc").onSnapshot(snap => {
   });
 });
 
-// 5. UPDATE STATUS (Updates User Timeline)
+// 5. UPDATE STATUS
 function updateStatus(id, newStatus) {
   db.collection("orders").doc(id).update({
     status: newStatus
-  }).then(() => {
-    // console.log("Status Updated");
   });
 }
 
