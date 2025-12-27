@@ -180,8 +180,8 @@ firebase.initializeApp({
   projectId:"thekrochet-b3ca2"
 });
 const db = firebase.firestore();
-let currentUser = null;
-firebase.auth().onAuthStateChanged(user => { currentUser = user; });
+
+/* ✅ CONFLICT REMOVED: No 'let currentUser' here. We use firebase.auth().currentUser directly. */
 
 let cart = JSON.parse(localStorage.getItem("krochetCart")) || [];
 let currentTotal = 0;
@@ -236,7 +236,7 @@ function closeImg(e){
 /* ORDER LOGIC */
 function checkLoginForOrder(){ 
   closeModal('cartModal'); 
-  const user = firebase.auth().currentUser;
+  const user = firebase.auth().currentUser; // Gets actual user from Firebase
   
   if(user) {
       const sidebarAddr = document.getElementById("sidebarAddress")?.innerText;
@@ -245,7 +245,7 @@ function checkLoginForOrder(){
       }
       openModal('orderModal');
   } else {
-      openModal('authModal');
+      openModal('authModal'); // Opens login from profile.js
   }
 }
 
@@ -282,7 +282,7 @@ function showQR() {
 // SUCCESS LOGIC
 function confirmAndFinishOrder(){
   closeModal('confirmCheckModal');
-  closeModal('qrModal'); // Close QR too if open
+  closeModal('qrModal'); 
   
   const name=document.getElementById("custName").value.trim();
   const insta=document.getElementById("custInsta").value.trim();
