@@ -58,7 +58,7 @@ nav {
 .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
 /* =========================================
-   3. SIDEBAR & ADDRESS (FIXED VISIBILITY)
+   3. SIDEBAR & ADDRESS (DARK MODE FIXED)
    ========================================= */
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2999; opacity: 0; pointer-events: none; transition: 0.4s; }
 .overlay.active { opacity: 1; pointer-events: auto; }
@@ -78,16 +78,17 @@ nav {
 .sidebar-body { padding: 20px; flex: 1; overflow-y: auto; }
 .sidebar-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary-dark); font-weight: 700; margin-bottom: 10px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 5px; margin-top: 15px; }
 
-/* FIX: Force White Background & Black Text for Visibility */
+/* ✅ FIXED: ADDRESS BOX VISIBILITY */
 .saved-address { 
-  font-size: 0.85rem; line-height: 1.4; 
-  background: #ffffff !important; 
-  color: #000000 !important; 
-  padding: 12px; border-radius: 8px; border: 1px solid #ddd;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  font-size: 0.9rem; line-height: 1.5; 
+  background: var(--bg); /* Adapts to Dark Mode */
+  color: var(--text);    /* Adapts to Dark Mode */
+  border: 1px solid var(--primary); /* Gold Border */
+  padding: 15px; border-radius: 12px; 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-/* FIX: Proper Grid for Orders */
+/* ✅ FIXED: ORDER GRID */
 .order-item { 
   background: var(--bg); padding: 12px; border-radius: 12px; margin-bottom: 12px; 
   border: 1px solid rgba(0,0,0,0.1); 
@@ -161,7 +162,7 @@ nav {
 .popup-slider img { 
   min-width: 100%; width: 100%; 
   border-radius: 15px; 
-  object-fit: contain; /* Shows full image */
+  object-fit: contain; 
   max-height: 80vh;
 }
 </style>
@@ -256,10 +257,11 @@ nav {
 
 <div id="confirmCheckModal" class="modal">
   <div class="modal-box" style="text-align:center;">
-    <h3>Confirm Payment</h3>
-    <p style="opacity:0.8;margin-bottom:15px;">Please verify in your app.</p>
-    <button class="confirm-btn" onclick="confirmAndFinishOrder()">Yes, Payment Done ✅</button>
-    <button style="width:100%;padding:10px;border:none;background:transparent;color:#888;margin-top:10px;cursor:pointer;" onclick="closeModal('confirmCheckModal')">I canceled</button>
+    <h3>Payment Pending</h3>
+    <p style="opacity:0.8;margin-bottom:15px;">We opened the payment app. Please complete the transaction there.</p>
+    <p style="font-size:0.85rem; color:var(--primary-dark); margin-bottom:15px;"><b>Once paid, click the button below:</b></p>
+    <button class="confirm-btn" onclick="confirmAndFinishOrder()">I Have Paid Successfully ✅</button>
+    <button style="width:100%;padding:10px;border:none;background:transparent;color:#888;margin-top:10px;cursor:pointer;" onclick="closeModal('confirmCheckModal')">Cancel / Retry</button>
   </div>
 </div>
 
@@ -293,7 +295,7 @@ let cart = JSON.parse(localStorage.getItem("krochetCart")) || [];
 let currentUser = null;
 let isRegistering = false;
 let currentTotal = 0;
-let popupInterval = null; // For Image Popup Auto Scroll
+let popupInterval = null;
 
 /* AUTH & SIDEBAR */
 auth.onAuthStateChanged(user => {
@@ -316,7 +318,7 @@ function handleProfileClick(){ currentUser ? (document.getElementById("sidebar")
 function closeSidebar(){ document.getElementById("sidebar").classList.remove("active"); document.getElementById("overlay").classList.remove("active"); }
 function logout(){ auth.signOut(); closeSidebar(); }
 
-/* LOAD DATA - FIXED GRID */
+/* LOAD DATA */
 function loadUserData(uid){
   const list = document.getElementById("orderList");
   const addrBox = document.getElementById("sidebarAddress");
@@ -325,19 +327,16 @@ function loadUserData(uid){
     list.innerHTML = "";
     if(snap.empty){ list.innerHTML = `<p style="text-align:center;opacity:0.5;">No orders yet.</p>`; addrBox.innerText = "No address saved."; return; }
     
-    // Sort manually
     let orders = [];
     snap.forEach(doc => orders.push({id:doc.id, ...doc.data()}));
     orders.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
-    // Address Fix
     if(orders.length > 0 && orders[0].address) {
        addrBox.innerText = orders[0].address;
     } else {
        addrBox.innerText = "No address saved.";
     }
 
-    // Grid Layout for Orders
     orders.forEach(o => {
       const date = o.createdAt ? new Date(o.createdAt.seconds*1000).toLocaleDateString() : 'Just now';
       list.innerHTML += `
@@ -372,7 +371,7 @@ function addToCart(name,price){ cart.push({name,price}); localStorage.setItem("k
 function updateCartUI(){ const items=document.getElementById("cartItems"); items.innerHTML=""; currentTotal=0; cart.forEach((p,i)=>{ currentTotal+=p.price; items.innerHTML+=`<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee"><span>${p.name}</span><span>₹${p.price} <b style="color:red;margin-left:10px;cursor:pointer" onclick="removeItem(${i})">✖</b></span></div>`; }); document.getElementById("cartCount").innerText=cart.length; document.getElementById("totalPrice").innerText=currentTotal; }
 function removeItem(i){ cart.splice(i,1); localStorage.setItem("krochetCart",JSON.stringify(cart)); updateCartUI(); }
 
-/* MODALS & POPUP IMAGE */
+/* MODALS */
 function openCart(){ openModal('cartModal'); updateCartUI(); }
 function openModal(id){ document.getElementById(id).classList.add("active"); }
 function closeModal(id){ document.getElementById(id).classList.remove("active"); }
@@ -387,10 +386,9 @@ function openImg(imgs){
 
   if(imgs.length > 1){
     let i = 0;
-    // Clear any existing interval to prevent speedup
     if(popupInterval) clearInterval(popupInterval);
     
-    // Set new interval 1.7s
+    // Set interval 1.7s
     popupInterval = setInterval(() => {
       i = (i + 1) % imgs.length;
       const slider = document.getElementById("popupSlider");
@@ -402,7 +400,6 @@ function openImg(imgs){
 function closeImg(e){ 
   if(e.target.id==="imgModal") {
     closeModal('imgModal');
-    // Stop the scrolling when closed
     if(popupInterval) clearInterval(popupInterval);
   }
 }
