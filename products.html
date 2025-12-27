@@ -19,7 +19,6 @@
   --bg:#faf7f2; --text:#2f2f2f; --card:#ffffff; --nav:#ffffff;
   --shadow:rgba(0,0,0,0.08); 
   --primary:#d4a373; --primary-dark:#b8895b; 
-  --success:#27ae60; --gray:#e0e0e0;
   --ease-spring: cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 body.dark{
@@ -220,9 +219,10 @@ function updateCartUI(){ const items=document.getElementById("cartItems"); items
 function removeItem(i){ cart.splice(i,1); localStorage.setItem("krochetCart",JSON.stringify(cart)); updateCartUI(); }
 
 /* MODALS */
-function openCart(){ openModal('cartModal'); updateCartUI(); }
 // openModal/closeModal are now in profile.js, but we override locally if needed or rely on global.
 // Since profile.js defines them globally, we can use them directly.
+
+function openCart(){ openModal('cartModal'); updateCartUI(); }
 
 function openImg(imgs){
   const imgBox = document.getElementById("imgBox");
