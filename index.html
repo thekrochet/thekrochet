@@ -19,6 +19,7 @@
   --bg:#faf7f2; --text:#2f2f2f; --card:#ffffff; --nav:#ffffff;
   --shadow:rgba(0,0,0,0.08); 
   --primary:#d4a373; --primary-dark:#b8895b; 
+  --success:#27ae60; --gray:#e0e0e0;
   --ease-spring: cubic-bezier(0.4, 0.0, 0.2, 1);
   --ease: cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -26,6 +27,7 @@
 body.dark{
   --bg:#121212; --text:#f1f1f1; --card:#1e1e1e; --nav:#1a1a1a; 
   --shadow:rgba(0,0,0,0.6);
+  --gray:#333;
 }
 
 *{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
@@ -39,7 +41,7 @@ body{
 }
 
 /* =========================================
-   2. NAVBAR (2-LINE LAYOUT WITH TOGGLE)
+   2. NAVBAR (SYNCED WITH PRODUCTS.HTML)
    ========================================= */
 nav {
   position: sticky; top: 0; z-index: 100;
@@ -96,7 +98,7 @@ nav {
 .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
 /* =========================================
-   3. SIDEBAR & MODALS (From Products Page)
+   3. SIDEBAR & PROFILE (SYNCED)
    ========================================= */
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2999; opacity: 0; pointer-events: none; transition: 0.4s; }
 .overlay.active { opacity: 1; pointer-events: auto; }
@@ -116,21 +118,32 @@ nav {
 .sidebar-body { padding: 20px; flex: 1; overflow-y: auto; }
 .sidebar-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary-dark); font-weight: 700; margin-bottom: 10px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 5px; margin-top: 15px; }
 
+/* VISIBLE ADDRESS BOX */
 .saved-address { 
   font-size: 0.9rem; line-height: 1.5; 
-  background: var(--bg); color: var(--text);    
-  border: 1px solid var(--primary); padding: 15px; border-radius: 12px; 
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  background: #ffffff !important; 
+  color: #000000 !important; 
+  padding: 12px; border-radius: 8px; border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
+/* ORDER CARD WITH TRACKING */
 .order-item { 
   background: var(--bg); padding: 12px; border-radius: 12px; margin-bottom: 12px; 
-  border: 1px solid rgba(0,0,0,0.1); display: grid; grid-template-columns: 1fr auto; gap: 5px;
+  border: 1px solid rgba(0,0,0,0.1); 
+  display: flex; flex-direction: column; gap: 8px;
 }
-.order-id { font-weight: 700; font-size: 0.9rem; color: var(--text); }
-.order-price { font-weight: 700; color: var(--primary-dark); font-size: 0.95rem; text-align: right; }
+.order-top { display: flex; justify-content: space-between; align-items: center; }
+.order-id { font-weight: 700; font-size: 0.95rem; color: var(--text); }
+.order-price { font-weight: 700; color: var(--primary-dark); font-size: 0.95rem; }
 .order-date { font-size: 0.75rem; opacity: 0.6; }
-.order-status { font-size: 0.7rem; background: var(--primary); color: #fff; padding: 3px 8px; border-radius: 10px; width: fit-content; margin-left: auto; }
+
+.track-btn {
+  background: transparent; border: 1px solid var(--primary); color: var(--primary-dark);
+  padding: 6px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; text-align: center;
+  transition: 0.3s; width: 100%; font-weight: 600;
+}
+.track-btn:hover { background: var(--primary); color: #fff; }
 
 .logout-btn { width: 100%; padding: 12px; background: #fee2e2; color: #ef4444; border: none; font-weight: 600; cursor: pointer; border-radius: 10px; margin-bottom: 20px; }
 
@@ -141,6 +154,16 @@ nav {
 .modal.active .modal-box{ transform: scale(1); }
 .modal-box h3{ text-align:center; font-family:'Playfair Display',serif; color:var(--primary-dark); margin-bottom: 20px; font-size: 1.4rem; }
 .modal-box input { width:100%; padding:14px; border-radius:12px; border:1px solid rgba(0,0,0,0.1); background:var(--bg); color:var(--text); outline:none; margin-bottom: 12px; font-family: 'Poppins',sans-serif; }
+
+/* TRACKING TIMELINE */
+.timeline-container { position: relative; padding-left: 20px; margin-top: 20px; }
+.timeline-step { position: relative; padding-bottom: 25px; padding-left: 20px; border-left: 2px solid var(--gray); }
+.timeline-step:last-child { border-left: none; }
+.timeline-dot { position: absolute; left: -9px; top: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--gray); border: 2px solid var(--card); transition: 0.3s; }
+.timeline-step.active .timeline-dot { background: var(--success); border-color: var(--success); box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2); }
+.timeline-step.active { border-left-color: var(--success); }
+.timeline-content h4 { font-size: 0.95rem; margin: 0; color: var(--text); font-weight: 600; }
+.timeline-content p { font-size: 0.75rem; opacity: 0.7; margin: 2px 0 0; }
 
 /* =========================================
    4. HERO & CONTENT (Original Layout)
@@ -221,6 +244,19 @@ body.dark section h2 { color: var(--primary); }
     <button style="width:100%;padding:12px;border:none;border-radius:12px;background:var(--primary);color:#fff;font-weight:600;margin-top:10px;" onclick="performLogin()">Login</button>
     <p style="text-align:center;margin-top:15px;font-size:0.9rem;color:var(--primary);cursor:pointer;text-decoration:underline;" onclick="toggleAuthMode()" id="authSwitch">New here? Create Account</p>
     <button style="width:100%;padding:10px;border:none;border-radius:12px;margin-top:10px;background:#eee;color:#555;" onclick="closeModal('authModal')">Cancel</button>
+  </div>
+</div>
+
+<div id="trackModal" class="modal">
+  <div class="modal-box">
+    <h3>Track Order <span id="trackId" style="font-size:0.8em; opacity:0.6;"></span></h3>
+    <div class="timeline-container">
+      <div class="timeline-step" id="step1"><div class="timeline-dot"></div><div class="timeline-content"><h4>Order Placed</h4><p>We have received your order.</p></div></div>
+      <div class="timeline-step" id="step2"><div class="timeline-dot"></div><div class="timeline-content"><h4>Processing</h4><p>We are preparing your items.</p></div></div>
+      <div class="timeline-step" id="step3"><div class="timeline-dot"></div><div class="timeline-content"><h4>Shipped</h4><p>Your package is on the way.</p></div></div>
+      <div class="timeline-step" id="step4"><div class="timeline-dot"></div><div class="timeline-content"><h4>Delivered</h4><p>Enjoy your Krochet!</p></div></div>
+    </div>
+    <button style="width:100%;padding:10px;border:none;background:#eee;border-radius:10px;margin-top:20px;cursor:pointer;" onclick="closeModal('trackModal')">Close</button>
   </div>
 </div>
 
@@ -331,13 +367,38 @@ function loadUserData(uid){
       const date = o.createdAt ? new Date(o.createdAt.seconds*1000).toLocaleDateString() : 'Just now';
       list.innerHTML += `
         <div class="order-item">
-          <div style="font-weight:700;">Order #${orderNum}</div>
-          <div style="text-align:right; font-weight:700; color:var(--primary-dark);">₹${o.total}</div>
-          <div style="font-size:0.75rem; opacity:0.6;">${date}</div>
-          <div style="font-size:0.7rem; background:var(--primary); color:#fff; padding:2px 6px; border-radius:10px; width:fit-content; margin-left:auto;">${o.status}</div>
+          <div class="order-top">
+            <div class="order-id">Order #${orderNum}</div>
+            <div class="order-price">₹${o.total}</div>
+          </div>
+          <div class="order-date">${date}</div>
+          <button class="track-btn" onclick="openTrackModal('${o.status}', '#${orderNum}')">Track Order</button>
         </div>`;
     });
   });
+}
+
+/* TRACKING LOGIC */
+function openTrackModal(status, orderId){
+  document.getElementById("trackId").innerText = orderId;
+  const steps = ['step1', 'step2', 'step3', 'step4'];
+  steps.forEach(s => document.getElementById(s).classList.remove('active'));
+
+  if(status.includes("Paid") || status.includes("Placed")) {
+    document.getElementById("step1").classList.add("active");
+  } else if(status.includes("Processing")) {
+    document.getElementById("step1").classList.add("active");
+    document.getElementById("step2").classList.add("active");
+  } else if(status.includes("Shipped")) {
+    document.getElementById("step1").classList.add("active");
+    document.getElementById("step2").classList.add("active");
+    document.getElementById("step3").classList.add("active");
+  } else if(status.includes("Delivered")) {
+    steps.forEach(s => document.getElementById(s).classList.add("active"));
+  } else {
+    document.getElementById("step1").classList.add("active");
+  }
+  openModal('trackModal');
 }
 
 /* LOGIN FORM */
