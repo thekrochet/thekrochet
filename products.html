@@ -41,28 +41,69 @@ body{
 }
 
 /* =========================================
-   2. NAVBAR
+   2. NAVBAR (Two-Line Layout)
    ========================================= */
 nav {
   position: sticky; top: 0; z-index: 100;
   background: var(--nav); backdrop-filter: blur(10px);
-  padding: 15px 5%; 
-  display: flex; justify-content: space-between; align-items: center;
+  padding: 15px 20px;
+  display: flex; flex-direction: column; gap: 15px; /* Two Lines Gap */
   box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  transition: 0.3s;
 }
 
-.nav-top h2{ font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--text); }
+/* LINE 1: Logo Center, Login Right */
+.nav-line-1 {
+  position: relative;
+  display: flex;
+  justify-content: center; /* Centers Logo */
+  align-items: center;
+  width: 100%;
+}
 
-.nav-links { display: flex; align-items: center; gap: 20px; }
-.nav-links a { text-decoration: none; color: var(--text); font-weight: 500; opacity: 0.7; transition: 0.3s; }
-.nav-links a.active, .nav-links a:hover { opacity: 1; color: var(--primary); }
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 700;
+}
 
-/* Login Button */
+/* Login Button Positioned Absolutely Right */
 #userStatus { 
+  position: absolute; right: 0;
   font-size: 0.9rem; font-weight: 600; color: var(--primary-dark); cursor: pointer; 
-  border: 1px solid var(--primary); padding: 5px 15px; border-radius: 20px; transition: 0.3s; 
+  border: 1px solid var(--primary); padding: 6px 16px; border-radius: 20px; transition: 0.3s; 
 }
 #userStatus:hover { background: var(--primary); color: #fff; }
+
+/* LINE 2: Links Center */
+.nav-line-2 {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.nav-links a { 
+  text-decoration: none; color: var(--text); font-weight: 500; opacity: 0.7; 
+  transition: 0.3s; position: relative; padding-bottom: 2px;
+}
+.nav-links a.active, .nav-links a:hover { opacity: 1; color: var(--primary); }
+
+/* Link Underline Animation */
+.nav-links a::after {
+  content: ''; position: absolute; width: 0; height: 2px;
+  bottom: 0; left: 0; background: var(--primary); transition: 0.3s;
+}
+.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+/* Mobile Adjustment */
+@media (max-width: 600px) {
+  .nav-logo { font-size: 1.5rem; margin-right: 60px; /* Space for button */ }
+  #userStatus { padding: 4px 12px; font-size: 0.8rem; }
+  .nav-line-2 { gap: 15px; font-size: 0.9rem; }
+}
 
 /* =========================================
    3. SEARCH & PRODUCTS
@@ -159,16 +200,17 @@ nav {
 <body>
 
 <nav data-aos="fade-down">
-  <div class="nav-top">
-    <h2>TheKrochet</h2>
+  <div class="nav-line-1">
+    <a href="index.html" class="nav-logo">TheKrochet</a>
+    <span id="userStatus" onclick="handleAuthClick()">Login</span>
   </div>
-  <div class="nav-links">
+  
+  <div class="nav-line-2 nav-links">
     <a href="index.html">Home</a>
     <a href="products.html" class="active">Products</a>
     <a href="reviews.html">Reviews</a>
     <a href="about.html">About</a>
     <a href="contact.html">Contact</a>
-    <span id="userStatus" onclick="handleAuthClick()">Login</span>
   </div>
 </nav>
 
