@@ -13,20 +13,19 @@
 
 <style>
 /* =========================================
-   1. VARIABLES & RESET
+   PAGE SPECIFIC STYLES
+   (Global Profile Styles are now in brand.css)
    ========================================= */
 :root{
   --bg:#faf7f2; --text:#2f2f2f; --card:#ffffff; --nav:#ffffff;
   --shadow:rgba(0,0,0,0.08); 
   --primary:#d4a373; --primary-dark:#b8895b; 
-  --success:#27ae60; --gray:#e0e0e0;
-  --ease-spring: cubic-bezier(0.4, 0.0, 0.2, 1);
   --ease: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 body.dark{
   --bg:#121212; --text:#f1f1f1; --card:#1e1e1e; --nav:#1a1a1a; 
-  --shadow:rgba(0,0,0,0.6); --gray:#333;
+  --shadow:rgba(0,0,0,0.6);
 }
 
 *{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
@@ -39,9 +38,7 @@ body{
   overflow-x: hidden;
 }
 
-/* =========================================
-   2. NAVBAR (SYNCED)
-   ========================================= */
+/* NAVBAR (Synced) */
 nav {
   position: sticky; top: 0; z-index: 100;
   background: var(--nav); backdrop-filter: blur(10px);
@@ -50,7 +47,6 @@ nav {
   transition: 0.3s;
 }
 
-/* Line 1: Logo + Profile */
 .nav-line-1 { 
   position: relative; width: 100%; display: flex; 
   justify-content: center; align-items: center; padding: 0 15px; 
@@ -71,7 +67,6 @@ nav {
 }
 #userBtn:hover { background: var(--primary); color: #fff; }
 
-/* Line 2: Links */
 .nav-line-2 { display: flex; justify-content: center; gap: 20px; }
 .nav-links a { 
   text-decoration: none; color: var(--text); font-weight: 500; 
@@ -85,77 +80,7 @@ nav {
 }
 .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
-/* =========================================
-   3. SIDEBAR & PROFILE (SYNCED)
-   ========================================= */
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2999; opacity: 0; pointer-events: none; transition: 0.4s; }
-.overlay.active { opacity: 1; pointer-events: auto; }
-
-.sidebar {
-  position: fixed; top: 0; right: -320px; width: 320px; height: 100%;
-  background: var(--card); z-index: 3000; box-shadow: -10px 0 30px rgba(0,0,0,0.2);
-  transition: right 0.4s var(--ease-spring); display: flex; flex-direction: column;
-}
-.sidebar.active { right: 0; }
-
-.sidebar-header { padding: 30px 20px; background: var(--primary); color: #fff; display: flex; align-items: center; gap: 15px; }
-.user-avatar { width: 50px; height: 50px; background: #fff; border-radius: 50%; color: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.4rem; }
-.user-info h4 { font-size: 1rem; margin-bottom: 2px; }
-.user-info p { font-size: 0.75rem; opacity: 0.9; }
-
-.sidebar-body { padding: 20px; flex: 1; overflow-y: auto; }
-.sidebar-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary-dark); font-weight: 700; margin-bottom: 10px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 5px; margin-top: 15px; }
-
-/* VISIBLE ADDRESS BOX */
-.saved-address { 
-  font-size: 0.9rem; line-height: 1.5; 
-  background: #ffffff !important; 
-  color: #000000 !important; 
-  padding: 12px; border-radius: 8px; border: 1px solid #ddd;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-/* ORDER CARD */
-.order-item { 
-  background: var(--bg); padding: 12px; border-radius: 12px; margin-bottom: 12px; 
-  border: 1px solid rgba(0,0,0,0.1); 
-  display: flex; flex-direction: column; gap: 8px;
-}
-.order-top { display: flex; justify-content: space-between; align-items: center; }
-.order-id { font-weight: 700; font-size: 0.95rem; color: var(--text); }
-.order-price { font-weight: 700; color: var(--primary-dark); font-size: 0.95rem; }
-.order-date { font-size: 0.75rem; opacity: 0.6; }
-
-.track-btn {
-  background: transparent; border: 1px solid var(--primary); color: var(--primary-dark);
-  padding: 6px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; text-align: center;
-  transition: 0.3s; width: 100%; font-weight: 600;
-}
-.track-btn:hover { background: var(--primary); color: #fff; }
-
-.logout-btn { width: 100%; padding: 12px; background: #fee2e2; color: #ef4444; border: none; font-weight: 600; cursor: pointer; border-radius: 10px; margin-bottom: 20px; }
-
-/* MODALS */
-.modal{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:4000; background:rgba(0,0,0,0.6); backdrop-filter: blur(5px); opacity: 0; visibility: hidden; pointer-events: none; transition: 0.3s; }
-.modal.active{ opacity: 1; visibility: visible; pointer-events: auto; }
-.modal-box{ background:var(--card); width:90%; max-width:400px; padding:25px; border-radius:25px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); transform: scale(0.95); transition: 0.3s; }
-.modal.active .modal-box{ transform: scale(1); }
-.modal-box h3{ text-align:center; font-family:'Playfair Display',serif; color:var(--primary-dark); margin-bottom: 20px; font-size: 1.4rem; }
-.modal-box input { width:100%; padding:14px; border-radius:12px; border:1px solid rgba(0,0,0,0.1); background:var(--bg); color:var(--text); outline:none; margin-bottom: 12px; font-family: 'Poppins',sans-serif; }
-
-/* TRACKING TIMELINE */
-.timeline-container { position: relative; padding-left: 20px; margin-top: 20px; }
-.timeline-step { position: relative; padding-bottom: 25px; padding-left: 20px; border-left: 2px solid var(--gray); }
-.timeline-step:last-child { border-left: none; }
-.timeline-dot { position: absolute; left: -9px; top: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--gray); border: 2px solid var(--card); transition: 0.3s; }
-.timeline-step.active .timeline-dot { background: var(--success); border-color: var(--success); box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2); }
-.timeline-step.active { border-left-color: var(--success); }
-.timeline-content h4 { font-size: 0.95rem; margin: 0; color: var(--text); font-weight: 600; }
-.timeline-content p { font-size: 0.75rem; opacity: 0.7; margin: 2px 0 0; }
-
-/* =========================================
-   4. CONTACT CONTENT
-   ========================================= */
+/* HERO & CONTENT */
 header{
   text-align:center; padding: 80px 20px 40px; 
   background: linear-gradient(135deg, #fefae0 0%, #faf7f2 100%);
@@ -194,9 +119,7 @@ section{ padding: 40px 20px 60px; max-width: 1000px; margin: auto; text-align: c
 
 <nav data-aos="fade-down">
   <div class="nav-line-1">
-    <div class="logo-group">
-      <a href="index.html" class="nav-logo">TheKrochet</a>
-    </div>
+    <a href="index.html" class="nav-logo">TheKrochet</a>
     <div id="userBtn" onclick="handleProfileClick()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
     </div>
@@ -209,45 +132,6 @@ section{ padding: 40px 20px 60px; max-width: 1000px; margin: auto; text-align: c
     <a href="contact.html" class="active">Contact</a>
   </div>
 </nav>
-
-<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-<div class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <div class="user-avatar" id="sidebarAvatar">?</div>
-    <div class="user-info"><h4 id="sidebarName">Guest</h4><p id="sidebarEmail">Please login</p></div>
-  </div>
-  <div class="sidebar-body">
-    <div class="sidebar-label">Saved Address</div>
-    <div id="sidebarAddress" class="saved-address">No address saved.</div>
-    <div class="sidebar-label">My Orders</div>
-    <div id="orderList"><p style="font-size:0.8rem; opacity:0.6;">Login to see orders</p></div>
-  </div>
-  <div class="sidebar-footer"><button class="logout-btn" onclick="logout()">Logout</button></div>
-</div>
-
-<div id="authModal" class="modal">
-  <div class="modal-box">
-    <h3 id="authTitle">Login Required</h3>
-    <input id="authEmail" type="email" placeholder="Email Address">
-    <input id="authPass" type="password" placeholder="Password">
-    <button style="width:100%;padding:12px;border:none;border-radius:12px;background:var(--primary);color:#fff;font-weight:600;margin-top:10px;" onclick="performLogin()">Login</button>
-    <p style="text-align:center;margin-top:15px;font-size:0.9rem;color:var(--primary);cursor:pointer;text-decoration:underline;" onclick="toggleAuthMode()" id="authSwitch">New here? Create Account</p>
-    <button style="width:100%;padding:10px;border:none;border-radius:12px;margin-top:10px;background:#eee;color:#555;" onclick="closeModal('authModal')">Cancel</button>
-  </div>
-</div>
-
-<div id="trackModal" class="modal">
-  <div class="modal-box">
-    <h3>Track Order <span id="trackId" style="font-size:0.8em; opacity:0.6;"></span></h3>
-    <div class="timeline-container">
-      <div class="timeline-step" id="step1"><div class="timeline-dot"></div><div class="timeline-content"><h4>Order Placed</h4><p>We have received your order.</p></div></div>
-      <div class="timeline-step" id="step2"><div class="timeline-dot"></div><div class="timeline-content"><h4>Processing</h4><p>We are preparing your items.</p></div></div>
-      <div class="timeline-step" id="step3"><div class="timeline-dot"></div><div class="timeline-content"><h4>Shipped</h4><p>Your package is on the way.</p></div></div>
-      <div class="timeline-step" id="step4"><div class="timeline-dot"></div><div class="timeline-content"><h4>Delivered</h4><p>Enjoy your Krochet!</p></div></div>
-    </div>
-    <button style="width:100%;padding:10px;border:none;background:#eee;border-radius:10px;margin-top:20px;cursor:pointer;" onclick="closeModal('trackModal')">Close</button>
-  </div>
-</div>
 
 <header>
   <h1 data-aos="zoom-in" data-aos-duration="1000">Contact Us</h1>
@@ -290,102 +174,12 @@ AOS.init({ duration: 900, once: true, offset: 50 });
   }
 })();
 
-/* FIREBASE CONFIG */
+/* FIREBASE INIT (Required before profile.js) */
 firebase.initializeApp({
   apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
   authDomain:"thekrochet-b3ca2.firebaseapp.com",
   projectId:"thekrochet-b3ca2"
 });
-const db = firebase.firestore();
-const auth = firebase.auth();
-let currentUser = null;
-let isRegistering = false;
-
-/* AUTH & SIDEBAR LOGIC */
-auth.onAuthStateChanged(user => {
-  currentUser = user;
-  if(user) {
-    document.getElementById("sidebarName").innerText = user.displayName || "Customer";
-    document.getElementById("sidebarEmail").innerText = user.email;
-    document.getElementById("sidebarAvatar").innerText = user.email[0].toUpperCase();
-    loadUserData(user.uid); 
-    if(document.getElementById("authModal").classList.contains("active")) closeModal('authModal');
-  } else {
-    document.getElementById("sidebarName").innerText = "Guest";
-    document.getElementById("sidebarEmail").innerText = "Please login";
-    document.getElementById("sidebarAvatar").innerText = "?";
-    document.getElementById("sidebarAddress").innerText = "Login to see address";
-    document.getElementById("orderList").innerHTML = `<p style="opacity:0.6;text-align:center;margin-top:10px;">Login to see orders</p>`;
-  }
-});
-
-function handleProfileClick(){ currentUser ? (document.getElementById("sidebar").classList.add("active"), document.getElementById("overlay").classList.add("active")) : openModal('authModal'); }
-function closeSidebar(){ document.getElementById("sidebar").classList.remove("active"); document.getElementById("overlay").classList.remove("active"); }
-function logout(){ auth.signOut(); closeSidebar(); }
-function openModal(id){ document.getElementById(id).classList.add("active"); }
-function closeModal(id){ document.getElementById(id).classList.remove("active"); }
-
-/* LOAD DATA */
-function loadUserData(uid){
-  const list = document.getElementById("orderList");
-  const addrBox = document.getElementById("sidebarAddress");
-  
-  db.collection("orders").where("userId", "==", uid).onSnapshot(snap => {
-    list.innerHTML = "";
-    if(snap.empty){ list.innerHTML = `<p style="text-align:center;opacity:0.5;">No orders yet.</p>`; addrBox.innerText = "No address saved."; return; }
-    
-    let orders = [];
-    snap.forEach(doc => orders.push({id:doc.id, ...doc.data()}));
-    orders.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-
-    if(orders.length > 0 && orders[0].address) {
-       addrBox.innerText = orders[0].address;
-    } else {
-       addrBox.innerText = "No address saved.";
-    }
-
-    orders.forEach((o, index) => {
-      const orderNum = orders.length - index;
-      const date = o.createdAt ? new Date(o.createdAt.seconds*1000).toLocaleDateString() : 'Just now';
-      list.innerHTML += `
-        <div class="order-item">
-          <div class="order-top">
-            <div class="order-id">Order #${orderNum}</div>
-            <div class="order-price">₹${o.total}</div>
-          </div>
-          <div class="order-date">${date}</div>
-          <button class="track-btn" onclick="openTrackModal('${o.status}', '#${orderNum}')">Track Order</button>
-        </div>`;
-    });
-  });
-}
-
-/* TRACKING LOGIC */
-function openTrackModal(status, orderId){
-  document.getElementById("trackId").innerText = orderId;
-  const steps = ['step1', 'step2', 'step3', 'step4'];
-  steps.forEach(s => document.getElementById(s).classList.remove('active'));
-
-  if(status.includes("Paid") || status.includes("Placed")) {
-    document.getElementById("step1").classList.add("active");
-  } else if(status.includes("Processing")) {
-    document.getElementById("step1").classList.add("active");
-    document.getElementById("step2").classList.add("active");
-  } else if(status.includes("Shipped")) {
-    document.getElementById("step1").classList.add("active");
-    document.getElementById("step2").classList.add("active");
-    document.getElementById("step3").classList.add("active");
-  } else if(status.includes("Delivered")) {
-    steps.forEach(s => document.getElementById(s).classList.add("active"));
-  } else {
-    document.getElementById("step1").classList.add("active");
-  }
-  openModal('trackModal');
-}
-
-/* LOGIN FORM */
-function toggleAuthMode(){ isRegistering = !isRegistering; const t=document.getElementById("authTitle"), s=document.getElementById("authSwitch"); if(isRegistering){ t.innerText="Create Account"; s.innerText="Have account? Login"; } else { t.innerText="Login Required"; s.innerText="Create Account"; } }
-function performLogin(){ const e=document.getElementById("authEmail").value, p=document.getElementById("authPass").value; if(!e||!p) return alert("Enter details"); if(isRegistering){ auth.createUserWithEmailAndPassword(e,p).then(()=>{alert("Created!");closeModal('authModal')}).catch(e=>alert(e.message)); } else { auth.signInWithEmailAndPassword(e,p).then(()=>closeModal('authModal')).catch(e=>alert(e.message)); } }
 
 /* DM LOGIC */
 function customOrder(){
@@ -398,7 +192,8 @@ function collabOrder(){
 }
 </script>
 
+<script src="profile.js"></script>
+
 </body>
 </html>
-
 
