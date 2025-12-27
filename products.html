@@ -309,12 +309,12 @@ let currentUser = null;
 let isRegistering = false;
 let currentTotal = 0;
 
-/* AUTH */
+/* AUTH & PROFILE CONNECTION */
 auth.onAuthStateChanged(user => {
   currentUser = user;
   const statusBtn = document.getElementById("userStatus");
   if(user) {
-    statusBtn.innerText = "Logout";
+    statusBtn.innerText = "My Profile"; // ✅ Show Profile Button
     if(document.getElementById("authModal").classList.contains("active")){
       closeModal('authModal'); openModal('orderModal');
     }
@@ -324,8 +324,11 @@ auth.onAuthStateChanged(user => {
 });
 
 function handleAuthClick(){
-  if(currentUser) auth.signOut().then(() => alert("Logged out"));
-  else openModal('authModal');
+  if(currentUser) {
+    window.location.href = "profile.html"; // ✅ Go to My Orders Page
+  } else {
+    openModal('authModal');
+  }
 }
 
 function toggleAuthMode(){
