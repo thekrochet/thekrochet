@@ -168,3 +168,22 @@ body.dark .pay-app-btn:last-child .pay-app-icon {
 .modal-box p { opacity: 0.8; margin-bottom: 25px; line-height: 1.5; }
 
 
+/* =========================
+   QR CODE STYLES
+========================= */
+.qr-container {
+  background: #fff; /* Always white for scanning contrast */
+  padding: 15px; border-radius: 12px;
+  display: inline-block; margin: 10px auto 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.qr-img {
+  width: 180px; height: 180px; object-fit: contain;
+  display: block;
+}
+.qr-text {
+  font-size: 0.85rem; color: var(--text); opacity: 0.8;
+  margin-top: 10px; font-weight: 500;
+}
+
+
