@@ -14,40 +14,39 @@ const profileHTML = `
     <div class="sidebar-label">Saved Address</div>
     <div id="sidebarAddress" class="saved-address">No address saved.</div>
     <div class="sidebar-label">My Orders</div>
-    <div id="orderList"><p style="font-size:0.8rem; opacity:0.6;">Login to see orders</p></div>
+    <div id="orderList"><p style="font-size:0.85rem; opacity:0.6; text-align:center; padding-top:20px;">Login to see orders</p></div>
   </div>
   <div class="sidebar-footer"><button class="logout-btn" onclick="logout()">Logout</button></div>
 </div>
 
 <div id="authModal" class="modal">
   <div class="modal-box">
-    <h3 id="authTitle">Login Required</h3>
+    <h3 id="authTitle">Welcome Back</h3>
     <input id="authEmail" type="email" placeholder="Email Address">
     <input id="authPass" type="password" placeholder="Password">
-    <button style="width:100%;padding:12px;border:none;border-radius:12px;background:var(--primary);color:#fff;font-weight:600;margin-top:10px;cursor:pointer;" onclick="performLogin()">Login</button>
+    <button style="width:100%;padding:14px;border:none;border-radius:12px;background:#d4a373;color:#fff;font-weight:600;margin-top:10px;cursor:pointer;font-size:1rem;" onclick="performLogin()">Login</button>
     
     <div id="authError" class="error-msg"></div>
 
-    <p style="text-align:center;margin-top:15px;font-size:0.9rem;color:var(--primary);cursor:pointer;text-decoration:underline;" onclick="toggleAuthMode()" id="authSwitch">New here? Create Account</p>
-    <button style="width:100%;padding:10px;border:none;border-radius:12px;margin-top:10px;background:#eee;color:#555;cursor:pointer;" onclick="closeModal('authModal')">Cancel</button>
+    <p style="text-align:center;margin-top:20px;font-size:0.9rem;color:#d4a373;cursor:pointer;text-decoration:underline;" onclick="toggleAuthMode()" id="authSwitch">New here? Create Account</p>
+    <button style="width:100%;padding:12px;border:none;border-radius:12px;margin-top:10px;background:transparent;color:#888;cursor:pointer;" onclick="closeModal('authModal')">Cancel</button>
   </div>
 </div>
 
 <div id="trackModal" class="modal">
   <div class="modal-box">
-    <h3>Track Order <span id="trackId" style="font-size:0.8em; opacity:0.6;"></span></h3>
+    <h3>Track Order <span id="trackId" style="font-size:0.7em; opacity:0.6; display:block; margin-top:5px;"></span></h3>
     <div class="timeline-container">
       <div class="timeline-step" id="step1"><div class="timeline-dot"></div><div class="timeline-content"><h4>Order Placed</h4><p>We have received your order.</p></div></div>
       <div class="timeline-step" id="step2"><div class="timeline-dot"></div><div class="timeline-content"><h4>Processing</h4><p>We are preparing your items.</p></div></div>
       <div class="timeline-step" id="step3"><div class="timeline-dot"></div><div class="timeline-content"><h4>Shipped</h4><p>Your package is on the way.</p></div></div>
       <div class="timeline-step" id="step4"><div class="timeline-dot"></div><div class="timeline-content"><h4>Delivered</h4><p>Enjoy your Krochet!</p></div></div>
     </div>
-    <button style="width:100%;padding:10px;border:none;background:#eee;border-radius:10px;margin-top:20px;cursor:pointer;" onclick="closeModal('trackModal')">Close</button>
+    <button style="width:100%;padding:12px;border:none;background:#eee;border-radius:10px;margin-top:25px;cursor:pointer;font-weight:600;" onclick="closeModal('trackModal')">Close</button>
   </div>
 </div>
 `;
 
-// Insert HTML at the end of body
 document.body.insertAdjacentHTML('beforeend', profileHTML);
 
 // 2. GLOBAL VARIABLES
@@ -73,7 +72,7 @@ authRef.onAuthStateChanged(user => {
         document.getElementById("sidebarEmail").innerText = "Please login";
         document.getElementById("sidebarAvatar").innerText = "?";
         document.getElementById("sidebarAddress").innerText = "Login to see address";
-        document.getElementById("orderList").innerHTML = `<p style="opacity:0.6;text-align:center;margin-top:10px;">Login to see orders</p>`;
+        document.getElementById("orderList").innerHTML = `<p style="font-size:0.85rem; opacity:0.6; text-align:center; padding-top:20px;">Login to see orders</p>`;
     }
   }
 });
@@ -105,7 +104,7 @@ function loadUserData(uid){
   
   dbRef.collection("orders").where("userId", "==", uid).onSnapshot(snap => {
     list.innerHTML = "";
-    if(snap.empty){ list.innerHTML = `<p style="text-align:center;opacity:0.5;">No orders yet.</p>`; addrBox.innerText = "No address saved."; return; }
+    if(snap.empty){ list.innerHTML = `<p style="text-align:center;opacity:0.5; padding-top:20px;">No orders yet.</p>`; addrBox.innerText = "No address saved."; return; }
     
     let orders = [];
     snap.forEach(doc => orders.push({id:doc.id, ...doc.data()}));
@@ -118,8 +117,7 @@ function loadUserData(uid){
       const orderNum = orders.length - index;
       const date = o.createdAt ? new Date(o.createdAt.seconds*1000).toLocaleDateString() : 'Just now';
       
-      // Status Color Logic
-      let statusColor = "var(--primary)";
+      let statusColor = "#d4a373"; // Primary
       if(o.status.includes("Pending")) statusColor = "#e67e22";
       if(o.status.includes("Delivered")) statusColor = "#27ae60";
 
@@ -130,9 +128,9 @@ function loadUserData(uid){
             <div class="order-price">₹${o.total}</div>
           </div>
           <div class="order-date">${date}</div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px;">
-             <span style="font-size:0.75rem; color:${statusColor}; font-weight:600;">${o.status}</span>
-             <button style="background:transparent; border:1px solid #ccc; border-radius:4px; padding:2px 8px; font-size:0.7rem; cursor:pointer;" onclick="openTrackModal('${o.status}', '#${orderNum}')">Track</button>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; border-top:1px solid rgba(255,255,255,0.1); padding-top:8px;">
+             <span style="font-size:0.8rem; color:${statusColor}; font-weight:600;">${o.status}</span>
+             <button class="track-btn" onclick="openTrackModal('${o.status}', '#${orderNum}')">Track Order</button>
           </div>
         </div>`;
     });
@@ -142,10 +140,10 @@ function loadUserData(uid){
 // 6. LOGIN LOGIC
 function toggleAuthMode(){ 
   isRegistering = !isRegistering; 
-  const t=document.getElementById("authTitle"), s=document.getElementById("authSwitch"); 
+  const t=document.getElementById("authTitle"), s=document.getElementById("authSwitch"), b=document.querySelector("#authModal button"); 
   document.getElementById("authError").style.display="none"; 
-  if(isRegistering){ t.innerText="Create Account"; s.innerText="Have account? Login"; } 
-  else { t.innerText="Login Required"; s.innerText="Create Account"; } 
+  if(isRegistering){ t.innerText="Create Account"; s.innerText="Have account? Login"; b.innerText="Register"; } 
+  else { t.innerText="Welcome Back"; s.innerText="New here? Create Account"; b.innerText="Login"; } 
 }
 
 function performLogin(){
