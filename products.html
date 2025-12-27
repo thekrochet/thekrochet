@@ -78,31 +78,21 @@ nav {
 .sidebar-body { padding: 20px; flex: 1; overflow-y: auto; }
 .sidebar-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary-dark); font-weight: 700; margin-bottom: 10px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 5px; margin-top: 15px; }
 
-/* ✅ FIXED: ADDRESS BOX VISIBILITY */
 .saved-address { 
   font-size: 0.9rem; line-height: 1.5; 
-  background: var(--bg); /* Adapts to Dark Mode */
-  color: var(--text);    /* Adapts to Dark Mode */
-  border: 1px solid var(--primary); /* Gold Border */
-  padding: 15px; border-radius: 12px; 
+  background: var(--bg); color: var(--text);
+  border: 1px solid var(--primary); padding: 15px; border-radius: 12px; 
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-/* ✅ FIXED: ORDER GRID */
 .order-item { 
   background: var(--bg); padding: 12px; border-radius: 12px; margin-bottom: 12px; 
-  border: 1px solid rgba(0,0,0,0.1); 
-  display: grid; 
-  grid-template-columns: 1fr auto; 
-  gap: 5px;
+  border: 1px solid rgba(0,0,0,0.1); display: grid; grid-template-columns: 1fr auto; gap: 5px;
 }
 .order-id { font-weight: 700; font-size: 0.9rem; color: var(--text); }
 .order-price { font-weight: 700; color: var(--primary-dark); font-size: 0.95rem; text-align: right; }
 .order-date { font-size: 0.75rem; opacity: 0.6; }
-.order-status { 
-  font-size: 0.7rem; background: var(--primary); color: #fff; 
-  padding: 3px 8px; border-radius: 10px; width: fit-content; margin-left: auto;
-}
+.order-status { font-size: 0.7rem; background: var(--primary); color: #fff; padding: 3px 8px; border-radius: 10px; width: fit-content; margin-left: auto; }
 
 .logout-btn { width: 100%; padding: 12px; background: #fee2e2; color: #ef4444; border: none; font-weight: 600; cursor: pointer; border-radius: 10px; margin-bottom: 20px; }
 
@@ -152,19 +142,9 @@ nav {
 
 .confirm-btn { width:100%; padding:14px; border:none; border-radius:12px; background:#27ae60; color:#fff; font-weight:bold; cursor:pointer; margin-top:15px; font-size:1rem; }
 
-/* FIX: Image Popup Styles */
-#imgModal .modal-box { 
-  max-width: 600px; width: 95%; 
-  background: transparent; box-shadow: none; padding: 0; 
-  overflow: hidden; 
-}
+#imgModal .modal-box { max-width: 600px; width: 95%; background: transparent; box-shadow: none; padding: 0; overflow: hidden; }
 .popup-slider { display: flex; width: 100%; transition: transform 0.5s ease; }
-.popup-slider img { 
-  min-width: 100%; width: 100%; 
-  border-radius: 15px; 
-  object-fit: contain; 
-  max-height: 80vh;
-}
+.popup-slider img { min-width: 100%; width: 100%; border-radius: 15px; object-fit: contain; max-height: 80vh; }
 </style>
 </head>
 
@@ -318,7 +298,7 @@ function handleProfileClick(){ currentUser ? (document.getElementById("sidebar")
 function closeSidebar(){ document.getElementById("sidebar").classList.remove("active"); document.getElementById("overlay").classList.remove("active"); }
 function logout(){ auth.signOut(); closeSidebar(); }
 
-/* LOAD DATA */
+/* 🚀 LOAD DATA + AUTO-FILL */
 function loadUserData(uid){
   const list = document.getElementById("orderList");
   const addrBox = document.getElementById("sidebarAddress");
@@ -331,10 +311,15 @@ function loadUserData(uid){
     snap.forEach(doc => orders.push({id:doc.id, ...doc.data()}));
     orders.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
-    if(orders.length > 0 && orders[0].address) {
-       addrBox.innerText = orders[0].address;
-    } else {
-       addrBox.innerText = "No address saved.";
+    // Auto-fill Logic
+    if(orders.length > 0) {
+       const last = orders[0];
+       if(last.address) {
+           addrBox.innerText = last.address;
+           document.getElementById("custAddress").value = last.address; // Auto-fill Address
+       }
+       if(last.customerName) document.getElementById("custName").value = last.customerName; // Auto-fill Name
+       if(last.instagram) document.getElementById("custInsta").value = last.instagram; // Auto-fill Insta
     }
 
     orders.forEach(o => {
@@ -376,19 +361,14 @@ function openCart(){ openModal('cartModal'); updateCartUI(); }
 function openModal(id){ document.getElementById(id).classList.add("active"); }
 function closeModal(id){ document.getElementById(id).classList.remove("active"); }
 
-/* 🚀 FIXED: POPUP AUTO SCROLL (1.7s) */
 function openImg(imgs){
   const imgBox = document.getElementById("imgBox");
   const slidesHtml = imgs.map(src => `<img src="${src}">`).join('');
-  
   imgBox.innerHTML = `<div class="popup-slider" id="popupSlider">${slidesHtml}</div>`;
   openModal('imgModal');
-
   if(imgs.length > 1){
     let i = 0;
     if(popupInterval) clearInterval(popupInterval);
-    
-    // Set interval 1.7s
     popupInterval = setInterval(() => {
       i = (i + 1) % imgs.length;
       const slider = document.getElementById("popupSlider");
@@ -396,7 +376,6 @@ function openImg(imgs){
     }, 1700);
   }
 }
-
 function closeImg(e){ 
   if(e.target.id==="imgModal") {
     closeModal('imgModal');
