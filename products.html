@@ -12,81 +12,41 @@
 <link rel="stylesheet" href="responsive.css">
 
 <style>
-/* =========================================
-   PAGE SPECIFIC STYLES
-   ========================================= */
-:root{
-  --bg:#faf7f2; --text:#2f2f2f; --card:#ffffff; --nav:#ffffff;
-  --shadow:rgba(0,0,0,0.08); 
-  --primary:#d4a373; --primary-dark:#b8895b; 
-  --success:#27ae60; --gray:#e0e0e0;
-  --ease-spring: cubic-bezier(0.4, 0.0, 0.2, 1);
-}
-body.dark{
-  --bg:#121212; --text:#f1f1f1; --card:#1e1e1e; --nav:#1a1a1a; --shadow:rgba(0,0,0,0.6);
-  --gray:#333;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html { scroll-behavior: smooth; }
-body{
-  font-family:'Poppins',sans-serif; background:var(--bg); color:var(--text);
-  min-height:100vh; display:flex; flex-direction:column; overflow-x: hidden;
-  transition: background 0.5s var(--ease-spring);
-}
+/* PAGE SPECIFIC STYLES */
+:root{ --bg:#faf7f2; --text:#2f2f2f; --card:#ffffff; --nav:#ffffff; --shadow:rgba(0,0,0,0.08); --primary:#d4a373; --primary-dark:#b8895b; --success:#27ae60; --gray:#e0e0e0; --ease-spring: cubic-bezier(0.4, 0.0, 0.2, 1); }
+body.dark{ --bg:#121212; --text:#f1f1f1; --card:#1e1e1e; --nav:#1a1a1a; --shadow:rgba(0,0,0,0.6); --gray:#333; }
+*{margin:0;padding:0;box-sizing:border-box} html { scroll-behavior: smooth; }
+body{ font-family:'Poppins',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; display:flex; flex-direction:column; overflow-x: hidden; transition: background 0.5s var(--ease-spring); }
 
-/* NAVBAR (Synced) */
-nav {
-  position: sticky; top: 0; z-index: 100;
-  background: var(--nav); backdrop-filter: blur(10px);
-  padding: 10px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  display: flex; flex-direction: column; gap: 8px;
-}
+nav { position: sticky; top: 0; z-index: 100; background: var(--nav); backdrop-filter: blur(10px); padding: 10px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 8px; }
 .nav-line-1 { position: relative; width: 100%; display: flex; justify-content: center; align-items: center; padding: 0 15px; }
 .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--text); text-decoration: none; font-weight: 700; }
-
-/* Profile Button (Triggers profile.js) */
-#userBtn {
-  position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
-  width: 38px; height: 38px; border-radius: 50%;
-  border: 1px solid var(--primary); color: var(--primary);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: 0.3s;
-}
+#userBtn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--primary); color: var(--primary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
 #userBtn:hover { background: var(--primary); color: #fff; }
-
 .nav-line-2 { display: flex; justify-content: center; gap: 20px; }
 .nav-links a { text-decoration: none; color: var(--text); font-weight: 500; font-size: 0.9rem; opacity: 0.7; transition: 0.3s; position: relative; padding-bottom: 2px; }
 .nav-links a.active, .nav-links a:hover { opacity: 1; color: var(--primary); }
 .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background: var(--primary); transition: 0.3s; }
 .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
-/* PRODUCTS & CARDS */
 .search-box{ max-width:460px; margin:20px auto 0; padding:0 16px; }
 .search-box input{ width:100%; padding:14px 24px; border-radius:50px; border:2px solid transparent; background:var(--card); color:var(--text); box-shadow: 0 4px 15px var(--shadow); outline: none; transition: 0.3s; }
 .search-box input:focus{ border-color: var(--primary); }
-
 .products-section{ max-width:1200px; margin:auto; padding:20px 20px 80px; }
 #products{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:25px; }
-
 .card{ background:var(--card); padding:15px; border-radius:24px; box-shadow:0 10px 20px var(--shadow); display:flex; flex-direction:column; overflow: hidden; animation: fadeUp 0.6s ease forwards; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
-
 .img-window { width: 100%; height: 230px; border-radius: 20px; overflow: hidden; cursor: pointer; position: relative; margin-bottom: 15px; }
 .img-slider { display: flex; height: 100%; width: 100%; transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1); }
 .img-slider img { min-width: 100%; width: 100%; height: 100%; object-fit: cover; }
-
 .card h3{ margin-top:5px; font-size:1.1rem; font-weight: 600; color: var(--text); }
 .price{ color:var(--primary-dark); font-weight:700; font-size: 1.1rem; margin-bottom: 8px; }
 .card p{ font-size: 0.85rem; opacity: 0.75; margin-bottom: 15px; line-height: 1.4; }
 .card button{ margin-top:auto; padding:12px; border:none; border-radius:18px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color:#fff; font-weight:600; cursor:pointer; width: 100%; box-shadow: 0 4px 15px rgba(212, 163, 115, 0.4); }
 
-/* CART & MODALS SPECIFIC TO PRODUCTS */
 .cart-float{ position:fixed; right:20px; bottom:30px; background:var(--primary); color:#fff; padding:16px 26px; border-radius:50px; cursor:pointer; z-index:999; font-weight: 600; box-shadow:0 10px 30px rgba(0,0,0,.3); animation: floaty 4s ease-in-out infinite; }
 @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-
 .pay-apps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-.confirm-btn { width:100%; padding:14px; border:none; border-radius:12px; background:#27ae60; color:#fff; font-weight:bold; cursor:pointer; margin-top:15px; font-size:1rem; }
-
 #imgModal .modal-box { max-width: 600px; width: 95%; background: transparent; box-shadow: none; padding: 0; overflow: hidden; }
 .popup-slider { display: flex; width: 100%; transition: transform 0.5s ease; }
 .popup-slider img { min-width: 100%; width: 100%; border-radius: 15px; object-fit: contain; max-height: 80vh; }
@@ -157,12 +117,25 @@ nav {
         <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/phonepe-logo-icon.png" alt="PhonePe" class="pay-app-img">
         <span class="pay-app-name">PhonePe</span>
       </div>
-      <div class="pay-app-btn" onclick="launchUPI('upi')">
-        <span class="pay-app-icon" style="color:#f1c40f">⚡</span>
-        <span class="pay-app-name">Other UPI</span>
+      <div class="pay-app-btn" onclick="showQR()">
+        <img src="https://cdn-icons-png.flaticon.com/512/3502/3502601.png" alt="QR Code" class="pay-app-img" style="filter:none;">
+        <span class="pay-app-name">Scan QR</span>
       </div>
     </div>
     <button style="width:100%;padding:12px;border:none;background:transparent;color:var(--text);opacity:0.6;margin-top:15px;cursor:pointer;font-weight:500;" onclick="closeModal('paymentAppModal')">Cancel</button>
+  </div>
+</div>
+
+<div id="qrModal" class="modal">
+  <div class="modal-box" style="text-align:center;">
+    <h3>Scan to Pay</h3>
+    <p style="margin-bottom:10px;">Scan with any UPI App</p>
+    <div class="qr-container">
+      <img id="dynamicQR" class="qr-img" src="" alt="Loading QR...">
+    </div>
+    <div style="font-weight:bold; font-size:1.2rem; color:var(--primary-dark); margin-bottom:20px;">₹<span id="qrAmount">0</span></div>
+    <button class="confirm-btn" onclick="confirmAndFinishOrder()">I Have Paid Successfully ✅</button>
+    <button style="width:100%;padding:12px;border:none;background:transparent;color:var(--text);opacity:0.6;margin-top:5px;cursor:pointer;" onclick="closeModal('qrModal')">Cancel</button>
   </div>
 </div>
 
@@ -207,9 +180,8 @@ firebase.initializeApp({
   projectId:"thekrochet-b3ca2"
 });
 const db = firebase.firestore();
-
-/* ✅ FIXED: Removed "let currentUser" to stop crashing */
-/* Profile.js handles the user variable globally now */
+let currentUser = null;
+firebase.auth().onAuthStateChanged(user => { currentUser = user; });
 
 let cart = JSON.parse(localStorage.getItem("krochetCart")) || [];
 let currentTotal = 0;
@@ -261,20 +233,19 @@ function closeImg(e){
   }
 }
 
-/* ORDER LOGIC (Updated to use Firebase Auth Directly) */
+/* ORDER LOGIC */
 function checkLoginForOrder(){ 
   closeModal('cartModal'); 
-  const user = firebase.auth().currentUser; // Get directly from Firebase
+  const user = firebase.auth().currentUser;
   
   if(user) {
-      // Try to auto-fill address from the Sidebar if loaded
       const sidebarAddr = document.getElementById("sidebarAddress")?.innerText;
       if(sidebarAddr && !sidebarAddr.includes("No address")) {
           document.getElementById("custAddress").value = sidebarAddr;
       }
       openModal('orderModal');
   } else {
-      openModal('authModal'); // Global modal from profile.js
+      openModal('authModal');
   }
 }
 
@@ -297,8 +268,22 @@ function launchUPI(appType){
   setTimeout(()=>{ openModal('confirmCheckModal'); }, 1000);
 }
 
+// ✅ NEW QR CODE LOGIC
+function showQR() {
+  closeModal('paymentAppModal');
+  const upiUrl = `upi://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`;
+  const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
+  
+  document.getElementById("dynamicQR").src = qrApi;
+  document.getElementById("qrAmount").innerText = currentTotal;
+  openModal('qrModal');
+}
+
+// SUCCESS LOGIC
 function confirmAndFinishOrder(){
   closeModal('confirmCheckModal');
+  closeModal('qrModal'); // Close QR too if open
+  
   const name=document.getElementById("custName").value.trim();
   const insta=document.getElementById("custInsta").value.trim();
   const addr=document.getElementById("custAddress").value.trim();
