@@ -21,7 +21,8 @@ body{ font-family:'Poppins',sans-serif; background:var(--bg); color:var(--text);
 nav { position: sticky; top: 0; z-index: 100; background: var(--nav); backdrop-filter: blur(10px); padding: 10px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 8px; }
 .nav-line-1 { position: relative; width: 100%; display: flex; justify-content: center; align-items: center; padding: 0 15px; }
 .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--text); text-decoration: none; font-weight: 700; }
-#userBtn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--primary); color: var(--primary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
+/* Profile Button - Logic from profile.js */
+#userBtn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--primary); color: var(--primary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; z-index: 101; }
 #userBtn:hover { background: var(--primary); color: #fff; }
 .nav-line-2 { display: flex; justify-content: center; gap: 20px; }
 .nav-links a { text-decoration: none; color: var(--text); font-weight: 500; font-size: 0.9rem; opacity: 0.7; transition: 0.3s; position: relative; padding-bottom: 2px; }
@@ -134,7 +135,7 @@ nav { position: sticky; top: 0; z-index: 100; background: var(--nav); backdrop-f
       <img id="dynamicQR" class="qr-img" src="" alt="Loading QR...">
     </div>
     <div style="font-weight:bold; font-size:1.2rem; color:var(--primary-dark); margin-bottom:20px;">₹<span id="qrAmount">0</span></div>
-    <button class="confirm-btn" onclick="confirmAndFinishOrder()">I Have Paid Successfully ✅</button>
+    <button class="confirm-btn" onclick="confirmAndFinishOrder()">Paid?</button>
     <button style="width:100%;padding:12px;border:none;background:transparent;color:var(--text);opacity:0.6;margin-top:5px;cursor:pointer;" onclick="closeModal('qrModal')">Cancel</button>
   </div>
 </div>
@@ -143,7 +144,7 @@ nav { position: sticky; top: 0; z-index: 100; background: var(--nav); backdrop-f
   <div class="modal-box" style="text-align:center;">
     <h3 style="margin-bottom:10px;">Payment Pending</h3>
     <p>We've opened your payment app.<br>Please complete the transaction there.</p>
-    <button class="confirm-btn" onclick="confirmAndFinishOrder()">Yes, I Have Paid Successfully ✅</button>
+    <button class="confirm-btn" onclick="confirmAndFinishOrder()">Paid?</button>
     <button style="width:100%;padding:12px;border:none;background:transparent;color:var(--text);opacity:0.6;margin-top:5px;cursor:pointer;font-weight:500;" onclick="closeModal('confirmCheckModal')">Cancel / Retry</button>
   </div>
 </div>
@@ -181,7 +182,7 @@ firebase.initializeApp({
 });
 const db = firebase.firestore();
 
-/* ✅ CONFLICT REMOVED: No 'let currentUser' here. We use firebase.auth().currentUser directly. */
+// NOTE: currentUser is handled by profile.js globally now to avoid conflicts
 
 let cart = JSON.parse(localStorage.getItem("krochetCart")) || [];
 let currentTotal = 0;
@@ -268,7 +269,7 @@ function launchUPI(appType){
   setTimeout(()=>{ openModal('confirmCheckModal'); }, 1000);
 }
 
-// ✅ NEW QR CODE LOGIC
+// QR CODE LOGIC
 function showQR() {
   closeModal('paymentAppModal');
   const upiUrl = `upi://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`;
