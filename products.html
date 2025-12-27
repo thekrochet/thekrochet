@@ -21,7 +21,7 @@ body{ font-family:'Poppins',sans-serif; background:var(--bg); color:var(--text);
 nav { position: sticky; top: 0; z-index: 100; background: var(--nav); backdrop-filter: blur(10px); padding: 10px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 8px; }
 .nav-line-1 { position: relative; width: 100%; display: flex; justify-content: center; align-items: center; padding: 0 15px; }
 .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--text); text-decoration: none; font-weight: 700; }
-/* Profile Button - Logic from profile.js */
+/* Profile Button triggers profile.js */
 #userBtn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--primary); color: var(--primary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; z-index: 101; }
 #userBtn:hover { background: var(--primary); color: #fff; }
 .nav-line-2 { display: flex; justify-content: center; gap: 20px; }
@@ -35,11 +35,25 @@ nav { position: sticky; top: 0; z-index: 100; background: var(--nav); backdrop-f
 .search-box input:focus{ border-color: var(--primary); }
 .products-section{ max-width:1200px; margin:auto; padding:20px 20px 80px; }
 #products{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:25px; }
-.card{ background:var(--card); padding:15px; border-radius:24px; box-shadow:0 10px 20px var(--shadow); display:flex; flex-direction:column; overflow: hidden; animation: fadeUp 0.6s ease forwards; }
+
+/* 3D TILT CARD STYLES */
+.card{ 
+  background:var(--card); padding:15px; border-radius:24px; box-shadow:0 10px 20px var(--shadow); 
+  display:flex; flex-direction:column; overflow: visible; 
+  animation: fadeUp 0.6s ease forwards;
+  transform-style: preserve-3d; transform: perspective(1000px); will-change: transform;
+}
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
-.img-window { width: 100%; height: 230px; border-radius: 20px; overflow: hidden; cursor: pointer; position: relative; margin-bottom: 15px; }
+
+.img-window { 
+  width: 100%; height: 230px; border-radius: 20px; overflow: hidden; cursor: pointer; position: relative; margin-bottom: 15px; 
+  transform: translateZ(20px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); transition: all 0.2s ease;
+}
 .img-slider { display: flex; height: 100%; width: 100%; transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1); }
 .img-slider img { min-width: 100%; width: 100%; height: 100%; object-fit: cover; }
+
+/* 3D Text Pop Effect */
+.card h3, .card .price, .card p, .card button { transform: translateZ(10px); }
 .card h3{ margin-top:5px; font-size:1.1rem; font-weight: 600; color: var(--text); }
 .price{ color:var(--primary-dark); font-weight:700; font-size: 1.1rem; margin-bottom: 8px; }
 .card p{ font-size: 0.85rem; opacity: 0.75; margin-bottom: 15px; line-height: 1.4; }
@@ -154,7 +168,7 @@ nav { position: sticky; top: 0; z-index: 100; background: var(--nav); backdrop-f
     <div class="success-icon">🎉</div>
     <h3 style="margin-bottom:10px; color: var(--success);">Order Confirmed!</h3>
     <p>Thank you for your purchase.<br>Your order has been placed successfully.</p>
-    <button class="confirm-btn" style="background:var(--primary);" onclick="finishOrderFlow()">Continue Shopping</button>
+    <button class="confirm-btn" onclick="finishOrderFlow()">Continue Shopping</button>
   </div>
 </div>
 
@@ -174,7 +188,6 @@ if(localStorage.getItem("theme")==="dark") document.body.classList.add("dark");
 const myUPI = "6351294436@ptaxis"; 
 const myName = "TheKrochet";
 
-// FIREBASE INIT
 firebase.initializeApp({
   apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
   authDomain:"thekrochet-b3ca2.firebaseapp.com",
@@ -182,11 +195,29 @@ firebase.initializeApp({
 });
 const db = firebase.firestore();
 
-// NOTE: currentUser is handled by profile.js globally now to avoid conflicts
-
 let cart = JSON.parse(localStorage.getItem("krochetCart")) || [];
 let currentTotal = 0;
 let popupInterval = null;
+
+/* 3D TILT LOGIC */
+function initTilt() {
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -10;
+      const rotateY = ((x - centerX) / centerX) * 10;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
+    });
+  });
+}
 
 /* PRODUCTS LOGIC */
 const productsDiv = document.getElementById("products");
@@ -202,7 +233,10 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
     
     if(imgs.length > 1){ let i=0; setInterval(()=>{ i=(i+1)%imgs.length; const s=document.getElementById(sid); if(s) s.style.transform=`translateX(-${i * 100}%)`; }, 2500); }
   });
+  
+  setTimeout(initTilt, 500); // Attach 3D effect
 });
+
 document.getElementById("searchInput").addEventListener("input",(e)=>{ const v=e.target.value.toLowerCase(); document.querySelectorAll(".card").forEach(c=>{ c.style.display = c.innerText.toLowerCase().includes(v) ? "flex" : "none"; }); });
 
 function addToCart(name,price){ cart.push({name,price}); localStorage.setItem("krochetCart",JSON.stringify(cart)); document.getElementById("cartFloat").classList.add("cart-bump"); setTimeout(()=>document.getElementById("cartFloat").classList.remove("cart-bump"), 300); updateCartUI(); }
@@ -237,8 +271,7 @@ function closeImg(e){
 /* ORDER LOGIC */
 function checkLoginForOrder(){ 
   closeModal('cartModal'); 
-  const user = firebase.auth().currentUser; // Gets actual user from Firebase
-  
+  const user = firebase.auth().currentUser;
   if(user) {
       const sidebarAddr = document.getElementById("sidebarAddress")?.innerText;
       if(sidebarAddr && !sidebarAddr.includes("No address")) {
@@ -246,7 +279,7 @@ function checkLoginForOrder(){
       }
       openModal('orderModal');
   } else {
-      openModal('authModal'); // Opens login from profile.js
+      openModal('authModal');
   }
 }
 
@@ -269,18 +302,15 @@ function launchUPI(appType){
   setTimeout(()=>{ openModal('confirmCheckModal'); }, 1000);
 }
 
-// QR CODE LOGIC
 function showQR() {
   closeModal('paymentAppModal');
   const upiUrl = `upi://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`;
   const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
-  
   document.getElementById("dynamicQR").src = qrApi;
   document.getElementById("qrAmount").innerText = currentTotal;
   openModal('qrModal');
 }
 
-// SUCCESS LOGIC
 function confirmAndFinishOrder(){
   closeModal('confirmCheckModal');
   closeModal('qrModal'); 
