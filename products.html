@@ -58,13 +58,13 @@ nav {
 .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
 /* =========================================
-   3. SIDEBAR & ADDRESS
+   3. SIDEBAR & ADDRESS (FIXED VISIBILITY)
    ========================================= */
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2999; opacity: 0; pointer-events: none; transition: 0.4s; }
 .overlay.active { opacity: 1; pointer-events: auto; }
 
 .sidebar {
-  position: fixed; top: 0; right: -320px; width: 300px; height: 100%;
+  position: fixed; top: 0; right: -320px; width: 320px; height: 100%;
   background: var(--card); z-index: 3000; box-shadow: -10px 0 30px rgba(0,0,0,0.2);
   transition: right 0.4s var(--ease-spring); display: flex; flex-direction: column;
 }
@@ -77,16 +77,36 @@ nav {
 
 .sidebar-body { padding: 20px; flex: 1; overflow-y: auto; }
 .sidebar-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary-dark); font-weight: 700; margin-bottom: 10px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 5px; margin-top: 15px; }
-.saved-address { font-size: 0.85rem; line-height: 1.4; opacity: 0.8; font-style: italic; background: #f9f9f9; padding: 10px; border-radius: 8px; }
 
-.order-item { background: var(--bg); padding: 10px; border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(0,0,0,0.05); }
-.order-header { display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 600; margin-bottom: 5px; }
-.order-status { color: var(--primary-dark); background: rgba(212, 163, 115, 0.2); padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
+/* FIX: Force White Background & Black Text for Visibility */
+.saved-address { 
+  font-size: 0.85rem; line-height: 1.4; 
+  background: #ffffff !important; 
+  color: #000000 !important; 
+  padding: 12px; border-radius: 8px; border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* FIX: Proper Grid for Orders */
+.order-item { 
+  background: var(--bg); padding: 12px; border-radius: 12px; margin-bottom: 12px; 
+  border: 1px solid rgba(0,0,0,0.1); 
+  display: grid; 
+  grid-template-columns: 1fr auto; 
+  gap: 5px;
+}
+.order-id { font-weight: 700; font-size: 0.9rem; color: var(--text); }
+.order-price { font-weight: 700; color: var(--primary-dark); font-size: 0.95rem; text-align: right; }
+.order-date { font-size: 0.75rem; opacity: 0.6; }
+.order-status { 
+  font-size: 0.7rem; background: var(--primary); color: #fff; 
+  padding: 3px 8px; border-radius: 10px; width: fit-content; margin-left: auto;
+}
 
 .logout-btn { width: 100%; padding: 12px; background: #fee2e2; color: #ef4444; border: none; font-weight: 600; cursor: pointer; border-radius: 10px; margin-bottom: 20px; }
 
 /* =========================================
-   4. CONTENT & CARDS (ANIMATION FIXED)
+   4. CONTENT & CARDS
    ========================================= */
 .search-box{ max-width:460px; margin:20px auto 0; padding:0 16px; }
 .search-box input{ width:100%; padding:14px 24px; border-radius:50px; border:2px solid transparent; background:var(--card); color:var(--text); box-shadow: 0 4px 15px var(--shadow); outline: none; transition: 0.3s; }
@@ -98,7 +118,6 @@ nav {
 .card{ background:var(--card); padding:15px; border-radius:24px; box-shadow:0 10px 20px var(--shadow); display:flex; flex-direction:column; overflow: hidden; animation: fadeUp 0.6s ease forwards; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
 
-/* SLIDER CSS RESTORED */
 .img-window { width: 100%; height: 230px; border-radius: 20px; overflow: hidden; cursor: pointer; position: relative; margin-bottom: 15px; }
 .img-slider { display: flex; height: 100%; width: 100%; transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1); }
 .img-slider img { min-width: 100%; width: 100%; height: 100%; object-fit: cover; }
@@ -109,7 +128,7 @@ nav {
 .card button{ margin-top:auto; padding:12px; border:none; border-radius:18px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color:#fff; font-weight:600; cursor:pointer; width: 100%; box-shadow: 0 4px 15px rgba(212, 163, 115, 0.4); }
 
 /* =========================================
-   5. MODALS & PAY APPS
+   5. MODALS & POPUP
    ========================================= */
 .modal{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:2000; background:rgba(0,0,0,0.6); backdrop-filter: blur(5px); opacity: 0; visibility: hidden; pointer-events: none; transition: 0.3s; }
 .modal.active{ opacity: 1; visibility: visible; pointer-events: auto; }
@@ -130,15 +149,21 @@ nav {
 .cart-float{ position:fixed; right:20px; bottom:30px; background:var(--primary); color:#fff; padding:16px 26px; border-radius:50px; cursor:pointer; z-index:999; font-weight: 600; box-shadow:0 10px 30px rgba(0,0,0,.3); animation: floaty 4s ease-in-out infinite; }
 @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-/* Confirm Modal Specific */
 .confirm-btn { width:100%; padding:14px; border:none; border-radius:12px; background:#27ae60; color:#fff; font-weight:bold; cursor:pointer; margin-top:15px; font-size:1rem; }
-.loading-spin { border: 3px solid #f3f3f3; border-top: 3px solid var(--primary); border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display:inline-block; margin-right:5px; }
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-/* POPUP IMAGE SLIDER */
-#imgModal .modal-box { max-width: 600px; background: transparent; box-shadow: none; padding: 0; overflow: hidden; }
+/* FIX: Image Popup Styles */
+#imgModal .modal-box { 
+  max-width: 600px; width: 95%; 
+  background: transparent; box-shadow: none; padding: 0; 
+  overflow: hidden; 
+}
 .popup-slider { display: flex; width: 100%; transition: transform 0.5s ease; }
-.popup-slider img { min-width: 100%; width: 100%; border-radius: 15px; }
+.popup-slider img { 
+  min-width: 100%; width: 100%; 
+  border-radius: 15px; 
+  object-fit: contain; /* Shows full image */
+  max-height: 80vh;
+}
 </style>
 </head>
 
@@ -208,7 +233,6 @@ nav {
     <input id="custName" placeholder="Full Name">
     <input id="custInsta" placeholder="Instagram Username (@user)">
     <textarea id="custAddress" rows="3" placeholder="Full Delivery Address (Street, City, Pincode)"></textarea>
-
     <div style="display:flex;gap:10px;margin-top:20px;">
       <button style="flex:1;padding:12px;border-radius:12px;border:none;background:#eee;color:#555;" onclick="closeModal('orderModal')">Back</button>
       <button style="flex:1;padding:12px;border-radius:12px;border:none;background:var(--primary);color:#fff;font-weight:600;" onclick="openPaymentModal()">Proceed to Pay</button>
@@ -220,7 +244,6 @@ nav {
   <div class="modal-box">
     <h3>Select Payment App</h3>
     <p style="text-align:center;font-size:0.9rem;opacity:0.7;">Pay ₹<span id="payAmountDisplay">0</span></p>
-    
     <div class="pay-apps-grid">
       <div class="pay-app-btn" onclick="launchUPI('gpay')"><span class="pay-app-icon" style="color:#4285F4">🇬</span><span class="pay-app-name">Google Pay</span></div>
       <div class="pay-app-btn" onclick="launchUPI('paytm')"><span class="pay-app-icon" style="color:#00BAF2">🇵</span><span class="pay-app-name">Paytm</span></div>
@@ -235,13 +258,14 @@ nav {
   <div class="modal-box" style="text-align:center;">
     <h3>Confirm Payment</h3>
     <p style="opacity:0.8;margin-bottom:15px;">Please verify in your app.</p>
-    <div class="spinner"></div>
     <button class="confirm-btn" onclick="confirmAndFinishOrder()">Yes, Payment Done ✅</button>
     <button style="width:100%;padding:10px;border:none;background:transparent;color:#888;margin-top:10px;cursor:pointer;" onclick="closeModal('confirmCheckModal')">I canceled</button>
   </div>
 </div>
 
-<div id="imgModal" class="modal" onclick="closeImg(event)"><div class="modal-box" id="imgBox"></div></div>
+<div id="imgModal" class="modal" onclick="closeImg(event)">
+  <div class="modal-box" id="imgBox"></div>
+</div>
 
 <footer>© 2025 TheKrochet</footer>
 
@@ -269,6 +293,7 @@ let cart = JSON.parse(localStorage.getItem("krochetCart")) || [];
 let currentUser = null;
 let isRegistering = false;
 let currentTotal = 0;
+let popupInterval = null; // For Image Popup Auto Scroll
 
 /* AUTH & SIDEBAR */
 auth.onAuthStateChanged(user => {
@@ -287,37 +312,46 @@ auth.onAuthStateChanged(user => {
     document.getElementById("orderList").innerHTML = `<p style="opacity:0.6;text-align:center;margin-top:10px;">Login to see orders</p>`;
   }
 });
-
 function handleProfileClick(){ currentUser ? (document.getElementById("sidebar").classList.add("active"), document.getElementById("overlay").classList.add("active")) : openModal('authModal'); }
 function closeSidebar(){ document.getElementById("sidebar").classList.remove("active"); document.getElementById("overlay").classList.remove("active"); }
 function logout(){ auth.signOut(); closeSidebar(); }
 
-/* LOAD DATA - FIXED */
+/* LOAD DATA - FIXED GRID */
 function loadUserData(uid){
   const list = document.getElementById("orderList");
   const addrBox = document.getElementById("sidebarAddress");
   
-  // REMOVED 'orderBy' to fix missing index bug in Firestore
   db.collection("orders").where("userId", "==", uid).onSnapshot(snap => {
     list.innerHTML = "";
     if(snap.empty){ list.innerHTML = `<p style="text-align:center;opacity:0.5;">No orders yet.</p>`; addrBox.innerText = "No address saved."; return; }
     
-    // Sort manually since we removed database index requirement
+    // Sort manually
     let orders = [];
     snap.forEach(doc => orders.push({id:doc.id, ...doc.data()}));
     orders.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
-    let savedAddr = null;
+    // Address Fix
+    if(orders.length > 0 && orders[0].address) {
+       addrBox.innerText = orders[0].address;
+    } else {
+       addrBox.innerText = "No address saved.";
+    }
+
+    // Grid Layout for Orders
     orders.forEach(o => {
-      if(!savedAddr && o.address) savedAddr = o.address;
       const date = o.createdAt ? new Date(o.createdAt.seconds*1000).toLocaleDateString() : 'Just now';
-      list.innerHTML += `<div class="order-item"><div class="order-header"><span>#${o.id.slice(0,5)}</span><span class="order-status">${o.status}</span></div><div style="font-size:0.8rem;opacity:0.7;">${date}</div><div style="font-weight:600;font-size:0.9rem;">₹${o.total}</div></div>`;
+      list.innerHTML += `
+        <div class="order-item">
+          <div class="order-id">#${o.id.slice(0,5)}</div>
+          <div class="order-status">${o.status}</div>
+          <div class="order-date">${date}</div>
+          <div class="order-price">₹${o.total}</div>
+        </div>`;
     });
-    if(savedAddr) addrBox.innerText = savedAddr;
   });
 }
 
-/* PRODUCTS & ANIMATIONS FIXED */
+/* PRODUCTS */
 const productsDiv = document.getElementById("products");
 db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
   productsDiv.innerHTML="";
@@ -329,37 +363,55 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
     
     productsDiv.innerHTML+=`<div class="card" style="animation-delay:${idx*50}ms"><div class="img-window" onclick='openImg(${JSON.stringify(imgs)})'><div id="${sid}" class="img-slider">${imgHtml}</div></div><h3>${p.name}</h3><div class="price">₹${p.price}</div><p>${p.description||""}</p><button onclick="addToCart('${p.name}',${p.price})">Add to Cart</button></div>`;
     
-    // FIXED SLIDER ANIMATION
-    if(imgs.length > 1){ 
-        let i=0; 
-        setInterval(()=>{ 
-            i=(i+1)%imgs.length; 
-            const s=document.getElementById(sid); 
-            if(s) s.style.transform=`translateX(-${i * 100}%)`; 
-        }, 2500); 
-    }
+    if(imgs.length > 1){ let i=0; setInterval(()=>{ i=(i+1)%imgs.length; const s=document.getElementById(sid); if(s) s.style.transform=`translateX(-${i * 100}%)`; }, 2500); }
   });
 });
-
 document.getElementById("searchInput").addEventListener("input",(e)=>{ const v=e.target.value.toLowerCase(); document.querySelectorAll(".card").forEach(c=>{ c.style.display = c.innerText.toLowerCase().includes(v) ? "flex" : "none"; }); });
 
 function addToCart(name,price){ cart.push({name,price}); localStorage.setItem("krochetCart",JSON.stringify(cart)); document.getElementById("cartFloat").classList.add("cart-bump"); setTimeout(()=>document.getElementById("cartFloat").classList.remove("cart-bump"), 300); updateCartUI(); }
 function updateCartUI(){ const items=document.getElementById("cartItems"); items.innerHTML=""; currentTotal=0; cart.forEach((p,i)=>{ currentTotal+=p.price; items.innerHTML+=`<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee"><span>${p.name}</span><span>₹${p.price} <b style="color:red;margin-left:10px;cursor:pointer" onclick="removeItem(${i})">✖</b></span></div>`; }); document.getElementById("cartCount").innerText=cart.length; document.getElementById("totalPrice").innerText=currentTotal; }
 function removeItem(i){ cart.splice(i,1); localStorage.setItem("krochetCart",JSON.stringify(cart)); updateCartUI(); }
 
-/* MODALS */
+/* MODALS & POPUP IMAGE */
 function openCart(){ openModal('cartModal'); updateCartUI(); }
 function openModal(id){ document.getElementById(id).classList.add("active"); }
 function closeModal(id){ document.getElementById(id).classList.remove("active"); }
-function openImg(imgs){ document.getElementById("imgBox").innerHTML = `<div class="popup-slider">${imgs.map(s=>`<img src="${s}">`).join('')}</div>`; openModal('imgModal'); }
-function closeImg(e){ if(e.target.id==="imgModal") closeModal('imgModal'); }
 
-/* LOGIN LOGIC */
+/* 🚀 FIXED: POPUP AUTO SCROLL (1.7s) */
+function openImg(imgs){
+  const imgBox = document.getElementById("imgBox");
+  const slidesHtml = imgs.map(src => `<img src="${src}">`).join('');
+  
+  imgBox.innerHTML = `<div class="popup-slider" id="popupSlider">${slidesHtml}</div>`;
+  openModal('imgModal');
+
+  if(imgs.length > 1){
+    let i = 0;
+    // Clear any existing interval to prevent speedup
+    if(popupInterval) clearInterval(popupInterval);
+    
+    // Set new interval 1.7s
+    popupInterval = setInterval(() => {
+      i = (i + 1) % imgs.length;
+      const slider = document.getElementById("popupSlider");
+      if(slider) slider.style.transform = `translateX(-${i * 100}%)`;
+    }, 1700);
+  }
+}
+
+function closeImg(e){ 
+  if(e.target.id==="imgModal") {
+    closeModal('imgModal');
+    // Stop the scrolling when closed
+    if(popupInterval) clearInterval(popupInterval);
+  }
+}
+
 function toggleAuthMode(){ isRegistering = !isRegistering; const t=document.getElementById("authTitle"), b=document.getElementById("authBtn"), s=document.getElementById("authSwitch"); if(isRegistering){ t.innerText="Create Account"; b.innerText="Register"; s.innerText="Have account? Login"; } else { t.innerText="Login Required"; b.innerText="Login"; s.innerText="Create Account"; } }
 function performLogin(){ const e=document.getElementById("authEmail").value, p=document.getElementById("authPass").value; if(!e||!p) return alert("Enter details"); if(isRegistering){ auth.createUserWithEmailAndPassword(e,p).then(()=>{alert("Created!");closeModal('authModal')}).catch(e=>alert(e.message)); } else { auth.signInWithEmailAndPassword(e,p).then(()=>closeModal('authModal')).catch(e=>alert(e.message)); } }
 function checkLoginForOrder(){ closeModal('cartModal'); currentUser ? openModal('orderModal') : openModal('authModal'); }
 
-/* 🚀 PAYMENT & ORDER FLOW */
+/* PAYMENT FLOW */
 function openPaymentModal(){
   const name=document.getElementById("custName").value.trim();
   const insta=document.getElementById("custInsta").value.trim();
@@ -369,7 +421,6 @@ function openPaymentModal(){
   closeModal('orderModal');
   openModal('paymentAppModal');
 }
-
 function launchUPI(appType){
   let link = `upi://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`;
   if(appType==='paytm') link = `paytmmp://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`;
@@ -378,12 +429,10 @@ function launchUPI(appType){
   closeModal('paymentAppModal');
   setTimeout(()=>{ openModal('confirmCheckModal'); }, 1000);
 }
-
 function confirmAndFinishOrder(){
   const name=document.getElementById("custName").value.trim();
   const insta=document.getElementById("custInsta").value.trim();
   const addr=document.getElementById("custAddress").value.trim();
-
   db.collection("orders").add({
     customerName: name, instagram: insta, address: addr,
     items: cart, total: currentTotal, status: "Paid via UPI",
@@ -394,7 +443,6 @@ function confirmAndFinishOrder(){
     location.reload(); 
   });
 }
-
 updateCartUI();
 </script>
 </body>
