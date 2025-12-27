@@ -123,7 +123,7 @@ footer { background:#1a1a1a; color:#888; text-align:center; padding:25px; font-s
 .timeline-content p { font-size: 0.75rem; opacity: 0.7; margin: 2px 0 0; }
 
 /* =========================
-   PAYMENT LOGOS & SUCCESS POPUP
+   ✅ PAYMENT, QR & SUCCESS STYLES
 ========================= */
 
 /* Payment App Buttons */
@@ -146,17 +146,27 @@ footer { background:#1a1a1a; color:#888; text-align:center; padding:25px; font-s
 /* Other UPI Icon */
 .pay-app-icon { font-size: 32px; }
 
-/* DARK MODE: Make logos white */
+/* DARK MODE: Make logos white (except colored icons) */
 body.dark .pay-app-img,
 body.dark .pay-app-btn .pay-app-icon {
   filter: brightness(0) invert(1);
 }
-/* Exception: Keep Other UPI icon gold in dark mode if preferred */
 body.dark .pay-app-btn:last-child .pay-app-icon {
     filter: none; color: #f1c40f;
 }
 
 .pay-app-name { font-size: 0.9rem; font-weight: 500; color: var(--text); }
+
+/* QR Code */
+.qr-container {
+  background: #fff; /* Always white for scanning contrast */
+  padding: 15px; border-radius: 12px;
+  display: inline-block; margin: 10px auto 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.qr-img {
+  width: 180px; height: 180px; object-fit: contain; display: block;
+}
 
 /* Success Modal Animation */
 .success-icon {
@@ -167,23 +177,19 @@ body.dark .pay-app-btn:last-child .pay-app-icon {
 
 .modal-box p { opacity: 0.8; margin-bottom: 25px; line-height: 1.5; }
 
-
-/* =========================
-   QR CODE STYLES
-========================= */
-.qr-container {
-  background: #fff; /* Always white for scanning contrast */
-  padding: 15px; border-radius: 12px;
-  display: inline-block; margin: 10px auto 20px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+/* ✅ ACTION BUTTON (Paid? / Continue) */
+.confirm-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: var(--primary); /* Brown/Gold Theme */
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
-.qr-img {
-  width: 180px; height: 180px; object-fit: contain;
-  display: block;
-}
-.qr-text {
-  font-size: 0.85rem; color: var(--text); opacity: 0.8;
-  margin-top: 10px; font-weight: 500;
-}
-
+.confirm-btn:hover { background: var(--primary-dark); }
 
