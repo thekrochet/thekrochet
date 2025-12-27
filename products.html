@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,11 +12,12 @@
 <link rel="stylesheet" href="responsive.css">
 
 <style>
+/* =========================================
+   1. GLOBAL VARIABLES & RESET
+   ========================================= */
 :root{
   --bg:#faf7f2; --text:#2f2f2f; --card:#ffffff; --nav:#ffffff;
   --shadow:rgba(0,0,0,0.08); --primary:#d4a373; --primary-dark:#b8895b;
-  
-  /* SUPER SMOOTH CUSTOM EASINGS */
   --ease-spring: cubic-bezier(0.4, 0.0, 0.2, 1);
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -41,243 +40,119 @@ body{
   transition: background 0.5s var(--ease-spring);
 }
 
-/* ===== SEARCH ANIMATION ===== */
+/* =========================================
+   2. NAVBAR
+   ========================================= */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--nav); backdrop-filter: blur(10px);
+  padding: 15px 5%; 
+  display: flex; justify-content: space-between; align-items: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.nav-top h2{ font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--text); }
+
+.nav-links { display: flex; align-items: center; gap: 20px; }
+.nav-links a { text-decoration: none; color: var(--text); font-weight: 500; opacity: 0.7; transition: 0.3s; }
+.nav-links a.active, .nav-links a:hover { opacity: 1; color: var(--primary); }
+
+/* Login Button */
+#userStatus { 
+  font-size: 0.9rem; font-weight: 600; color: var(--primary-dark); cursor: pointer; 
+  border: 1px solid var(--primary); padding: 5px 15px; border-radius: 20px; transition: 0.3s; 
+}
+#userStatus:hover { background: var(--primary); color: #fff; }
+
+/* =========================================
+   3. SEARCH & PRODUCTS
+   ========================================= */
 .search-box{
-  max-width:460px;
-  margin:26px auto 0;
-  padding:0 16px;
-  perspective: 1000px;
+  max-width:460px; margin:26px auto 0; padding:0 16px; perspective: 1000px;
 }
 .search-box input{
-  width:100%;
-  padding:15px 24px;
-  border-radius:50px;
-  border:2px solid transparent;
-  background:var(--card);
-  color:var(--text);
-  box-shadow: 0 4px 15px var(--shadow);
-  transition: all 0.4s var(--ease-spring);
-  outline: none;
-  transform-origin: center;
+  width:100%; padding:15px 24px; border-radius:50px; border:2px solid transparent;
+  background:var(--card); color:var(--text); box-shadow: 0 4px 15px var(--shadow);
+  transition: all 0.4s var(--ease-spring); outline: none;
 }
-.search-box:hover input{
-  transform: translateY(-2px) scale(1.01);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-}
-.search-box input:focus{
-  border-color: var(--primary);
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 15px 35px rgba(212, 163, 115, 0.25);
-}
+.search-box input:focus{ border-color: var(--primary); transform: scale(1.02); }
 
-/* ===== PRODUCTS ===== */
-.products-section{
-  max-width:1200px;
-  margin:auto;
-  padding:34px 20px 90px;
-  flex:1;
-}
-#products{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:30px;
-}
+.products-section{ max-width:1200px; margin:auto; padding:34px 20px 90px; flex:1; }
+#products{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:30px; }
 
-/* ===== CARD STYLES ===== */
+/* CARD */
 .card{
-  background:var(--card);
-  padding:16px;
-  border-radius:26px;
-  box-shadow:0 10px 20px var(--shadow);
-  display:flex;
-  flex-direction:column;
-  overflow: hidden;
-  position: relative;
-  opacity: 0;
-  transform: translateY(40px);
+  background:var(--card); padding:16px; border-radius:26px;
+  box-shadow:0 10px 20px var(--shadow); display:flex; flex-direction:column;
+  overflow: hidden; position: relative; opacity: 0; transform: translateY(40px);
   animation: cardEntrance 0.8s var(--ease-spring) forwards;
-  transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring);
 }
 @keyframes cardEntrance { to { opacity: 1; transform: translateY(0); } }
 
-.card:hover{
-  transform: translateY(-12px);
-  box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-}
+.img-window { width: 100%; height: 230px; border-radius: 20px; overflow: hidden; cursor: pointer; position: relative; }
+.img-slider { display: flex; height: 100%; width: 100%; transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1); }
+.img-slider img { min-width: 100%; width: 100%; height: 100%; object-fit: cover; }
 
-/* --- PRODUCT CARD SLIDER --- */
-.img-window {
-  width: 100%;
-  height: 230px;
-  border-radius: 20px;
-  overflow: hidden;
-  cursor: pointer;
-  position: relative;
-}
-
-.img-slider {
-  display: flex;
-  height: 100%;
-  width: 100%;
-  transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
-}
-
-.img-slider img {
-  min-width: 100%;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s var(--ease-spring);
-}
-.card:hover .img-slider img{ transform: scale(1.05); }
-
-/* --- TEXT & BUTTONS --- */
-.card h3{
-  margin-top:16px;
-  font-size:17px;
-  font-weight: 600;
-  transition: color 0.3s ease;
-}
-.card:hover h3{ color: var(--primary-dark); }
-
-.price{
-  color:var(--primary-dark);
-  font-weight:700;
-  margin:6px 0;
-  font-size: 1.15em;
-}
-.card p{
-  font-size:13px;
-  opacity:.75;
-  margin-bottom: 14px;
-  line-height: 1.5;
-}
+.card h3{ margin-top:16px; font-size:17px; font-weight: 600; color: var(--text); }
+.price{ color:var(--primary-dark); font-weight:700; margin:6px 0; font-size: 1.15em; }
+.card p{ font-size:13px; opacity:.75; margin-bottom: 14px; line-height: 1.5; }
 
 .card button{
-  margin-top:auto;
-  padding:14px;
-  border:none;
-  border-radius:18px;
+  margin-top:auto; padding:14px; border:none; border-radius:18px;
   background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:#fff;
-  font-weight:600;
-  cursor:pointer;
-  box-shadow: 0 4px 15px rgba(212, 163, 115, 0.4);
-  transition: all 0.3s var(--ease-bounce);
-  transform: scale(1);
-}
-.card button:hover{
-  box-shadow: 0 8px 25px rgba(212, 163, 115, 0.6);
-  transform: scale(1.05);
+  color:#fff; font-weight:600; cursor:pointer; width: 100%;
+  box-shadow: 0 4px 15px rgba(212, 163, 115, 0.4); transition: 0.3s;
 }
 .card button:active{ transform: scale(0.95); }
 
-/* ===== CART FLOAT ===== */
+/* =========================================
+   4. MODALS & FLOAT
+   ========================================= */
+.modal{
+  position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:2000;
+  background:rgba(0,0,0,0.6); backdrop-filter: blur(5px); 
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s;
+}
+.modal.active{ opacity: 1; visibility: visible; pointer-events: auto; }
+
+.modal-box{
+  background:var(--card); width:90%; max-width:400px; padding:30px; border-radius:25px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3); transform: scale(0.9); transition: transform 0.3s var(--ease-bounce);
+}
+.modal.active .modal-box{ transform: scale(1); }
+
+.modal-box h3{ text-align:center; margin-bottom:20px; font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--primary-dark); }
+.form-group{ margin-bottom:15px; }
+.modal-box input{
+  width:100%; padding:14px; border-radius:12px; border:1px solid #ddd;
+  background:var(--bg); color:var(--text); outline:none; font-family: 'Poppins',sans-serif;
+}
+.modal-box input:focus{ border-color: var(--primary); }
+
+.modal-actions{ display:flex; gap:10px; margin-top:20px; }
+.modal-actions button{ flex:1; padding:12px; border-radius:12px; border:none; cursor:pointer; font-weight:600; }
+.cancel{ background:#eee; color:#555; }
+.primary{ background:var(--primary); color:#fff; }
+
 .cart-float{
-  position:fixed;
-  right:20px;
-  bottom:30px;
-  background:var(--primary);
-  color:#fff;
-  padding:16px 26px;
-  border-radius:50px;
-  cursor:pointer;
-  z-index:999;
-  font-weight: 600;
-  box-shadow:0 10px 30px rgba(0,0,0,.3);
-  transition: all 0.3s var(--ease-spring);
+  position:fixed; right:20px; bottom:30px; background:var(--primary);
+  color:#fff; padding:16px 26px; border-radius:50px; cursor:pointer;
+  z-index:999; font-weight: 600; box-shadow:0 10px 30px rgba(0,0,0,.3);
   animation: floaty 4s ease-in-out infinite;
 }
-.cart-float:hover{ background: var(--primary-dark); transform: scale(1.1); }
-.cart-float:active{ transform: scale(0.95); }
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-@keyframes floaty {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-.cart-bump { animation: bump 0.4s var(--ease-bounce); }
-@keyframes bump {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.25); }
-  100% { transform: scale(1); }
+.auth-toggle { text-align: center; margin-top: 15px; font-size: 0.9rem; cursor: pointer; color: var(--primary); text-decoration: underline; }
+
+/* UPI Button */
+.upi-btn {
+  width:100%; padding:12px; border:none; border-radius:10px; margin-bottom:10px; cursor:pointer; font-weight:600;
+  background: #27ae60; color: white; display:flex; align-items:center; justify-content:center; gap:8px;
 }
 
-/* ===== MODALS ===== */
-.modal{
-  position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:1000;
-  background:rgba(0,0,0,0); backdrop-filter: blur(0px); opacity: 0; visibility: hidden; pointer-events: none;
-  transition: opacity 0.4s ease, backdrop-filter 0.4s ease, visibility 0.4s;
-}
-.modal.active{
-  background:rgba(0,0,0,0.6); backdrop-filter: blur(8px); opacity: 1; visibility: visible; pointer-events: auto;
-}
-.modal-box{
-  background:var(--card); width:90%; max-width:420px; padding:26px; border-radius:30px;
-  box-shadow: 0 50px 100px -20px rgba(0,0,0,0.3); opacity: 0; transform: scale(0.8) translateY(20px);
-  transition: all 0.5s var(--ease-bounce); 
-}
-.modal.active .modal-box{ opacity: 1; transform: scale(1) translateY(0); }
-
-/* --- POPUP IMAGE SLIDER --- */
-#imgModal .modal-box{
-  max-width:600px; 
-  height: 70vh; /* Fixed height for slideshow */
-  width: 90%;
-  background:transparent; 
-  box-shadow:none; 
-  padding: 0; 
-  overflow: hidden; /* Hide scrollbars */
-  position: relative;
-  transform: scale(0.9);
-}
-#imgModal.active .modal-box{ transform: scale(1); }
-
-.popup-slider {
-  display: flex;
-  height: 100%;
-  width: 100%;
-  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); /* Smooth slide ease */
-}
-
-.popup-slider img {
-  min-width: 100%;
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* Shows full image */
-  border-radius: 24px;
-  /* Optional: shadow inside image */
-  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
-}
-/* -------------------------------- */
-
-.modal-box h3{ text-align:center; margin-bottom:18px; font-size:1.4rem; }
-.form-group{margin-bottom:16px}
-.form-group label{
-  font-size:13px; font-weight:600; display:block; margin-bottom:6px; color:var(--primary-dark);
-}
-.modal-box input{
-  width:100%; padding:14px; border-radius:14px;
-  border:1px solid #eee; background:var(--bg); color:var(--text);
-  transition: 0.3s var(--ease-spring); outline:none;
-}
-.modal-box input:focus{
-  border-color: var(--primary); background: var(--card); box-shadow: 0 0 0 4px rgba(212, 163, 115, 0.15);
-}
-.cart-item{ display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #eee; align-items:center; }
-.modal-actions{ display:flex; gap:12px; margin-top:20px; }
-.modal-actions button{
-  flex:1; padding:14px; border-radius:16px; border:none; cursor:pointer; font-size:14px; transition: 0.3s var(--ease-spring);
-}
-.modal-actions button:active{ transform: scale(0.95); }
-.cancel{ background:#eee; color:#555; font-weight:500; }
-.cancel:hover{ background:#ddd; }
-.primary{
-  background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:#fff; font-weight:600;
-  box-shadow: 0 4px 15px rgba(212, 163, 115, 0.4);
-}
-.primary:hover{ 
-  box-shadow: 0 8px 25px rgba(212, 163, 115, 0.5); transform:translateY(-2px); 
-}
+#imgModal .modal-box { max-width: 600px; background: transparent; box-shadow: none; padding: 0; }
+.popup-slider img { width: 100%; border-radius: 15px; }
 </style>
 </head>
 
@@ -293,6 +168,7 @@ body{
     <a href="reviews.html">Reviews</a>
     <a href="about.html">About</a>
     <a href="contact.html">Contact</a>
+    <span id="userStatus" onclick="handleAuthClick()">Login</span>
   </div>
 </nav>
 
@@ -314,38 +190,59 @@ body{
       Total ₹<span id="totalPrice">0</span>
     </div>
     <div class="modal-actions">
-      <button class="cancel" onclick="closeCart()">Cancel</button>
-      <button class="primary" onclick="openOrderForm()">Continue</button>
+      <button class="cancel" onclick="closeModal('cartModal')">Close</button>
+      <button class="primary" onclick="checkLoginForOrder()">Continue</button>
     </div>
+  </div>
+</div>
+
+<div id="authModal" class="modal">
+  <div class="modal-box">
+    <h3 id="authTitle">Login Required</h3>
+    <p style="text-align:center; margin-bottom:20px; font-size:0.9rem; opacity:0.8;">Please login to place your order.</p>
+    <div class="form-group"><input id="authEmail" type="email" placeholder="Email Address"></div>
+    <div class="form-group"><input id="authPass" type="password" placeholder="Password"></div>
+    <div class="modal-actions">
+      <button class="cancel" onclick="closeModal('authModal')">Cancel</button>
+      <button class="primary" id="authBtn" onclick="performLogin()">Login</button>
+    </div>
+    <div class="auth-toggle" onclick="toggleAuthMode()" id="authSwitch">New here? Create Account</div>
   </div>
 </div>
 
 <div id="orderModal" class="modal">
   <div class="modal-box">
-    <h3>Complete Order</h3>
+    <h3>Finalize Order</h3>
     <div class="form-group">
       <label>Your Name</label>
-      <input id="custName" placeholder="Enter your name">
+      <input id="custName" placeholder="Enter full name">
     </div>
     <div class="form-group">
       <label>Instagram Username</label>
       <input id="custInsta" placeholder="@yourusername">
     </div>
+    
+    <div style="background:#f9f9f9; padding:15px; border-radius:12px; margin-bottom:20px; text-align:center;">
+      <p style="font-size:0.9rem; margin-bottom:10px; font-weight:600; color:#555;">Payment Method</p>
+      <button onclick="payWithUPI()" class="upi-btn">⚡ Pay via UPI / GPay</button>
+      <p style="font-size:0.75rem; color:#888;">*Opens your payment app</p>
+    </div>
+
     <div class="modal-actions">
-      <button class="cancel" onclick="closeOrder()">Back</button>
-      <button class="primary" onclick="submitOrder()">Send on Instagram</button>
+      <button class="cancel" onclick="closeModal('orderModal')">Back</button>
+      <button class="primary" onclick="submitOrder()">Confirm & Send</button>
     </div>
   </div>
 </div>
 
 <div id="imgModal" class="modal" onclick="closeImg(event)">
-  <div class="modal-box" id="imgBox">
-    </div>
+  <div class="modal-box" id="imgBox"></div>
 </div>
 
 <footer>© 2025 TheKrochet</footer>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
@@ -353,61 +250,87 @@ body{
 AOS.init({duration:900,once:true});
 if(localStorage.getItem("theme")==="dark") document.body.classList.add("dark");
 
-/* FIREBASE */
+/* ⚠️ CONFIG: CHANGE THIS TO YOUR UPI ID */
+const myUPI = "krishna@okhdfcbank"; 
+const myName = "TheKrochet";
+
 firebase.initializeApp({
   apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
   authDomain:"thekrochet-b3ca2.firebaseapp.com",
   projectId:"thekrochet-b3ca2"
 });
-const db=firebase.firestore();
+const db = firebase.firestore();
+const auth = firebase.auth();
 
-/* ELEMENTS */
-const productsDiv=document.getElementById("products");
-const cartItems=document.getElementById("cartItems");
-const cartCount=document.getElementById("cartCount");
-const cartFloat=document.getElementById("cartFloat");
-const totalPrice=document.getElementById("totalPrice");
-const cartModal=document.getElementById("cartModal");
-const orderModal=document.getElementById("orderModal");
-const searchInput=document.getElementById("searchInput");
-const imgModal=document.getElementById("imgModal");
-const imgBox=document.getElementById("imgBox");
+let cart = JSON.parse(localStorage.getItem("krochetCart")) || [];
+let currentUser = null;
+let isRegistering = false;
+let currentTotal = 0;
 
-let cart=JSON.parse(localStorage.getItem("krochetCart"))||[];
+/* AUTH */
+auth.onAuthStateChanged(user => {
+  currentUser = user;
+  const statusBtn = document.getElementById("userStatus");
+  if(user) {
+    statusBtn.innerText = "Logout";
+    if(document.getElementById("authModal").classList.contains("active")){
+      closeModal('authModal'); openModal('orderModal');
+    }
+  } else {
+    statusBtn.innerText = "Login";
+  }
+});
 
-/* LOAD PRODUCTS (UPDATED TO FIX COMMA IMAGES) */
+function handleAuthClick(){
+  if(currentUser) auth.signOut().then(() => alert("Logged out"));
+  else openModal('authModal');
+}
+
+function toggleAuthMode(){
+  isRegistering = !isRegistering;
+  const t = document.getElementById("authTitle");
+  const b = document.getElementById("authBtn");
+  const s = document.getElementById("authSwitch");
+  if(isRegistering){
+    t.innerText = "Create Account"; b.innerText = "Register"; s.innerText = "Have account? Login";
+  } else {
+    t.innerText = "Login Required"; b.innerText = "Login"; s.innerText = "Create Account";
+  }
+}
+
+function performLogin(){
+  const e = document.getElementById("authEmail").value;
+  const p = document.getElementById("authPass").value;
+  if(!e || !p) return alert("Enter details");
+  if(isRegistering){
+    auth.createUserWithEmailAndPassword(e, p).then(()=>alert("Created!")).catch(e=>alert(e.message));
+  } else {
+    auth.signInWithEmailAndPassword(e, p).catch(e=>alert(e.message));
+  }
+}
+
+/* FLOW */
+function checkLoginForOrder(){
+  closeModal('cartModal');
+  currentUser ? openModal('orderModal') : openModal('authModal');
+}
+
+/* PRODUCTS */
+const productsDiv = document.getElementById("products");
 db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
   productsDiv.innerHTML="";
-  let index = 0; 
-  
-  snap.forEach(doc=>{
+  snap.forEach((doc, idx)=>{
     const p=doc.data();
-    
-    // ✅ AUTO-DETECT COMMA SEPARATED LINKS
     let imgs = p.images;
-    if (!imgs) {
-      // If 'images' array doesn't exist, check single 'image' string
-      if (p.image && typeof p.image === 'string' && p.image.includes(",")) {
-        // Split by comma and remove spaces
-        imgs = p.image.split(",").map(url => url.trim());
-      } else {
-        // Just a single image
-        imgs = [p.image];
-      }
-    }
+    if (!imgs) imgs = (p.image && p.image.includes(",")) ? p.image.split(",").map(u=>u.trim()) : [p.image];
 
     const sid="s"+Math.random().toString(36).slice(2);
-    let i=0;
-
-    // Create all img tags for the slider (Card View)
     const imgHtml = imgs.map(url => `<img src="${url}">`).join('');
 
     productsDiv.innerHTML+=`
-      <div class="card" style="animation-delay: ${index * 80}ms">
+      <div class="card" style="animation-delay: ${idx * 50}ms">
         <div class="img-window" onclick='openImg(${JSON.stringify(imgs)})'>
-            <div id="${sid}" class="img-slider">
-                ${imgHtml}
-            </div>
+            <div id="${sid}" class="img-slider">${imgHtml}</div>
         </div>
         <h3>${p.name}</h3>
         <div class="price">₹${p.price}</div>
@@ -415,69 +338,20 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
         <button onclick="addToCart('${p.name}',${p.price})">Add to Cart</button>
       </div>`;
       
-    index++; 
-
-    // AUTO SCROLL LOGIC FOR CARDS
-    setInterval(()=>{
-      if(document.querySelector(".modal.active")) return;
-      if(imgs.length>1){
+    if(imgs.length > 1){
+      let i=0; setInterval(()=>{
         i=(i+1)%imgs.length;
-        const slider=document.getElementById(sid);
-        if(!slider) return;
-        slider.style.transform=`translateX(-${i * 100}%)`;
-      }
-    },2500); 
+        const s=document.getElementById(sid); if(s) s.style.transform=`translateX(-${i * 100}%)`;
+      }, 2500); 
+    }
   });
 });
 
-/* --- POPUP SLIDESHOW LOGIC --- */
-let popupTimer;
-
-function openImg(imgs){
-  let i = 0;
-  
-  // Build the slider structure inside the popup
-  const slides = imgs.map(src => `<img src="${src}">`).join('');
-  imgBox.innerHTML = `
-    <div class="popup-slider" id="activePopupSlider">
-        ${slides}
-    </div>
-  `;
-  
-  imgModal.classList.add("active");
-  
-  // Start the auto-scroll for the popup
-  popupTimer = setInterval(()=>{
-    if(imgs.length > 1){
-      i = (i + 1) % imgs.length;
-      const slider = document.getElementById("activePopupSlider");
-      if(slider){
-        slider.style.transform = `translateX(-${i * 100}%)`;
-      }
-    }
-  }, 2000); // 2 seconds per slide in popup
-}
-
-function closeImg(e){
-  // Check if clicked strictly on the background (id=imgModal)
-  if(e.target.id==="imgModal"){
-    imgModal.classList.remove("active");
-    clearInterval(popupTimer);
-  }
-}
-
 /* SEARCH */
-searchInput.addEventListener("input",()=>{
-  const v=searchInput.value.toLowerCase();
+document.getElementById("searchInput").addEventListener("input",(e)=>{
+  const v=e.target.value.toLowerCase();
   document.querySelectorAll(".card").forEach(c=>{
-    if(c.innerText.toLowerCase().includes(v)){
-      c.style.display="flex";
-      c.style.animation = 'none';
-      c.offsetHeight; 
-      c.style.animation = 'cardEntrance 0.5s var(--ease-spring) forwards';
-    } else {
-      c.style.display="none";
-    }
+    c.style.display = c.innerText.toLowerCase().includes(v) ? "flex" : "none";
   });
 });
 
@@ -485,66 +359,67 @@ searchInput.addEventListener("input",()=>{
 function addToCart(name,price){
   cart.push({name,price});
   localStorage.setItem("krochetCart",JSON.stringify(cart));
-  
-  cartFloat.classList.remove("cart-bump");
-  void cartFloat.offsetWidth; 
-  cartFloat.classList.add("cart-bump");
-  
-  updateCart();
+  document.getElementById("cartFloat").classList.add("cart-bump");
+  setTimeout(()=>document.getElementById("cartFloat").classList.remove("cart-bump"), 300);
+  updateCartUI();
 }
-function updateCart(){
-  cartItems.innerHTML="";
-  let total=0;
+
+function updateCartUI(){
+  const items = document.getElementById("cartItems");
+  items.innerHTML=""; currentTotal=0;
   cart.forEach((p,i)=>{
-    total+=p.price;
-    cartItems.innerHTML+=`
-      <div class="cart-item">
+    currentTotal+=p.price;
+    items.innerHTML+=`
+      <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee">
         <span>${p.name}</span>
-        <span>₹${p.price} <b style="cursor:pointer;color:red;padding:5px;" onclick="removeItem(${i})">✖</b></span>
+        <span>₹${p.price} <b style="color:red;margin-left:10px;cursor:pointer" onclick="removeItem(${i})">✖</b></span>
       </div>`;
   });
-  cartCount.innerText=cart.length;
-  totalPrice.innerText=total;
+  document.getElementById("cartCount").innerText=cart.length;
+  document.getElementById("totalPrice").innerText=currentTotal;
 }
-function removeItem(i){
-  cart.splice(i,1);
-  localStorage.setItem("krochetCart",JSON.stringify(cart));
-  updateCart();
-}
-function openCart(){cartModal.classList.add("active")}
-function closeCart(){cartModal.classList.remove("active")}
-function openOrderForm(){closeCart();orderModal.classList.add("active")}
-function closeOrder(){orderModal.classList.remove("active")}
+function removeItem(i){ cart.splice(i,1); localStorage.setItem("krochetCart",JSON.stringify(cart)); updateCartUI(); }
 
-/* SUBMIT ORDER */
+/* MODALS */
+function openCart(){ openModal('cartModal'); updateCartUI(); }
+function openModal(id){ document.getElementById(id).classList.add("active"); }
+function closeModal(id){ document.getElementById(id).classList.remove("active"); }
+function openImg(imgs){
+  document.getElementById("imgBox").innerHTML = `<div class="popup-slider">${imgs.map(s=>`<img src="${s}">`).join('')}</div>`;
+  openModal('imgModal');
+}
+function closeImg(e){ if(e.target.id==="imgModal") closeModal('imgModal'); }
+
+/* PAY & ORDER */
+function payWithUPI() {
+  if(currentTotal === 0) return alert("Cart is empty!");
+  window.location.href = `upi://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`;
+}
+
 function submitOrder(){
-  const name=custName.value.trim();
-  const insta=custInsta.value.trim();
-  if(!name||!insta) return;
+  const name=document.getElementById("custName").value.trim();
+  const insta=document.getElementById("custInsta").value.trim();
+  if(!name||!insta) return alert("Please fill details");
 
-  let total=0;
-  let msg="Hello, I want to order:\n";
-  cart.forEach(p=>{ total+=p.price; msg+=`- ${p.name}: ₹${p.price}\n`; });
-  msg+=`\nTotal: ₹${total}\nName: ${name}\nInstagram: ${insta}`;
+  let msg="Hello, I ordered:\n";
+  cart.forEach(p=>{ msg+=`- ${p.name}: ₹${p.price}\n`; });
+  msg+=`\nPaid: ₹${currentTotal}\nName: ${name}\nInsta: ${insta}`;
 
-  // ✅ FIXED: Sending data Flat so Admin Panel can read it!
   db.collection("orders").add({
-    customerName: name,  // Correct key for admin
-    instagram: insta,    // Correct key for admin
-    items: cart,
-    total: total,
-    status: "Pending",   // Standardized status
-    source: "website",
+    customerName: name, instagram: insta, items: cart, total: currentTotal,
+    status: "Pending Check", userId: currentUser.uid, 
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   });
 
   navigator.clipboard.writeText(msg).catch(()=>{});
   cart=[]; localStorage.removeItem("krochetCart");
-  updateCart(); closeOrder();
-  setTimeout(()=>{ window.location.href="https://ig.me/m/thekrochet_"; },300);
+  updateCartUI(); closeModal('orderModal');
+  setTimeout(()=>{ window.location.href="https://ig.me/m/thekrochet_"; }, 500);
 }
-updateCart();
+
+updateCartUI();
 </script>
 
 </body>
 </html>
+
