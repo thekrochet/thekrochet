@@ -177,11 +177,8 @@ body.dark .pay-app-btn:last-child .pay-app-icon {
 
 .modal-box p { opacity: 0.8; margin-bottom: 25px; line-height: 1.5; }
 
-/* =========================
-   ✅ ACTION BUTTON (Paid? / Continue) - FINAL FIX
-========================= */
-
-/* Force the Primary Button Style (Overrides generic modal buttons) */
+/* ✅ ACTION BUTTON (Paid? / Continue) - FINAL FIX */
+/* Forces buttons to be solid brown/gold */
 button.confirm-btn {
   width: 100% !important;
   padding: 14px !important;
@@ -195,37 +192,14 @@ button.confirm-btn {
   margin-top: 20px !important;
   box-shadow: 0 4px 15px rgba(212, 163, 115, 0.4) !important;
   transition: transform 0.2s ease !important;
-  opacity: 1 !important; /* Fix visibility */
+  opacity: 1 !important;
 }
 
-button.confirm-btn:active {
-  transform: scale(0.98) !important;
-}
+button.confirm-btn:active { transform: scale(0.98) !important; }
+button.confirm-btn:hover { background: var(--primary-dark) !important; }
 
-button.confirm-btn:hover {
-  background: var(--primary-dark) !important;
-}
-
-
-/* =========================
-   3D TILT EFFECT STYLES
-========================= */
-.card {
-  /* Existing styles... */
-  transform-style: preserve-3d;
-  transform: perspective(1000px);
-  will-change: transform;
-}
-
-/* This makes the image pop out more than the card */
-.img-window {
-  transform: translateZ(20px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-  transition: all 0.1s ease; /* Fast transition for smooth movement */
-}
-
-/* Text pops out slightly less */
-.card h3, .card .price, .card p, .card button {
-  transform: translateZ(10px);
+/* Secondary/Cancel Button Style */
+.modal-box button:not(.confirm-btn) {
+  width: 100%; padding: 12px; background: transparent; border: none; color: var(--text); opacity: 0.6; margin-top: 10px; cursor: pointer;
 }
 
