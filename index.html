@@ -14,7 +14,6 @@
 <style>
 /* =========================================
    PAGE SPECIFIC STYLES
-   (Global Profile Styles are now in brand.css)
    ========================================= */
 :root{
   --bg:#faf7f2; --text:#2f2f2f; --card:#ffffff; --nav:#ffffff;
@@ -93,18 +92,37 @@ nav {
 /* HERO & CONTENT */
 header{
   text-align:center; padding: 60px 20px 30px; 
-  background: linear-gradient(135deg, #fefae0 0%, #faf7f2 100%);
+  /* Removed gradient to let Unicorn effect shine, added fallback */
+  background: var(--bg);
   position: relative; overflow: hidden;
+  min-height: 400px; /* Give space for the effect */
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
 }
-body.dark header{ background: linear-gradient(135deg, #1f1f1f 0%, #121212 100%); }
-header::before {
-  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-  background: radial-gradient(circle, var(--primary) 0%, transparent 20%);
-  opacity: 0.05; animation: floatBG 15s infinite linear; pointer-events: none;
+
+/* UNICORN STUDIO CONTAINER */
+#unicorn-display {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Behind text */
+  opacity: 0.8; /* Slight fade to make text readable */
+  pointer-events: none; /* Allows scrolling over it */
 }
-@keyframes floatBG { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-header h3{ font-family:'Playfair Display',serif; font-size: 2.6rem; margin-bottom: 10px; letter-spacing: -0.5px; position: relative; }
-header p{ font-size: 1rem; opacity: 0.8; max-width: 600px; margin: 0 auto; }
+
+/* Ensure Text sits ON TOP of Unicorn Effect */
+header h3, header p {
+  position: relative;
+  z-index: 2; 
+  text-shadow: 0 2px 10px rgba(255,255,255,0.8); /* Optional glow for readability */
+}
+body.dark header h3, body.dark header p {
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+
+header h3{ font-family:'Playfair Display',serif; font-size: 2.6rem; margin-bottom: 10px; letter-spacing: -0.5px; }
+header p{ font-size: 1rem; opacity: 0.9; max-width: 600px; margin: 0 auto; font-weight: 500; }
 
 section{ padding: 30px 20px 50px; max-width: 1000px; margin: auto; text-align: center; width: 100%; }
 section h2{ font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--primary-dark); position: relative; display: inline-block; margin-bottom: 10px; }
@@ -118,7 +136,7 @@ body.dark section h2 { color: var(--primary); }
 .card p { font-size: 0.9rem; opacity: 0.7; transition: opacity 0.3s ease; }
 .card:hover p { opacity: 1; }
 
-@media (max-width: 768px) { header { padding: 50px 20px 30px; } header h3 { font-size: 2.2rem; } }
+@media (max-width: 768px) { header { padding: 50px 20px 30px; min-height: 300px; } header h3 { font-size: 2.2rem; } }
 @media (max-width: 480px) { section { padding: 20px 15px !important; width: 100% !important; } .grid { display: flex !important; flex-direction: column !important; gap: 15px !important; margin-top: 15px !important; } .card { width: 100% !important; padding: 20px !important; } header h3 { font-size: 1.8rem; } }
 </style>
 </head>
@@ -145,6 +163,8 @@ body.dark section h2 { color: var(--primary); }
 </nav>
 
 <header>
+  <div id="unicorn-display"></div>
+  
   <h3 data-aos="zoom-in" data-aos-duration="1000">Handmade Crochet Creations</h3>
   <p data-aos="fade-up" data-aos-delay="200">
     Crafted with love, warmth & timeless elegance
