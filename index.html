@@ -89,7 +89,7 @@ nav {
 .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
 /* =========================================
-   ✨ HERO SECTION
+   ✨ HERO SECTION (BOX REMOVED COMPLETELY)
    ========================================= */
 header {
   position: relative; text-align: center; padding: 80px 20px 60px;
@@ -108,10 +108,20 @@ body.dark header {
   0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; }
 }
 
+/* 🛑 THIS REMOVES THE GLASS BOX */
 .hero-content {
-  position: relative; z-index: 2;
+  position: relative; 
+  z-index: 2;
   padding: 20px;
-  max-width: 800px; width: 100%;
+  max-width: 800px; 
+  width: 100%;
+  
+  /* FORCE REMOVE BACKGROUND AND SHADOWS */
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 header h3 {
@@ -133,16 +143,13 @@ body.dark section h2 { color: var(--primary); }
 
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
 
-/* WELCOME CARDS */
+/* WELCOME CARDS (Micro-Animations) */
 .welcome-card { 
   background: var(--card); padding: 30px; border-radius: 20px; 
   box-shadow: 0 10px 30px var(--shadow); cursor: pointer; 
   border: 1px solid transparent; 
-  
-  /* 🚀 LAG FIX: GPU Acceleration */
-  transform: translate3d(0,0,0); 
-  backface-visibility: hidden; -webkit-backface-visibility: hidden;
-
+  /* Fix sticky scroll */
+  transform: translate3d(0,0,0); backface-visibility: hidden;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
 }
 .welcome-card:hover { 
@@ -162,12 +169,12 @@ body.dark section h2 { color: var(--primary); }
 }
 .search-box input:focus { border-color: var(--primary); transform: scale(1.02); }
 
-/* ✨ PRODUCT CARDS (Lag Fixed) */
+/* ✨ PRODUCT CARDS (Smooth Micro-Animations) */
 .product-card { 
   background: var(--card); padding: 15px; border-radius: 24px; 
   box-shadow: 0 10px 20px var(--shadow); display: flex; flex-direction: column; 
   
-  /* 🚀 LAG FIX: Prevents White Flicker & Forces GPU */
+  /* Fix sticky scroll */
   transform-style: preserve-3d; 
   transform: translate3d(0,0,0);
   backface-visibility: hidden; -webkit-backface-visibility: hidden;
@@ -184,7 +191,6 @@ body.dark section h2 { color: var(--primary); }
 .img-window { 
   width: 100%; height: 230px; border-radius: 20px; overflow: hidden; 
   cursor: pointer; margin-bottom: 15px; 
-  /* Lag fix for image */
   transform: translateZ(20px); 
 }
 
@@ -194,12 +200,13 @@ body.dark section h2 { color: var(--primary); }
   transition: transform 0.5s ease;
 }
 .product-card:hover .img-slider img {
-  transform: scale(1.08); 
+  transform: scale(1.08); /* Zoom effect */
 }
 
 .product-card h3 { margin-top: 5px; font-size: 1.1rem; font-weight: 600; transform: translateZ(10px); }
 .price { color: var(--primary-dark); font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; transform: translateZ(10px); }
 
+/* Bouncy Button */
 .product-card button { 
   margin-top: auto; padding: 12px; border: none; border-radius: 18px; 
   background: linear-gradient(135deg, var(--primary), var(--primary-dark)); 
@@ -420,9 +427,8 @@ let cart = JSON.parse(localStorage.getItem("krochetCart")) || [];
 let currentTotal = 0;
 let popupInterval = null;
 
-/* 3D TILT LOGIC (DISABLED ON MOBILE TO STOP LAG) */
+/* 3D TILT LOGIC (DISABLED ON MOBILE FOR SMOOTH SCROLL) */
 function initTilt() {
-  // 🚀 CRITICAL FIX: Disable Tilt on phones (< 768px)
   if(window.innerWidth < 768) return; 
 
   const cards = document.querySelectorAll('.product-card');
@@ -585,5 +591,4 @@ updateCartUI();
 
 </body>
 </html>
-
 
