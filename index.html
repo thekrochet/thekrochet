@@ -13,7 +13,7 @@
 
 <style>
 /* =========================================
-   PAGE SPECIFIC STYLES
+   GLOBAL STYLES
    ========================================= */
 :root{
   --bg:#faf7f2; --text:#2f2f2f; --card:#ffffff; --nav:#ffffff;
@@ -37,7 +37,7 @@ body{
   overflow-x: hidden;
 }
 
-/* NAVBAR (Synced) */
+/* NAVBAR */
 nav {
   position: sticky; top: 0; z-index: 100;
   background: var(--nav); backdrop-filter: blur(10px);
@@ -71,7 +71,7 @@ nav {
   width: 38px; height: 38px; border-radius: 50%;
   border: 1px solid var(--primary); color: var(--primary);
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: 0.3s; z-index: 101;
+  cursor: pointer; transition: 0.3s;
 }
 #userBtn:hover { background: var(--primary); color: #fff; }
 
@@ -98,7 +98,7 @@ header {
   background: linear-gradient(-45deg, #fdfbf7, #e6b8a2, #d4a373, #fdfbf7);
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
-  will-change: background-position;
+  will-change: background-position; /* Optimization for smoothness */
 }
 body.dark header {
   background: linear-gradient(-45deg, #121212, #3e2723, #b8895b, #1a1a1a);
@@ -109,8 +109,15 @@ body.dark header {
 }
 
 .hero-content {
-  position: relative; z-index: 2; padding: 20px;
-  max-width: 800px; width: 100%;
+  position: relative; 
+  z-index: 2;
+  padding: 20px;
+  max-width: 800px; 
+  width: 100%;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  backdrop-filter: none !important;
 }
 
 header h3 {
@@ -156,28 +163,37 @@ body.dark section h2 { color: var(--primary); }
 }
 .search-box input:focus { border-color: var(--primary); transform: scale(1.02); }
 
-/* ✨ PRODUCT CARDS (3D Tilt & Pop) */
+/* ✨ PRODUCT CARDS (Optimized) */
 .product-card { 
   background: var(--card); padding: 15px; border-radius: 24px; 
   box-shadow: 0 10px 20px var(--shadow); display: flex; flex-direction: column; 
-  transform: translate3d(0,0,0); backface-visibility: hidden; will-change: transform;
+  
+  /* GPU Acceleration */
+  transform: translate3d(0,0,0);
+  backface-visibility: hidden;
+  will-change: transform;
+  
   transition: transform 0.4s ease, box-shadow 0.4s ease;
-  /* 3D Properties */
-  transform-style: preserve-3d; perspective: 1000px;
 }
-.product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.12); }
+
+.product-card:hover {
+  transform: translateY(-8px); 
+  box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+}
 
 .img-window { 
   width: 100%; height: 230px; border-radius: 20px; overflow: hidden; 
   cursor: pointer; margin-bottom: 15px; 
-  transform: translateZ(20px); /* 3D Pop */
+  transform: translateZ(0); /* Fix flickering */
 }
+
 .img-slider { display: flex; height: 100%; width: 100%; transition: transform 0.8s ease; }
-.img-slider img { min-width: 100%; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.img-slider img { 
+  min-width: 100%; width: 100%; height: 100%; object-fit: cover; 
+  transition: transform 0.5s ease;
+}
 .product-card:hover .img-slider img { transform: scale(1.08); }
 
-/* Text Pop Effect */
-.product-card h3, .product-card .price, .product-card button { transform: translateZ(10px); }
 .product-card h3 { margin-top: 5px; font-size: 1.1rem; font-weight: 600; }
 .price { color: var(--primary-dark); font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
 
@@ -187,7 +203,10 @@ body.dark section h2 { color: var(--primary); }
   color: #fff; font-weight: 600; cursor: pointer; width: 100%; 
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.product-card button:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(212, 163, 115, 0.4); }
+.product-card button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(212, 163, 115, 0.4);
+}
 .product-card button:active { transform: scale(0.95); }
 
 /* Cart Float */
@@ -418,9 +437,10 @@ function initTilt() {
   });
 }
 
-/* 🚀 OPTIMIZED PRODUCT LOADING */
+/* 🚀 OPTIMIZED PRODUCT LOADING (Lag Fix + Animation Fix) */
 const productsDiv = document.getElementById("products");
 db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
+  // 1. Build ALL HTML in memory first (Super Fast)
   let htmlString = "";
   
   snap.forEach((doc, idx)=>{
@@ -429,6 +449,7 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
     const sid="s"+Math.random().toString(36).slice(2);
     const imgHtml = imgs.map(url => `<img src="${url}">`).join('');
     
+    // Note: Added 'data-aos="fade-up"' to enable pop-up animation
     htmlString += `
       <div class="product-card" data-aos="fade-up" data-aos-delay="${idx * 50}">
         <div class="img-window" onclick='openImg(${JSON.stringify(imgs)})'>
@@ -439,6 +460,7 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
         <button onclick="addToCart('${p.name}',${p.price})">Add to Cart</button>
       </div>`;
       
+      // Keep slider logic separate to avoid lag in string building
       if(imgs.length > 1){ 
          setTimeout(() => {
              let i=0; 
@@ -447,8 +469,10 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
       }
   });
 
+  // 2. Update DOM ONCE
   productsDiv.innerHTML = htmlString;
   
+  // 3. Force Animation Refresh
   setTimeout(() => {
       AOS.refresh(); 
       initTilt();
@@ -493,4 +517,3 @@ updateCartUI();
 <script src="profile.js"></script>
 </body>
 </html>
-
