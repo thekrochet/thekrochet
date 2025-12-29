@@ -89,12 +89,13 @@ nav {
 .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
 /* =========================================
-   ✨ HERO SECTION (Mesh Gradient)
+   ✨ HERO SECTION (Restored to Old Style)
    ========================================= */
 header {
   position: relative; text-align: center; padding: 80px 20px 60px;
   overflow: hidden; min-height: 450px;
   display: flex; flex-direction: column; justify-content: center; align-items: center;
+  /* Mesh Gradient Background */
   background: linear-gradient(-45deg, #fdfbf7, #e6b8a2, #d4a373, #fdfbf7);
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
@@ -107,27 +108,25 @@ body.dark header {
   0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; }
 }
 
+/* Removed Glass Box Styling - Text floats cleanly now */
 .hero-content {
   position: relative; z-index: 2;
-  background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  padding: 40px 30px; border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-  max-width: 700px; width: 100%;
-}
-body.dark .hero-content {
-  background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  max-width: 800px; width: 100%;
 }
 
 header h3 {
-  font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 15px;
+  font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 15px;
   letter-spacing: -0.5px; color: var(--text); line-height: 1.2;
+  text-shadow: 0 4px 20px rgba(255,255,255,0.4); /* Subtle glow */
 }
-header p { font-size: 1.1rem; opacity: 0.9; font-weight: 400; color: var(--text); }
+body.dark header h3 { text-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+
+header p { font-size: 1.1rem; opacity: 0.9; font-weight: 500; color: var(--text); }
 
 
 /* =========================================
-   📦 SECTIONS (Welcome & Shop)
+   📦 SECTIONS & MICRO-ANIMATIONS
    ========================================= */
 section { padding: 40px 20px; max-width: 1200px; margin: auto; text-align: center; width: 100%; }
 section h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--primary-dark); margin-bottom: 20px; }
@@ -135,45 +134,74 @@ body.dark section h2 { color: var(--primary); }
 
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
 
-/* Existing Welcome Cards */
+/* WELCOME CARDS (Micro-Animations) */
 .welcome-card { 
   background: var(--card); padding: 30px; border-radius: 20px; 
   box-shadow: 0 10px 30px var(--shadow); cursor: pointer; 
-  border: 1px solid transparent; transition: all 0.4s var(--ease); 
+  border: 1px solid transparent; 
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease; /* Bouncy transition */
 }
-.welcome-card:hover { transform: translateY(-6px); border-color: var(--primary); }
+.welcome-card:hover { 
+  transform: translateY(-10px) scale(1.02); /* Lift and slight grow */
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  border-color: var(--primary); 
+}
 .welcome-card h3 { font-size: 1.2rem; margin-bottom: 8px; }
 .welcome-card p { font-size: 0.9rem; opacity: 0.7; }
 
-/* Shop Elements */
+/* SHOP SEARCH */
 .search-box { max-width: 500px; margin: 0 auto 30px; position: relative; }
 .search-box input { 
   width: 100%; padding: 14px 24px; border-radius: 50px; 
   border: 2px solid var(--shadow); background: var(--card); color: var(--text); 
   box-shadow: 0 4px 15px var(--shadow); outline: none; transition: 0.3s; 
 }
-.search-box input:focus { border-color: var(--primary); }
+.search-box input:focus { border-color: var(--primary); transform: scale(1.02); }
 
-/* Product Cards (3D Tilt) */
+/* ✨ PRODUCT CARDS (Enhanced Animations) */
 .product-card { 
   background: var(--card); padding: 15px; border-radius: 24px; 
   box-shadow: 0 10px 20px var(--shadow); display: flex; flex-direction: column; 
-  transform-style: preserve-3d; transform: perspective(1000px); will-change: transform;
+  transform-style: preserve-3d; will-change: transform;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
+
+.product-card:hover {
+  transform: translateY(-8px); /* Lift up */
+  box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+}
+
 .img-window { 
   width: 100%; height: 230px; border-radius: 20px; overflow: hidden; 
   cursor: pointer; margin-bottom: 15px; transform: translateZ(20px); 
 }
-.img-slider { display: flex; height: 100%; width: 100%; transition: transform 0.8s ease; }
-.img-slider img { min-width: 100%; width: 100%; height: 100%; object-fit: cover; }
 
-.product-card h3, .product-card .price, .product-card button { transform: translateZ(10px); }
-.product-card h3 { margin-top: 5px; font-size: 1.1rem; font-weight: 600; }
-.price { color: var(--primary-dark); font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
+/* Image Zoom on Hover */
+.img-slider { display: flex; height: 100%; width: 100%; transition: transform 0.8s ease; }
+.img-slider img { 
+  min-width: 100%; width: 100%; height: 100%; object-fit: cover; 
+  transition: transform 0.5s ease;
+}
+.product-card:hover .img-slider img {
+  transform: scale(1.08); /* Subtle zoom in */
+}
+
+.product-card h3 { margin-top: 5px; font-size: 1.1rem; font-weight: 600; transform: translateZ(10px); }
+.price { color: var(--primary-dark); font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; transform: translateZ(10px); }
+
+/* Button Spring Animation */
 .product-card button { 
   margin-top: auto; padding: 12px; border: none; border-radius: 18px; 
   background: linear-gradient(135deg, var(--primary), var(--primary-dark)); 
   color: #fff; font-weight: 600; cursor: pointer; width: 100%; 
+  transform: translateZ(10px); transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.product-card button:hover {
+  transform: scale(1.05) translateZ(10px);
+  box-shadow: 0 5px 15px rgba(212, 163, 115, 0.4);
+}
+.product-card button:active {
+  transform: scale(0.95) translateZ(10px);
 }
 
 /* Cart Float */
@@ -182,9 +210,11 @@ body.dark section h2 { color: var(--primary); }
   background: var(--primary); color: #fff; padding: 16px 26px; 
   border-radius: 50px; cursor: pointer; z-index: 999; font-weight: 600; 
   box-shadow: 0 10px 30px rgba(0,0,0,.3); animation: floaty 4s ease-in-out infinite; 
+  transition: transform 0.3s;
 }
+.cart-float:hover { transform: scale(1.1); }
 @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-.cart-bump { transform: scale(1.2); transition: 0.3s; }
+.cart-bump { transform: scale(1.3) !important; transition: 0.2s; }
 
 /* Modals */
 .pay-apps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
@@ -194,7 +224,7 @@ body.dark section h2 { color: var(--primary); }
 
 @media (max-width: 768px) {
   header { padding: 50px 20px 30px; min-height: 350px; }
-  header h3 { font-size: 2.2rem; }
+  header h3 { font-size: 2.5rem; }
   .grid { grid-template-columns: 1fr; }
 }
 </style>
@@ -380,9 +410,9 @@ let cart = JSON.parse(localStorage.getItem("krochetCart")) || [];
 let currentTotal = 0;
 let popupInterval = null;
 
-/* 3D TILT LOGIC */
+/* 3D TILT LOGIC (Modified for Performance & Animation) */
 function initTilt() {
-  const cards = document.querySelectorAll('.product-card'); // Updated selector
+  const cards = document.querySelectorAll('.product-card');
   cards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
@@ -390,12 +420,13 @@ function initTilt() {
       const y = e.clientY - rect.top;
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * -10;
-      const rotateY = ((x - centerX) / centerX) * 10;
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+      // Reduced rotation for smoother feel
+      const rotateX = ((y - centerY) / centerY) * -5;
+      const rotateY = ((x - centerX) / centerX) * 5;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     });
     card.addEventListener('mouseleave', () => {
-      card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
+      card.style.transform = `perspective(1000px) rotateX(0) rotateY(0)`;
     });
   });
 }
