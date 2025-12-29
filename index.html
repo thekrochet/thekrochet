@@ -89,7 +89,7 @@ nav {
 .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
 /* =========================================
-   ✨ HERO SECTION (Restored to Old Style)
+   ✨ HERO SECTION
    ========================================= */
 header {
   position: relative; text-align: center; padding: 80px 20px 60px;
@@ -108,7 +108,6 @@ body.dark header {
   0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; }
 }
 
-/* Removed Glass Box Styling - Text floats cleanly now */
 .hero-content {
   position: relative; z-index: 2;
   padding: 20px;
@@ -118,7 +117,7 @@ body.dark header {
 header h3 {
   font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 15px;
   letter-spacing: -0.5px; color: var(--text); line-height: 1.2;
-  text-shadow: 0 4px 20px rgba(255,255,255,0.4); /* Subtle glow */
+  text-shadow: 0 4px 20px rgba(255,255,255,0.4); 
 }
 body.dark header h3 { text-shadow: 0 4px 20px rgba(0,0,0,0.4); }
 
@@ -126,7 +125,7 @@ header p { font-size: 1.1rem; opacity: 0.9; font-weight: 500; color: var(--text)
 
 
 /* =========================================
-   📦 SECTIONS & MICRO-ANIMATIONS
+   📦 SECTIONS & ANIMATIONS
    ========================================= */
 section { padding: 40px 20px; max-width: 1200px; margin: auto; text-align: center; width: 100%; }
 section h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--primary-dark); margin-bottom: 20px; }
@@ -134,15 +133,20 @@ body.dark section h2 { color: var(--primary); }
 
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
 
-/* WELCOME CARDS (Micro-Animations) */
+/* WELCOME CARDS */
 .welcome-card { 
   background: var(--card); padding: 30px; border-radius: 20px; 
   box-shadow: 0 10px 30px var(--shadow); cursor: pointer; 
   border: 1px solid transparent; 
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease; /* Bouncy transition */
+  
+  /* 🚀 LAG FIX: GPU Acceleration */
+  transform: translate3d(0,0,0); 
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
 }
 .welcome-card:hover { 
-  transform: translateY(-10px) scale(1.02); /* Lift and slight grow */
+  transform: translateY(-10px) scale(1.02); 
   box-shadow: 0 20px 40px rgba(0,0,0,0.1);
   border-color: var(--primary); 
 }
@@ -158,38 +162,44 @@ body.dark section h2 { color: var(--primary); }
 }
 .search-box input:focus { border-color: var(--primary); transform: scale(1.02); }
 
-/* ✨ PRODUCT CARDS (Enhanced Animations) */
+/* ✨ PRODUCT CARDS (Lag Fixed) */
 .product-card { 
   background: var(--card); padding: 15px; border-radius: 24px; 
   box-shadow: 0 10px 20px var(--shadow); display: flex; flex-direction: column; 
-  transform-style: preserve-3d; will-change: transform;
+  
+  /* 🚀 LAG FIX: Prevents White Flicker & Forces GPU */
+  transform-style: preserve-3d; 
+  transform: translate3d(0,0,0);
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  will-change: transform;
+  
   transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .product-card:hover {
-  transform: translateY(-8px); /* Lift up */
+  transform: translateY(-8px); 
   box-shadow: 0 20px 50px rgba(0,0,0,0.12);
 }
 
 .img-window { 
   width: 100%; height: 230px; border-radius: 20px; overflow: hidden; 
-  cursor: pointer; margin-bottom: 15px; transform: translateZ(20px); 
+  cursor: pointer; margin-bottom: 15px; 
+  /* Lag fix for image */
+  transform: translateZ(20px); 
 }
 
-/* Image Zoom on Hover */
 .img-slider { display: flex; height: 100%; width: 100%; transition: transform 0.8s ease; }
 .img-slider img { 
   min-width: 100%; width: 100%; height: 100%; object-fit: cover; 
   transition: transform 0.5s ease;
 }
 .product-card:hover .img-slider img {
-  transform: scale(1.08); /* Subtle zoom in */
+  transform: scale(1.08); 
 }
 
 .product-card h3 { margin-top: 5px; font-size: 1.1rem; font-weight: 600; transform: translateZ(10px); }
 .price { color: var(--primary-dark); font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; transform: translateZ(10px); }
 
-/* Button Spring Animation */
 .product-card button { 
   margin-top: auto; padding: 12px; border: none; border-radius: 18px; 
   background: linear-gradient(135deg, var(--primary), var(--primary-dark)); 
@@ -410,8 +420,11 @@ let cart = JSON.parse(localStorage.getItem("krochetCart")) || [];
 let currentTotal = 0;
 let popupInterval = null;
 
-/* 3D TILT LOGIC (Modified for Performance & Animation) */
+/* 3D TILT LOGIC (DISABLED ON MOBILE TO STOP LAG) */
 function initTilt() {
+  // 🚀 CRITICAL FIX: Disable Tilt on phones (< 768px)
+  if(window.innerWidth < 768) return; 
+
   const cards = document.querySelectorAll('.product-card');
   cards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
@@ -420,7 +433,6 @@ function initTilt() {
       const y = e.clientY - rect.top;
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      // Reduced rotation for smoother feel
       const rotateX = ((y - centerY) / centerY) * -5;
       const rotateY = ((x - centerX) / centerX) * 5;
       card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
@@ -573,4 +585,5 @@ updateCartUI();
 
 </body>
 </html>
+
 
