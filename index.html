@@ -13,8 +13,7 @@
 
 <style>
 /* =========================================
-   PAGE SPECIFIC STYLES
-   (Global Profile Styles are now in brand.css)
+   GLOBAL STYLES
    ========================================= */
 :root{
   --bg:#faf7f2; --text:#2f2f2f; --card:#ffffff; --nav:#ffffff;
@@ -38,7 +37,7 @@ body{
   overflow-x: hidden;
 }
 
-/* NAVBAR (Synced) */
+/* NAVBAR */
 nav {
   position: sticky; top: 0; z-index: 100;
   background: var(--nav); backdrop-filter: blur(10px);
@@ -67,7 +66,6 @@ nav {
 }
 .theme-toggle:hover{ transform: rotate(45deg); background: var(--bg); }
 
-/* Profile Button */
 #userBtn {
   position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
   width: 38px; height: 38px; border-radius: 50%;
@@ -90,36 +88,115 @@ nav {
 }
 .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
-/* HERO & CONTENT */
-header{
-  text-align:center; padding: 60px 20px 30px; 
-  background: linear-gradient(135deg, #fefae0 0%, #faf7f2 100%);
-  position: relative; overflow: hidden;
+/* =========================================
+   ✨ HERO SECTION (Mesh Gradient)
+   ========================================= */
+header {
+  position: relative; text-align: center; padding: 80px 20px 60px;
+  overflow: hidden; min-height: 450px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  background: linear-gradient(-45deg, #fdfbf7, #e6b8a2, #d4a373, #fdfbf7);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
 }
-body.dark header{ background: linear-gradient(135deg, #1f1f1f 0%, #121212 100%); }
-header::before {
-  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-  background: radial-gradient(circle, var(--primary) 0%, transparent 20%);
-  opacity: 0.05; animation: floatBG 15s infinite linear; pointer-events: none;
+body.dark header {
+  background: linear-gradient(-45deg, #121212, #3e2723, #b8895b, #1a1a1a);
+  background-size: 400% 400%;
 }
-@keyframes floatBG { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-header h3{ font-family:'Playfair Display',serif; font-size: 2.6rem; margin-bottom: 10px; letter-spacing: -0.5px; position: relative; }
-header p{ font-size: 1rem; opacity: 0.8; max-width: 600px; margin: 0 auto; }
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; }
+}
 
-section{ padding: 30px 20px 50px; max-width: 1000px; margin: auto; text-align: center; width: 100%; }
-section h2{ font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--primary-dark); position: relative; display: inline-block; margin-bottom: 10px; }
+.hero-content {
+  position: relative; z-index: 2;
+  background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  padding: 40px 30px; border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  max-width: 700px; width: 100%;
+}
+body.dark .hero-content {
+  background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+header h3 {
+  font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 15px;
+  letter-spacing: -0.5px; color: var(--text); line-height: 1.2;
+}
+header p { font-size: 1.1rem; opacity: 0.9; font-weight: 400; color: var(--text); }
+
+
+/* =========================================
+   📦 SECTIONS (Welcome & Shop)
+   ========================================= */
+section { padding: 40px 20px; max-width: 1200px; margin: auto; text-align: center; width: 100%; }
+section h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--primary-dark); margin-bottom: 20px; }
 body.dark section h2 { color: var(--primary); }
 
-.grid{ margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-.card{ background: var(--card); padding: 25px 20px; border-radius: 18px; box-shadow: 0 10px 30px var(--shadow); cursor: pointer; border: 1px solid transparent; transition: all 0.4s var(--ease); position: relative; overflow: hidden; }
-.card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-color: rgba(212, 163, 115, 0.3); }
-.card h3 { font-size: 1.25rem; margin-bottom: 6px; transition: color 0.3s ease, transform 0.3s var(--ease); }
-.card:hover h3 { color: var(--primary); transform: scale(1.02); }
-.card p { font-size: 0.9rem; opacity: 0.7; transition: opacity 0.3s ease; }
-.card:hover p { opacity: 1; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
 
-@media (max-width: 768px) { header { padding: 50px 20px 30px; } header h3 { font-size: 2.2rem; } }
-@media (max-width: 480px) { section { padding: 20px 15px !important; width: 100% !important; } .grid { display: flex !important; flex-direction: column !important; gap: 15px !important; margin-top: 15px !important; } .card { width: 100% !important; padding: 20px !important; } header h3 { font-size: 1.8rem; } }
+/* Existing Welcome Cards */
+.welcome-card { 
+  background: var(--card); padding: 30px; border-radius: 20px; 
+  box-shadow: 0 10px 30px var(--shadow); cursor: pointer; 
+  border: 1px solid transparent; transition: all 0.4s var(--ease); 
+}
+.welcome-card:hover { transform: translateY(-6px); border-color: var(--primary); }
+.welcome-card h3 { font-size: 1.2rem; margin-bottom: 8px; }
+.welcome-card p { font-size: 0.9rem; opacity: 0.7; }
+
+/* Shop Elements */
+.search-box { max-width: 500px; margin: 0 auto 30px; position: relative; }
+.search-box input { 
+  width: 100%; padding: 14px 24px; border-radius: 50px; 
+  border: 2px solid var(--shadow); background: var(--card); color: var(--text); 
+  box-shadow: 0 4px 15px var(--shadow); outline: none; transition: 0.3s; 
+}
+.search-box input:focus { border-color: var(--primary); }
+
+/* Product Cards (3D Tilt) */
+.product-card { 
+  background: var(--card); padding: 15px; border-radius: 24px; 
+  box-shadow: 0 10px 20px var(--shadow); display: flex; flex-direction: column; 
+  transform-style: preserve-3d; transform: perspective(1000px); will-change: transform;
+}
+.img-window { 
+  width: 100%; height: 230px; border-radius: 20px; overflow: hidden; 
+  cursor: pointer; margin-bottom: 15px; transform: translateZ(20px); 
+}
+.img-slider { display: flex; height: 100%; width: 100%; transition: transform 0.8s ease; }
+.img-slider img { min-width: 100%; width: 100%; height: 100%; object-fit: cover; }
+
+.product-card h3, .product-card .price, .product-card button { transform: translateZ(10px); }
+.product-card h3 { margin-top: 5px; font-size: 1.1rem; font-weight: 600; }
+.price { color: var(--primary-dark); font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
+.product-card button { 
+  margin-top: auto; padding: 12px; border: none; border-radius: 18px; 
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark)); 
+  color: #fff; font-weight: 600; cursor: pointer; width: 100%; 
+}
+
+/* Cart Float */
+.cart-float { 
+  position: fixed; right: 20px; bottom: 30px; 
+  background: var(--primary); color: #fff; padding: 16px 26px; 
+  border-radius: 50px; cursor: pointer; z-index: 999; font-weight: 600; 
+  box-shadow: 0 10px 30px rgba(0,0,0,.3); animation: floaty 4s ease-in-out infinite; 
+}
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.cart-bump { transform: scale(1.2); transition: 0.3s; }
+
+/* Modals */
+.pay-apps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+#imgModal .modal-box { max-width: 600px; width: 95%; background: transparent; box-shadow: none; padding: 0; }
+.popup-slider { display: flex; width: 100%; transition: transform 0.5s ease; }
+.popup-slider img { min-width: 100%; width: 100%; border-radius: 15px; object-fit: contain; max-height: 80vh; }
+
+@media (max-width: 768px) {
+  header { padding: 50px 20px 30px; min-height: 350px; }
+  header h3 { font-size: 2.2rem; }
+  .grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 
@@ -145,29 +222,125 @@ body.dark section h2 { color: var(--primary); }
 </nav>
 
 <header>
-  <h3 data-aos="zoom-in" data-aos-duration="1000">Handmade Crochet Creations</h3>
-  <p data-aos="fade-up" data-aos-delay="200">
-    Crafted with love, warmth & timeless elegance
-  </p>
+  <div class="hero-content" data-aos="zoom-in" data-aos-duration="1000">
+    <h3>Handmade Crochet Creations</h3>
+    <p>Crafted with love, warmth & timeless elegance</p>
+  </div>
 </header>
 
 <section>
   <h2 data-aos="fade-up">Welcome to TheKrochet</h2>
   <div class="grid">
-    <div class="card" data-aos="fade-up" data-aos-delay="100" onclick="openCustomOrder()">
+    <div class="welcome-card" data-aos="fade-up" data-aos-delay="100" onclick="openCustomOrder()">
       <h3>✨ Custom Orders</h3>
       <p>Designed just for you</p>
     </div>
-    <div class="card" data-aos="fade-up" data-aos-delay="200" onclick="window.location.href='products.html'">
+    <div class="welcome-card" data-aos="fade-up" data-aos-delay="200" onclick="document.getElementById('shopSection').scrollIntoView({behavior:'smooth'})">
       <h3>🧶 Handmade Wearables</h3>
       <p>Soft & stylish crochet fashion</p>
     </div>
-    <div class="card" data-aos="fade-up" data-aos-delay="300" onclick="window.location.href='products.html'">
+    <div class="welcome-card" data-aos="fade-up" data-aos-delay="300" onclick="document.getElementById('shopSection').scrollIntoView({behavior:'smooth'})">
       <h3>🏡 Home Décor</h3>
       <p>Warm & elegant handmade pieces</p>
     </div>
   </div>
 </section>
+
+<section id="shopSection" style="padding-top: 60px; border-top: 1px solid var(--shadow);">
+  <h2 data-aos="fade-up">Latest Collection</h2>
+  
+  <div class="search-box" data-aos="fade-up">
+    <input id="searchInput" placeholder="Search products...">
+  </div>
+
+  <div id="products" class="grid"></div>
+</section>
+
+<div id="cartFloat" class="cart-float" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</div>
+
+<div id="cartModal" class="modal">
+  <div class="modal-box">
+    <h3>Your Cart</h3>
+    <div id="cartItems"></div>
+    <div style="text-align:right;font-weight:bold;margin-top:15px;color:var(--primary-dark)">Total ₹<span id="totalPrice">0</span></div>
+    <div style="display:flex;gap:10px;margin-top:20px;">
+      <button style="flex:1;padding:12px;border:none;border-radius:12px;background:#eee;color:#555;" onclick="closeModal('cartModal')">Close</button>
+      <button style="flex:1;padding:12px;border:none;border-radius:12px;background:var(--primary);color:#fff;font-weight:600;" onclick="checkLoginForOrder()">Continue</button>
+    </div>
+  </div>
+</div>
+
+<div id="orderModal" class="modal">
+  <div class="modal-box">
+    <h3>Shipping Details</h3>
+    <input id="custName" placeholder="Full Name">
+    <input id="custInsta" placeholder="Instagram Username (@user)">
+    <textarea id="custAddress" rows="3" placeholder="Full Delivery Address (Street, City, Pincode)"></textarea>
+    <div style="display:flex;gap:10px;margin-top:20px;">
+      <button style="flex:1;padding:12px;border-radius:12px;border:none;background:#eee;color:#555;" onclick="closeModal('orderModal')">Back</button>
+      <button style="flex:1;padding:12px;border-radius:12px;border:none;background:var(--primary);color:#fff;font-weight:600;" onclick="openPaymentModal()">Proceed to Pay</button>
+    </div>
+  </div>
+</div>
+
+<div id="paymentAppModal" class="modal">
+  <div class="modal-box">
+    <h3>Select Payment App</h3>
+    <p style="text-align:center;font-size:1rem;font-weight:600;margin-bottom:20px;">Pay ₹<span id="payAmountDisplay">0</span></p>
+    <div class="pay-apps-grid">
+      <div class="pay-app-btn" onclick="launchUPI('gpay')">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/512px-Google_Pay_Logo.svg.png" alt="Google Pay" class="pay-app-img">
+        <span class="pay-app-name">Google Pay</span>
+      </div>
+      <div class="pay-app-btn" onclick="launchUPI('paytm')">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Paytm_Logo_%28standalone%29.svg/512px-Paytm_Logo_%28standalone%29.svg.png" alt="Paytm" class="pay-app-img">
+        <span class="pay-app-name">Paytm</span>
+      </div>
+      <div class="pay-app-btn" onclick="launchUPI('phonepe')">
+        <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/phonepe-logo-icon.png" alt="PhonePe" class="pay-app-img">
+        <span class="pay-app-name">PhonePe</span>
+      </div>
+      <div class="pay-app-btn" onclick="showQR()">
+        <img src="https://cdn-icons-png.flaticon.com/512/3502/3502601.png" alt="QR Code" class="pay-app-img" style="filter:none;">
+        <span class="pay-app-name">Scan QR</span>
+      </div>
+    </div>
+    <button style="width:100%;padding:12px;border:none;background:transparent;color:var(--text);opacity:0.6;margin-top:15px;cursor:pointer;font-weight:500;" onclick="closeModal('paymentAppModal')">Cancel</button>
+  </div>
+</div>
+
+<div id="qrModal" class="modal">
+  <div class="modal-box" style="text-align:center;">
+    <h3>Scan to Pay</h3>
+    <p style="margin-bottom:10px;">Scan with any UPI App</p>
+    <div class="qr-container">
+      <img id="dynamicQR" class="qr-img" src="" alt="Loading QR...">
+    </div>
+    <div style="font-weight:bold; font-size:1.2rem; color:var(--primary-dark); margin-bottom:20px;">₹<span id="qrAmount">0</span></div>
+    <button class="confirm-btn" onclick="confirmAndFinishOrder()">Paid?</button>
+    <button style="width:100%;padding:12px;border:none;background:transparent;color:var(--text);opacity:0.6;margin-top:5px;cursor:pointer;" onclick="closeModal('qrModal')">Cancel</button>
+  </div>
+</div>
+
+<div id="confirmCheckModal" class="modal">
+  <div class="modal-box" style="text-align:center;">
+    <h3 style="margin-bottom:10px;">Payment Pending</h3>
+    <p>We've opened your payment app.<br>Please complete the transaction there.</p>
+    <button class="confirm-btn" onclick="confirmAndFinishOrder()">Paid?</button>
+    <button style="width:100%;padding:12px;border:none;background:transparent;color:var(--text);opacity:0.6;margin-top:5px;cursor:pointer;font-weight:500;" onclick="closeModal('confirmCheckModal')">Cancel / Retry</button>
+  </div>
+</div>
+
+<div id="orderSuccessModal" class="modal">
+  <div class="modal-box" style="text-align:center; padding: 40px 30px;">
+    <div class="success-icon">🎉</div>
+    <h3 style="margin-bottom:10px; color: var(--success);">Order Confirmed!</h3>
+    <p>Thank you for your purchase.<br>Your order has been placed successfully.</p>
+    <button class="confirm-btn" onclick="finishOrderFlow()">Continue Shopping</button>
+  </div>
+</div>
+
+<div id="imgModal" class="modal" onclick="closeImg(event)"><div class="modal-box" id="imgBox"></div></div>
 
 <footer>© 2025 TheKrochet</footer>
 
@@ -179,7 +352,7 @@ body.dark section h2 { color: var(--primary); }
 <script>
 AOS.init({ duration: 900, once: true, offset: 50 });
 
-/* DARK MODE LOGIC */
+/* THEME LOGIC */
 (function(){
   const saved = localStorage.getItem("theme");
   if(!saved || saved === "dark"){
@@ -192,12 +365,73 @@ function toggleTheme(){
   localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
 }
 
-/* FIREBASE INIT (Required before profile.js) */
+/* FIREBASE INIT */
+const myUPI = "6351294436@ptaxis"; 
+const myName = "TheKrochet";
+
 firebase.initializeApp({
   apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
   authDomain:"thekrochet-b3ca2.firebaseapp.com",
   projectId:"thekrochet-b3ca2"
 });
+const db = firebase.firestore();
+
+let cart = JSON.parse(localStorage.getItem("krochetCart")) || [];
+let currentTotal = 0;
+let popupInterval = null;
+
+/* 3D TILT LOGIC */
+function initTilt() {
+  const cards = document.querySelectorAll('.product-card'); // Updated selector
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -10;
+      const rotateY = ((x - centerX) / centerX) * 10;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
+    });
+  });
+}
+
+/* PRODUCTS LOGIC */
+const productsDiv = document.getElementById("products");
+db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
+  productsDiv.innerHTML="";
+  snap.forEach((doc, idx)=>{
+    const p=doc.data();
+    let imgs = p.images || (p.image && p.image.includes(",") ? p.image.split(",").map(u=>u.trim()) : [p.image]);
+    const sid="s"+Math.random().toString(36).slice(2);
+    const imgHtml = imgs.map(url => `<img src="${url}">`).join('');
+    
+    productsDiv.innerHTML+=`
+      <div class="product-card" style="animation-delay:${idx*50}ms">
+        <div class="img-window" onclick='openImg(${JSON.stringify(imgs)})'>
+          <div id="${sid}" class="img-slider">${imgHtml}</div>
+        </div>
+        <h3>${p.name}</h3>
+        <div class="price">₹${p.price}</div>
+        <button onclick="addToCart('${p.name}',${p.price})">Add to Cart</button>
+      </div>`;
+    
+    if(imgs.length > 1){ let i=0; setInterval(()=>{ i=(i+1)%imgs.length; const s=document.getElementById(sid); if(s) s.style.transform=`translateX(-${i * 100}%)`; }, 2500); }
+  });
+  
+  setTimeout(initTilt, 500);
+});
+
+document.getElementById("searchInput").addEventListener("input",(e)=>{ const v=e.target.value.toLowerCase(); document.querySelectorAll(".product-card").forEach(c=>{ c.style.display = c.innerText.toLowerCase().includes(v) ? "flex" : "none"; }); });
+
+/* CART FUNCTIONS */
+function addToCart(name,price){ cart.push({name,price}); localStorage.setItem("krochetCart",JSON.stringify(cart)); document.getElementById("cartFloat").classList.add("cart-bump"); setTimeout(()=>document.getElementById("cartFloat").classList.remove("cart-bump"), 300); updateCartUI(); }
+function updateCartUI(){ const items=document.getElementById("cartItems"); items.innerHTML=""; currentTotal=0; cart.forEach((p,i)=>{ currentTotal+=p.price; items.innerHTML+=`<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee"><span>${p.name}</span><span>₹${p.price} <b style="color:red;margin-left:10px;cursor:pointer" onclick="removeItem(${i})">✖</b></span></div>`; }); document.getElementById("cartCount").innerText=cart.length; document.getElementById("totalPrice").innerText=currentTotal; }
+function removeItem(i){ cart.splice(i,1); localStorage.setItem("krochetCart",JSON.stringify(cart)); updateCartUI(); }
 
 /* CUSTOM ORDER LINK */
 function openCustomOrder(){
@@ -205,9 +439,107 @@ function openCustomOrder(){
   navigator.clipboard.writeText(msg).catch(()=>{});
   window.open("https://ig.me/m/thekrochet_","_blank");
 }
+
+/* MODAL LOGIC */
+function openCart(){ openModal('cartModal'); updateCartUI(); }
+
+function openImg(imgs){
+  const imgBox = document.getElementById("imgBox");
+  const slidesHtml = imgs.map(src => `<img src="${src}">`).join('');
+  imgBox.innerHTML = `<div class="popup-slider" id="popupSlider">${slidesHtml}</div>`;
+  openModal('imgModal');
+  if(imgs.length > 1){
+    let i = 0;
+    if(popupInterval) clearInterval(popupInterval);
+    popupInterval = setInterval(() => {
+      i = (i + 1) % imgs.length;
+      const slider = document.getElementById("popupSlider");
+      if(slider) slider.style.transform = `translateX(-${i * 100}%)`;
+    }, 1700);
+  }
+}
+function closeImg(e){ 
+  if(e.target.id==="imgModal") {
+    closeModal('imgModal');
+    if(popupInterval) clearInterval(popupInterval);
+  }
+}
+
+function checkLoginForOrder(){ 
+  closeModal('cartModal'); 
+  const user = firebase.auth().currentUser;
+  if(user) {
+      const sidebarAddr = document.getElementById("sidebarAddress")?.innerText;
+      if(sidebarAddr && !sidebarAddr.includes("No address")) {
+          document.getElementById("custAddress").value = sidebarAddr;
+      }
+      openModal('orderModal');
+  } else {
+      openModal('authModal');
+  }
+}
+
+function openPaymentModal(){
+  const name=document.getElementById("custName").value.trim();
+  const insta=document.getElementById("custInsta").value.trim();
+  const addr=document.getElementById("custAddress").value.trim();
+  if(!name||!insta||!addr) return alert("Please fill Name, Instagram, and Address.");
+  document.getElementById("payAmountDisplay").innerText = currentTotal;
+  closeModal('orderModal');
+  openModal('paymentAppModal');
+}
+
+function launchUPI(appType){
+  let link = `upi://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`;
+  if(appType==='paytm') link = `paytmmp://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`;
+  if(appType==='phonepe') link = `phonepe://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`;
+  window.location.href = link;
+  closeModal('paymentAppModal');
+  setTimeout(()=>{ openModal('confirmCheckModal'); }, 1000);
+}
+
+function showQR() {
+  closeModal('paymentAppModal');
+  const upiUrl = `upi://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`;
+  const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
+  document.getElementById("dynamicQR").src = qrApi;
+  document.getElementById("qrAmount").innerText = currentTotal;
+  openModal('qrModal');
+}
+
+function confirmAndFinishOrder(){
+  closeModal('confirmCheckModal');
+  closeModal('qrModal'); 
+  
+  const name=document.getElementById("custName").value.trim();
+  const insta=document.getElementById("custInsta").value.trim();
+  const addr=document.getElementById("custAddress").value.trim();
+  const user = firebase.auth().currentUser;
+
+  db.collection("orders").add({
+    customerName: name, instagram: insta, address: addr,
+    items: cart, total: currentTotal, status: "Paid via UPI",
+    userId: user ? user.uid : "guest", 
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(() => {
+    openModal('orderSuccessModal');
+  }).catch((error) => {
+    alert("Error: " + error.message);
+  });
+}
+
+function finishOrderFlow() {
+  cart = []; 
+  localStorage.removeItem("krochetCart");
+  closeModal('orderSuccessModal');
+  window.location.href = 'index.html'; 
+}
+
+updateCartUI();
 </script>
 
 <script src="profile.js"></script>
 
 </body>
 </html>
+
