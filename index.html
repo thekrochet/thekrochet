@@ -89,16 +89,16 @@ nav {
 .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
 /* =========================================
-   ✨ HERO SECTION (BOX REMOVED COMPLETELY)
+   ✨ HERO SECTION
    ========================================= */
 header {
   position: relative; text-align: center; padding: 80px 20px 60px;
   overflow: hidden; min-height: 450px;
   display: flex; flex-direction: column; justify-content: center; align-items: center;
-  /* Mesh Gradient Background */
   background: linear-gradient(-45deg, #fdfbf7, #e6b8a2, #d4a373, #fdfbf7);
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
+  will-change: background-position; /* Optimization for smoothness */
 }
 body.dark header {
   background: linear-gradient(-45deg, #121212, #3e2723, #b8895b, #1a1a1a);
@@ -108,20 +108,16 @@ body.dark header {
   0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; }
 }
 
-/* 🛑 THIS REMOVES THE GLASS BOX */
 .hero-content {
   position: relative; 
   z-index: 2;
   padding: 20px;
   max-width: 800px; 
   width: 100%;
-  
-  /* FORCE REMOVE BACKGROUND AND SHADOWS */
   background: transparent !important;
   box-shadow: none !important;
   border: none !important;
   backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
 }
 
 header h3 {
@@ -130,12 +126,11 @@ header h3 {
   text-shadow: 0 4px 20px rgba(255,255,255,0.4); 
 }
 body.dark header h3 { text-shadow: 0 4px 20px rgba(0,0,0,0.4); }
-
 header p { font-size: 1.1rem; opacity: 0.9; font-weight: 500; color: var(--text); }
 
 
 /* =========================================
-   📦 SECTIONS & ANIMATIONS
+   📦 SECTIONS
    ========================================= */
 section { padding: 40px 20px; max-width: 1200px; margin: auto; text-align: center; width: 100%; }
 section h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--primary-dark); margin-bottom: 20px; }
@@ -143,12 +138,11 @@ body.dark section h2 { color: var(--primary); }
 
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
 
-/* WELCOME CARDS (Micro-Animations) */
+/* WELCOME CARDS */
 .welcome-card { 
   background: var(--card); padding: 30px; border-radius: 20px; 
   box-shadow: 0 10px 30px var(--shadow); cursor: pointer; 
   border: 1px solid transparent; 
-  /* Fix sticky scroll */
   transform: translate3d(0,0,0); backface-visibility: hidden;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
 }
@@ -160,7 +154,7 @@ body.dark section h2 { color: var(--primary); }
 .welcome-card h3 { font-size: 1.2rem; margin-bottom: 8px; }
 .welcome-card p { font-size: 0.9rem; opacity: 0.7; }
 
-/* SHOP SEARCH */
+/* SEARCH BOX */
 .search-box { max-width: 500px; margin: 0 auto 30px; position: relative; }
 .search-box input { 
   width: 100%; padding: 14px 24px; border-radius: 50px; 
@@ -169,15 +163,14 @@ body.dark section h2 { color: var(--primary); }
 }
 .search-box input:focus { border-color: var(--primary); transform: scale(1.02); }
 
-/* ✨ PRODUCT CARDS (Smooth Micro-Animations) */
+/* ✨ PRODUCT CARDS (Optimized) */
 .product-card { 
   background: var(--card); padding: 15px; border-radius: 24px; 
   box-shadow: 0 10px 20px var(--shadow); display: flex; flex-direction: column; 
   
-  /* Fix sticky scroll */
-  transform-style: preserve-3d; 
+  /* GPU Acceleration */
   transform: translate3d(0,0,0);
-  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   will-change: transform;
   
   transition: transform 0.4s ease, box-shadow 0.4s ease;
@@ -191,7 +184,7 @@ body.dark section h2 { color: var(--primary); }
 .img-window { 
   width: 100%; height: 230px; border-radius: 20px; overflow: hidden; 
   cursor: pointer; margin-bottom: 15px; 
-  transform: translateZ(20px); 
+  transform: translateZ(0); /* Fix flickering */
 }
 
 .img-slider { display: flex; height: 100%; width: 100%; transition: transform 0.8s ease; }
@@ -199,27 +192,22 @@ body.dark section h2 { color: var(--primary); }
   min-width: 100%; width: 100%; height: 100%; object-fit: cover; 
   transition: transform 0.5s ease;
 }
-.product-card:hover .img-slider img {
-  transform: scale(1.08); /* Zoom effect */
-}
+.product-card:hover .img-slider img { transform: scale(1.08); }
 
-.product-card h3 { margin-top: 5px; font-size: 1.1rem; font-weight: 600; transform: translateZ(10px); }
-.price { color: var(--primary-dark); font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; transform: translateZ(10px); }
+.product-card h3 { margin-top: 5px; font-size: 1.1rem; font-weight: 600; }
+.price { color: var(--primary-dark); font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
 
-/* Bouncy Button */
 .product-card button { 
   margin-top: auto; padding: 12px; border: none; border-radius: 18px; 
   background: linear-gradient(135deg, var(--primary), var(--primary-dark)); 
   color: #fff; font-weight: 600; cursor: pointer; width: 100%; 
-  transform: translateZ(10px); transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .product-card button:hover {
-  transform: scale(1.05) translateZ(10px);
+  transform: scale(1.05);
   box-shadow: 0 5px 15px rgba(212, 163, 115, 0.4);
 }
-.product-card button:active {
-  transform: scale(0.95) translateZ(10px);
-}
+.product-card button:active { transform: scale(0.95); }
 
 /* Cart Float */
 .cart-float { 
@@ -397,9 +385,10 @@ body.dark section h2 { color: var(--primary); }
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
 <script>
+/* 🚀 OPTIMIZED AOS */
 AOS.init({ duration: 900, once: true, offset: 50 });
 
-/* THEME LOGIC */
+/* THEME */
 (function(){
   const saved = localStorage.getItem("theme");
   if(!saved || saved === "dark"){
@@ -415,7 +404,6 @@ function toggleTheme(){
 /* FIREBASE INIT */
 const myUPI = "6351294436@ptaxis"; 
 const myName = "TheKrochet";
-
 firebase.initializeApp({
   apiKey:"AIzaSyAbFV0WbIVMpibxnIiVbwtnOqtvJ6ts_sY",
   authDomain:"thekrochet-b3ca2.firebaseapp.com",
@@ -427,7 +415,7 @@ let cart = JSON.parse(localStorage.getItem("krochetCart")) || [];
 let currentTotal = 0;
 let popupInterval = null;
 
-/* 3D TILT LOGIC (DISABLED ON MOBILE FOR SMOOTH SCROLL) */
+/* 3D TILT LOGIC (Only Desktop) */
 function initTilt() {
   if(window.innerWidth < 768) return; 
 
@@ -449,18 +437,21 @@ function initTilt() {
   });
 }
 
-/* PRODUCTS LOGIC */
+/* 🚀 OPTIMIZED PRODUCT LOADING (Lag Fix + Animation Fix) */
 const productsDiv = document.getElementById("products");
 db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
-  productsDiv.innerHTML="";
+  // 1. Build ALL HTML in memory first (Super Fast)
+  let htmlString = "";
+  
   snap.forEach((doc, idx)=>{
     const p=doc.data();
     let imgs = p.images || (p.image && p.image.includes(",") ? p.image.split(",").map(u=>u.trim()) : [p.image]);
     const sid="s"+Math.random().toString(36).slice(2);
     const imgHtml = imgs.map(url => `<img src="${url}">`).join('');
     
-    productsDiv.innerHTML+=`
-      <div class="product-card" style="animation-delay:${idx*50}ms">
+    // Note: Added 'data-aos="fade-up"' to enable pop-up animation
+    htmlString += `
+      <div class="product-card" data-aos="fade-up" data-aos-delay="${idx * 50}">
         <div class="img-window" onclick='openImg(${JSON.stringify(imgs)})'>
           <div id="${sid}" class="img-slider">${imgHtml}</div>
         </div>
@@ -468,11 +459,24 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
         <div class="price">₹${p.price}</div>
         <button onclick="addToCart('${p.name}',${p.price})">Add to Cart</button>
       </div>`;
-    
-    if(imgs.length > 1){ let i=0; setInterval(()=>{ i=(i+1)%imgs.length; const s=document.getElementById(sid); if(s) s.style.transform=`translateX(-${i * 100}%)`; }, 2500); }
+      
+      // Keep slider logic separate to avoid lag in string building
+      if(imgs.length > 1){ 
+         setTimeout(() => {
+             let i=0; 
+             setInterval(()=>{ i=(i+1)%imgs.length; const s=document.getElementById(sid); if(s) s.style.transform=`translateX(-${i * 100}%)`; }, 2500); 
+         }, 100);
+      }
   });
+
+  // 2. Update DOM ONCE
+  productsDiv.innerHTML = htmlString;
   
-  setTimeout(initTilt, 500);
+  // 3. Force Animation Refresh
+  setTimeout(() => {
+      AOS.refresh(); 
+      initTilt();
+  }, 200);
 });
 
 document.getElementById("searchInput").addEventListener("input",(e)=>{ const v=e.target.value.toLowerCase(); document.querySelectorAll(".product-card").forEach(c=>{ c.style.display = c.innerText.toLowerCase().includes(v) ? "flex" : "none"; }); });
@@ -482,113 +486,35 @@ function addToCart(name,price){ cart.push({name,price}); localStorage.setItem("k
 function updateCartUI(){ const items=document.getElementById("cartItems"); items.innerHTML=""; currentTotal=0; cart.forEach((p,i)=>{ currentTotal+=p.price; items.innerHTML+=`<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee"><span>${p.name}</span><span>₹${p.price} <b style="color:red;margin-left:10px;cursor:pointer" onclick="removeItem(${i})">✖</b></span></div>`; }); document.getElementById("cartCount").innerText=cart.length; document.getElementById("totalPrice").innerText=currentTotal; }
 function removeItem(i){ cart.splice(i,1); localStorage.setItem("krochetCart",JSON.stringify(cart)); updateCartUI(); }
 
-/* CUSTOM ORDER LINK */
 function openCustomOrder(){
   const msg="I want to make a custom order and my requirement is...";
   navigator.clipboard.writeText(msg).catch(()=>{});
   window.open("https://ig.me/m/thekrochet_","_blank");
 }
 
-/* MODAL LOGIC */
+/* MODALS */
 function openCart(){ openModal('cartModal'); updateCartUI(); }
-
 function openImg(imgs){
   const imgBox = document.getElementById("imgBox");
   const slidesHtml = imgs.map(src => `<img src="${src}">`).join('');
   imgBox.innerHTML = `<div class="popup-slider" id="popupSlider">${slidesHtml}</div>`;
   openModal('imgModal');
   if(imgs.length > 1){
-    let i = 0;
-    if(popupInterval) clearInterval(popupInterval);
-    popupInterval = setInterval(() => {
-      i = (i + 1) % imgs.length;
-      const slider = document.getElementById("popupSlider");
-      if(slider) slider.style.transform = `translateX(-${i * 100}%)`;
-    }, 1700);
+    let i = 0; if(popupInterval) clearInterval(popupInterval);
+    popupInterval = setInterval(() => { i = (i + 1) % imgs.length; const slider = document.getElementById("popupSlider"); if(slider) slider.style.transform = `translateX(-${i * 100}%)`; }, 1700);
   }
 }
-function closeImg(e){ 
-  if(e.target.id==="imgModal") {
-    closeModal('imgModal');
-    if(popupInterval) clearInterval(popupInterval);
-  }
-}
-
-function checkLoginForOrder(){ 
-  closeModal('cartModal'); 
-  const user = firebase.auth().currentUser;
-  if(user) {
-      const sidebarAddr = document.getElementById("sidebarAddress")?.innerText;
-      if(sidebarAddr && !sidebarAddr.includes("No address")) {
-          document.getElementById("custAddress").value = sidebarAddr;
-      }
-      openModal('orderModal');
-  } else {
-      openModal('authModal');
-  }
-}
-
-function openPaymentModal(){
-  const name=document.getElementById("custName").value.trim();
-  const insta=document.getElementById("custInsta").value.trim();
-  const addr=document.getElementById("custAddress").value.trim();
-  if(!name||!insta||!addr) return alert("Please fill Name, Instagram, and Address.");
-  document.getElementById("payAmountDisplay").innerText = currentTotal;
-  closeModal('orderModal');
-  openModal('paymentAppModal');
-}
-
-function launchUPI(appType){
-  let link = `upi://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`;
-  if(appType==='paytm') link = `paytmmp://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`;
-  if(appType==='phonepe') link = `phonepe://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`;
-  window.location.href = link;
-  closeModal('paymentAppModal');
-  setTimeout(()=>{ openModal('confirmCheckModal'); }, 1000);
-}
-
-function showQR() {
-  closeModal('paymentAppModal');
-  const upiUrl = `upi://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`;
-  const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
-  document.getElementById("dynamicQR").src = qrApi;
-  document.getElementById("qrAmount").innerText = currentTotal;
-  openModal('qrModal');
-}
-
-function confirmAndFinishOrder(){
-  closeModal('confirmCheckModal');
-  closeModal('qrModal'); 
-  
-  const name=document.getElementById("custName").value.trim();
-  const insta=document.getElementById("custInsta").value.trim();
-  const addr=document.getElementById("custAddress").value.trim();
-  const user = firebase.auth().currentUser;
-
-  db.collection("orders").add({
-    customerName: name, instagram: insta, address: addr,
-    items: cart, total: currentTotal, status: "Paid via UPI",
-    userId: user ? user.uid : "guest", 
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  }).then(() => {
-    openModal('orderSuccessModal');
-  }).catch((error) => {
-    alert("Error: " + error.message);
-  });
-}
-
-function finishOrderFlow() {
-  cart = []; 
-  localStorage.removeItem("krochetCart");
-  closeModal('orderSuccessModal');
-  window.location.href = 'index.html'; 
-}
-
+function closeImg(e){ if(e.target.id==="imgModal") { closeModal('imgModal'); if(popupInterval) clearInterval(popupInterval); } }
+function checkLoginForOrder(){ closeModal('cartModal'); const user = firebase.auth().currentUser; if(user) { const sidebarAddr = document.getElementById("sidebarAddress")?.innerText; if(sidebarAddr && !sidebarAddr.includes("No address")) { document.getElementById("custAddress").value = sidebarAddr; } openModal('orderModal'); } else { openModal('authModal'); } }
+function openPaymentModal(){ const name=document.getElementById("custName").value.trim(); const insta=document.getElementById("custInsta").value.trim(); const addr=document.getElementById("custAddress").value.trim(); if(!name||!insta||!addr) return alert("Please fill Name, Instagram, and Address."); document.getElementById("payAmountDisplay").innerText = currentTotal; closeModal('orderModal'); openModal('paymentAppModal'); }
+function launchUPI(appType){ let link = `upi://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`; if(appType==='paytm') link = `paytmmp://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`; if(appType==='phonepe') link = `phonepe://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`; window.location.href = link; closeModal('paymentAppModal'); setTimeout(()=>{ openModal('confirmCheckModal'); }, 1000); }
+function showQR() { closeModal('paymentAppModal'); const upiUrl = `upi://pay?pa=${myUPI}&pn=${myName}&am=${currentTotal}&cu=INR`; const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`; document.getElementById("dynamicQR").src = qrApi; document.getElementById("qrAmount").innerText = currentTotal; openModal('qrModal'); }
+function confirmAndFinishOrder(){ closeModal('confirmCheckModal'); closeModal('qrModal'); const name=document.getElementById("custName").value.trim(); const insta=document.getElementById("custInsta").value.trim(); const addr=document.getElementById("custAddress").value.trim(); const user = firebase.auth().currentUser; db.collection("orders").add({ customerName: name, instagram: insta, address: addr, items: cart, total: currentTotal, status: "Paid via UPI", userId: user ? user.uid : "guest", createdAt: firebase.firestore.FieldValue.serverTimestamp() }).then(() => { openModal('orderSuccessModal'); }).catch((error) => { alert("Error: " + error.message); }); }
+function finishOrderFlow() { cart = []; localStorage.removeItem("krochetCart"); closeModal('orderSuccessModal'); window.location.href = 'index.html'; }
 updateCartUI();
 </script>
 
 <script src="profile.js"></script>
-
 </body>
 </html>
 
