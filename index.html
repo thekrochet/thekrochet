@@ -98,7 +98,7 @@ header {
   background: linear-gradient(-45deg, #fdfbf7, #e6b8a2, #d4a373, #fdfbf7);
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
-  will-change: background-position; /* Optimization for smoothness */
+  will-change: background-position;
 }
 body.dark header {
   background: linear-gradient(-45deg, #121212, #3e2723, #b8895b, #1a1a1a);
@@ -128,6 +128,31 @@ header h3 {
 body.dark header h3 { text-shadow: 0 4px 20px rgba(0,0,0,0.4); }
 header p { font-size: 1.1rem; opacity: 0.9; font-weight: 500; color: var(--text); }
 
+/* =========================================
+   🎞️ SCROLL VIDEO STYLES (NEW)
+   ========================================= */
+#scroll-video-container {
+  height: 400vh; /* Adjust height to control scroll speed */
+  position: relative;
+  background: #000; 
+  z-index: 10;
+}
+.sticky-video-wrap {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#scrollVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
 /* =========================================
    📦 SECTIONS
@@ -167,36 +192,26 @@ body.dark section h2 { color: var(--primary); }
 .product-card { 
   background: var(--card); padding: 15px; border-radius: 24px; 
   box-shadow: 0 10px 20px var(--shadow); display: flex; flex-direction: column; 
-  
-  /* GPU Acceleration */
-  transform: translate3d(0,0,0);
-  backface-visibility: hidden;
-  will-change: transform;
-  
+  transform: translate3d(0,0,0); backface-visibility: hidden; will-change: transform;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
-
 .product-card:hover {
   transform: translateY(-8px); 
   box-shadow: 0 20px 50px rgba(0,0,0,0.12);
 }
-
 .img-window { 
   width: 100%; height: 230px; border-radius: 20px; overflow: hidden; 
   cursor: pointer; margin-bottom: 15px; 
-  transform: translateZ(0); /* Fix flickering */
+  transform: translateZ(0);
 }
-
 .img-slider { display: flex; height: 100%; width: 100%; transition: transform 0.8s ease; }
 .img-slider img { 
   min-width: 100%; width: 100%; height: 100%; object-fit: cover; 
   transition: transform 0.5s ease;
 }
 .product-card:hover .img-slider img { transform: scale(1.08); }
-
 .product-card h3 { margin-top: 5px; font-size: 1.1rem; font-weight: 600; }
 .price { color: var(--primary-dark); font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
-
 .product-card button { 
   margin-top: auto; padding: 12px; border: none; border-radius: 18px; 
   background: linear-gradient(135deg, var(--primary), var(--primary-dark)); 
@@ -263,6 +278,11 @@ body.dark section h2 { color: var(--primary); }
   </div>
 </header>
 
+<div id="scroll-video-container">
+  <div class="sticky-video-wrap">
+    <video id="scrollVideo" src="1000150441.mp4" playsinline muted preload="auto"></video>
+  </div>
+</div>
 <section>
   <h2 data-aos="fade-up">Welcome to TheKrochet</h2>
   <div class="grid">
@@ -440,16 +460,12 @@ function initTilt() {
 /* 🚀 OPTIMIZED PRODUCT LOADING (Lag Fix + Animation Fix) */
 const productsDiv = document.getElementById("products");
 db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
-  // 1. Build ALL HTML in memory first (Super Fast)
   let htmlString = "";
-  
   snap.forEach((doc, idx)=>{
     const p=doc.data();
     let imgs = p.images || (p.image && p.image.includes(",") ? p.image.split(",").map(u=>u.trim()) : [p.image]);
     const sid="s"+Math.random().toString(36).slice(2);
     const imgHtml = imgs.map(url => `<img src="${url}">`).join('');
-    
-    // Note: Added 'data-aos="fade-up"' to enable pop-up animation
     htmlString += `
       <div class="product-card" data-aos="fade-up" data-aos-delay="${idx * 50}">
         <div class="img-window" onclick='openImg(${JSON.stringify(imgs)})'>
@@ -459,8 +475,6 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
         <div class="price">₹${p.price}</div>
         <button onclick="addToCart('${p.name}',${p.price})">Add to Cart</button>
       </div>`;
-      
-      // Keep slider logic separate to avoid lag in string building
       if(imgs.length > 1){ 
          setTimeout(() => {
              let i=0; 
@@ -468,15 +482,8 @@ db.collection("products").orderBy("createdAt","desc").onSnapshot(snap=>{
          }, 100);
       }
   });
-
-  // 2. Update DOM ONCE
   productsDiv.innerHTML = htmlString;
-  
-  // 3. Force Animation Refresh
-  setTimeout(() => {
-      AOS.refresh(); 
-      initTilt();
-  }, 200);
+  setTimeout(() => { AOS.refresh(); initTilt(); }, 200);
 });
 
 document.getElementById("searchInput").addEventListener("input",(e)=>{ const v=e.target.value.toLowerCase(); document.querySelectorAll(".product-card").forEach(c=>{ c.style.display = c.innerText.toLowerCase().includes(v) ? "flex" : "none"; }); });
@@ -512,8 +519,36 @@ function showQR() { closeModal('paymentAppModal'); const upiUrl = `upi://pay?pa=
 function confirmAndFinishOrder(){ closeModal('confirmCheckModal'); closeModal('qrModal'); const name=document.getElementById("custName").value.trim(); const insta=document.getElementById("custInsta").value.trim(); const addr=document.getElementById("custAddress").value.trim(); const user = firebase.auth().currentUser; db.collection("orders").add({ customerName: name, instagram: insta, address: addr, items: cart, total: currentTotal, status: "Paid via UPI", userId: user ? user.uid : "guest", createdAt: firebase.firestore.FieldValue.serverTimestamp() }).then(() => { openModal('orderSuccessModal'); }).catch((error) => { alert("Error: " + error.message); }); }
 function finishOrderFlow() { cart = []; localStorage.removeItem("krochetCart"); closeModal('orderSuccessModal'); window.location.href = 'index.html'; }
 updateCartUI();
+
+/* 🎞️ SCROLL VIDEO LOGIC */
+const scrollContainer = document.getElementById('scroll-video-container');
+const vid = document.getElementById('scrollVideo');
+
+function updateVideoScroll() {
+  if (!scrollContainer || !vid) return;
+
+  const rect = scrollContainer.getBoundingClientRect();
+  const windowHeight = window.innerHeight;
+  const totalScrollableDistance = scrollContainer.offsetHeight - windowHeight;
+  const scrolledDistance = -rect.top;
+  
+  let percentage = scrolledDistance / totalScrollableDistance;
+  percentage = Math.max(0, Math.min(1, percentage));
+
+  if (isFinite(vid.duration)) {
+    vid.currentTime = vid.duration * percentage;
+  }
+  requestAnimationFrame(updateVideoScroll);
+}
+
+window.addEventListener('scroll', updateVideoScroll);
+window.addEventListener('resize', updateVideoScroll);
+if(vid) {
+  vid.addEventListener('loadedmetadata', updateVideoScroll);
+}
 </script>
 
 <script src="profile.js"></script>
 </body>
 </html>
+
